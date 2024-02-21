@@ -12,11 +12,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
    `git checkout develop`
 5. Create your branch:
    `git checkout -b new-branch-name develop`
-6. Move to nexong-frontend folder:
-   `cd nexong-frontend`
-7. There you have to install react-scripts:
-   `npm install react-scripts`
-8. When installed, you can run the project with:
+7. Install dependencies:
+   `npm install react-scripts
+   npm install axios
+   npm install @material-ui/core`
+9. When installed, you can run the project with:
    `npm start`
 
 
