@@ -1,23 +1,42 @@
-import logo from '../logo/logo.svg';
-import '../styles/App.css';
+import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
+import '../styles/styles.css';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='header'>
+        <a>Actividades</a>
+        <a>Donaciones</a>
+        <a>Sugerencias</a>
+        <a>Registrase</a>
+        <a>Iniciar Sesión</a>
+      </div>
+      <div className='main'>
+      <div className='title-text'>Esto es un Título</div>
+      <div className='text'>Esto es un ejemplo de texto para la información 
+      de las pantallas de la HomePage</div>
+
+      <div className='flex-container'>
+        <div className='field-text'>Nombre</div>
+        <input type='text' placeholder='Name'></input>
+        <input type='text' placeholder='Name'></input>
+        <input type='text' placeholder='Name'></input>
+        <select placeholder='Name'>
+          <option>campamentos</option>
+          <option>actividades</option>
+        </select>
+        <button className='button'>Enviar</button>
+      </div>
+    </div>
+
+    <div className='footer'>
+    <div className='header-text'>Actividades</div>
+        <div className='header-text'>Donaciones</div>
+        <div className='header-text'>Sugerencias</div>
+        <div className='header-text'>Registrase</div>
+        <div className='header-text'>Inciar Sesión</div>
+    </div>
     </div>
   );
 }
