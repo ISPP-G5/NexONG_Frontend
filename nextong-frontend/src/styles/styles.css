@@ -4,10 +4,11 @@
   }
 
 .header{
-    background-color: #fcfdff;
     overflow: hidden;
-    top: 0;
+    background-color: #fcfdff;
     position: fixed;
+    top: 0;
+    z-index: 2;
     border-radius: 5px;
     box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
     display: flex;
