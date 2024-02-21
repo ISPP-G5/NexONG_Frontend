@@ -13,9 +13,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 5. Create your branch:
    `git checkout -b new-branch-name develop`
 7. Install dependencies:
-   `npm install react-scripts
-   npm install axios
-   npm install @material-ui/core`
+   `npm install react-scripts`
+   `npm install axios`
+   `npm install @material-ui/core`
 9. When installed, you can run the project with:
    `npm start`
 
