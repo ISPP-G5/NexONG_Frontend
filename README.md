@@ -3,6 +3,23 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Getting started
+
+1. Clone repository (in VSCode)
+2. Make sure you have installed: React extension in VSCode and Node.js in your computer
+3. Open folder and a new terminal
+4. Move to branch develop:
+   `git checkout develop`
+5. Create your branch:
+   `git checkout -b new-branch-name develop`
+6. Move to nexong-frontend folder:
+   `cd nexong-frontend`
+7. There you have to install react-scripts:
+   `npm install react-scripts`
+8. When installed, you can run the project with:
+   `npm start`
+
+
 ## Available Scripts
 
 In the project directory, you can run:
