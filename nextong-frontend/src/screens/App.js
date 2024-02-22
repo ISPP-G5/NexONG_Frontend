@@ -6,7 +6,15 @@ function App() {
   return (
     <div className="App">
       <div className='header'>
-        <a>Actividades</a>
+        <div>
+          <ul><li>
+            <a>Actividades</a>
+            <ul>
+              <li><a>Campamentos</a></li>
+              <li><a>Clases</a></li>
+            </ul>
+          </li></ul>
+        </div>
         <a>Donaciones</a>
         <a>Sugerencias</a>
         <a>Registrase</a>
@@ -28,6 +36,12 @@ function App() {
         </select>
         <button className='button'>Enviar</button>
       </div>
+    </div>
+
+    <div className='menu'>
+      <a>Voluntarios</a>
+      <a>Educadores</a>
+      <a>Familias</a>
     </div>
 
     <div className='footer'>

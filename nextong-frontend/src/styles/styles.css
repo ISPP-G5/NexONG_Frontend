@@ -32,6 +32,7 @@
 }
 
 .header a:hover {
+    cursor: pointer;
     background: #cdf0fe;
     color: black;
 }
@@ -51,6 +52,28 @@
     position: relative;
 }
 
+ul {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+ul li {display: inline-block;}
+ul li:hover {background: #b7ecff;cursor: pointer;}
+ul li:hover ul {display: block;}
+ul li ul {
+    position: fixed;
+    padding-top: 5%;
+    width: fit-content;
+    display: none;
+  }
+ul li ul li { 
+    background: #edecf7; 
+    display: block; 
+}
+ul li ul li a {display:block !important;} 
+ul li ul li:hover {background:#edecf7;}
+
+
 .button {
     background-color: #cdf0fe;
     border-radius: 10px;
@@ -67,6 +90,7 @@
 }
 
 .button:hover {
+    cursor: pointer;
     background-color: #b7ecff;
     box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
@@ -147,10 +171,54 @@ select{
     display: grid;
     grid-template-columns: 30% 30% auto;
     flex-direction: column;
-    justify-content:last baseline;
+    justify-content: baseline;
     margin-top: 3%;
     padding: 1.5%;
     position: relative;
     bottom: 0;
+    width: 100%;
+}
+
+.menu{
+    overflow-x: hidden;
+    background-color: #fcfdff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content:flex-start;
+    gap: 5%;
+    margin-bottom: 3%;
+    padding-top: 10%;
+    height: 100%;
+    width: 15%;
+}
+
+
+.menu a {
+    align-self: center;
+    color: #000000;
+    font-family: "Open Sans", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    line-height: normal;
+    position: relative;
+    text-align: center;
+    padding: 10%;
+}
+
+.menu a:hover {
+    padding: 10%;
+    cursor: pointer;
+    text-align: center;
+    background: #cdf0fe;
+    color: black;
+
     width: 100%;
 }
