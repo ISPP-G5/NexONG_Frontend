@@ -18,28 +18,22 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
    ```
    git checkout -b new-branch-name develop
    ```
-6. Move to folder nextong-frontend:
-   ```
-   cd nextong-frontend
-   ```
-7. Install dependencies:
+6. Install dependencies **Important: install material-ui the last one**:
    ```
    npm install react-scripts
    npm install axios
+   npm install react-router-dom
+   npm install @material-ui/core --legacy-peer-deps
    ```
-8. Move back to main folder:
+7. Now, you can run the project with:
    ```
-   npm install @material-ui/core
+   npm start
    ```
-9. Move to folder nextong-frontend again:
-    ```
-    cd nextong-frontend
-    ```
-10. Now, you can run the project with:
-    ```
-    npm start
-    ```
 
+**IMPORTANT: If you need to install any other dependency in the future you need to uninstall the material design. To do so:**
+```
+npm uninstall @material-ui/core
+```
 
 ## Available Scripts
 
