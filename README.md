@@ -3,6 +3,44 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Getting started
+
+1. Clone repository (in VSCode)
+2. Make sure you have installed:
+   - React extension and Black formatter in VSCode
+   - Node.js in your computer
+3. Open folder and a new terminal
+4. Move to branch develop:
+   ```
+   git checkout develop
+   ```
+5. Create your branch:
+   ```
+   git checkout -b new-branch-name develop
+   ```
+6. Move to folder nextong-frontend:
+   ```
+   cd nextong-frontend
+   ```
+7. Install dependencies:
+   ```
+   npm install react-scripts
+   npm install axios
+   ```
+8. Move back to main folder:
+   ```
+   npm install @material-ui/core
+   ```
+9. Move to folder nextong-frontend again:
+    ```
+    cd nextong-frontend
+    ```
+10. Now, you can run the project with:
+    ```
+    npm start
+    ```
+
+
 ## Available Scripts
 
 In the project directory, you can run:
