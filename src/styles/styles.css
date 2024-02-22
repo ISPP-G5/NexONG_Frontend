@@ -36,6 +36,13 @@
     background: #cdf0fe;
     color: black;
 }
+.header-logo {
+    height: 20%; 
+    width: auto; 
+    max-height: 70px; 
+    
+   
+}
 
 .main {
     margin-top: 15%;
@@ -119,7 +126,12 @@ ul li ul li:hover {background:#edecf7;}
     position: relative;
     margin-bottom: 5%;
 }
-
+.indented-text {
+    padding-left: 16%; 
+  }
+  .outdented-text {
+    margin-right:60%;
+  }
 .flex-container{
     background-color: #fcfdff;
     border-radius: 25px;
