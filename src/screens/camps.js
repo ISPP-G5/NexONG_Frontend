@@ -12,7 +12,9 @@ function Camps() {
         <div className="App">
         <div className='header'>
             <div>
-            <img src={logo} alt="Logo" className="header-logo" />
+            <Link to="/">
+                <img src={logo} alt="Logo" className="header-logo" />
+            </Link>
 
             <ul><li>
                 <Link to="/actividades">Actividades</Link> {/* Usa el componente Link para crear enlaces a las rutas */}
