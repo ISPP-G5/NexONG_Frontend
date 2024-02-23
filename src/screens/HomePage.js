@@ -16,13 +16,14 @@ function HomePage() {
 
             <ul><li>
                 <Link to="/actividades">Actividades</Link> {/* Usa el componente Link para crear enlaces a las rutas */}
+                
                 <ul>
                 <li><Link to="/campamentos">Campamentos</Link></li>
                 <li><Link to="/aula-abierta">Aula abierta</Link></li>
                 <li><Link to="/aula-convivencia">Aula de convivencia</Link></li>
                 <li><Link to="/talleres-familiares">Talleres familiares</Link></li>
                 <li><Link to="/club-verano">Club de verano</Link></li>
-
+              
                 </ul>
             </li></ul>
             </div>
@@ -63,7 +64,7 @@ function HomePage() {
             <WhatsAppIcon style={{ color: '#25D366' }} />
         </a>  
         </div>
-        <div className='header-text'>Teléfonos:<br />650485214 <br />640168593</div>
+        <div className='header-text'>Teléfonos: 650485214 || 640168593</div>
         <div className='header-text'>
             Plaza Río de Janeiro, 10 <br />
             <span className="indented-text">Calle Meléndez Valdés, 28</span>
