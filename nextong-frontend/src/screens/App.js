@@ -52,6 +52,7 @@ function App() {
         <div className='header-text'>Inciar Sesión</div>
     </div>
     </div>
+    
   );
 }
 
