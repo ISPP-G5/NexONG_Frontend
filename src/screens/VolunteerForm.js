@@ -1,7 +1,5 @@
-import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 
 function VolunteerForm() {
@@ -18,21 +16,6 @@ function VolunteerForm() {
     color: '#7C838A',
     textAlign: 'left' 
     
-  };
-  const separatorLeftStyle = {
-    borderBottom: '1px solid black',
-    width: '40%', 
-    display: 'inline-block',
-    marginLeft: '20px', 
-    marginBottom: '-35px', 
-
-  };
-  const separatorRightStyle = {
-    borderBottom: '1px solid black',
-    width: '40%', 
-    display: 'inline-block',
-    marginLeft: '230px', 
-    marginTop: '-70px', 
   };
 
   return (
