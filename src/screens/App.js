@@ -21,6 +21,7 @@ function App() {
             <Route path="/sugerencias" element={<Suggestions />} />
             <Route path="/registrarse" element={<Register />} />
             <Route path="/iniciar-sesion" element={<LogIn />} />
+            <Route path="/actividades" element={<Activities />} />
             <Route path="/aula-abierta" element={<OpenRoom />} />
             <Route path="/campamentos" element={<Camps />} />
             <Route path="/aula-convivencia" element={<CoexistanceRoom />} />
