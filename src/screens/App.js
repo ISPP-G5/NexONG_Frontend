@@ -5,7 +5,7 @@ import  Register from './Register';
 import LogIn from './LogIn';
 import Activities from './Activities'
 import Camps from './Camps';
-import CoexistanceRoom from './CoexistanceRoom';
+import CoexistenceRoom from './CoexistenceRoom';
 import FamilyWorkshop from './FamilyWorkshops';
 import OpenRoom from './OpenRoom';
 import SummerClub from './SummerClub';
@@ -25,7 +25,7 @@ function App() {
             <Route path="/actividades" element={<Activities />} />
             <Route path="/aula-abierta" element={<OpenRoom />} />
             <Route path="/campamentos" element={<Camps />} />
-            <Route path="/aula-convivencia" element={<CoexistanceRoom />} />
+            <Route path="/aula-convivencia" element={<CoexistenceRoom />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
 
