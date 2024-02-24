@@ -4,11 +4,11 @@ import Suggestions from './Suggestions';
 import  Register from './Register';
 import LogIn from './LogIn';
 import Activities from './Activities'
-import Camps from './camps';
+import Camps from './Camps';
 import CoexistanceRoom from './CoexistanceRoom';
 import FamilyWorkshop from './FamilyWorkshops';
-import OpenRoom from './openRoom';
-import SummerClub from './summerClub';
+import OpenRoom from './OpenRoom';
+import SummerClub from './SummerClub';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
 import HomePage from './HomePage';
