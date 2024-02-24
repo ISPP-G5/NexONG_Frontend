@@ -268,3 +268,8 @@ select{
     background-color: #b7ecff;
     box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
+
+.five-links-table tr td a {
+    width: 100%;
+    display: block;
+  }

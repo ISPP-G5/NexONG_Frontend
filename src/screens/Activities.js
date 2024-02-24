@@ -1,7 +1,6 @@
 import '../styles/styles.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {Link} from 'react-router-dom'
 
 function Activities() {
 	return(
@@ -20,11 +19,11 @@ function Activities() {
                     <br/>
                     <table className='five-links-table'>
                         <tr>
-                            <td className='tester'><Link to="/campamentos">Campanentos</Link></td>
-                            <td><Link to="/aula-abierta">Aula Abierta</Link></td>
-                            <td><Link to="/aula-convivencia">Aula de convivencia</Link></td>
-                            <td><Link to="/talleres-familiares">Talleres familiares</Link></td>
-                            <td><Link to="/club-verano">Club de verano</Link></td>
+                            <td><a href='/campamentos'>Campanentos</a></td>
+                            <td><a href='/aula-abierta'>Aula abierta</a></td>
+                            <td><a href='/aula-convivencia'>Aula de convivencia</a></td>
+                            <td><a href='/talleres-familiares'>Talleres familiares</a></td>
+                            <td><a href='/club-verano'>Club de verano</a></td>
                         </tr>
                     </table>
                 </div>
