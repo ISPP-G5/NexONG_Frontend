@@ -120,7 +120,7 @@ function Register() {
         <div style={separatorRightStyle}></div>
 
         
-        <button className='button-google'style={{ marginLeft: '50px', marginTop: '20px' }}>Registrarse con google</button>
+        <button className='button-google'style={{ marginLeft: '60px', marginTop: '20px' }}>Registrarse con google</button>
         <div className='text' style={{ textIndent: '50px', fontFamily: 'Poppins', fontSize: '16px', fontWeight: 400, color: 'gray' }}> 
           ¿Ya tiene una cuenta? <span style={{ color: '#6FC0DB' }}>Inicie sesión aquí</span>.
         </div>
