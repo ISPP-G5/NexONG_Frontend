@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
 import AdminProfileUpdate from './admin/AdminProfileUpdate';
 import AdminProfile from './admin/AdminProfile';
-
+import HomePage from './HomePage';
 
 
 function App() {
@@ -64,11 +64,7 @@ function App() {
         <div className='header-text'>Registrase</div>
         <div className='header-text'>Inciar Sesión</div>
       </div>
-    </div></>
-
-import HomePage from './HomePage';
-function App() {
-  return (
+    </div>
     <Router>
       <Routes>
      
@@ -86,7 +82,7 @@ function App() {
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
 
             </Routes>
-    </Router>
+    </Router></>
   );
 }
 export default App;
