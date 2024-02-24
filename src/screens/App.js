@@ -3,6 +3,7 @@ import Donation from './Donation';
 import Suggestions from './Suggestions';
 import  Register from './Register';
 import LogIn from './LogIn';
+import Activities from './Activities'
 import Camps from './camps';
 import CoexistanceRoom from './CoexistanceRoom';
 import FamilyWorkshop from './FamilyWorkshops';
