@@ -251,7 +251,7 @@ select{
     padding: 4%;
     position: relative;
     width: 22%;
-    margin: -7% auto 0; /* Updated margin-top value */
+    margin: -7% auto 0; 
 }   
 .checkbox-group {
     display: flex;
@@ -288,16 +288,16 @@ select{
         background-color: #fff;
         display: inline-block;
         vertical-align: middle;
-        margin-right: 5px; /* Added margin-right property */
+        margin-right: 5px; 
     }
   
-  /* Styles for the checked state of the custom checkbox */
+
   .hidden-checkbox:checked + .checkbox-label .custom-checkbox {
     background-color: #00eeff;
     border-color: #d6c8c8;
   }
   .hidden-checkbox:checked + .checkbox-label .custom-checkbox::after {
-    content: ''; /* Create the inner circle */
+    content: ''; 
     display: block;
     width: 12px; 
     height: 12px;
