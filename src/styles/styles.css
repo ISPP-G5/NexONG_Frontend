@@ -36,6 +36,15 @@
     background: #cdf0fe;
     color: black;
 }
+.header-logo {
+    height: fit-content; 
+    width: auto; 
+    max-height: 70px; 
+    margin-left: 2%;
+    left: 0;
+    position: absolute;
+   
+}
 
 .main {
     margin-top: 15%;
@@ -53,16 +62,17 @@
 }
 
 ul {
+    background-color: #fcfdff;
     display: inline;
     margin: 0;
     padding: 0;
   }
 ul li {display: inline-block;}
 ul li:hover {background: #b7ecff;cursor: pointer;}
-ul li:hover ul {display: block;}
+ul li:hover ul {display: block; box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040; margin-top: 2.3%;}
 ul li ul {
     position: fixed;
-    padding-top: 5%;
+    padding-top: 1%;
     width: fit-content;
     display: none;
   }
@@ -119,7 +129,12 @@ ul li ul li:hover {background:#edecf7;}
     position: relative;
     margin-bottom: 5%;
 }
-
+.indented-text {
+    padding-left: 16%; 
+  }
+  .outdented-text {
+    margin-right:60%;
+  }
 .flex-container{
     background-color: #fcfdff;
     border-radius: 25px;
@@ -174,7 +189,7 @@ select{
     justify-content: baseline;
     margin-top: 3%;
     padding: 1.5%;
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
 }
@@ -219,6 +234,5 @@ select{
     text-align: center;
     background: #cdf0fe;
     color: black;
-
     width: 100%;
 }
