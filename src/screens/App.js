@@ -10,8 +10,8 @@ import OpenRoom from './openRoom';
 import SummerClub from './summerClub';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
-import AdminProfileUpdate from './admin/AdminProfileUpdate';
-import AdminProfile from './admin/AdminProfile';
+import AdminProfileUpdate from './AdminProfileUpdate';
+import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
 
 
