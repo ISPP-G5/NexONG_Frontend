@@ -11,7 +11,7 @@ function FamilyWorkshops() {
             <div className='main'>
                 <div className='title-text'>TALLERES FAMILIARES</div>
                 <div className='flex-container-blue'>
-                    Actividades formativas y de poyo para las familias
+                    Actividades formativas y de apoyo para las familias
                 </div>
                 <div className='text'>
                     Sesiones quincenales
