@@ -17,13 +17,16 @@ function Activities() {
                 <div className='text'>
                     Nuestras actividades:
                     <br/>
-                    <ul>
-                        <li><Link to="/campamentos">Campanentos</Link></li>
-                        <li><Link to="/aula-abierta">Aula Abierta</Link></li>
-                        <li><Link to="/aula-convivencia">Aula de convivencia</Link></li>
-                        <li><Link to="/talleres-familiares">Talleres familiares</Link></li>
-                        <li><Link to="/club-verano">Club de verano</Link></li>
-                    </ul>
+                    <br/>
+                    <table className='five-links-table'>
+                        <tr>
+                            <td className='tester'><Link to="/campamentos">Campanentos</Link></td>
+                            <td><Link to="/aula-abierta">Aula Abierta</Link></td>
+                            <td><Link to="/aula-convivencia">Aula de convivencia</Link></td>
+                            <td><Link to="/talleres-familiares">Talleres familiares</Link></td>
+                            <td><Link to="/club-verano">Club de verano</Link></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 

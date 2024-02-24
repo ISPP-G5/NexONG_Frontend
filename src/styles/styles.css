@@ -252,3 +252,19 @@ select{
     margin: auto;
     font-size: 25px;
 }
+
+.five-links-table {
+    margin: auto;
+    width: 70%;
+    text-align: center;
+}
+
+.five-links-table tr td{
+    width: 20%;
+}
+
+.five-links-table tr td:hover{
+    cursor: pointer;
+    background-color: #b7ecff;
+    box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
+}
