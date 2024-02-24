@@ -9,6 +9,15 @@ function Camps() {
             <Header/>
 
             <div className='main'>
+                <div className='title-text'>CAMPAMENTOS</div>
+                <div className='flex-container-blue'>
+                    Realización de campamentos de verano para menores
+                    de educación primaria y secundaria
+                </div>
+                <div className='text'>
+                    Ven y disfruta de actividades como manualidades,
+                    veladas y mucho más
+                </div>
             </div>
 
             <Footer/>
@@ -18,4 +27,4 @@ function Camps() {
 
     );
 }
-export default Camps;    
+export default Camps;
