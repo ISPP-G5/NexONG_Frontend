@@ -11,6 +11,8 @@ import SummerClub from './summerClub';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
 import HomePage from './HomePage';
+import AdminVoluntarios from './AdminVoluntarios'
+import AdminEducadores from './AdminEducadores'
 function App() {
   return (
     <Router>
@@ -26,6 +28,8 @@ function App() {
             <Route path="/aula-convivencia" element={<CoexistanceRoom />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
+            <Route path="/admin-voluntarios" element={<AdminVoluntarios />} />
+            <Route path="/admin-educadores" element={<AdminEducadores />} />
 
             </Routes>
     </Router>
