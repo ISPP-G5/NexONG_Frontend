@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import '../../styles/styles.css'
+import '../styles/styles.css'
 
 const adData = [{id: 1, nombre: "Simiente", email: "simtofe@manosabiertas.com", password: "cimientos", telefono: 609123324, direccion: "C. Manzana 11, 41009, Sevilla", imagen: "https://covalto-production-website.s3.amazonaws.com/Hero_Mobile_Cuenta_Personas_V1_1_8046e424ea.webp" }]
 
@@ -10,7 +10,7 @@ const AdminProfiles = () => {
         <ul>
           {adData.map(v => {
             return (
-                <div style={{ border: ' 5px outset grey', width: '50%', borderRadius: '20%', height: '85%', marginLeft: '30%'}}>
+                <div style={{ border: ' 5px outset grey', width: '50%', borderRadius: '20%', height: '85%', textAlign:'center'}}>
                 <div style={{textAlign:'center', margin:'5%'}}> 
                   <img src={v.imagen} alt={"imagen de" + v.nombre} style={{ 
                       maxWidth: '60%', 
