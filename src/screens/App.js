@@ -12,6 +12,7 @@ import SummerClub from './SummerClub';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
 import HomePage from './HomePage';
+import VolunteerForm from './VolunteerForm';
 function App() {
   return (
     <Router>
@@ -26,6 +27,7 @@ function App() {
             <Route path="/aula-abierta" element={<OpenRoom />} />
             <Route path="/campamentos" element={<Camps />} />
             <Route path="/aula-convivencia" element={<CoexistenceRoom />} />
+            <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
 
