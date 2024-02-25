@@ -8,12 +8,13 @@ import CoexistanceRoom from './CoexistanceRoom';
 import FamilyWorkshop from './FamilyWorkshops';
 import OpenRoom from './openRoom';
 import SummerClub from './summerClub';
+
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
 import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
-
+import VolunteerForm from './VolunteerForm';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/iniciar-sesion" element={<LogIn />} />
             <Route path="/aula-abierta" element={<OpenRoom />} />
             <Route path="/campamentos" element={<Camps />} />
+            <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/aula-convivencia" element={<CoexistanceRoom />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
