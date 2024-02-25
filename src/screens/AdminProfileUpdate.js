@@ -9,7 +9,7 @@ const AdminProfilesUpdate = () => {
         <ul>
           {adData.map(v => {
             return (
-                <div style={{ border: ' 5px outset grey', width: '50%', borderRadius: '20%', height: '85%', textAlign: 'center'}}>
+                <div style={{ border: ' 5px outset grey', width: '50%', borderRadius: '20%', height: '85%', marginLeft: '25%'}}>
                 <div style={{textAlign:'center', margin:'5%'}}> 
                   <img src={v.imagen} alt={"imagen de" + v.nombre} style={{ 
                       maxWidth: '60%', 
