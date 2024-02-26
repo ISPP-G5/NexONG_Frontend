@@ -2,19 +2,22 @@ import '../styles/styles.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-function FamilyWorkshops() {
+function OpenRoom() {
     return (
         <div className="App">
 
             <Header/>
 
             <div className='main'>
-                <div className='title-text'>TALLERES FAMILIARES</div>
+                <div className='title-text'>AULA ABIERTA</div>
                 <div className='flex-container-blue'>
-                    Actividades formativas y de apoyo para las familias
+                    Refuerzo educativo para menores entre 6 y 18 años así
+                    como actividades de relajacion y reflexión
                 </div>
                 <div className='text'>
-                    Sesiones quincenales
+                    Lunes a jueves
+                    <br/>
+                    16:00 a 20:00
                 </div>
             </div>
 
@@ -25,4 +28,4 @@ function FamilyWorkshops() {
 
     );
 }
-export default FamilyWorkshops;
+export default OpenRoom;
