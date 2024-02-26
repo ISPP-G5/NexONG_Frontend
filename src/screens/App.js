@@ -3,12 +3,12 @@ import Donation from './Donation';
 import Suggestions from './Suggestions';
 import  Register from './Register';
 import LogIn from './LogIn';
-import Camps from './camps';
-import CoexistanceRoom from './CoexistanceRoom';
+import Activities from './Activities'
+import Camps from './Camps';
+import CoexistenceRoom from './CoexistenceRoom';
 import FamilyWorkshop from './FamilyWorkshops';
-import OpenRoom from './openRoom';
-import SummerClub from './summerClub';
-
+import OpenRoom from './OpenRoom';
+import SummerClub from './SummerClub';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
 import HomePage from './HomePage';
@@ -23,10 +23,11 @@ function App() {
             <Route path="/sugerencias" element={<Suggestions />} />
             <Route path="/registrarse" element={<Register />} />
             <Route path="/iniciar-sesion" element={<LogIn />} />
+            <Route path="/actividades" element={<Activities />} />
             <Route path="/aula-abierta" element={<OpenRoom />} />
             <Route path="/campamentos" element={<Camps />} />
+            <Route path="/aula-convivencia" element={<CoexistenceRoom />} />
             <Route path="/form-voluntario" element={<VolunteerForm />} />
-            <Route path="/aula-convivencia" element={<CoexistanceRoom />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
 

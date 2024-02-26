@@ -2,19 +2,20 @@ import '../styles/styles.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-function FamilyWorkshops() {
+function SummerClub() {
     return (
         <div className="App">
 
             <Header/>
 
             <div className='main'>
-                <div className='title-text'>TALLERES FAMILIARES</div>
+                <div className='title-text'>CLUB DE VERANO</div>
                 <div className='flex-container-blue'>
-                    Actividades formativas y de apoyo para las familias
+                    Club de verano para alumnos de primaria 
                 </div>
                 <div className='text'>
-                    Sesiones quincenales
+                    Ven y disfruta de actividades como manualidades,
+                    educación en valores y mucho más
                 </div>
             </div>
 
@@ -25,4 +26,4 @@ function FamilyWorkshops() {
 
     );
 }
-export default FamilyWorkshops;
+export default SummerClub;
