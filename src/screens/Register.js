@@ -1,5 +1,10 @@
 import '../styles/styles.css';
 import React from 'react';
+import Header from '../components/Header';
+import google from '../logo/google.svg';
+import {Link} from 'react-router-dom';
+
+
 
 
 
@@ -37,22 +42,10 @@ function Register() {
   };
 
   return (
+    
     <div className="App">
-      <div className='header'>
-        <div>
-          <ul><li>
-            <a>Actividades</a>
-            <ul>
-              <li><a>Campamentos</a></li>
-              <li><a>Clases</a></li>
-            </ul>
-          </li></ul>
-        </div>
-        <a>Donaciones</a>
-        <a>Sugerencias</a>
-        <a>Registrase</a>
-        <a>Iniciar Sesión</a>
-      </div>
+      <Header />
+      
       <div className='main'>
       
 
@@ -95,7 +88,7 @@ function Register() {
             className="hidden-checkbox"
           />
           <label htmlFor="selectCheckboxFamily" className="checkbox-label">
-            <span className="custom-checkbox"></span> Register as family member
+            <span className="custom-checkbox"></span> Registrarse como familiar
           </label>
         </div>
 
@@ -106,7 +99,7 @@ function Register() {
             className="hidden-checkbox"
           />
           <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
-            <span className="custom-checkbox"></span> Register as volunteer
+            <span className="custom-checkbox"></span> Registrarse como voluntario
           </label>
         </div>
 
@@ -120,7 +113,13 @@ function Register() {
         <div style={separatorRightStyle}></div>
 
         
-        <button className='button-google'style={{ marginLeft: '60px', marginTop: '20px' }}>Registrarse con google</button>
+        <button className='button-google'style={{ marginLeft: '60px', marginTop: '20px' }}>Registrarse con google
+        <Link to="https://myaccount.google.com/">
+                <img src={google} alt="Logo" className="header-logo" />
+        </Link>
+        </button
+        >
+        
         <div className='text' style={{ textIndent: '50px', fontFamily: 'Poppins', fontSize: '16px', fontWeight: 400, color: 'gray' }}> 
           ¿Ya tiene una cuenta? <span style={{ color: '#6FC0DB' }}>Inicie sesión aquí</span>.
         </div>
@@ -130,6 +129,7 @@ function Register() {
 
 
     </div>
+    
   );
 
 
