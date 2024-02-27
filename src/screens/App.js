@@ -14,8 +14,8 @@ import '../styles/styles.css';
 import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
-import Admin_voluntarios from './AdminVoluntarios'
-import Admin_educadores from './AdminEducadores'
+import AdminVoluntarios from './AdminVoluntarios'
+import AdminEducadores from './AdminEducadores'
 import VolunteerForm from './VolunteerForm';
 
 function App() {
@@ -35,8 +35,8 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
-            <Route path="/admin-voluntarios" element={<Admin_voluntarios />} />
-            <Route path="/admin-educadores" element={<Admin_educadores />} />
+            <Route path="/admin-voluntarios" element={<AdminVoluntarios />} />
+            <Route path="/admin-educadores" element={<AdminEducadores />} />
 
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
