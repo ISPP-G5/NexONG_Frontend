@@ -2,19 +2,21 @@ import '../styles/styles.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-function FamilyWorkshops() {
+function Camps() {
     return (
         <div className="App">
 
             <Header/>
 
             <div className='main'>
-                <div className='title-text'>TALLERES FAMILIARES</div>
+                <div className='title-text'>CAMPAMENTOS</div>
                 <div className='flex-container-blue'>
-                    Actividades formativas y de apoyo para las familias
+                    Realización de campamentos de verano para menores
+                    de educación primaria y secundaria
                 </div>
                 <div className='text'>
-                    Sesiones quincenales
+                    Ven y disfruta de actividades como manualidades,
+                    veladas y mucho más
                 </div>
             </div>
 
@@ -25,4 +27,4 @@ function FamilyWorkshops() {
 
     );
 }
-export default FamilyWorkshops;
+export default Camps;
