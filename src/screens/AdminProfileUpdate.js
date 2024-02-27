@@ -9,7 +9,7 @@ const AdminProfilesUpdate = () => {
         <ul>
           {adData.map(v => {
             return (
-                <div style={{ border: ' 5px outset grey', width: '50%', borderRadius: '20%', height: '85%', marginLeft: '25%'}}>
+                <div className='update-container'>
                 <div style={{textAlign:'center', margin:'5%'}}> 
                   <img src={v.imagen} alt={"imagen de" + v.nombre} style={{ 
                       maxWidth: '60%', 
@@ -17,39 +17,27 @@ const AdminProfilesUpdate = () => {
                       borderRadius: '100%',
                     }}  />
                 </div>
-                <div style={{textAlign:'center'}}>
-                    <div className='field-text' style={{ textAlign: 'center', fontWeight: 'bold'}}
+                    <div style={{ alignSelf: 'center', fontWeight: 'bold'}}
                         >{v.nombre}</div>
-                </div>
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Email</div>
-                        <input type='text' placeholder='Email' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}></input>
+                        
+                    <div className='sub-header'>Email</div>
+                        <input type='text' placeholder='Email'></input>
 
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Teléfono</div>
-                        <input type='text' placeholder='Número de teléfono' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}></input>
+                    <div className='sub-header'>Teléfono</div>
+                        <input type='text' placeholder='Número de teléfono'></input>
 
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Contraseña</div>
-                        <input type='text' placeholder='Contraseña' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}></input>
+                    <div className='sub-header'>Contraseña</div>
+                        <input type='text' placeholder='Contraseña'></input>
                     
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Repetir contraseña</div>
-                        <input type='text' placeholder='Contraseña' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}></input>
+                    <div className='sub-header'>Repetir contraseña</div>
+                        <input type='text' placeholder='Contraseña'></input>
 
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Dirección</div>
-                        <input type='text' placeholder='Dirección' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}></input>
-                    <div style={{textAlign:'center'}}>
-                    <button className='button'
-                        style={{ backgroundColor: 'aed6f1', maxHeight: '60%', margin:'4%'}}>
+                    <div className='sub-header'>Dirección</div>
+                        <input type='text' placeholder='Dirección'></input>
+                    
+                    <button className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
                             Actualizar perfil
-                    </button></div>
+                    </button>
                 </div>
               )
           }
