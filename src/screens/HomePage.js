@@ -1,8 +1,17 @@
 import '../styles/styles.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import axios from 'axios';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 function HomePage() {
+    axios.get( `${API_ENDPOINT}`)
+    .then(response => {
+        console.log(response.data);
+    }, error => {
+        console.error(error);
+    }
+    );
         return (
         <div className="App">
         <Header />
