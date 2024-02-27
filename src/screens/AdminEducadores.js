@@ -23,7 +23,7 @@ const Voluntarios = () => {
                     <h4>Edad: {v.edad}</h4>
                   </div>
                 </div>
-
+  
               </li>
             )
           }
@@ -31,9 +31,9 @@ const Voluntarios = () => {
           }
         </ul>
       </>
-
+  
     )
-
+  
   };
 
 const AdminEducadores = () => {
@@ -47,10 +47,10 @@ const AdminEducadores = () => {
           </ul>
         </div>
         <Voluntarios />
-
+  
       </>
-
+  
     );
   }
-
+  
   export default AdminEducadores;
