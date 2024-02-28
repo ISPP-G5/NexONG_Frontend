@@ -1,25 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, TextField, Typography } from '@material-ui/core';
-import '../../styles/styles.css';
-
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-  lessonBox: {
-    width: 'calc(50% - 20px)',
-    margin: '10px',
-    padding: '10px',
-    border: '1px solid #ccc',
-    backgroundColor: '#d6eaf8',
-    color: 'rgb(0, 0, 0)',
-    display: 'inline-block',
-    verticalAlign: 'top',
-    boxSizing: 'border-box',
-    borderRadius: '10px',
-    '&:nth-child(odd)': {
-      clear: 'both',
-    },
-  },
   addLessonsButton: {
     float: 'right',
   },
@@ -33,15 +16,41 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '10px',
   },
   deleteButton: {
-    backgroundColor: '#f44336', 
-    color: '#fff', 
-    marginRight: '5px', 
+    backgroundColor: '#f44336',
+    color: '#fff',
+    marginRight: '5px',
   },
   editButton: {
-    backgroundColor: '#2196f3', 
-    color: '#fff', 
+    backgroundColor: '#2196f3',
+    color: '#fff',
   },
 }));
+
+const Box = () => {
+  return (
+    <div className="box">
+      <div className="clase">
+        <div className="overlap-group">
+          <div className="rectangle" />
+          <div className="nombre-educador">
+            Nombre
+            <br />
+            <br />
+            Educador Asociado
+            <br />
+            <br />
+            Nº Alumnos
+            <br />
+            <br />
+            Información
+          </div>
+          <img className="edit-fill" alt="Edit fill" src="edit-fill.svg" />
+          <img className="trash" alt="Trash" src="trash.svg" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AdminLessons = () => {
   const classes = useStyles();
@@ -60,28 +69,30 @@ const AdminLessons = () => {
   };
 
   const handleEditLesson = (index) => {
+    // Add your edit lesson logic here
   };
 
   const handleCreateLesson = () => {
+    // Add your create lesson logic here
+  };
+
+  const Label = () => {
+    return (
+      <div className="label">
+        <div className="label text-wrapper">
+          Crear Clase
+        </div>
+      </div>
+    );
   };
 
   return (
     <div className="App">
       <div className="main">
-        <Button className={classes.createLessonButton} variant="contained" color="primary" onClick={handleCreateLesson}>
-          Create New Lesson
-        </Button>
+        <Label />
         <div className={classes.lessonsContainer}>
           {lessons.map((lesson, index) => (
-            <div key={index} className={classes.lessonBox}>
-              <div class = 'text'>Nombre</div>
-              <div class = 'text'>Educador Asociado</div>
-              <div class = 'text'>Nº Estudiantes</div>
-              <div class = 'text'>Información</div>
-
-              <Button className={classes.deleteButton} onClick={() => handleDeleteLesson(index)}>Delete</Button>
-              <Button className={classes.editButton} onClick={() => handleEditLesson(index)}>Edit</Button>
-            </div>
+            <Box key={index} />
           ))}
         </div>
       </div>

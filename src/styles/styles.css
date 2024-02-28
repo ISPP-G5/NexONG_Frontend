@@ -382,3 +382,84 @@ select{
     font-family: "Inter", "Helvetica";
     border: 1px solid #b9b9b9;
 }
+.label {
+  height: 35px;
+  width: 174px;
+}
+
+.label .text-wrapper {
+  color: #000000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 25px;
+  font-weight: 400;
+  height: 35px;
+  right: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 1;
+  width: 174px;
+}
+.box {
+  height: 339px;
+  width: 463px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  margin-left: 200px;
+  
+}
+
+.box .clase {
+  height: 339px;
+  left: 0;
+  position: relative;
+  top: 0;
+  width: 465px;
+}
+
+.box .overlap-group {
+  height: 339px;
+  position: relative;
+  width: 463px;
+}
+
+.box .rectangle {
+  background-color: #e6f8ff;
+  border-radius: 31px;
+  height: 306px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 463px;
+}
+
+.box .nombre-educador {
+  color: #000000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 25px;
+  font-weight: 400;
+  height: 308px;
+  left: 57px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 31px;
+  width: 239px;
+}
+
+.box .edit-fill {
+  height: 24px;
+  left: 352px;
+  position: absolute;
+  top: 258px;
+  width: 24px;
+}
+
+.box .trash {
+  height: 24px;
+  left: 396px;
+  position: absolute;
+  top: 258px;
+  width: 24px;
+}
+
