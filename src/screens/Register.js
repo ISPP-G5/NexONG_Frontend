@@ -3,13 +3,25 @@ import React from 'react';
 import Header from '../components/Header';
 import google from '../logo/google.svg';
 import {Link} from 'react-router-dom';
-
+import { useState } from 'react';
 
 
 
 
 
 function Register() {
+  const [isFamilyChecked, setIsFamilyChecked] = useState(false);
+  const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
+
+  const handleFamilyChange = () => {
+    setIsFamilyChecked(!isFamilyChecked);
+    setIsVolunteerChecked(false);
+  };
+
+  const handleVolunteerChange = () => {
+    setIsVolunteerChecked(!isVolunteerChecked);
+    setIsFamilyChecked(false);
+  };
   const labelStyle = {
     width: '300px',
     height: '40.78px',
@@ -86,6 +98,8 @@ function Register() {
             type="checkbox"
             id="selectCheckboxFamily"
             className="hidden-checkbox"
+            checked={isFamilyChecked}
+            onChange={handleFamilyChange}
           />
           <label htmlFor="selectCheckboxFamily" className="checkbox-label">
             <span className="custom-checkbox"></span> Registrarse como familiar
@@ -97,6 +111,8 @@ function Register() {
             type="checkbox"
             id="selectCheckboxVolunteer"
             className="hidden-checkbox"
+            checked={isVolunteerChecked}
+            onChange={handleVolunteerChange}
           />
           <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
             <span className="custom-checkbox"></span> Registrarse como voluntario
