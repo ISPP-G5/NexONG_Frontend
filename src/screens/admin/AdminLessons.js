@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 
 const useStyles = makeStyles((theme) => ({
   addLessonsButton: {
@@ -79,7 +81,9 @@ const AdminLessons = () => {
   const Label = () => {
     return (
       <div className="label">
+        
         <div className="label text-wrapper">
+        <AddCircleIcon fontSize='large' />
           Crear Clase
         </div>
       </div>

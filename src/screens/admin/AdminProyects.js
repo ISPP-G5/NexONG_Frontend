@@ -70,9 +70,9 @@ const AdminProjects = () => {
 
   return (
     <div className="App">
-      <Button className={classes.createProjectButton} variant="contained" color="primary" onClick={handleCreateProject}>
+      <button className='button' onClick={handleCreateProject}>
         Create New Project
-      </Button>
+      </button>
       {projects.map((project, index) => (
         <div key={index} className={classes.projectBox}>
           <Typography variant="h6">{project.nombre}</Typography>
