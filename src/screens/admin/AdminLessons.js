@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField, Typography } from '@material-ui/core';
+import '../../styles/styles.css';
+
 
 const useStyles = makeStyles((theme) => ({
   lessonBox: {
@@ -72,10 +74,11 @@ const AdminLessons = () => {
         <div className={classes.lessonsContainer}>
           {lessons.map((lesson, index) => (
             <div key={index} className={classes.lessonBox}>
-              <Typography variant="h6">Name: {lesson.nombre}</Typography>
-              <Typography variant="body1">Description: {lesson.descripcion}</Typography>
-              <Typography variant="body1">Students: {lesson.alumnos}</Typography>
-              <Typography variant="body1">Educator: {lesson.educador}</Typography>
+              <div class = 'text'>Nombre</div>
+              <div class = 'text'>Educador Asociado</div>
+              <div class = 'text'>Nº Estudiantes</div>
+              <div class = 'text'>Información</div>
+
               <Button className={classes.deleteButton} onClick={() => handleDeleteLesson(index)}>Delete</Button>
               <Button className={classes.editButton} onClick={() => handleEditLesson(index)}>Edit</Button>
             </div>

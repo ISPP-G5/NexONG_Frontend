@@ -3,6 +3,8 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, makeStyles} from '@material-ui/core';
+import '../../styles/styles.css';
+
 
 const localizer = momentLocalizer(moment);
 
@@ -13,18 +15,47 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(4),
   },
+  headerContainer: {
+    display: 'flex',  // Use flexbox to position the elements side by side
+    justifyContent: 'flex-end',
+    alignItems: 'center', // Align items in the center
+    marginBottom: theme.spacing(2),
+    width: '90%',
+  },
   calendarContainer: {
     position: 'relative',
-    width: '90%',
+    width: '70%',
     borderRadius: '15px',
-    minHeight: '600px',
+    minHeight: '800px', // Updated height value
     overflow: 'hidden',
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(10),
+    marginLeft: theme.spacing(30),
   },
   addButton: {
     position: 'absolute',
     top: theme.spacing(2),
     right: theme.spacing(2),
+  },
+  profileText: {
+   
+    textDecoration: 'underline', 
+  },
+  profilePicture: {
+
+    position: 'absolute',
+
+    top: theme.spacing(1),
+    marginRight: theme.spacing(7),
+
+
+    width: '62px',
+
+    height: '62px',
+
+    borderRadius: '50%',
+
+    backgroundColor: '#D9D9D9',
+
   },
 }));
 
@@ -94,6 +125,15 @@ const AdminEvents = () => {
 
   return (
     <div className={classes.root}>
+
+
+      <div className={classes.headerContainer}>
+          <div className={classes.profilePicture} />
+          <div className={classes.profileText}>Admin</div>
+      </div>
+
+      
+     
       <div className={classes.calendarContainer}>
         <Calendar
           localizer={localizer}
