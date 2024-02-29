@@ -1,7 +1,6 @@
 import Header from '../components/Header';
 import '../styles/styles.css';
 import React from 'react';
-import Header from '../components/Header';
 import google from '../logo/google.svg';
 import {Link} from 'react-router-dom';
 import { useState } from 'react';
@@ -23,127 +22,112 @@ function Register() {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
   };
+
   const labelStyle = {
-    width: '300px',
-    height: '40.78px',
-    marginLeft: '-10px', 
-    top: '100.83px',
+    width: '60%', // Use percentage for width
+    height: '2rem', // Use rem for height
+    marginLeft: '-25%', // Use percentage for marginLeft
+    top: '5rem', // Use rem for top
     fontFamily: 'Helvetica',
     fontStyle: 'normal',
     fontWeight: '505',
-    fontSize: '20px',
-    lineHeight: '70px',
+    fontSize: '1.25rem', // Use rem for font-size
+    lineHeight: '1.75rem', // Use rem for line-height
     color: '#7C838A',
-    textAlign: 'left' 
-    
+    textAlign: 'left',
   };
+
   const separatorLeftStyle = {
     borderBottom: '1px solid black',
-    width: '40%', 
+    width: '40%',
     display: 'inline-block',
-    marginLeft: '20px', 
-    marginBottom: '-55px', 
-
+    marginLeft: '2%', // Use percentage for marginLeft
+    marginBottom: '-5rem', // Use rem for marginBottom
   };
+
   const separatorRightStyle = {
     borderBottom: '1px solid black',
-    width: '40%', 
+    width: '40%',
     display: 'inline-block',
-    marginLeft: '225px', 
-    
-    marginTop: '-70px', 
+    marginLeft: '12.5%', // Use percentage for marginLeft
+    marginTop: '-6rem', // Use rem for marginTop
   };
 
   return (
-    
     <div className="App">
       <Header />
-      
+
       <div className='main'>
         <div className='flex-container-register'>
-        <h1>Regístrese</h1>
+          <div className= 'h2-register'> Regístrese</div>
           <a style={labelStyle}>Correo electrónico</a>
           <input
-          type='text'
-          placeholder='Escriba su correo electrónico'
-          style={{ borderRadius: '15px' }}  
+            type='text'
+            placeholder='Escriba su correo electrónico'
+            style={{ borderRadius: '1rem' }} // Use rem for border-radius
           />
 
-          <a style={labelStyle}>
-          Contraseña       
-          </a>
+          <a style={labelStyle}>Contraseña</a>
           <input
-          type='text'
-          placeholder='Escriba su contrasaeña'
-          style={{ borderRadius: '15px' }}  
+            type='text'
+            placeholder='Escriba su contraseña'
+            style={{ borderRadius: '1rem' }} // Use rem for border-radius
           />
 
-        <a style={labelStyle}>
-        Confirme su contraseña
-        </a>
-        <input
-        type='text'
-        placeholder='Repita su contraseña'
-        style={{ borderRadius: '15px' }}  
-        />
-        
-    
-        <div className="checkbox-group">
+          <a style={labelStyle}>Confirme su contraseña</a>
           <input
-            type="checkbox"
-            id="selectCheckboxFamily"
-            className="hidden-checkbox"
-            checked={isFamilyChecked}
-            onChange={handleFamilyChange}
+            type='text'
+            placeholder='Repita su contraseña'
+            style={{ borderRadius: '1rem' }} // Use rem for border-radius
           />
-          <label htmlFor="selectCheckboxFamily" className="checkbox-label">
-            <span className="custom-checkbox"></span> Registrarse como familiar
-          </label>
-        </div>
 
-        <div className="checkbox-group">
-          <input
-            type="checkbox"
-            id="selectCheckboxVolunteer"
-            className="hidden-checkbox"
-            checked={isVolunteerChecked}
-            onChange={handleVolunteerChange}
-          />
-          <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
-            <span className="custom-checkbox"></span> Registrarse como voluntario
-          </label>
-        </div>
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              id="selectCheckboxFamily"
+              className="hidden-checkbox"
+              checked={isFamilyChecked}
+              onChange={handleFamilyChange}
+            />
+            <label htmlFor="selectCheckboxFamily" className="checkbox-label">
+              <span className="custom-checkbox"></span> Registrarse como familiar
+            </label>
+          </div>
 
-        
-          <button className='button' style={{ marginLeft: '100px', fontWeight: 'bold', marginBottom: '10px' }}>Crear cuenta</button>
-          <div style={separatorLeftStyle}></div>
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              id="selectCheckboxVolunteer"
+              className="hidden-checkbox"
+              checked={isVolunteerChecked}
+              onChange={handleVolunteerChange}
+            />
+            <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
+              <span className="custom-checkbox"></span> Registrarse como voluntario
+            </label>
+          </div>
 
-          <div className='text' style={{ textIndent: '200px', marginTop: '20px' }}> 
-            o  
-          </div>        
-          <div style={separatorRightStyle}></div>
+          <button className='button' style={{ fontWeight: 'bold', marginBottom: '1rem' }}>Crear cuenta</button>
 
-        
-        <button className='button-google'style={{ marginLeft: '60px', marginTop: '20px' }}>Registrarse con google
-        <Link to="https://myaccount.google.com/">
-                <img src={google} alt="Logo" className="header-logo" />
-        </Link>
-        </button
-        >
-        
-        <div className='text' style={{ textIndent: '50px', fontFamily: 'Poppins', fontSize: '16px', fontWeight: 400, color: 'gray' }}> 
-          ¿Ya tiene una cuenta? <span style={{ color: '#6FC0DB' }}>Inicie sesión aquí</span>.
+          <div className='text' style={{ textIndent: '10%', marginTop: '1.5rem' }}>
+            o
+          </div>
+
+          <button className='button-google' style={{ marginLeft: '6%', marginTop: '1.5rem' }}>Registrarse con google
+            <Link to="https://myaccount.google.com/">
+              <img src={google} alt="Logo" className="header-logo" />
+            </Link>
+          </button>
+
+          <div className='text' style={{ fontFamily: 'Poppins', fontSize: '1rem', fontWeight: 400, color: 'gray' }}>
+            ¿Ya tiene una cuenta? <span style={{ color: '#6FC0DB' }}>Inicie sesión aquí</span>.
+          </div>
+
         </div>
-        
-        </div>
+      </div>
     </div>
-
-
-    </div>
-    
   );
-
-
 }
+
 
 export default Register;
