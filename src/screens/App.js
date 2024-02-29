@@ -18,6 +18,8 @@ import AdminEvents from './admin/AdminEvents';
 import AdminLessons from './admin/AdminLessons';
 import AdminProjects from './admin/AdminProyects';
 import VolunteerForm from './VolunteerForm';
+import AdminFamily from './AdminFamily';
+import AdminFamilyRequests from './AdminFamilyRequests';
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
             <Route path="/adminEvents" exact={true} element={<AdminEvents />} />
             <Route path="/adminLessons" exact={true} element={<AdminLessons />} />
             <Route path="/adminProjects" exact={true} element={<AdminProjects />} />
+            <Route path="/adminFamily" exact={true} element={<AdminFamily />} />
+            <Route path="/adminFamilyRequests" exact={true} element={<AdminFamilyRequests />} />
 
             </Routes>
     </Router>
