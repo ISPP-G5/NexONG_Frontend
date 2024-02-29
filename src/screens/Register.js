@@ -1,3 +1,4 @@
+import Header from '../components/Header';
 import '../styles/styles.css';
 import React from 'react';
 import Header from '../components/Header';
@@ -59,29 +60,23 @@ function Register() {
       <Header />
       
       <div className='main'>
-      
+        <div className='flex-container-register'>
+        <h1>Regístrese</h1>
+          <a style={labelStyle}>Correo electrónico</a>
+          <input
+          type='text'
+          placeholder='Escriba su correo electrónico'
+          style={{ borderRadius: '15px' }}  
+          />
 
-      <div className='flex-container-register' >
-      <div className='title-text' style={{ textIndent: '125px' }}>
-        Regístrese
-      </div>
-
-        <a style={labelStyle}>Correo electrónico</a>
-
-        <input
-        type='text'
-        placeholder='Escriba su correo electrónico'
-        style={{ borderRadius: '15px' }}  
-        />
-
-        <a style={labelStyle}>
-        Contraseña       
-        </a>
-        <input
-        type='text'
-        placeholder='Escriba su contrasaeña'
-        style={{ borderRadius: '15px' }}  
-        />
+          <a style={labelStyle}>
+          Contraseña       
+          </a>
+          <input
+          type='text'
+          placeholder='Escriba su contrasaeña'
+          style={{ borderRadius: '15px' }}  
+          />
 
         <a style={labelStyle}>
         Confirme su contraseña
@@ -119,14 +114,14 @@ function Register() {
           </label>
         </div>
 
-      
-        <button className='button' style={{ marginLeft: '100px', fontWeight: 'bold', marginBottom: '10px' }}>Crear cuenta</button>
-        <div style={separatorLeftStyle}></div>
+        
+          <button className='button' style={{ marginLeft: '100px', fontWeight: 'bold', marginBottom: '10px' }}>Crear cuenta</button>
+          <div style={separatorLeftStyle}></div>
 
-        <div className='text' style={{ textIndent: '200px', marginTop: '20px' }}> 
-           o  
-        </div>        
-        <div style={separatorRightStyle}></div>
+          <div className='text' style={{ textIndent: '200px', marginTop: '20px' }}> 
+            o  
+          </div>        
+          <div style={separatorRightStyle}></div>
 
         
         <button className='button-google'style={{ marginLeft: '60px', marginTop: '20px' }}>Registrarse con google
