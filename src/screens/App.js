@@ -11,8 +11,11 @@ import OpenRoom from './OpenRoom';
 import SummerClub from './SummerClub';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
+import AdminProfileUpdate from './AdminProfileUpdate';
+import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
+
 function App() {
   return (
     <Router>
@@ -30,11 +33,11 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
+            <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
+            <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
 
             </Routes>
     </Router>
-    
-    
   );
 }
 export default App;

@@ -140,9 +140,7 @@ li.dropdown {
 
     .header a { 
         font-size: 10px;
-
     }
-    
 }
 
 /*MAIN BUTTON*/
@@ -222,9 +220,24 @@ li.dropdown {
   grid-gap: 1rem;
 }
 
+.update-container{
+  background-color: #fcfdff;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  padding: 3%;
+  position: relative;
+  width: 40%;
+  margin: auto;
+}
+
 
 input[type=text]{
-    width: 100%;
+    width: 80%;
     height: 10%;
     padding: 12px 20px;
     box-sizing: border-box;
@@ -232,6 +245,8 @@ input[type=text]{
     border-radius: 4px;
     background-color:  #f8f8f8;
     resize: none;
+    margin: 10px;
+    margin-left: 10%;
 }
 
 select{
