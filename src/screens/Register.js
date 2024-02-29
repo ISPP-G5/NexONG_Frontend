@@ -107,17 +107,17 @@ function Register() {
             </label>
           </div>
 
-          <button className='button' style={{ fontWeight: 'bold', marginBottom: '1rem' }}>Crear cuenta</button>
+          <button className='button' style={{ fontWeight: 'bold' }}>Crear cuenta</button>
 
-          <div className='text' style={{ textIndent: '10%', marginTop: '1.5rem' }}>
-            o
-          </div>
+          <div className='text' style={{ fontFamily: 'Poppins', fontSize: '1rem', fontWeight: 400 }}>o</div>
 
-          <button className='button-google' style={{ marginLeft: '6%', marginTop: '1.5rem' }}>Registrarse con google
-            <Link to="https://myaccount.google.com/">
-              <img src={google} alt="Logo" className="header-logo" />
-            </Link>
+          <button className='button-google'>
+              <span>Registrarse con Google</span>
+              <Link to="https://myaccount.google.com/">
+                  <img src={google} alt="Logo" className="button-google-img" />
+              </Link>
           </button>
+
 
           <div className='text' style={{ fontFamily: 'Poppins', fontSize: '1rem', fontWeight: 400, color: 'gray' }}>
             ¿Ya tiene una cuenta? <span style={{ color: '#6FC0DB' }}>Inicie sesión aquí</span>.

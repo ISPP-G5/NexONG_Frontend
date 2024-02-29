@@ -380,23 +380,24 @@ select{
 
 
 .checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Use rem for gap */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Use rem for gap */
+  align-items: flex-start; /* Align checkboxes to the start */
+  width: 100%; /* Make sure checkboxes take the full width */
+  margin-left: 12%; /* Use rem for margin-left */
 }
-
 .checkbox-label {
-    font-family: "Inter", "Helvetica";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1rem; /* Use rem for font-size */
-    line-height: 1.375rem; /* Use rem for line-height */
-    color: #000000;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+  font-family: "Inter", "Helvetica";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem; /* Use rem for font-size */
+  line-height: 1.375rem; /* Use rem for line-height */
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
-
 .checkbox-label:hover {
     color: #5595b9;
 }
@@ -434,18 +435,34 @@ select{
 }
 
 .button-google {
-    background-color: #ffffff;
-    border-radius: 1rem; /* Use rem for border-radius */
-    height: 4.125rem; /* Use rem for height */
-    position: relative;
-    width: fit-content;
-    text-align: center;
-    font-size: 1.25rem; /* Use rem for font-size */
-    font-weight: 500;
-    padding: 3% 10%; /* Use percentage for padding */
-    font-family: "Inter", "Helvetica";
-    border: 1px solid #b9b9b9;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  height: 5rem;
+  position: relative;
+  width: fit-content;
+  text-align: left;
+  font-size: 1.3rem; /* Adjust font size as needed */
+  padding: 2% 4%; /* Use percentage for padding */
+  font-family: "Inter", "Helvetica";
+  border: 1px solid #b9b9b9;
+  box-sizing: border-box; /* Add box-sizing property */
 }
+
+
+.button-google-img {
+  height: 80%;
+  width: auto;
+  max-height: 100%;
+  margin-left: 6%;
+}
+
+
+  
+
 /*FOOTER*/
 .footer{
   background-color: #edecf7;
