@@ -15,21 +15,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(4),
   },
-  headerContainer: {
-    display: 'flex',  // Use flexbox to position the elements side by side
-    justifyContent: 'flex-end',
-    alignItems: 'center', // Align items in the center
-    marginBottom: theme.spacing(2),
-    width: '90%',
-  },
+
   calendarContainer: {
-    position: 'relative',
-    width: '70%',
+    position: 'absolute',
+    width: '65%',
     borderRadius: '15px',
     minHeight: '800px', // Updated height value
     overflow: 'hidden',
-    marginTop: theme.spacing(10),
-    marginLeft: theme.spacing(30),
+    
+    marginLeft: theme.spacing(40),
+    marginTop: theme.spacing(-10),
   },
   addButton: {
     position: 'absolute',
@@ -39,13 +34,14 @@ const useStyles = makeStyles((theme) => ({
   profileText: {
    
     textDecoration: 'underline', 
+    marginRight: theme.spacing(5),
   },
   profilePicture: {
 
-    position: 'absolute',
+    position: 'relative',
 
     top: theme.spacing(1),
-    marginRight: theme.spacing(7),
+    marginRight: theme.spacing(1),
 
 
     width: '62px',
@@ -124,15 +120,16 @@ const AdminEvents = () => {
   };
 
   return (
-    <div className={classes.root}>
 
+    <div className="App"> 
 
-      <div className={classes.headerContainer}>
-          <div className={classes.profilePicture} />
-          <div className={classes.profileText}>Admin</div>
-      </div>
+      <div className="main"> 
+        <div className= 'header'>
+            <div className={classes.profilePicture} />
+            <div className={classes.profileText}>Admin</div>
+        </div>
+        <div className={classes.root}>
 
-      
      
       <div className={classes.calendarContainer}>
         <Calendar
@@ -228,7 +225,14 @@ const AdminEvents = () => {
           <Button onClick={handleEventDelete} color="secondary">Delete</Button>
         </DialogActions>
       </Dialog>
+        </div>
+      
+      
+      </div>
+    
+    
     </div>
+    
   );
 };
 

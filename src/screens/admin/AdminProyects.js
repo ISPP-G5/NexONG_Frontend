@@ -37,6 +37,28 @@ const useStyles = makeStyles((theme) => ({
     color: '#ffcc00',
     marginRight: '2px',
   },
+  profileText: {
+   
+    textDecoration: 'underline', 
+    marginRight: theme.spacing(5),
+  },
+  profilePicture: {
+
+    position: 'relative',
+
+    top: theme.spacing(1),
+    marginRight: theme.spacing(1),
+
+
+    width: '62px',
+
+    height: '62px',
+
+    borderRadius: '50%',
+
+    backgroundColor: '#D9D9D9',
+
+  },
 }));
 
 const AdminProjects = () => {
@@ -70,6 +92,11 @@ const AdminProjects = () => {
 
   return (
     <div className="App">
+      <div className='main'>
+      <div className= 'header'>
+            <div className={classes.profilePicture} />
+            <div className={classes.profileText}>Admin</div>
+        </div>
       <button className='button' onClick={handleCreateProject}>
         Create New Project
       </button>
@@ -90,6 +117,13 @@ const AdminProjects = () => {
           <Button className={classes.editButton} onClick={() => handleEditProject(index)}>Edit</Button>
         </div>
       ))}
+
+
+
+
+
+      </div>
+
     </div>
   );
 };

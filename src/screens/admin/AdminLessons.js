@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +28,31 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#2196f3',
     color: '#fff',
   },
+  profileText: {
+   
+    textDecoration: 'underline', 
+    marginRight: theme.spacing(5),
+  },
+  profilePicture: {
+
+    position: 'relative',
+
+    top: theme.spacing(1),
+    marginRight: theme.spacing(1),
+
+
+    width: '62px',
+
+    height: '62px',
+
+    borderRadius: '50%',
+
+    backgroundColor: '#D9D9D9',
+
+  },
 }));
+
+
 
 const Box = () => {
   return (
@@ -46,8 +72,8 @@ const Box = () => {
             <br />
             Información
           </div>
-          <img className="edit-fill" alt="Edit fill" src="edit-fill.svg" />
-          <img className="trash" alt="Trash" src="trash.svg" />
+          <EditIcon className="edit-fill" />
+          <DeleteIcon className="trash" />
         </div>
       </div>
     </div>
@@ -93,6 +119,10 @@ const AdminLessons = () => {
   return (
     <div className="App">
       <div className="main">
+        <div className= 'header'>
+            <div className={classes.profilePicture} />
+            <div className={classes.profileText}>Admin</div>
+        </div>
         <Label />
         <div className={classes.lessonsContainer}>
           {lessons.map((lesson, index) => (
