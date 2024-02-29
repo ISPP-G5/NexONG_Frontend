@@ -10,7 +10,9 @@ function AdminFamilyRequests() {
         <div className='header'>
             <img src={logo} alt='logo'/>
             <p>Manos Abiertas Con Norte</p>
-            <a>Admin</a>
+            <a>
+                <Link to={`/AdminProfile`}>Admin</Link>
+            </a>
         </div>
         <div className='app-container'>
             <div className='menu'>
