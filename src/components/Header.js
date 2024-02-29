@@ -29,9 +29,9 @@ function Header(){
             <li className="dropdown">
                 <Link to="/">Asociación</Link>
                 <div className="dropdown-content">
-                    <Link to="/">Nosotros</Link>
-                    <Link to="/">Historia</Link>
-                    <Link to="/">Misión, Visión y Valores</Link>
+                    <Link to="/nosotros">Nosotros</Link>
+                    <Link to="/historia">Historia</Link>
+                    <Link to="/mision-vision-valores">Misión, Visión y Valores</Link>
                     <Link to="/">Dónde estamos</Link>
                     <Link to="/campamentos">Entidades Colaboradoras</Link>
                 </div>

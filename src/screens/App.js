@@ -15,6 +15,9 @@ import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
+import AboutUs from './AboutUs';
+import History from './History';
+import MisionOverviewValues from './MisionOverviewValues';
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
             <Route path="/club-verano" element={<SummerClub />} />
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+            <Route path="/nosotros" element={<AboutUs />} />
+            <Route path="/historia" element={<History />} />
+            <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
 
             </Routes>
     </Router>
