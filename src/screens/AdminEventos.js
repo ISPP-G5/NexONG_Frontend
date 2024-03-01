@@ -29,6 +29,7 @@ function AdminEventos() {
     },
    
   }));
+  
 
   const AdminEvents = () => {
     const classes = useStyles();
@@ -93,6 +94,41 @@ function AdminEventos() {
       setEventTime(moment(event.start).format('HH:mm'));
       setOpenEditDialog(true);
     };
+    function renderTextFieldComponents() {
+      return (
+        <>
+          <TextField
+            label="Nombre del evento"
+            value={eventTitle}
+            onChange={(e) => setEventTitle(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+          <TextField
+            label="Fecha"
+            type="date"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+          <TextField
+            label="Hora"
+            type="time"
+            value={eventTime}
+            onChange={(e) => setEventTime(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+        </>
+      );
+    }
 
     return (
       <div className='App'>
@@ -132,35 +168,8 @@ function AdminEventos() {
             <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
             <DialogTitle>Add Event</DialogTitle>
             <DialogContent>
-              <TextField
-                label="Nombre del evento"
-                value={eventTitle}
-                onChange={(e) => setEventTitle(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-              />
-              <TextField
-                label="Fecha"
-                type="date"
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-              />
-              <TextField
-                label="Hora"
-                type="time"
-                value={eventTime}
-                onChange={(e) => setEventTime(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-              />
+              {renderTextFieldComponents()}
+              
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setOpenAddDialog(false)} color="primary">Not</Button>
@@ -170,32 +179,7 @@ function AdminEventos() {
           <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
             <DialogTitle>Edit Event</DialogTitle>
             <DialogContent>
-              <TextField
-                label="Nombre del evento"
-                value={eventTitle}
-                onChange={(e) => setEventTitle(e.target.value)}
-                fullWidth
-              />
-              <TextField
-                label="Fecha"
-                type="date"
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-              />
-              <TextField
-                label="Hora"
-                type="time"
-                value={eventTime}
-                onChange={(e) => setEventTime(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-              />
+              {renderTextFieldComponents()}
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setOpenEditDialog(false)} color="primary">Not Edit</Button>
