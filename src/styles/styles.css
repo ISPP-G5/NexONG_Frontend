@@ -7,7 +7,7 @@
 }
   
 .main {
-  margin-top: 15%;
+  margin-top: 0%;
 }
 
 .h1 {
@@ -188,7 +188,7 @@ li.dropdown {
   font-weight: bold;
   border: 3px solid #f1f1f1;
   position: absolute;
-  top: 70%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -201,7 +201,7 @@ li.dropdown {
 
   .bg-text { 
       font-size: 10px;
-      top: 35%;
+      top: 15%;
   }
 }
 
