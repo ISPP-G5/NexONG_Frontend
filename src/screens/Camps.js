@@ -18,17 +18,14 @@ function Camps() {
                 </div>
                 <div className='flex-container'>
                     <h3>
-                    Organizado por Asociación Manos Abiertas y animado por un
-                    grupo de jóvenes lasalianos de diferentes procedencias de
-                    Andalucía que se comprometen de forma voluntaria y
-                    desinteresada a desarrollar, durante el verano, un trabajo
-                    de proyección social: Club de Verano Polígono Norte.
-                    <br />
-                    Tiene lugar en el mes de junio-julio principalmente, en
-                    Polígono Norte de Sevilla. Participan más de 60 niños y
-                    niñas en esta actividad repleta de talleres, juegos,
-                    valores, excursiones y convivencias, entre otras muchas
-                    dinámicas que se llevan a cabo.
+                        Esta actividad la hemos realizado como cada año junto
+                        a la Asociación Rutas Sevilla como culmen al trabajo
+                        desarrollado durante el curso, ofreciendo a los chavales
+                        una alternativa de convivencia y relaciones, en un marco
+                        diferente al habitual. Dicha actividad nos permite
+                        fomentar los valores y actitudes trabajados durante el año,
+                        en coherencia y responsabilidad con la línea mantenida
+                        durante el curso.
                     </h3>
                 </div>
             </div>
