@@ -17,7 +17,7 @@ import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
-import VOlunteers from './Volunteers';
+import Volunteers from './Volunteers';
 function App() {
   return (
     <Router>
@@ -25,7 +25,7 @@ function App() {
      
             <Route path="/" element={<HomePage />} />
             <Route path="/donaciones" element={<Donation />} />
-            <Route path="/voluntarios" element={<VOlunteers />} />
+            <Route path="/voluntarios" element={<Volunteers />} />
             <Route path="/sugerencias" element={<Suggestions />} />
             <Route path="/registrarse" element={<Register />} />
             <Route path="/iniciar-sesion" element={<LogIn />} />

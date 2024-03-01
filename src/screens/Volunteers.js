@@ -32,7 +32,7 @@ function Volunteers () {
                     </div>
                     <div className='flex-container'>
                         <h1>Quieres ser voluntario?</h1>
-                        <h3>Si esta interesado en ser voluntario pulssse el siguiente botón</h3>
+                        <h3>Si esta interesado en ser voluntario pulse el siguiente botón</h3>
                         <button className='button' onClick={handleButtonClick}>Participa con nosotros</button>                    </div>
                 </div>
             </div>
