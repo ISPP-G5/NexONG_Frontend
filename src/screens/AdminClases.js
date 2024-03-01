@@ -68,19 +68,11 @@ const AdminClases = () => {
     { nombre: 'Clase 4', descripcion: 'Clase práctica', alumnos: 25, educador: 'Ana' },
   ]);
 
-  const handleDeleteLesson = (index) => {
-    const newLessonList = [...lessons];
-    newLessonList.splice(index, 1);
-    setLessons(newLessonList);
-  };
+  
 
-  const handleEditLesson = (index) => {
-    // Add your edit lesson logic here
-  };
+ 
 
-  const handleCreateLesson = () => {
-    // Add your create lesson logic here
-  };
+  
 
   const Label = () => {
     return (
