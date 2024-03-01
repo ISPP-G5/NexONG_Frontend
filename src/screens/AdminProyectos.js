@@ -24,19 +24,7 @@ function AdminProyectos() {
                 </div>
                 {/* Example of blue card for info */}
                 <div className='card-info'>
-                    <div className='family-info'>
-                        <p>Name: </p>
-                        <p>Information: </p>
-                        <p>Number of kids:</p>
-                    </div>
-                    <div className='vertical-line'></div>
-                    <div className='kids-info'>
-                        <div className='kid'>
-                            <p>Kid's Name:</p>
-                            <p>Class: </p>
-                            <p>Evaluation: </p>
-                        </div>
-                    </div>
+                    Proyecto 1
                     <EditIcon className="edit-fill" />
                     <DeleteIcon className="trash" />
                 </div>
