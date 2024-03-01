@@ -9,15 +9,16 @@ function VolunteerForm() {
   const labelStyle = {
     width: '80%', // Use percentage for width
     height: '2rem', // Use rem for height
-    marginLeft: '-20%', // Use percentage for marginLeft
     top: '5rem', // Use rem for top
     fontFamily: 'Helvetica',
     fontStyle: 'normal',
     fontWeight: '505',
-    fontSize: '1.25em', // Use em for font-size
-    lineHeight: '1.75em', // Use em for line-height
+    fontSize: '1.25rem', // Use rem for font-size
+    lineHeight: '1.75rem', // Use rem for line-height
     color: '#7C838A',
-    textAlign: 'left',
+    marginBottom: '1rem',
+    
+    
   };
 
 
@@ -78,7 +79,7 @@ function VolunteerForm() {
           <input
           type='text'
           placeholder='Escriba aquí'
-          style={{ borderRadius: '15px' }}  
+          style={{ borderRadius: '15px' , marginTop: '1rem'}}  
           />
 
           <a style={labelStyle}>

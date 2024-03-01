@@ -27,7 +27,6 @@ function Register() {
   const labelStyle = {
     width: '60%', // Use percentage for width
     height: '2rem', // Use rem for height
-    marginLeft: '-25%', // Use percentage for marginLeft
     top: '5rem', // Use rem for top
     fontFamily: 'Helvetica',
     fontStyle: 'normal',
@@ -35,7 +34,7 @@ function Register() {
     fontSize: '1.25rem', // Use rem for font-size
     lineHeight: '1.75rem', // Use rem for line-height
     color: '#7C838A',
-    textAlign: 'left',
+    
   };
 
 
@@ -106,7 +105,7 @@ function Register() {
 
 
           <div className='text' style={{ fontFamily: 'Poppins', fontSize: '1rem', fontWeight: 400, color: 'gray' }}>
-            ¿Ya tiene una cuenta? <span style={{ color: '#6FC0DB' }}>Inicie sesión aquí</span>.
+            ¿Ya tiene una cuenta? <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>Inicie sesión aquí</Link>.
           </div>
 
         </div>
