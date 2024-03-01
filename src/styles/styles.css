@@ -464,3 +464,20 @@ select{
   margin-bottom: 20px;
 }
 
+.contentHistory {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.imageHistory {
+  max-width: 65%;
+  margin-right: 20px;
+}
+
+.textHistory {
+  width: 50%;
+}
+
+

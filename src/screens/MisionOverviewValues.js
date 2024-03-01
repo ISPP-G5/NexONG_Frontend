@@ -30,22 +30,48 @@ function MisionOverviewValues() {
                     </p>
 
                     <h2>Valores</h2>
-                        <h3 className='valor'>Respeto:</h3>
-                        <p> De todos/as y para todos/as teniendo una escucha activa y paciente con el usuario.</p>
-                        <h3 className='valor'>Responsabilidad:</h3>
-                        <p>Ser consecuentes con nuestra acción y ofrecer la relación de ayuda en todos los casos.</p>
-                        <h3 className='valor'>Compromiso y Solidaridad:</h3>
-                        <p>Desde la observación social, la detección de necesidades y la proposición de respuestas ajustadas, efectivas y continuas. Para seguir prestando un servicio útil a la sociedad ajustando nuestra acción a las necesidades cambiantes.</p>
-                        <h3 className='valor'>Libertad e Igualdad:</h3>
-                        <p>Todo el equipo responsable de la organización, así como los voluntarios y beneficiarios de los programas ejercerán su participación de manera libre y procurando la igualdad a través de un sistema de relación horizontal.</p>
-                        <h3 className='valor'>Democracia y participación:</h3>
-                        <p>Las decisiones se tomarán por consenso y se fomentará la participación.</p>
-                        <h3 className='valor'>Accesibilidad:</h3>
-                        <p>La Asociación debe ser fácilmente accesible para cualquier ciudadano, y sus actuaciones, gestión, etc. transparentes.</p>
-                        <h3 className='valor'>Cooperación y colaboración:</h3>
-                        <p>La entidad debe mantener relaciones con asociaciones similares, entidades u organizaciones, públicas o privadas, etc. Igualmente, la Asociación debe fomentar la cooperación y colaboración entre sus asociados/as.</p>
-                        <h3 className='valor'>Creatividad e Innovación:</h3>
-                        <p>La entidad debe ser proactiva e innovadora en sus actuaciones.</p>
+                    <div className='homepage-container'>
+                        <div className='flex-container'>
+                            <h1>Respeto</h1>
+                            <h3>De todos/as y para todos/as teniendo una escucha activa y paciente con el usuario.</h3>
+                        </div>
+                        <div className='flex-container'>
+                            <h1>Responsable</h1>
+                            <h3>Ser consecuentes con nuestra acción y ofrecer la relación de ayuda en todos los casos.</h3>
+                        </div>
+                        <div className='flex-container'>
+                            <h1>Compromiso y Solidaridad</h1>
+                            <h3>Desde la observación social, la detección de necesidades y la proposición de respuestas ajustadas, 
+                                efectivas y continuas. Para seguir prestando un servicio útil a la sociedad ajustando nuestra acción 
+                                a las necesidades cambiantes.</h3>
+                        </div>
+                        <div className='flex-container'>
+                            <h1>Libertad e Igualdad</h1>
+                            <h3>Todo el equipo responsable de la organización, así como los voluntarios y beneficiarios de los programas 
+                                ejercerán su participación de manera libre y procurando la igualdad a través de un sistema de relación 
+                                horizontal.</h3>
+                        </div>
+                        <div className='flex-container'>
+                            <h1>Democracia y participación</h1>
+                            <h3>Las decisiones se tomarán por consenso y se fomentará la participación.</h3>
+                        </div>
+                        <div className='flex-container'>
+                            <h1>Accesibilidad</h1>
+                            <h3>La Asociación debe ser fácilmente accesible para cualquier ciudadano, y sus actuaciones, gestión, etc. 
+                                transparentes.</h3>
+                        </div>
+                        <div className='flex-container'>
+                            <h1>Cooperación y colaboración</h1>
+                            <h3>La entidad debe mantener relaciones con asociaciones similares, entidades u organizaciones, públicas o 
+                                privadas, etc. Igualmente, la Asociación debe fomentar la cooperación y colaboración entre sus 
+                                asociados/as.</h3>
+                        </div>
+                        <div className='flex-container'>
+                            <h1>Creatividad e Innovación</h1>
+                            <h3>La entidad debe ser proactiva e innovadora en sus actuaciones.</h3>
+                        </div>
+                    </div>
+                       
                 </div>
             </div>
             <Footer/>

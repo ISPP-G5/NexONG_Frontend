@@ -18,6 +18,7 @@ import VolunteerForm from './VolunteerForm';
 import AboutUs from './AboutUs';
 import History from './History';
 import MisionOverviewValues from './MisionOverviewValues';
+import Association from './Association';
 
 function App() {
   return (
@@ -41,7 +42,8 @@ function App() {
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/historia" element={<History />} />
             <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
-
+            <Route path="/asociacion" element={<Association />} />
+            
             </Routes>
     </Router>
   );

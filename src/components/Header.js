@@ -27,7 +27,7 @@ function Header(){
                 </div>
             </li>
             <li className="dropdown">
-                <Link to="/">Asociación</Link>
+                <Link to="/asociacion">Asociación</Link>
                 <div className="dropdown-content">
                     <Link to="/nosotros">Nosotros</Link>
                     <Link to="/historia">Historia</Link>
