@@ -23,8 +23,9 @@ function AdminProyectos() {
                     <a href='/AdminCrearProyecto'>Crear Proyecto Nuevo</a>
                 </div>
                 {/* Example of blue card for info */}
-                <div className='card-info'>
-                    Proyecto 1
+                <div className='card-info-proyecto'>
+                    <div className= 'card-info-proyecto-text'>
+                        Proyecto 1</div>
                     <EditIcon className="edit-fill" />
                     <DeleteIcon className="trash" />
                 </div>

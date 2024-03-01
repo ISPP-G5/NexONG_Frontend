@@ -432,86 +432,88 @@ select{
   border: 1px solid #b9b9b9;
 }
 .label {
-  height: 35px;
-  width: 174px;
+  height: 3rem; /* Change to 2.5rem or your preferred value */
+  width: 60%; /* Use percentage for responsiveness */
 }
 
 .label .text-wrapper {
   color: #000000;
   font-family: "Inter-Regular", Helvetica;
-  font-size: 25px;
+  font-size: 1.5rem; /* Change to 1.5rem or your preferred value */
   font-weight: 400;
   
-  height: 35px;
-  right: 0;
+  height: 10%; /* Use percentage for responsiveness */
+  right: 1;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
   top: 1;
-  width: 174px;
+  margin-left: 15%;
+  width: 100%; /* Use percentage for responsiveness */
 }
+
 .box {
-  height: 339px;
-  width: 463px;
-  margin-bottom: 20px;
-  margin-right: 10px;
-  margin-left: 200px;
-  
+  height: 21rem;
+  width: 28rem;
+  margin-bottom: 2rem;
+  margin-right: 0%;
+  margin-left: 5%;
 }
 
 .box .clase {
-  height: 339px;
+  height: 21rem;
   left: 0;
   position: relative;
   top: 0;
-  width: 465px;
+  width: 28.5rem;
 }
 
 .box .overlap-group {
-  height: 339px;
-  position: relative;
-  width: 463px;
+  height: 21rem;
+  width: 28rem;
 }
 
 .box .rectangle {
   background-color: #e6f8ff;
-  border-radius: 31px;
-  height: 306px;
+  border-radius: 2.5rem;
+  height: 17rem;
   left: 0;
   position: absolute;
   top: 0;
-  width: 463px;
+  width: 28rem;
 }
 
 .box .nombre-educador {
   color: #000000;
   font-family: "Inter-Regular", Helvetica;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 400;
-  height: 308px;
-  left: 57px;
+  height: 17.5rem;
+  left: 3rem;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 31px;
-  width: 239px;
+  top: 1.75rem;
+  width: 15rem;
 }
 
 .box .edit-fill {
-  height: 24px;
-  left: 352px;
+  height: 1.5rem;
+  left: 70%; /* Adjust as needed */
   position: absolute;
-  top: 258px;
-  width: 24px;
+  top: 70%; /* Adjust as needed */
+  width: 1.5rem;
 }
 
 .box .trash {
-  height: 24px;
-  left: 396px;
+  height: 1.5rem;
+  left: 80%; /* Adjust as needed */
   position: absolute;
-  top: 258px;
-  width: 24px;
+  top: 70%; /* Adjust as needed */
+  width: 1.5rem;
 }
+
+
 
 
 /*FOOTER*/
@@ -695,6 +697,24 @@ select{
   display: flex;
   align-items: stretch;
   justify-content: space-between;
+}
+.card-info-proyecto{
+  background-color: #cdf0fe;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #9ee5ff;
+  padding: 4%;
+  position: relative;
+  width: 80%;
+  margin: 2%;
+  display: flex;
+  align-items: center; /* Center items vertically */
+  justify-content: right;
+  
+}
+.card-info-proyecto-text{
+  flex: 1;
+
+
 }
 
 .family-info {

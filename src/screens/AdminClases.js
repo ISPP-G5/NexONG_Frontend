@@ -8,13 +8,11 @@ import MenuAdmin from '../components/MenuAdmin';
 
 
 const useStyles = makeStyles(() => ({
-  addLessonsButton: {
-    float: 'right',
-  },
+  
   lessonsContainer: {
-    marginTop: '30px',
     display: 'flex',
     flexWrap: 'wrap',
+    
   },
 
   deleteButton: {
@@ -34,7 +32,7 @@ const Box = () => {
   return (
     <div className="box">
       <div className="clase">
-        <div className="overlap-group" style={{ marginLeft: '-5rem' }}>
+        <div className="overlap-group">
           <div className="rectangle" />
           <div className="nombre-educador">
             Nombre
@@ -96,12 +94,13 @@ const AdminClases = () => {
             <div className='vertical-line'></div>  
 
             <div className='admin-container'>
-              <Label />
             
           
                 
                 {/* INTRODUCE HERE YOUR IMPLEMENTATIONS */}
-                <div className={classes.lessonsContainer}>
+                <Label />
+
+                <div className={classes.lessonsContainer} style={{ marginRight: '20rem'}}>
                   {lessons.map((lesson, index) => (
                     <Box key={index} />
                   ))}
