@@ -7,9 +7,7 @@ function HeaderAdmin(){
         <div className='header-admin'>
             <img src={logo} alt='logo'/>
             <p>Manos Abiertas Con Norte</p>
-            <a>
-                <Link to={`/AdminProfile`}>Admin</Link>
-            </a>
+            <a href='/AdminProfile'>Admin</a>
         </div>
         
     );

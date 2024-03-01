@@ -1,8 +1,5 @@
-import { Link} from 'react-router-dom';
 import '../styles/styles.css';
-import logo from '../logo/macn-logo.png';
 import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
 
 const families = [
     {
@@ -36,12 +33,22 @@ function AdminFamily() {
     <div className='App'>
         <HeaderAdmin />
         <div className='admin-main'>
-            <MenuAdmin />
+            <div className='menu'>
+                <a>Voluntarios</a>
+                <a>Educadores</a>
+                <a>Socios</a>
+                <a href='/AdminFamilias' className='selected-menu'>Familias</a>
+                <a>Colegios</a>
+                <div className='horizontal-line'></div>
+                <a>Clases</a>
+                <a>Eventos</a>
+                <a>Proyectos</a>
+            </div> 
             <div className='vertical-line'></div>  
             <div className='admin-container'>
                 <div className='pantallas'>
-                    <a href='/AdminFamily' className='selected-pantalla'>Nuestras familias</a>
-                    <a href='/AdminFamilyRequests'>Solicitudes</a>
+                    <a href='/AdminFamilias' className='selected-pantalla'>Nuestras familias</a>
+                    <a href='/AdminFamiliasSolicitudes'>Solicitudes</a>
                 </div>
                 {families.map((family, index) => (
                 <div className='card-info' key={index}>
