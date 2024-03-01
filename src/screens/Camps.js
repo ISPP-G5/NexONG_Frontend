@@ -1,30 +1,30 @@
 import '../styles/styles.css';
+import camps from '../logo/camps.jpg'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Camps() {
     return (
         <div className="App">
-
             <Header/>
-
             <div className='main'>
-                <div className='title-text'>CAMPAMENTOS</div>
-                <div className='flex-container-blue'>
-                    Realización de campamentos de verano para menores
-                    de educación primaria y secundaria
+                <img src={camps} alt="Camps" className='background-pic'/>
+                <div className='bg-text'>
+                    <h1>CAMPAMENTOS</h1>
+                    <h3>
+                        Realización de campamentos de verano para menores
+                        de educación primaria y secundaria
+                    </h3>
                 </div>
-                <div className='text'>
-                    Ven y disfruta de actividades como manualidades,
-                    veladas y mucho más
+                <div className='flex-container'>
+                    <h3>
+                        Ven y disfruta de actividades como manualidades,
+                        veladas y mucho más
+                    </h3>
                 </div>
             </div>
-
             <Footer/>
-
         </div>
-        
-
     );
 }
 export default Camps;
