@@ -590,14 +590,9 @@ select{
   font-weight: 600;
   letter-spacing: 0.3px;
   line-height: normal;
-  position: relative;
   text-align: center;
   padding: 10%;
-}
-
-.selected-menu{
-  width: 80%;
-  background-color: #cdf0fe;
+  text-decoration: none;
 }
 
 .menu a:hover {
@@ -609,11 +604,16 @@ select{
   width: 80%;
 }
 
+.selected-menu{
+  width: 80%;
+  background-color: #cdf0fe;
+}
+
+
 /*ADMIN LINES*/
 .horizontal-line {
   background-color: #9ee5ff;
-  height: 0.3%;
-  margin: 0%;
+  height: 0.5%;
 }
 
 .vertical-line {
@@ -680,6 +680,7 @@ select{
     flex: 0.30;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 }
 
 .kids-info {
@@ -690,6 +691,7 @@ select{
 
 .kid {
     width: 35%;
+    align-items: flex-start;
 }
 
 .family-request {
@@ -747,7 +749,7 @@ select{
 }
 
 .button-accept {
-  background-color: #00ae00;
+  background-color: #bdecb6;
   border-radius: 10px;
   height: 100%;
   width: 50%;
@@ -757,17 +759,17 @@ select{
   font-weight: 500;
   padding: 3% 5% 3% 5%;
   font-family: "Poppins", Helvetica;
-  border: 2px solid #007400;
+  border: 2px solid #a7e6b3;
 }
 
 .button-accept:hover {
   cursor: pointer;
-  background-color: #007400;
+  background-color: #a7e6b3;
   box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }
 
 .button-decline {
-  background-color: #ff3b3b;
+  background-color: #ff6961;
   border-radius: 10px;
   height: 100%;
   width: 50%;
@@ -776,11 +778,11 @@ select{
   font-weight: 500;
   padding: 3% 5% 3% 5%;
   font-family: "Poppins", Helvetica;
-  border: 2px solid #ae0000;
+  border: 2px solid #ff3c32;
 }
 
 .button-decline:hover {
   cursor: pointer;
-  background-color: #ae0000;
+  background-color: #ff3c32;
   box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }

@@ -1,9 +1,5 @@
-import { Link} from 'react-router-dom';
 import '../styles/styles.css';
-import logo from '../logo/macn-logo.png';
 import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
-
 
 
 function AdminFamilyRequests() {
@@ -11,12 +7,22 @@ function AdminFamilyRequests() {
     <div className='App'>
         <HeaderAdmin />
         <div className='admin-main'>
-            <MenuAdmin />
+            <div className='menu'>
+                <a>Voluntarios</a>
+                <a>Educadores</a>
+                <a>Socios</a>
+                <a href='/AdminFamilias' className='selected-menu'>Familias</a>
+                <a>Colegios</a>
+                <div className='horizontal-line'></div>
+                <a>Clases</a>
+                <a>Eventos</a>
+                <a>Proyectos</a>
+            </div> 
             <div className='vertical-line'></div>
             <div className='admin-container'>
                 <div className='pantallas'>
-                    <a href='/AdminFamily'>Nuestras familias</a>
-                    <a href='/AdminFamilyRequests' className='selected-pantalla'>Solicitudes</a>
+                    <a href='/AdminFamilias'>Nuestras familias</a>
+                    <a href='/AdminFamiliasSolicitudes' className='selected-pantalla'>Solicitudes</a>
                 </div>
                 <div className='card-info'>
                     <div className='family-request'>
