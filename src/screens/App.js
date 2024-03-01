@@ -15,6 +15,8 @@ import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
+import AdminFamily from './AdminFamily';
+import AdminFamilyRequests from './AdminFamilyRequests';
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
             <Route path="/club-verano" element={<SummerClub />} />
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+            <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
+            <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
 
             </Routes>
     </Router>
