@@ -33,7 +33,7 @@ function Header(){
                     <Link to="/">Historia</Link>
                     <Link to="/">Misión, Visión y Valores</Link>
                     <Link to="/">Dónde estamos</Link>
-                    <Link to="/campamentos">Entidades Colaboradoras</Link>
+                    <Link to="/entidades-colaboradoras">Entidades Colaboradoras</Link>
                 </div>
             </li>
         </ul>
