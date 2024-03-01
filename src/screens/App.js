@@ -41,13 +41,14 @@ function App() {
             <Route path="/club-verano" element={<SummerClub />} />
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
 
-            <Route path="/adminFamily" exact={true} element={<AdminFamily />} />
-            <Route path="/adminFamilyRequests" exact={true} element={<AdminFamilyRequests />} />
+            <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
+            <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
 
             </Routes>
     </Router>
