@@ -4,6 +4,7 @@ import React from 'react';
 import google from '../logo/google.svg';
 import {Link} from 'react-router-dom';
 import { useState } from 'react';
+import Footer from '../components/Footer';
 
 
 
@@ -37,21 +38,6 @@ function Register() {
     textAlign: 'left',
   };
 
-  const separatorLeftStyle = {
-    borderBottom: '1px solid black',
-    width: '40%',
-    display: 'inline-block',
-    marginLeft: '2%', // Use percentage for marginLeft
-    marginBottom: '-5rem', // Use rem for marginBottom
-  };
-
-  const separatorRightStyle = {
-    borderBottom: '1px solid black',
-    width: '40%',
-    display: 'inline-block',
-    marginLeft: '12.5%', // Use percentage for marginLeft
-    marginTop: '-6rem', // Use rem for marginTop
-  };
 
   return (
     <div className="App">
@@ -125,6 +111,7 @@ function Register() {
 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

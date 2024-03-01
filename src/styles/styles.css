@@ -363,6 +363,7 @@ select{
     position: relative;
     width: 25%;
     margin: -7% auto 0;
+    margin-bottom:2%;
   }
   .h2-register {
     color: #000;
