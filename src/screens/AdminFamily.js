@@ -1,5 +1,6 @@
 import '../styles/styles.css';
 import HeaderAdmin from '../components/HeaderAdmin';
+import MenuAdmin from '../components/MenuAdmin';
 
 const families = [
     {
@@ -33,18 +34,10 @@ function AdminFamily() {
     <div className='App'>
         <HeaderAdmin />
         <div className='admin-main'>
-            <div className='menu'>
-                <a>Voluntarios</a>
-                <a>Educadores</a>
-                <a>Socios</a>
-                <a href='/AdminFamilias' className='selected-menu'>Familias</a>
-                <a>Colegios</a>
-                <div className='horizontal-line'></div>
-                <a>Clases</a>
-                <a>Eventos</a>
-                <a>Proyectos</a>
-            </div> 
+            
+            <MenuAdmin selected='Familias' /> 
             <div className='vertical-line'></div>  
+
             <div className='admin-container'>
                 <div className='pantallas'>
                     <a href='/AdminFamilias' className='selected-pantalla'>Nuestras familias</a>

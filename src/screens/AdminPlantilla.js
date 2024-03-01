@@ -1,24 +1,17 @@
 import '../styles/styles.css';
 import HeaderAdmin from '../components/HeaderAdmin';
+import MenuAdmin from '../components/MenuAdmin';
 
-function AdminFamily() {
+function AdminPlantilla() {
   return (
     <div className='App'>
         <HeaderAdmin />
         <div className='admin-main'>
-            <div className='menu'>
-                <a>Voluntarios</a>
-                <a>Educadores</a>
-                <a>Socios</a>
-                {/* Change the selected-menu class to the screen you are in */}
-                <a className='selected-menu'>Familias</a> 
-                <a>Colegios</a>
-                <div className='horizontal-line'></div>
-                <a>Clases</a>
-                <a>Eventos</a>
-                <a>Proyectos</a>
-            </div> 
+
+            {/* Change selected for the name of your screen */}
+            <MenuAdmin selected='Familias' />
             <div className='vertical-line'></div>  
+
             <div className='admin-container'>
             
                 {/* Example of screen with several screens inside */}
@@ -51,4 +44,4 @@ function AdminFamily() {
   );
 }
 
-export default AdminFamily;
+export default AdminPlantilla;
