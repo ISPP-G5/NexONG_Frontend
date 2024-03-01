@@ -20,7 +20,6 @@ function App() {
   return (
     <Router>
       <Routes>
-     
             <Route path="/" element={<HomePage />} />
             <Route path="/donaciones" element={<Donation />} />
             <Route path="/sugerencias" element={<Suggestions />} />
