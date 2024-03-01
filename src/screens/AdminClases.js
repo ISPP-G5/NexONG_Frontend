@@ -59,7 +59,7 @@ const Box = () => {
 const AdminClases = () => {
   const classes = useStyles();
 
-  const [lessons, setLessons] = useState([
+  const [lessons] = useState([
     { nombre: 'Clase 1', descripcion: 'Clase introducción', alumnos: 20, educador: 'Juan' },
     { nombre: 'Clase 2', descripcion: 'Clase desarrollo', alumnos: 15, educador: 'María' },
     { nombre: 'Clase 3', descripcion: 'Clase avanzada', alumnos: 18, educador: 'Pedro' },
