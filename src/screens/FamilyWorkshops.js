@@ -17,7 +17,14 @@ function FamilyWorkshops() {
                 </div>
                 <div className='flex-container'>
                     <h3>
-                        Sesiones quincenales
+                        Con este proyecto damos respuesta a las necesidades detectadas a nivel
+                        individual y contextual, familias y barrio. Pretendemos educar de forma
+                        integral a la población con la que trabajamos: Educando mediante el
+                        ocio y el tiempo libre a través de juegos, actividades, talleres,
+                        encuentros y convivencias.
+                        <br/>
+                        Mediante juegos populares, debates, talleres, bailes, manualidades,
+                        talleres, cineforum, potenciaremos la capacidad de transmitir emociones.
                     </h3>
                 </div>
             </div>
