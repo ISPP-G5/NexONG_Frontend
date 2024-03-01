@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import {Link} from 'react-router-dom'
 import React from 'react';
 
 const menuItemsAdmin = ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Colegios', 'Clases', 'Eventos', 'Proyectos'];
@@ -42,10 +41,10 @@ function SideBar({ selected }) {
                 <div className='menu'>
             {menuItemsFamily.map((item, index) => (
                 <React.Fragment key={index}>
-                <a href={'/Admin' + item} className={item === selected ? 'selected-menu' : ''}>
+                <a href={'/Family' + item} className={item === selected ? 'selected-menu' : ''}>
                     {item}
                 </a>
-                {item === 'Colegios' && <div className='horizontal-line'></div>}
+                {item === 'observaciones' && <div className='horizontal-line'></div>}
                 </React.Fragment>
             ))}
         </div>
@@ -56,10 +55,9 @@ function SideBar({ selected }) {
                 <div className='menu'>
             {menuItemsPartner.map((item, index) => (
                 <React.Fragment key={index}>
-                <a href={'/Admin' + item} className={item === selected ? 'selected-menu' : ''}>
+                <a href={'/Partner' + item} className={item === selected ? 'selected-menu' : ''}>
                     {item}
                 </a>
-                {item === 'Colegios' && <div className='horizontal-line'></div>}
                 </React.Fragment>
             ))}
         </div>
@@ -70,10 +68,10 @@ function SideBar({ selected }) {
                 <div className='menu'>
             {menuItemsEducator.map((item, index) => (
                 <React.Fragment key={index}>
-                <a href={'/Admin' + item} className={item === selected ? 'selected-menu' : ''}>
+                <a href={'/Educator' + item} className={item === selected ? 'selected-menu' : ''}>
                     {item}
                 </a>
-                {item === 'Colegios' && <div className='horizontal-line'></div>}
+                {item === 'actividades' && <div className='horizontal-line'></div>}
                 </React.Fragment>
             ))}
         </div>
@@ -84,10 +82,9 @@ function SideBar({ selected }) {
                 <div className='menu'>
             {menuItemsVolunteer.map((item, index) => (
                 <React.Fragment key={index}>
-                <a href={'/Admin' + item} className={item === selected ? 'selected-menu' : ''}>
+                <a href={'/Volunteer' + item} className={item === selected ? 'selected-menu' : ''}>
                     {item}
                 </a>
-                {item === 'Colegios' && <div className='horizontal-line'></div>}
                 </React.Fragment>
             ))}
         </div>
