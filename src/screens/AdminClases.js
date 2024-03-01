@@ -4,6 +4,8 @@ import { Button } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import HeaderAdmin from '../components/HeaderAdmin';
+import MenuAdmin from '../components/MenuAdmin';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -11,45 +13,20 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
   },
   lessonsContainer: {
-    marginTop: '20px',
+    marginTop: '30px',
     display: 'flex',
     flexWrap: 'wrap',
   },
-  createLessonButton: {
-    float: 'right',
-    marginBottom: '10px',
-  },
+
   deleteButton: {
     backgroundColor: '#f44336',
     color: '#fff',
-    marginRight: '5px',
   },
   editButton: {
     backgroundColor: '#2196f3',
     color: '#fff',
   },
-  profileText: {
-   
-    textDecoration: 'underline', 
-    marginRight: theme.spacing(5),
-  },
-  profilePicture: {
 
-    position: 'relative',
-
-    top: theme.spacing(1),
-    marginRight: theme.spacing(1),
-
-
-    width: '62px',
-
-    height: '62px',
-
-    borderRadius: '50%',
-
-    backgroundColor: '#D9D9D9',
-
-  },
 }));
 
 
@@ -58,7 +35,7 @@ const Box = () => {
   return (
     <div className="box">
       <div className="clase">
-        <div className="overlap-group">
+        <div className="overlap-group" style={{ marginLeft: '-5rem' }}>
           <div className="rectangle" />
           <div className="nombre-educador">
             Nombre
@@ -80,13 +57,15 @@ const Box = () => {
   );
 };
 
-const AdminLessons = () => {
+const AdminClases = () => {
   const classes = useStyles();
 
   const [lessons, setLessons] = useState([
     { nombre: 'Clase 1', descripcion: 'Clase introducción', alumnos: 20, educador: 'Juan' },
     { nombre: 'Clase 2', descripcion: 'Clase desarrollo', alumnos: 15, educador: 'María' },
     { nombre: 'Clase 3', descripcion: 'Clase avanzada', alumnos: 18, educador: 'Pedro' },
+    { nombre: 'Clase 5', descripcion: 'Clase práctica', alumnos: 25, educador: 'Ana' },
+
     { nombre: 'Clase 4', descripcion: 'Clase práctica', alumnos: 25, educador: 'Ana' },
   ]);
 
@@ -118,23 +97,38 @@ const AdminLessons = () => {
 
   return (
     <div className="App">
+      <HeaderAdmin />
+      <div className='admin-main'>
+
+            {/* Change selected for the name of your screen */}
+            <MenuAdmin selected='Clases' />
+            <div className='vertical-line'></div>  
+
+            <div className='admin-container'>
+              <Label />
+            
+          
+                
+                {/* INTRODUCE HERE YOUR IMPLEMENTATIONS */}
+                <div className={classes.lessonsContainer}>
+                  {lessons.map((lesson, index) => (
+                    <Box key={index} />
+                  ))}
+                </div>
+
+            </div>
+        </div> 
+
       <div className="main">
-        <div className= 'header'>
-            <div className={classes.profilePicture} />
-            <div className={classes.profileText}>Admin</div>
-        </div>
-        <Label />
-        <div className={classes.lessonsContainer}>
-          {lessons.map((lesson, index) => (
-            <Box key={index} />
-          ))}
-        </div>
+        
+        
+        
       </div>
     </div>
   );
 };
 
-export default AdminLessons;
+export default AdminClases;
 
 
 

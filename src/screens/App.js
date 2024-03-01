@@ -14,9 +14,10 @@ import '../styles/styles.css';
 import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
-import AdminEvents from './AdminEvents';
-import AdminLessons from './admin/AdminLessons';
-import AdminProjects from './admin/AdminProyects';
+import AdminEventos from './AdminEventos';
+import AdminClases from './AdminClases';
+import AdminProyectos from './AdminProyectos';
+import AdminCrearProyecto from './AdminCrearProyecto';
 import VolunteerForm from './VolunteerForm';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
@@ -40,9 +41,11 @@ function App() {
             <Route path="/club-verano" element={<SummerClub />} />
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
-            <Route path="/adminEvents" exact={true} element={<AdminEvents />} />
-            <Route path="/adminLessons" exact={true} element={<AdminLessons />} />
-            <Route path="/adminProjects" exact={true} element={<AdminProjects />} />
+            <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
+            <Route path="/adminClases" exact={true} element={<AdminClases />} />
+            <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
+            <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
+
             <Route path="/adminFamily" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamilyRequests" exact={true} element={<AdminFamilyRequests />} />
 
