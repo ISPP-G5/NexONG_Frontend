@@ -14,7 +14,7 @@ import '../styles/styles.css';
 import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
-import AdminEvents from './admin/AdminEvents';
+import AdminEvents from './AdminEvents';
 import AdminLessons from './admin/AdminLessons';
 import AdminProjects from './admin/AdminProyects';
 import VolunteerForm from './VolunteerForm';
