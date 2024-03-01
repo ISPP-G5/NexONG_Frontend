@@ -17,6 +17,7 @@ import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
+import Transparency from './Transparency';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
+            <Route path="/transparencia" exact={true} element={<Transparency />} />
 
             </Routes>
     </Router>

@@ -73,7 +73,10 @@
 @media (max-width: 768px) {
 
   .header a { 
-      font-size: 10px;
+    font-size: 10px;
+  }
+  .header-logo {
+    height: 60%;
   }
 }
 
@@ -141,6 +144,13 @@ li.dropdown {
   display: block;
 }
 
+@media (max-width: 768px) {
+
+  .dropdown-content { 
+      top: 3%;
+  }
+}
+
 /*LOGIN*/
 .login {
     background-color: #cdf0fe;
@@ -185,6 +195,14 @@ li.dropdown {
   width: 80%;
   padding: 20px;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+
+  .bg-text { 
+      font-size: 10px;
+      top: 35%;
+  }
 }
 
 .background-pic {
@@ -394,6 +412,56 @@ select{
   border: 1px solid #b9b9b9;
 }
 
+/*TRANSPARENCY TABLE*/
+.trans {
+  border-collapse: collapse;
+  width: 80%;
+  text-align: center;
+  padding: 10%;
+  margin: 5% 10% 5% 10%;
+}
+
+.trans a{
+  text-decoration: none;
+}
+
+.trans th{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: white;
+  color: #000;
+}
+
+.trans th{
+  border: 1.5px solid #ffc76e;
+  padding: 8px;
+  background-color: #ffc76e;
+  text-align: center;
+}
+
+.trans td {
+  border: 1.5px solid #ffc76e;
+  padding: 2%;
+}
+
+
+tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.trans tr:nth-child(even){background-color: #fff;}
+.trans td:hover {background-color: #cdf0fe;}
+
+
+@media (max-width: 768px) {
+
+  .trans { 
+      font-size: 10px;
+  }
+}
+
+
 /*FOOTER*/
 .footer{
   background-color: #edecf7;
@@ -416,6 +484,13 @@ select{
   font-size: 1rem;
   letter-spacing: 0;
   position: relative;
+}
+
+@media (max-width: 768px) {
+
+  .footer .text { 
+      font-size: 10px;
+  }
 }
 
 

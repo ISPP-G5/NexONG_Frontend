@@ -32,7 +32,10 @@ function Header(){
                     <Link to="/">Nosotros</Link>
                     <Link to="/">Historia</Link>
                     <Link to="/">Misión, Visión y Valores</Link>
+                    <Link to="/">La Salle</Link>
                     <Link to="/">Dónde estamos</Link>
+                    <Link to="/">Organización</Link>
+                    <Link to="/transparencia">Transparencia</Link>
                     <Link to="/campamentos">Entidades Colaboradoras</Link>
                 </div>
             </li>
