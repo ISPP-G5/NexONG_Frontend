@@ -329,7 +329,7 @@ select{
 }
 
 .lp-container{
-  background-color: rgba(245, 245, 247, 0.726);
+  background-color: rgba(245, 245, 247, 72.6%);
   border-radius: 25px;
   box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
   display: flex;
@@ -344,7 +344,7 @@ select{
 
 .lp-text-external{
   align-self: 'center';
-  background-color: rgba(185, 219, 249, 0.548);
+  background-color: rgba(185, 219, 249, 54.8%);
   border-radius: 25px; 
   width: 90%;
   margin-left: 5%;
@@ -366,7 +366,6 @@ select{
   background-color: rgba(245, 245, 247, 0.726);
   border-radius: 25px;
   box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
-
   justify-content: 'center';
   gap: 50px;
   padding: 3%;
