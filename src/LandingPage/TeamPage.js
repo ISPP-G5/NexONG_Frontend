@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import '../styles/styles.css';
 import logo from './HTML/sinfondo-nexong.png';
-import malogo from './HTML/macnlogo.png';
 import { Link } from "react-router-dom";
 import romalde from './Members/romalde.jpg';
 import pablo from './Members/Pablo.jpg';

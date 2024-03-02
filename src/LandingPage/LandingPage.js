@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import '../styles/styles.css';
 import logo from './HTML/sinfondo-nexong.png';
 import logofondo from './HTML/nexonglogo.png'
