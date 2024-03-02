@@ -28,6 +28,9 @@ function LandingPage() {
             <Link to='/aterrizaje'> 
             <img src={logo} style={{ marginLeft:'10%', width:'80%', borderRadius:'5%'}}/>
             </Link> 
+
+            <h1 style={{textAlign:'center', margin:'3%'}}>Liderazgo</h1>
+
             <div className='team-grid'>
                 <div><h3>Project Manager</h3>
                 <img src={romalde} style={{width:'20%', borderRadius:'100%'}}/>
@@ -63,7 +66,7 @@ function LandingPage() {
                 <img src={pedro} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Pedro López</p></div>
 
-                <div><h3>Secretary</h3>
+                <div><h3>Secretario</h3>
                 <img src={sergio} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Sergio Aguayo</p></div>
 
@@ -100,7 +103,7 @@ function LandingPage() {
                 <img src={samuel} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Samuel Rodríguez</p></div>
 
-                <div><h3>Spokesperson</h3>
+                <div><h3>Portavoz</h3>
                 <img src={marta} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Marta González</p></div>
             </div>
