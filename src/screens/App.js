@@ -19,6 +19,8 @@ import AboutUs from './AboutUs';
 import History from './History';
 import MisionOverviewValues from './MisionOverviewValues';
 import Association from './Association';
+import AdminFamily from './AdminFamily';
+import AdminFamilyRequests from './AdminFamilyRequests';
 
 function App() {
   return (
@@ -44,6 +46,9 @@ function App() {
             <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
             <Route path="/asociacion" element={<Association />} />
             
+            <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
+            <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
+
             </Routes>
     </Router>
   );
