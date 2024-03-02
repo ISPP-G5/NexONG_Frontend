@@ -109,6 +109,12 @@ li.dropdown {
   display: inline-block;
 }
 
+.info-text {
+  text-align: justify;
+  padding: 5%;
+  line-height: 30px;
+}
+
 /*ACTIVITIES DROPDOWN*/
 .dropdown {
   position: relative;
