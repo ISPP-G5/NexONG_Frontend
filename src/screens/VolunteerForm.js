@@ -13,12 +13,19 @@ function VolunteerForm() {
     fontFamily: 'Helvetica',
     fontStyle: 'normal',
     fontWeight: '505',
-    fontSize: '1.25rem', // Use rem for font-size
+    fontSize: '1rem', // Use rem for font-size
     lineHeight: '1.75rem', // Use rem for line-height
     color: '#7C838A',
-    marginBottom: '1rem',
+    marginBottom: '0rem',
     
     
+  };
+  
+  const inputStyle = {
+    width: '80%', // Use 100% width for the input elements
+    borderRadius: '1rem',
+    margin: '0 auto',
+    boxSizing: 'border-box', // Include padding and border in the width calculation
   };
 
 
@@ -43,7 +50,7 @@ function VolunteerForm() {
           <input
           type='text'
           placeholder='Escriba su nombre'
-          style={{ borderRadius: '15px' }}  
+          style={inputStyle}  
           />
 
           <a style={labelStyle}>
@@ -52,7 +59,7 @@ function VolunteerForm() {
           <input
           type='text'
           placeholder='Escriba sus apellidos'
-          style={{ borderRadius: '15px' }}  
+          style={inputStyle} 
           />
 
           <a style={labelStyle}>
@@ -61,7 +68,7 @@ function VolunteerForm() {
           <input
           type='text'
           placeholder='Escriba su correo electrónico'
-          style={{ borderRadius: '15px' }}  
+          style={inputStyle} 
           />
 
           <a style={labelStyle}>
@@ -70,7 +77,7 @@ function VolunteerForm() {
           <input
           type='text'
           placeholder='Escriba su teléfono'
-          style={{ borderRadius: '15px' }}  
+          style={inputStyle} 
           />
 
           <a style={labelStyle}>
@@ -79,7 +86,7 @@ function VolunteerForm() {
           <input
           type='text'
           placeholder='Escriba aquí'
-          style={{ borderRadius: '15px' , marginTop: '1rem'}}  
+          style={inputStyle}
           />
 
           <a style={labelStyle}>
@@ -88,7 +95,7 @@ function VolunteerForm() {
           <input
           type='text'
           placeholder='Escriba aquí'
-          style={{ borderRadius: '15px' }}  
+          style={inputStyle}
           />        
           
       

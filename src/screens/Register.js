@@ -25,7 +25,7 @@ function Register() {
   };
 
   const labelStyle = {
-    width: '60%', // Use percentage for width
+    width: '100%', // Use percentage for width
     height: '2rem', // Use rem for height
     top: '5rem', // Use rem for top
     fontFamily: 'Helvetica',
@@ -36,6 +36,12 @@ function Register() {
     color: '#7C838A',
     
   };
+  const inputStyle = {
+    width: '80%', // Use 100% width for the input elements
+    borderRadius: '1rem',
+    margin: '0 auto',
+    boxSizing: 'border-box', // Include padding and border in the width calculation
+  };
 
 
   return (
@@ -43,27 +49,27 @@ function Register() {
       <Header />
 
       <div className='main'>
-        <div className='flex-container-register'>
+        <div className='flex-container-register' >
           <div className= 'h2-register'> Regístrese</div>
           <a style={labelStyle}>Correo electrónico</a>
           <input
             type='text'
-            placeholder='Escriba su correo electrónico'
-            style={{ borderRadius: '1rem' }} // Use rem for border-radius
+            placeholder='Repita su contraseña'
+            style={inputStyle}
           />
 
           <a style={labelStyle}>Contraseña</a>
           <input
             type='text'
-            placeholder='Escriba su contraseña'
-            style={{ borderRadius: '1rem' }} // Use rem for border-radius
+            placeholder='Repita su contraseña'
+            style={inputStyle}
           />
 
           <a style={labelStyle}>Confirme su contraseña</a>
-          <input
+            <input
             type='text'
             placeholder='Repita su contraseña'
-            style={{ borderRadius: '1rem' }} // Use rem for border-radius
+            style={inputStyle}
           />
 
           <div className="checkbox-group">
@@ -92,14 +98,14 @@ function Register() {
             </label>
           </div>
 
-          <button className='button' style={{ fontWeight: 'bold' }}>Crear cuenta</button>
+          <button className='button' style={{ fontWeight: '', marginTop: '4%', fontSize: '1.5rem', width: '60%' }}>Crear cuenta</button>
 
           <div className='text' style={{ fontFamily: 'Poppins', fontSize: '1rem', fontWeight: 400 }}>o</div>
 
-          <button className='button-google'>
+          <button className='button-google' style={{ fontWeight: 'bold' }}>
               <span>Registrarse con Google</span>
               <Link to="https://myaccount.google.com/">
-                  <img src={google} alt="Logo" className="button-google-img" />
+                  <img src={google} alt="Logo" className='button-google-img' />
               </Link>
           </button>
 

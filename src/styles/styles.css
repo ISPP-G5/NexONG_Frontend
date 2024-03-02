@@ -327,6 +327,12 @@ select{
     margin: -7% auto 0;
     margin-bottom:2%;
   }
+  /* Media Query for smaller screens */
+  @media screen and (max-width: 1000px) {
+    .flex-container-register {
+      width: 60%; /* Adjust the width for smaller screens */
+    }
+  }
 
   .h2-register {
     color: #000;
@@ -346,10 +352,10 @@ select{
 .checkbox-group {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Use rem for gap */
   align-items: flex-start; /* Align checkboxes to the start */
   width: 100%; /* Make sure checkboxes take the full width */
-  margin-left: 12%; /* Use rem for margin-left */
+  margin-left: 20%; /* Use rem for margin-left */
+  margin-bottom: -2%;
 }
 
   
@@ -384,7 +390,7 @@ select{
     background-color: #fff;
     display: inline-block;
     vertical-align: middle;
-    margin-right: 0.3125rem; /* Use rem for margin-right */
+    margin-right: 0.5rem; /* Use rem for margin-right */
 }
 
 .hidden-checkbox:checked + .checkbox-label .custom-checkbox {
@@ -409,11 +415,11 @@ select{
   justify-content: space-between;
   background-color: #ffffff;
   border-radius: 1rem;
-  height: 5rem;
+  height: 4rem;
   position: relative;
   width: fit-content;
   text-align: left;
-  font-size: 1.3rem; /* Adjust font size as needed */
+  font-size: 1rem; /* Adjust font size as needed */
   padding: 2% 4%; /* Use percentage for padding */
   font-family: "Inter", "Helvetica";
   border: 1px solid #b9b9b9;
@@ -424,9 +430,9 @@ select{
 
 
 .button-google-img {
-  height: 80%;
+  height: 40%;
   width: auto;
-  max-height: 100%;
+  max-height: 80%;
   margin-left: 6%;
 }
 
