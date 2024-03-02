@@ -1,5 +1,4 @@
 import logo from '../logo/macn-logo.png';
-import {Link} from 'react-router-dom';
 import '../styles/styles.css';
 
 function HeaderAdmin(){
@@ -7,7 +6,7 @@ function HeaderAdmin(){
         <div className='header-admin'>
             <img src={logo} alt='logo'/>
             <p>Manos Abiertas Con Norte</p>
-            <a href='/AdminProfile'>Admin</a>
+            <a href='/AdminPerfil'>Admin</a>
         </div>
         
     );
