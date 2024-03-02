@@ -12,7 +12,6 @@ function WhereWeAre() {
             <Header />
             <div className='div-container'>
                 <h1>Donde estamos</h1>
-                <Link to={'/'} style={{ color: 'black' }}> Home </Link>
             </div>
             <div className='homepage-container'>
                 <div className='flex-container' style={{marginLeft:'25%'}}>
