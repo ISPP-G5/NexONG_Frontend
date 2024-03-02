@@ -487,13 +487,8 @@ select{
 
   
 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Align checkboxes to the start */
-  width: 100%; /* Make sure checkboxes take the full width */
-  margin-left: 20%; /* Use rem for margin-left */
-  margin-bottom: -2%;
-}
+ 
+
 
   
 
