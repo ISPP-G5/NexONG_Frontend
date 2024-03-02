@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/styles.css'
+import MenuAdmin from '../components/MenuAdmin';
+import HeaderAdmin from '../components/HeaderAdmin';
 
 const adData = [{id: 1, nombre: "Simiente", email: "simtofe@manosabiertas.com", password: "cimientos", telefono: "609123324", direccion: "C. Manzana 11, 41009, Sevilla", imagen: "https://covalto-production-website.s3.amazonaws.com/Hero_Mobile_Cuenta_Personas_V1_1_8046e424ea.webp" }]
 
@@ -10,7 +12,13 @@ const AdminProfiles = () => {
         <ul>
           {adData.map(v => {
             return (
-                <div style={{ border: ' 5px outset grey', width: '50%', borderRadius: '20%', height: '85%', marginLeft:'25%'}}>
+              <div className='App'>
+                <HeaderAdmin />
+              <div className='admin-main'><MenuAdmin selected='Familias' /> 
+              <div className='vertical-line'></div>  
+
+                
+                <div className='update-container'>
                 <div style={{textAlign:'center', margin:'5%'}}> 
                   <img src={v.imagen} alt={"imagen de" + v.nombre} style={{ 
                       maxWidth: '60%', 
@@ -18,34 +26,24 @@ const AdminProfiles = () => {
                       borderRadius: '100%',
                     }}  />
                 </div>
-                <div style={{textAlign:'center'}}>
-                    <div className='field-text' style={{ textAlign: 'center', fontWeight: 'bold'}}
+                    
+                    <div style={{ alignSelf: 'center', fontWeight: 'bold'}}
                         >{v.nombre}</div>
-                </div>
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Email</div>
+
+                    <div className='bold-text'>Email</div>
                         <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>{v.email}</div>
 
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Teléfono</div>
+                    <div className='bold-text'>Teléfono</div>
                         <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>{v.telefono}</div>
 
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Contraseña</div>
+                    <div className='bold-text'>Contraseña</div>
                         <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>{v.password}</div>
-
-                    <div className='field-text'
-                    style={{ fontWeight: 'bold', marginLeft: '10%'}}
-                    >Dirección</div>
+                    
+                    <div className='bold-text'>Dirección</div>
                         <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>{v.direccion}</div>
 
-                    <div style={{textAlign:'center'}}>
-                    <button className='button'
-                        style={{ backgroundColor: 'aed6f1', maxHeight: '60%', margin:'4%'}}>
-                          <Link to={`/AdminProfileUpdate`}
+                    <button className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
+                          <Link to={`/adminPerfilActualizar`}
                                 style={{
                                   textDecoration: "none",
                                   color: "black",
@@ -53,7 +51,9 @@ const AdminProfiles = () => {
                                 }}>
                             Actualizar perfil
                           </Link>
-                    </button></div>
+                    </button>
+                    </div>
+                  </div>
                 </div>
               )
           }
