@@ -366,6 +366,10 @@ select{
   border-radius:'100%';
 }
 
+.mp-text{
+  margin-left: 3%;
+}
+
   
   /* sammy */
 .flex-container-register{
