@@ -1,36 +1,50 @@
 import '../styles/styles.css';
+import activities from '../logo/activities.bmp';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import {Link} from 'react-router-dom';
 
 function Activities() {
 	return(
 		<div classname="App">
-
             <Header />
-
             <div className='main'>
-                <div className='title-text'>ACTIVIDADES</div>
-                <div className='text'>Nuestro proyecto recibe ayudas y subvenciones de los
-                asociados y de diversas entidades públicas y privadas que hacen posible la
-                transformación social del entorno.</div>
-                <div className='text'>
-                    Nuestras actividades:
-                    <br/>
-                    <br/>
-                    <table className='five-links-table'>
-                        <tr>
-                            <td><a href='/campamentos'>Campanentos</a></td>
-                            <td><a href='/aula-abierta'>Aula abierta</a></td>
-                            <td><a href='/aula-convivencia'>Aula de convivencia</a></td>
-                            <td><a href='/talleres-familiares'>Talleres familiares</a></td>
-                            <td><a href='/club-verano'>Club de verano</a></td>
-                        </tr>
-                    </table>
+                <img src={activities} alt="Activities" className='background-pic'/> 
+                <div className='bg-text'>
+                    <h1>ACTIVIDADES</h1>
+                    <h3>Nuestro proyecto recibe ayudas y subvenciones de los
+                    asociados y de diversas entidades públicas y privadas que hacen posible la
+                    transformación social del entorno.</h3>
+                </div>
+                <div className='homepage-container'>
+                    <div className='flex-container'>
+                    <h1>Campamentos</h1>
+                    <h3>Pequeña desc explicativa</h3>
+                    <Link to='/campamentos' className='button'>Leer más</Link>
+                    </div>
+                    <div className='flex-container'>
+                    <h1>Aula abierta</h1>
+                    <h3>Pequeña desc</h3>
+                    <Link to='/aula.abierta' className='button'>Leer más</Link>
+                    </div>
+                    <div className='flex-container'>
+                    <h1>Aula de convivencia</h1>
+                    <h3>Pequeña desc</h3>
+                    <Link to='/aula-convivencia' className='button'>Leer más</Link>
+                    </div>
+                    <div className='flex-container'>
+                    <h1>Talleres familiares</h1>
+                    <h3>Pequeña desc</h3>
+                    <Link to='/talleres-familiares' className='button'>Leer más</Link>
+                    </div>
+                    <div className='flex-container'>
+                    <h1>Club de verano</h1>
+                    <h3>Pequeña desc</h3>
+                    <Link to='/club-verano' className='button'>Leer más</Link>
+                    </div>
                 </div>
             </div>
-
-            <Footer />
-
+            <Footer/>
 		</div>
 	);
 }
