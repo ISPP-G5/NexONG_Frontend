@@ -12,7 +12,22 @@ const useStyles = makeStyles(() => ({
   lessonsContainer: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginTop: '2rem', 
     
+  },
+
+  addClassButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: '10%', // Add this line
+    marginTop: '2%',
+    height: '10%',
+    backgroundColor: '#fff',
+    border: 'none',
+    color: '#2196f3',
+    fontSize: '2rem',
+    cursor: 'pointer',
   },
 
   deleteButton: {
@@ -72,18 +87,26 @@ const AdminClases = () => {
 
   
 
-  const Label = () => {
+  const AddClass = () => {
+
     return (
-      <div className="label">
-        
-        <div className="label text-wrapper">
-        <AddCircleIcon fontSize='large' />
+
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+        <button className={classes.addClassButton}>
+
+          <AddCircleIcon fontSize='large' />
+
           Crear Clase
-        </div>
+
+        </button>
+
       </div>
+
     );
   };
 
+  
   return (
     <div className="App">
       <HeaderAdmin />
@@ -98,7 +121,7 @@ const AdminClases = () => {
           
                 
                 {/* INTRODUCE HERE YOUR IMPLEMENTATIONS */}
-                <Label />
+                <AddClass />
 
                 <div className={classes.lessonsContainer} style={{ marginRight: '20rem'}}>
                   {lessons.map((lesson, index) => (
