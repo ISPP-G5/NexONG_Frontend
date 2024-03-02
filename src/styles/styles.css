@@ -712,11 +712,15 @@ select{
   justify-content: right;
   
 }
+.card-info-proyecto-title{
+  flex: 1;
+  font-size: 2rem;
+}
 .card-info-proyecto-text{
   flex: 1;
-
-
+  font-size: 1rem;
 }
+
 
 .family-info {
     flex: 0.30;
