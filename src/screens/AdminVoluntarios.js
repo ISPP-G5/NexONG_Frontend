@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../styles/styles.css';
 import { Link } from 'react-router-dom';
 import HeaderAdmin from '../components/HeaderAdmin';
 import MenuAdmin from '../components/MenuAdmin';
@@ -51,8 +50,6 @@ const AVoluntarios = () => {
     <div className='App'>
       <HeaderAdmin />
       <div className='admin-main'>
-
-        {/* Change selected for the name of your screen */}
         <MenuAdmin selected='Familias' />
         <div className='vertical-line'></div>
         <div className='admin-container'>
@@ -73,13 +70,9 @@ const AVoluntarios = () => {
             </div>
             {cambiaVista ? <RenderList data={solicitudesData} isVolunteers={false} /> : <RenderList data={voluntariosData} isVolunteers={true} />}
           </main>
-
         </div>
       </div>
     </div>
-
-
-
   );
 };
 
