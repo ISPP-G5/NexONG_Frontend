@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/styles.css';
+import { Link } from 'react-router-dom';
 
 const voluntariosData = [
   { id: 1, nombre: "Juan", edad: "35", imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeYLAt1xGn7s3kcdZ7HwKFeu2gAfqBk8Y1DQ&usqp=CAU" },
@@ -45,7 +46,11 @@ const AVoluntarios = () => {
   const [cambiaVista, setCambiaVista] = useState(false);
 
   return (
-    <>
+    <main>
+      <div style={{display:'flex',flexDirection:'row', alignItems:'end',justifyContent:'flex-end', marginTop:'1%'}}>
+      <img src={'https://lamenteesmaravillosa.com/wp-content/uploads/2018/09/hombre-creido-pensando-que-sabe.jpg'} alt={"imagen de admin "} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius:'50%'}}/>
+        <Link to={'/'} style={{marginRight:'2%',color:'black',fontSize:'20px'}}>Admin</Link> 
+      </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <ul className='ul' style={{ margin: '10px 0' }}>
           <li className='li' style={{ marginRight: '10px' }}>
@@ -57,7 +62,7 @@ const AVoluntarios = () => {
         </ul>
       </div>
       {cambiaVista ? <RenderList data={solicitudesData} isVolunteers={false} /> : <RenderList data={voluntariosData} isVolunteers={true} />}
-    </>
+    </main>
   );
 };
 
