@@ -21,6 +21,7 @@ import AdminCrearProyecto from './AdminCrearProyecto';
 import VolunteerForm from './VolunteerForm';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
+import Agenda from './Agenda';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/registrarse" element={<Register />} />
             <Route path="/iniciar-sesion" element={<LogIn />} />
             <Route path="/actividades" element={<Activities />} />
+            <Route path="/agenda" element={<Agenda />} />
             <Route path="/aula-abierta" element={<OpenRoom />} />
             <Route path="/campamentos" element={<Camps />} />
             <Route path="/aula-convivencia" element={<CoexistenceRoom />} />
