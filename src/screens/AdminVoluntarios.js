@@ -15,14 +15,14 @@ const solicitudesData = [
 ];
 
 const RenderList = ({ data, isVolunteers }) => (
-  <ul>
+  <ul className='ul-Volunteer'>
     {data.map(v => (
-      <li className='flex-container' key={v.id} style={{ marginBottom: '10px' }}>
+      <li className='flex-container-Volunteer' key={v.id} style={{ marginBottom: '10px' }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
             src={v.imagen}
             alt={"imagen de " + v.nombre}
-            style={{ maxWidth: '40%', maxHeight: '40%', objectFit: 'cover' }}
+            style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'cover' }}
           />
           <div style={{ marginLeft: '5px' }}>
             <h4>Nombre: {v.nombre}</h4>
@@ -30,10 +30,10 @@ const RenderList = ({ data, isVolunteers }) => (
             {!isVolunteers && <h4>Información: {v.informacion}</h4>}
           </div>
           {!isVolunteers && (
-            <div style={{ marginLeft: '10px' }}>
-              <button className='button' style={{ backgroundColor: 'transparent', width: '120%' }}>Descargar Archivos</button>
-              <button className='button' style={{ backgroundColor: 'lightgreen', width: '120%' }}>Aceptar</button>
-              <button className='button' style={{ backgroundColor: 'red', width: '120%' }}>Denegar</button>
+            <div style={{ marginLeft: '0%' }}>
+              <button className='button' style={{ backgroundColor: 'transparent', width: '100%' }}>Descargar Archivos</button>
+              <button className='button' style={{ backgroundColor: 'lightgreen', width: '100%' }}>Aceptar</button>
+              <button className='button' style={{ backgroundColor: 'red', width: '100%' }}>Denegar</button>
             </div>
           )}
         </div>
@@ -48,15 +48,15 @@ const AVoluntarios = () => {
   return (
     <main>
       <div style={{display:'flex',flexDirection:'row', alignItems:'end',justifyContent:'flex-end', marginTop:'1%'}}>
-      <img src={'https://lamenteesmaravillosa.com/wp-content/uploads/2018/09/hombre-creido-pensando-que-sabe.jpg'} alt={"imagen de admin "} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius:'50%'}}/>
-        <Link to={'/'} style={{marginRight:'2%',color:'black',fontSize:'20px'}}>Admin</Link> 
+      <img src={'https://lamenteesmaravillosa.com/wp-content/uploads/2018/09/hombre-creido-pensando-que-sabe.jpg'} alt={"imagen de admin "} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius:'50%'}}/>
+        <Link to={'/'} style={{marginRight:'2%',color:'black',fontSize:'20px',marginBottom:'20px'}}>Admin</Link> 
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <ul className='ul' style={{ margin: '10px 0' }}>
-          <li className='li' style={{ marginRight: '10px' }}>
+          <li style={{ marginRight: '10px' }}>
             <a onClick={() => setCambiaVista(false)}>Nuestros Voluntarios</a>
           </li>
-          <li className='li' style={{ marginLeft: '10px' }}>
+          <li style={{ marginLeft: '10px' }}>
             <a onClick={() => setCambiaVista(true)}>Solicitudes</a>
           </li>
         </ul>

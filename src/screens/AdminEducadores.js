@@ -9,15 +9,15 @@ const educadoresData = [{ id: 1, nombre: "Juan", edad: "35", imagen: "https://en
 const Voluntarios = () => {
   return (
     <>
-      <ul>
+      <ul className='ul-Volunteer'>
       <a  href='http://localhost:3000/adminEducadores/añadir' style={{ display: "flex", justifyContent: "center" , color:'black', marginBottom:'0.5%'}}>Añadir educador</a>
         {educadoresData.map(v => {
           return (
-            <li className='flex-container' key={v.id} style={{ marginBottom: '10px' }}>
+            <li className='flex-container-Volunteer' key={v.id} style={{ marginBottom: '10px' }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img src={v.imagen} alt={"imagen de" + v.nombre} style={{
-                  maxWidth: '40%',
-                  maxHeight: '40%',
+                  maxWidth: '200px',
+                  maxHeight: '200px',
                   objectFit: 'cover',
                 }} />
                 <div style={{ marginLeft: '5px' }}>
@@ -40,14 +40,13 @@ const Voluntarios = () => {
 
 const AEducadores = () => {
   return (
-    <main>
+    <>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end', justifyContent: 'flex-end', marginTop: '1%' }}>
-        <img src={'https://lamenteesmaravillosa.com/wp-content/uploads/2018/09/hombre-creido-pensando-que-sabe.jpg'} alt={"imagen de admin "} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '50%' }} />
-        <Link to={'/'} style={{ marginRight: '2%', color: 'black', fontSize: '20px' }}>Admin</Link>
+        <img src={'https://lamenteesmaravillosa.com/wp-content/uploads/2018/09/hombre-creido-pensando-que-sabe.jpg'} alt={"imagen de admin "} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '50%' }} />
+        <Link to={'/'} style={{ marginRight: '2%', color: 'black', fontSize: '20px', marginBottom:'20px' }}>Admin</Link>
       </div>
       <Voluntarios />
-
-    </main>
+    </>
 
   );
 }
