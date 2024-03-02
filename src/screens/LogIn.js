@@ -2,6 +2,7 @@ import '../styles/styles.css'
 import google from '../logo/google.svg'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import {Link} from 'react-router-dom';
 
 function LogIn() {
 
@@ -56,7 +57,7 @@ function LogIn() {
                       marginTop: '4%',
                       fontSize: '1.5rem',
                       width: '60%' }}>
-                        Crear cuenta
+                        Iniciar sesión
                     </button>
 
                     <div className='text' style={{
@@ -67,8 +68,21 @@ function LogIn() {
 
                     <button className='button-google' style={{ fontWeight: 'bold' }}>
                         <span>Iniciar sesión con Google</span>
-                        <img src={google} alt="Logo" className='button-google-img' />
+                        <Link to="https://myaccount.google.com/">
+                            <img src={google} alt="Logo" className='button-google-img' />
+                        </Link>
                     </button>
+
+                    <div className='text' style={{
+                      fontFamily: 'Poppins',
+                      fontSize: '1rem',
+                      fontWeight: 400,
+                      color: 'gray' }}>
+                        ¿No tiene cuenta?
+                        <Link to="/registrarse" style={{ color: '#6FC0DB' }}>
+                            Regístrese aquí
+                        </Link>.
+                    </div>
 
                 </div>
 
