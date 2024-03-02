@@ -18,7 +18,7 @@ function AdminProyectos() {
                 {/* Example of screen with several screens inside */}
                 <div className='pantallas'>
                     <a href='/AdminProyectos'>Nuestros Proyectos</a>
-                    <a href='/AdminCrearProyecto' className='selected-pantalla'>Crear Proyecto Nuevo</a>
+                    <a href='/AdminCrearProyecto' className='selected-pantalla'>Añadir Proyecto</a>
                 </div>
             
             </div>
