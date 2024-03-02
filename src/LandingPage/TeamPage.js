@@ -18,6 +18,8 @@ import maria from './Members/Maria.jpg';
 import ivan from './Members/Iván.jpg.png';
 import samuel from './Members/samuel.jpg';
 import marta from './Members/marta.PNG';
+import hito from './HTML/hito.png';
+
 
 
 
@@ -26,7 +28,7 @@ function LandingPage() {
     <div className='lp-bg'>
         <div className='team-container'>
             <Link to='/aterrizaje'> 
-            <img src={logo} style={{ marginLeft:'10%', width:'80%', borderRadius:'5%'}}/>
+            <img src={logo} style={{ marginLeft:'30%', width:'40%', borderRadius:'5%'}}/>
             </Link> 
 
             <h1 style={{textAlign:'center', margin:'3%'}}>Liderazgo</h1>
@@ -107,6 +109,17 @@ function LandingPage() {
                 <img src={marta} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Marta González</p></div>
             </div>
+
+            <h1 style={{textAlign:'center', margin:'3%'}}>Desarrollo</h1>
+
+            <div style={{marginLeft:'5%'}}>
+                <Link to='/hitos'>
+                    <img src={hito} style={{marginLeft: '3%', width:'10%', borderRadius:'5%'}}/>
+                    <p>Archivo de hitos del proyecto.</p>
+                </Link>
+            </div>
+
+
         </div>
     </div>
      );
