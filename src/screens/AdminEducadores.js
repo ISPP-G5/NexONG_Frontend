@@ -12,7 +12,7 @@ const Voluntarios = () => {
   return (
     <>
       <ul className='ul-Volunteer'>
-        <a href='http://localhost:3000/adminEducadores/añadir' style={{ display: "flex", justifyContent: "center", color: 'black', marginBottom: '0.5%' }}>Añadir educador</a>
+        <a href='http://localhost:3000/admin-educadores/añadir' style={{ display: "flex", justifyContent: "center", color: 'black', marginBottom: '0.5%' }}>Añadir educador</a>
         {educadoresData.map(v => {
           return (
             <li className='flex-container-Volunteer' key={v.id} style={{ marginBottom: '10px' }}>

@@ -19,8 +19,7 @@ import AVoluntarios from './AdminVoluntarios';
 import AEducadores from './AdminEducadores';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
-import AdminPlantilla from './AdminPlantilla';
-
+import AEducadoresAdd from './AdminEducadoresAdd';
 
 function App() {
   return (
@@ -45,6 +44,8 @@ function App() {
             <Route path="/admin-educadores" element={<AEducadores />} />
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
+            <Route path="/admin-educadores/añadir" exact={true} element={<AEducadoresAdd />} />
+
 
 
             </Routes>
