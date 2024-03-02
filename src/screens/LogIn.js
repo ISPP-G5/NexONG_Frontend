@@ -36,7 +36,7 @@ function LogIn() {
 
             <div className='main'>
 
-                <div className='flex-container' style={flexContainerStyle}>
+                <div className='flex-container-register' style={flexContainerStyle}>
 
                     <h2>Inicie sesión</h2>
                     <a style={labelStyle}>Correo electrónico</a>
