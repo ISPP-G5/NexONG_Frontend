@@ -16,15 +16,17 @@ function OpenRoom() {
                         como actividades de relajacion y reflexión
                     </h3>
                 </div>
-                <div className='flex-container'>
-                    <h3>
+                <div className='info-text'>
+                    <h4>
                         El programa escolar está destinado a mejorar las
                         perspectivas escolares de los chicos y chicas.
+                        <br/>
                         <br/>
                         Trabajamos a través del refuerzo de destrezas básicas,
                         de la mejora en el hábito lector y de la incorporación
                         plena al ritmo de trabajo en el aula en la exigencia de
                         las diferentes materias.
+                        <br/>
                         <br/>
                         Aportamos a cada alumno/a nuevas herramientas en su
                         proceso de aprendizaje de tal forma que pueda aplicarlas
@@ -32,7 +34,7 @@ function OpenRoom() {
                         evolutivo y le sean de utilidad en posteriores aprendizajes.
                         En la intervención además se trabajan las dificultades
                         específicas que se presenten en las diferentes asignaturas.
-                    </h3>
+                    </h4>
                 </div>
             </div>
             <Footer/>

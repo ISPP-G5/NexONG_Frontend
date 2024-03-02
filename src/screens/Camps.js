@@ -16,8 +16,8 @@ function Camps() {
                         de educación primaria y secundaria
                     </h3>
                 </div>
-                <div className='flex-container'>
-                    <h3>
+                <div className='info-text'>
+                    <h4>
                         Esta actividad la hemos realizado como cada año junto
                         a la Asociación Rutas Sevilla como culmen al trabajo
                         desarrollado durante el curso, ofreciendo a los chavales
@@ -26,7 +26,7 @@ function Camps() {
                         fomentar los valores y actitudes trabajados durante el año,
                         en coherencia y responsabilidad con la línea mantenida
                         durante el curso.
-                    </h3>
+                    </h4>
                 </div>
             </div>
             <Footer/>

@@ -15,8 +15,8 @@ function SummerClub() {
                         Club de verano para alumnos de primaria
                     </h3>
                 </div>
-                <div className='flex-container'>
-                    <h3>
+                <div className='info-text'>
+                    <h4>
                         Organizado por Asociación Manos Abiertas y animado por un
                         grupo de jóvenes lasalianos de diferentes procedencias de
                         Andalucía que se comprometen de forma voluntaria y
@@ -28,7 +28,7 @@ function SummerClub() {
                         niñas en esta actividad repleta de talleres, juegos, valores,
                         excursiones y convivencias, entre otras muchas dinámicas que
                         se llevan a cabo.
-                    </h3>
+                    </h4>
                 </div>
             </div>
             <Footer/>
