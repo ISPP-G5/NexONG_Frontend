@@ -19,27 +19,40 @@ function Activities() {
                 <div className='homepage-container'>
                     <div className='flex-container'>
                     <h1>Campamentos</h1>
-                    <h3>Pequeña desc explicativa</h3>
+                    <h3>
+                        Realización de campamentos de verano para menores
+                        de educación primaria y secundaria
+                    </h3>
                     <Link to='/campamentos' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Aula abierta</h1>
-                    <h3>Pequeña desc</h3>
+                    <h3>
+                        Refuerzo educativo para menores entre 6 y 18 años así
+                        como actividades de relajacion y reflexión
+                    </h3>
                     <Link to='/aula.abierta' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Aula de convivencia</h1>
-                    <h3>Pequeña desc</h3>
+                    <h3>
+                        Atención a alumnos con conductas disruptivas para menores entre
+                        6 y 18 años así como actividades de relajacion y reflexión
+                    </h3>
                     <Link to='/aula-convivencia' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Talleres familiares</h1>
-                    <h3>Pequeña desc</h3>
+                    <h3>
+                        Actividades formativas y de apoyo para las familias
+                    </h3>
                     <Link to='/talleres-familiares' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Club de verano</h1>
-                    <h3>Pequeña desc</h3>
+                    <h3>
+                        Club de verano para alumnos de primaria
+                    </h3>
                     <Link to='/club-verano' className='button'>Leer más</Link>
                     </div>
                 </div>
