@@ -112,9 +112,9 @@ function LandingPage() {
 
             <h1 style={{textAlign:'center', margin:'3%'}}>Desarrollo</h1>
 
-            <div style={{marginLeft:'5%'}}>
-                <Link to='/hitos'>
-                    <img src={hito} style={{marginLeft: '3%', width:'10%', borderRadius:'5%'}}/>
+            <div style={{textAlign:'center'}}>
+                <Link to='/hitos' rel="noopener noreferrer" target = "_blank">
+                    <img src={hito} style={{ width:'10%'}}/>
                     <p>Archivo de hitos del proyecto.</p>
                 </Link>
             </div>
