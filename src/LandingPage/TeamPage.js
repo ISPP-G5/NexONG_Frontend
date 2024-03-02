@@ -43,7 +43,9 @@ function LandingPage() {
                 <img src={claudia} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Claudia Gilabert</p></div>
             </div>
+            
             <h1 style={{textAlign:'center', margin:'3%'}}>Back-End Programmers</h1>
+            
             <div className='team-grid'>
                 <div><h4>Team Member</h4>
                 <img src={felix} style={{width:'20%', borderRadius:'100%'}}/>
@@ -55,9 +57,11 @@ function LandingPage() {
 
                 <div><h4>Team Member</h4>
                 <img src={ortiz} style={{width:'20%', borderRadius:'100%'}}/>
-                <p>Manuel Ortiz</p></div>
+                <p>Manuel Ortiz</p></div> 
+            </div>
 
-                <div><h4>Team Member</h4>
+            <div className='team-grid'>
+            <div><h4>Team Member</h4>
                 <img src={pedro} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Pedro López</p></div>
 
@@ -69,6 +73,9 @@ function LandingPage() {
                 <img src={aurora} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Aurora Navas</p></div>
             </div>
+
+            <h1 style={{textAlign:'center', margin:'3%'}}>Front-End Programmers</h1>
+
             <div className='team-grid'>
             <div><h4>Team Member</h4>
                 <img src={fran} style={{width:'20%', borderRadius:'100%'}}/>
@@ -81,8 +88,9 @@ function LandingPage() {
                 <div><h4>Team Member</h4>
                 <img src={barcia} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>Manuel Barcia</p></div>
-
-                <div><h4>Team Member</h4>
+            </div>
+            <div className='team-grid'>
+            <div><h4>Team Member</h4>
                 <img src={maria} style={{width:'20%', borderRadius:'100%'}}/>
                 <p>María Núñez</p></div>
 
