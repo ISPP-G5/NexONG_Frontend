@@ -17,6 +17,8 @@ import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
+import LandingPage from '../LandingPage/LandingPage';
+import TeamPage from '../LandingPage/TeamPage';
 
 function App() {
   return (
@@ -35,10 +37,13 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
-            <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
-            <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
+            <Route path="/adminActualizar" exact={true} element={<AdminProfileUpdate />} />
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
+            <Route path="/aterrizaje" exact={true} element={<LandingPage />} />
+            <Route path="/equipo" exact={true} element={<TeamPage />} />
+
 
             </Routes>
     </Router>
