@@ -40,11 +40,11 @@ function App() {
             <Route path="/club-verano" element={<SummerClub />} />
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
-            <Route path="/admin-voluntarios" element={<AVoluntarios />} />
-            <Route path="/admin-educadores" element={<AEducadores />} />
+            <Route path="/adminVoluntarios" element={<AVoluntarios />} />
+            <Route path="/adminEducadores" element={<AEducadores />} />
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
-            <Route path="/admin-educadores/añadir" exact={true} element={<AEducadoresAdd />} />
+            <Route path="/adminEducadores/añadir" exact={true} element={<AEducadoresAdd />} />
 
 
 
