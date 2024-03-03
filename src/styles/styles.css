@@ -619,6 +619,31 @@ tbody tr:nth-child(odd) {
   position: relative;
 }
 
+/* manolo */
+.text{
+  margin-left: 200px; 
+  margin-right: 200px; 
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.contentHistory {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.imageHistory {
+  max-width: 65%;
+  margin-right: 20px;
+}
+
+.textHistory {
+  width: 50%;
+}
+
+
 @media (max-width: 768px) {
 
   .footer .text { 
@@ -897,6 +922,7 @@ tbody tr:nth-child(odd) {
 }
 
 
+
 /*Iván*/
 .flex-container2{
   background-color: #c4810d00;
@@ -917,6 +943,7 @@ tbody tr:nth-child(odd) {
   margin-top: 100px ;
 
 }
+
 
 .box {
   height: 21rem;
@@ -979,5 +1006,4 @@ tbody tr:nth-child(odd) {
   top: 70%; /* Adjust as needed */
   width: 1.5rem;
 }
-
 
