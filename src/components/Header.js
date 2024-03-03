@@ -14,9 +14,13 @@ function Header(){
             <li className='login'><Link to="/iniciar-sesion">Iniciar Sesión</Link></li> 
             <li><Link to="/registrarse">Registrarse</Link></li>
             <li><Link to="/sugerencias">Sugerencias</Link></li>
-            <li><Link to="/donaciones">Donaciones</Link></li>
+            
+
+            <li><Link to="/voluntarios">Voluntariado</Link></li>
+
             <li><Link to="/donaciones">Voluntariado</Link></li>
             <li><Link to="/agenda">Agenda</Link></li>
+
             <li className="dropdown">
                 <Link to="/actividades">Actividades</Link>
                 <div className="dropdown-content">
@@ -43,4 +47,5 @@ function Header(){
         
     );
 }
+
 export default Header; 
