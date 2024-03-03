@@ -1,4 +1,3 @@
-
 import Donation from './Donation';
 import Suggestions from './Suggestions';
 import  Register from './Register';
@@ -17,9 +16,7 @@ import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
-
 import Volunteers from './Volunteers';
-
 import Agenda from './Agenda';
 import AdminEventos from './AdminEventos';
 import AdminClases from './AdminClases';
@@ -46,8 +43,8 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
-            <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
-            <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
+            <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
@@ -58,4 +55,5 @@ function App() {
     </Router>
   );
 }
+
 export default App;
