@@ -820,3 +820,65 @@ select{
   background-color: #ff3c32;
   box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }
+.box {
+  height: 21rem;
+  width: 28rem;
+  margin-bottom: 2rem;
+  margin-right: 0%;
+  margin-left: 5%;
+}
+
+.box .clase {
+  height: 21rem;
+  left: 0;
+  position: relative;
+  top: 0;
+  width: 28.5rem;
+}
+
+.box .overlap-group {
+  height: 21rem;
+  width: 28rem;
+}
+
+.box .rectangle {
+  background-color: #e6f8ff;
+  border-radius: 2.5rem;
+  height: 17rem;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 28rem;
+}
+
+.box .nombre-educador {
+  color: #000000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 21px;
+  text-align: left;
+  font-weight: 400;
+  height: 17.5rem;
+  left: 3rem;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 1.75rem;
+  width: 15rem;
+}
+
+.box .edit-fill {
+  height: 1.5rem;
+  left: 70%; /* Adjust as needed */
+  position: absolute;
+  top: 70%; /* Adjust as needed */
+  width: 1.5rem;
+}
+
+.box .trash {
+  height: 1.5rem;
+  left: 80%; /* Adjust as needed */
+  position: absolute;
+  top: 70%; /* Adjust as needed */
+  width: 1.5rem;
+}
+
