@@ -5,7 +5,7 @@ import HeaderAdmin from '../components/HeaderAdmin';
 import MenuAdmin from '../components/MenuAdmin';
 
 function AdminEducadores() {
-   
+  
   return (
     <div className='App'>
         <HeaderAdmin />

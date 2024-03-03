@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/styles.css';
 import HeaderAdmin from '../components/HeaderAdmin';
 import MenuAdmin from '../components/MenuAdmin';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import PersonCard from '../components/PeopleCard';
 
 const educadores = [
   {
@@ -46,18 +45,13 @@ function AdminEducadores() {
           </div>
           
           {educadoresList.map((educador, index) => (
-            <div className='card-info' key={index}>
-              <div className='proyecto-info'>
-                <p>{educador.nombre}</p>
-                <p>{educador.apellido}</p>
-              </div>
-              <div className='vertical-line'></div>
-              <div className='edit-delete-icons'>
-                <EditIcon className='edit-fill' style={{ marginRight: '1rem' }} />
-                <DeleteIcon className='trash' onClick={() => handleDelete(index)} />
-              </div>
-            </div>
-          ))}
+          <PersonCard 
+            key={index} 
+            person={educador} 
+            onDelete={() => handleDelete(index)} 
+          />
+        ))}
+         
         </div>
       </div>
     </div>

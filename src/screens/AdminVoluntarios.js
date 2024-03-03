@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/styles.css';
 import HeaderAdmin from '../components/HeaderAdmin';
 import MenuAdmin from '../components/MenuAdmin';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-
+import PersonCard from '../components/PeopleCard';
 const voluntario = [
   {
     nombre: 'Nombre Voluntario 1',
@@ -45,19 +43,7 @@ function AdminVoluntarios() {
             <Link to='/AdminAñadirVoluntario'>Añadir voluntario</Link>
           </div>
           {voluntariosList.map((voluntario, index) => (
-            <div className='card-info' key={index} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div className='family-request'>
-                <img src='https://via.placeholder.com/150' alt='placeholder' />
-                <div className='family-info'>
-                  <p>{voluntario.nombre}</p>
-                  <p>{voluntario.edad}</p>
-                </div>
-              </div>
-              <div className='edit-delete-icons'>
-                <EditIcon className='edit-fill' style={{ marginRight: '1rem' }} />
-                <DeleteIcon className='trash' onClick={() => handleDelete(index)} />
-              </div>
-            </div>
+            <PersonCard key={index} person={voluntario} onDelete={() => handleDelete(index)} />
           ))}
         </div>
       </div>
