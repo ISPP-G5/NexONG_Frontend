@@ -21,27 +21,27 @@ function Association() {
                     <div className='flex-container'>
                     <h1>Nosotros</h1>
                     <h3>Pequeña desc explicativa</h3>
-                    <Link to='/campamentos' className='button'>Leer más</Link>
+                    <Link to='/nosotros' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Historia</h1>
                     <h3>Pequeña desc</h3>
-                    <Link to='/aula.abierta' className='button'>Leer más</Link>
+                    <Link to='/historia' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Mision, Visión y Valores</h1>
                     <h3>Pequeña desc</h3>
-                    <Link to='/aula-convivencia' className='button'>Leer más</Link>
+                    <Link to='/mision-vision-valores' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Dónde estamos</h1>
                     <h3>Pequeña desc</h3>
-                    <Link to='/talleres-familiares' className='button'>Leer más</Link>
+                    <Link to='/' className='button'>Leer más</Link>
                     </div>
                     <div className='flex-container'>
                     <h1>Entidades Colaboradoras</h1>
                     <h3>Pequeña desc</h3>
-                    <Link to='/club-verano' className='button'>Leer más</Link>
+                    <Link to='/' className='button'>Leer más</Link>
                     </div>
                 </div>
             </div>

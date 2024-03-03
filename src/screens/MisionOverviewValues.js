@@ -1,5 +1,5 @@
 import React from 'react';
-import activities from '../logo/activities.bmp';
+import people from '../logo/sllide.png';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/styles.css';
@@ -9,7 +9,7 @@ function MisionOverviewValues() {
         <div className="App">
             <Header/>
             <div className='main'>
-            <img src={activities} alt="Activities" className='background-pic'/> 
+            <img src={people} alt="People" className='background-pic'/> 
                 <div className='bg-text'>
                     <h1>MISIÓN</h1>
                     <h3>
