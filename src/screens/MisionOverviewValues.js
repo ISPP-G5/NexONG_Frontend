@@ -1,5 +1,5 @@
 import React from 'react';
-import people from '../logo/sllide.png';
+import people from '../logo/sllider.png';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/styles.css';
