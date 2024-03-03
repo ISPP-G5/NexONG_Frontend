@@ -1,4 +1,4 @@
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1dad745d1a86432c99b2d96cdf756fde)](https://app.codacy.com/gh/ISPP-G5/NexONG_Frontend/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
