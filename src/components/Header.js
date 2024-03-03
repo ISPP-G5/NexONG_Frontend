@@ -14,8 +14,13 @@ function Header(){
             <li className='login'><Link to="/iniciar-sesion">Iniciar Sesión</Link></li> 
             <li><Link to="/registrarse">Registrarse</Link></li>
             <li><Link to="/sugerencias">Sugerencias</Link></li>
-            <li><Link to="/donaciones">Donaciones</Link></li>
+            
+
+            <li><Link to="/voluntarios">Voluntariado</Link></li>
+
             <li><Link to="/donaciones">Voluntariado</Link></li>
+            <li><Link to="/agenda">Agenda</Link></li>
+
             <li className="dropdown">
                 <Link to="/actividades">Actividades</Link>
                 <div className="dropdown-content">
@@ -32,8 +37,16 @@ function Header(){
                     <Link to="/">Nosotros</Link>
                     <Link to="/">Historia</Link>
                     <Link to="/">Misión, Visión y Valores</Link>
+
                     <Link to="/donde-estamos">Dónde estamos</Link>
                     <Link to="/entidades-colaboradoras">Entidades Colaboradoras</Link>
+
+                    <Link to="/">La Salle</Link>
+                    <Link to="/">Dónde estamos</Link>
+                    <Link to="/">Organización</Link>
+                    <Link to="/transparencia">Transparencia</Link>
+                    <Link to="/campamentos">Entidades Colaboradoras</Link>
+
                 </div>
             </li>
         </ul>
