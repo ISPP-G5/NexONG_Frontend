@@ -619,6 +619,31 @@ tbody tr:nth-child(odd) {
   position: relative;
 }
 
+/* manolo */
+.text{
+  margin-left: 200px; 
+  margin-right: 200px; 
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.contentHistory {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.imageHistory {
+  max-width: 65%;
+  margin-right: 20px;
+}
+
+.textHistory {
+  width: 50%;
+}
+
+
 @media (max-width: 768px) {
 
   .footer .text { 
@@ -895,6 +920,7 @@ tbody tr:nth-child(odd) {
   background-color: #ff3c32;
   box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }
+
 .box {
   height: 21rem;
   width: 28rem;
@@ -956,4 +982,3 @@ tbody tr:nth-child(odd) {
   top: 70%; /* Adjust as needed */
   width: 1.5rem;
 }
-

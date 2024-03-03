@@ -15,6 +15,10 @@ import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
+import AboutUs from './AboutUs';
+import History from './History';
+import MisionOverviewValues from './MisionOverviewValues';
+import Association from './Association';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
 
@@ -47,6 +51,13 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
+            <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
+            <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+            <Route path="/nosotros" element={<AboutUs />} />
+            <Route path="/historia" element={<History />} />
+            <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
+            <Route path="/asociacion" element={<Association />} />
+       
             <Route path="/transparencia" exact={true} element={<Transparency />} />
             <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
             <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
