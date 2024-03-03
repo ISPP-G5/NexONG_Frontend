@@ -921,6 +921,30 @@ tbody tr:nth-child(odd) {
   box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }
 
+
+
+/*Iván*/
+.flex-container2{
+  background-color: #c4810d00;
+  box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 5%;
+  position: relative;
+  width: 90%;
+  
+}
+
+.div-container{
+  background-color:#eaf5f8 ;
+  height: 120px;
+  margin-top: 100px ;
+
+}
+
+
 .box {
   height: 21rem;
   width: 28rem;
@@ -982,3 +1006,4 @@ tbody tr:nth-child(odd) {
   top: 70%; /* Adjust as needed */
   width: 1.5rem;
 }
+
