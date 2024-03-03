@@ -36,11 +36,6 @@ function Header(){
                 <div className="dropdown-content">
                     <Link to="/nosotros">Nosotros</Link>
                     <Link to="/historia">Historia</Link>
-                    <Link to="/mision-vision-valores">Misión, Visión y Valores</Link>
-                    <Link to="/">Nosotros</Link>
-                    <Link to="/">Historia</Link>
-                    <Link to="/">Misión, Visión y Valores</Link>
-                    <Link to="/">La Salle</Link>
                     <Link to="/donde-estamos">Dónde estamos</Link>
                     <Link to="/">Organización</Link>
                     <Link to="/transparencia">Transparencia</Link>
