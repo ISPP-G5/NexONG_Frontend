@@ -10,6 +10,30 @@
   margin-top: 15%;
 }
 
+.bg-text {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
+
+.background-pic {
+  filter: blur(4px);
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: relative;
+}
+
 .h1 {
   color: #000;
   font-family: "Poppins", Helvetica;
@@ -45,6 +69,15 @@
   position: relative;
   margin-bottom: 5%;
   padding: 1% 5% 1% 5%;
+}
+
+.p {
+  color: #000;
+  font-family: "Poppins", Helvetica;
+  text-align: justify;
+  position: relative;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 /*HEADER*/
@@ -109,6 +142,12 @@ li.dropdown {
   display: inline-block;
 }
 
+.info-text {
+  text-align: justify;
+  padding: 5%;
+  line-height: 30px;
+}
+
 /*ACTIVITIES DROPDOWN*/
 .dropdown {
   position: relative;
@@ -171,29 +210,6 @@ li.dropdown {
     box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
 
-.bg-text {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
-  font-weight: bold;
-  border: 3px solid #f1f1f1;
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  width: 80%;
-  padding: 20px;
-  text-align: center;
-}
-
-.background-pic {
-  filter: blur(4px);
-  width: 100%;
-  top: 0;
-  left: 0;
-  position: relative;
-}
 
 .flex-container{
     background-color: #fcfdff;
@@ -311,88 +327,133 @@ select{
   }
 
   
-  /* sammy */
-.flex-container-register{
-    background-color: #fcfdff;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+  /* sammy - register*/
+  .flex-container-register {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;;
-    justify-content: center;
-    gap: 10px;
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    background-color: #fcfdff;
+    border-radius: 2rem;
+    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+    gap: 1.5rem;
     padding: 4%;
     position: relative;
-    width: 22%;
-    margin: -7% auto 0; 
-}   
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    width: 25%;
+    margin: -7% auto 0;
+    margin-bottom:2%;
   }
+  /* Media Query for smaller screens */
+  @media screen and (max-width: 1000px) {
+    .flex-container-register {
+      width: 60%; /* Adjust the width for smaller screens */
+    }
+  }
+
+  .h2-register {
+    color: #000;
+    font-family: "Poppins", Helvetica;
+    font-size: 2rem;
+    padding-bottom: 1%;
+    font-weight: bold;
+    text-align: center; /* Remove 'text-align: center' from here */
+    line-height: 200%;
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    height: auto; /* Remove 'height' property */
+  }
+
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align checkboxes to the start */
+  width: 100%; /* Make sure checkboxes take the full width */
+  margin-left: 20%; /* Use rem for margin-left */
+  margin-bottom: -2%;
+}
+
   
+
 .checkbox-label {
   font-family: "Inter", "Helvetica";
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
+
+  font-size: 1rem; /* Use rem for font-size */
+  line-height: 1.375rem; /* Use rem for line-height */
   color: #000000;
   cursor: pointer;
   display: flex;
-  align-items: center; 
+  align-items: center;
+}
+.checkbox-label:hover {
+    color: #5595b9;
 }
 
-.checkbox-label:hover {
-  color: #5595b9; 
-}
 .hidden-checkbox {
-  position: absolute;
-  opacity: 0;
+    position: absolute;
+    opacity: 0;
 }
 
 .custom-checkbox {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem; /* Use rem for width */
+    height: 1.5rem; /* Use rem for height */
     font-family: "Inter", "Helvetica";
     border-radius: 50%;
     border: 2px solid #e6dddd;
     background-color: #fff;
     display: inline-block;
     vertical-align: middle;
-    margin-right: 5px; 
+    margin-right: 0.5rem; /* Use rem for margin-right */
 }
-
 
 .hidden-checkbox:checked + .checkbox-label .custom-checkbox {
-  background-color: #00eeff;
-  border-color: #d6c8c8;
+    background-color: #00eeff;
+    border-color: #d6c8c8;
 }
+
 .hidden-checkbox:checked + .checkbox-label .custom-checkbox::after {
-  content: ''; 
-  display: block;
-  width: 12px; 
-  height: 12px;
-  background-color: #ffffff; 
-  border-radius: 50%; 
-  margin: 6px; 
+    content: '';
+    display: block;
+    width: 0.75rem; /* Use rem for width */
+    height: 0.75rem; /* Use rem for height */
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 0.375rem; /* Use rem for margin */
 }
 
 .button-google {
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #ffffff;
-  border-radius: 10px;
-  height: 66px;
+  border-radius: 1rem;
+  height: 4rem;
   position: relative;
   width: fit-content;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  padding: 3% 10% 3% 10%;
-  height: fit-content;
+  text-align: left;
+  font-size: 1rem; /* Adjust font size as needed */
+  padding: 2% 4%; /* Use percentage for padding */
   font-family: "Inter", "Helvetica";
   border: 1px solid #b9b9b9;
+  box-sizing: border-box; /* Add box-sizing property */
+  
+
 }
+
+
+.button-google-img {
+  height: 40%;
+  width: auto;
+  max-height: 80%;
+  margin-left: 6%;
+}
+
+
+  
 
 /*FOOTER*/
 .footer{
