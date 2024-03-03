@@ -20,7 +20,7 @@ import AEducadores from './AdminEducadores';
 import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
 import AEducadoresAdd from './AdminEducadoresAdd';
-
+import VoluntariosAdd from './AdminVolunteersAdd';
 function App() {
   return (
     <Router>
@@ -44,7 +44,8 @@ function App() {
             <Route path="/adminEducadores" element={<AEducadores />} />
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
-            <Route path="/adminEducadores/añadir" exact={true} element={<AEducadoresAdd />} />
+            <Route path="/adminAñadirEducador" exact={true} element={<AEducadoresAdd />} />
+            <Route path="/adminAñadirVoluntario" exact={true} element={<VoluntariosAdd />} />
 
 
 
