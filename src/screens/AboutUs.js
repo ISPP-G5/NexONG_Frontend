@@ -1,4 +1,3 @@
-// AboutUs.js
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
 import Header from '../components/Header';
