@@ -1,12 +1,20 @@
+// Activities.js
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {Link} from 'react-router-dom';
+import ActivitiesStructure from '../components/ActivitiesStrcuture';
+const info = [
+    {title: 'Campamentos', description: 'Realización de campamentos de verano para menores de educación primaria y secundaria', link: '/campamentos'},
+    {title: 'Aula abierta', description: 'Refuerzo educativo para menores entre 6 y 18 años así como actividades de relajacion y reflexión', link: '/aula.abierta'},
+    {title: 'Aula de convivencia', description: 'Atención a alumnos con conductas disruptivas para menores entre 6 y 18 años así como actividades de relajacion y reflexión', link: '/aula-convivencia'},
+    {title: 'Talleres familiares', description: 'Actividades formativas y de apoyo para las familias', link: '/talleres-familiares'},
+    {title: 'Club de verano', description: 'Club de verano para alumnos de primaria', link: '/club-verano'}
+];
 
 function Activities() {
-	return(
-		<div classname="App">
+    return(
+        <div className="App">
             <Header />
             <div className='main'>
                 <img src={activities} alt="Activities" className='background-pic'/> 
@@ -16,49 +24,11 @@ function Activities() {
                     asociados y de diversas entidades públicas y privadas que hacen posible la
                     transformación social del entorno.</h3>
                 </div>
-                <div className='homepage-container'>
-                    <div className='flex-container'>
-                    <h1>Campamentos</h1>
-                    <h3>
-                        Realización de campamentos de verano para menores
-                        de educación primaria y secundaria
-                    </h3>
-                    <Link to='/campamentos' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Aula abierta</h1>
-                    <h3>
-                        Refuerzo educativo para menores entre 6 y 18 años así
-                        como actividades de relajacion y reflexión
-                    </h3>
-                    <Link to='/aula.abierta' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Aula de convivencia</h1>
-                    <h3>
-                        Atención a alumnos con conductas disruptivas para menores entre
-                        6 y 18 años así como actividades de relajacion y reflexión
-                    </h3>
-                    <Link to='/aula-convivencia' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Talleres familiares</h1>
-                    <h3>
-                        Actividades formativas y de apoyo para las familias
-                    </h3>
-                    <Link to='/talleres-familiares' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Club de verano</h1>
-                    <h3>
-                        Club de verano para alumnos de primaria
-                    </h3>
-                    <Link to='/club-verano' className='button'>Leer más</Link>
-                    </div>
-                </div>
+                <ActivitiesStructure info={info} />
             </div>
             <Footer/>
-		</div>
-	);
+        </div>
+    );
 }
+
 export default Activities;

@@ -1,12 +1,20 @@
+// Association.js
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {Link} from 'react-router-dom';
+import ActivitiesStructure from '../components/ActivitiesStrcuture';
+const info = [
+    {title: 'Nosotros', description: 'Pequeña desc explicativa', link: '/nosotros'},
+    {title: 'Historia', description: 'Pequeña desc', link: '/historia'},
+    {title: 'Mision, Visión y Valores', description: 'Pequeña desc', link: '/mision-vision-valores'},
+    {title: 'Dónde estamos', description: 'Pequeña desc', link: '/'},
+    {title: 'Entidades Colaboradoras', description: 'Pequeña desc', link: '/'}
+];
 
 function Association() {
-	return(
-		<div classname="App">
+    return(
+        <div className="App">
             <Header />
             <div className='main'>
                 <img src={activities} alt="Activities" className='background-pic'/> 
@@ -17,36 +25,11 @@ function Association() {
                         que nuestros beneficiarios presentan y que descubrimos a través de los estudios de la zona y la observación 
                         directa.</h3>
                 </div>
-                <div className='homepage-container'>
-                    <div className='flex-container'>
-                    <h1>Nosotros</h1>
-                    <h3>Pequeña desc explicativa</h3>
-                    <Link to='/nosotros' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Historia</h1>
-                    <h3>Pequeña desc</h3>
-                    <Link to='/historia' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Mision, Visión y Valores</h1>
-                    <h3>Pequeña desc</h3>
-                    <Link to='/mision-vision-valores' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Dónde estamos</h1>
-                    <h3>Pequeña desc</h3>
-                    <Link to='/' className='button'>Leer más</Link>
-                    </div>
-                    <div className='flex-container'>
-                    <h1>Entidades Colaboradoras</h1>
-                    <h3>Pequeña desc</h3>
-                    <Link to='/' className='button'>Leer más</Link>
-                    </div>
-                </div>
+                <ActivitiesStructure info={info} />
             </div>
             <Footer/>
-		</div>
-	);
+        </div>
+    );
 }
+
 export default Association;
