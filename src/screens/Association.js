@@ -1,8 +1,7 @@
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
-import ActivitiesStructure from '../components/ActivitiesStrcuture';
+import Structure from '../components/Structure'; // import the Structure component
 
 const info = [
     {title: 'Nosotros', description: 'Pequeña desc explicativa', link: '/nosotros'},
@@ -15,7 +14,7 @@ const info = [
 function Association() {
     return(
         <div className="App">
-            <ActivitiesStructure 
+            <Structure 
                 title="ASOCIACION"
                 description="Nuestra identidad está marcada por la educación no formal que consideramos fundamental en nuestra zona de actuación y la implantamos de manera dinámica y abierta con el fin de adaptarnos a las nuevas necesidades que nuestros beneficiarios presentan y que descubrimos a través de los estudios de la zona y la observación directa."
                 image={activities}

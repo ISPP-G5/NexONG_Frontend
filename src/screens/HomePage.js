@@ -25,9 +25,11 @@ function HomePage() {
                         <h3>Como en cualquier entidad de voluntariado, para que se puedan llevar a cabo todos y cada uno de los proyectos y las actividades que le presentan a la barriada del Polígono, se hace necesario un equipo de trabajo que saque a delante las actividades.</h3>
                         <button className='button'>Participa con nosotros</button>
                     </div>
+                    
                 </div>
-          
+                <Footer/>
         </div>
+        
          );
     }
 export default HomePage;    
