@@ -1,19 +1,15 @@
 import '../styles/styles.css';
 import background from '../logo/manosabiertas.bmp';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import Structure from '../components/Structure';
 function HomePage() {
         return (
-        <div className="App">
-            <Header />
-            <div className='main'>
-                <img src={background} alt="Background" className='background-pic'/>    
-                <div className='bg-text'>
-                    <h1>Asociación Manos Abiertas con Norte</h1>
-                    <h3>Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada.</h3>
-                    <button className='button'>Leer más</button>
-                </div>
+            <div className="App">
+            <Structure 
+                title="Asociación Manos Abiertas con Norte"
+                description="Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada."
+                image={background}
+            />
                 <div className='homepage-container'>
                     <div className='flex-container'>
                     <h1>Nosotros</h1>
@@ -30,8 +26,7 @@ function HomePage() {
                         <button className='button'>Participa con nosotros</button>
                     </div>
                 </div>
-            </div>
-            <Footer />
+          
         </div>
          );
     }

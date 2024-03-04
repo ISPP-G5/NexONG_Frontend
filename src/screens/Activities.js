@@ -1,7 +1,6 @@
 // Activities.js
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ActivitiesStructure from '../components/ActivitiesStrcuture';
 const info = [
@@ -12,23 +11,34 @@ const info = [
     {title: 'Club de verano', description: 'Club de verano para alumnos de primaria', link: '/club-verano'}
 ];
 
-function Activities() {
-    return(
-        <div className="App">
-            <Header />
-            <div className='main'>
-                <img src={activities} alt="Activities" className='background-pic'/> 
-                <div className='bg-text'>
-                    <h1>ACTIVIDADES</h1>
-                    <h3>Nuestro proyecto recibe ayudas y subvenciones de los
-                    asociados y de diversas entidades públicas y privadas que hacen posible la
-                    transformación social del entorno.</h3>
+
+    
+    function Activities() {
+        const title = "ACTIVIDADES";
+        const description = "Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno.";
+        const image = activities;
+       
+    
+        return(
+            <div className="App">
+               
+                <div className='main'>
+                    <div className='bg-text'>
+                        <h1>{title}</h1>
+                        <h3>{description}</h3>
+                    </div>
+                    <ActivitiesStructure 
+                        info={info} 
+                        title={title} 
+                        description={description} 
+                        image={image} 
+                        // additionalImage={additionalImage} // uncomment this line if you have an additional image
+                    />
                 </div>
-                <ActivitiesStructure info={info} />
+                <Footer/>
             </div>
-            <Footer/>
-        </div>
-    );
-}
+        );
+    }
+
 
 export default Activities;
