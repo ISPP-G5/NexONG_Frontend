@@ -3,8 +3,11 @@ import google from '../logo/google.svg'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {Link} from 'react-router-dom';
-
+import { useEffect } from 'react';
 function LogIn() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     const labelStyle = {
         width: '100%', // Use percentage for width

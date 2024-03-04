@@ -26,6 +26,10 @@ import History from './History';
 import MisionOverviewValues from './MisionOverviewValues';
 import Association from './Association';
 import AdminFamily from './AdminFamily';
+import AdminFamilyRequests from './AdminFamilyRequests';
+import ColaboratorEntities from './ColaboratorEntities';
+import WhereWeAre from './WhereWeAre';
+
 
 
 import Volunteers from './Volunteers';
@@ -75,6 +79,10 @@ function App() {
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
             <Route path="/adminAñadirEducador" exact={true} element={<AEducadoresAdd />} />
             <Route path="/adminAñadirVoluntario" exact={true} element={<VoluntariosAdd />} />
+            <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
+            <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
+
+
 
 
 
