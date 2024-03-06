@@ -1,5 +1,4 @@
 import logo from '../logo/macn-logo.png';
-import {Link} from 'react-router-dom';
 import '../styles/styles.css';
 
 function HeaderAdmin(){

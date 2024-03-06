@@ -2,7 +2,6 @@ import '../styles/styles.css';
 import volunteers from '../logo/volunteers.bmp';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {Link} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 function Volunteers () {

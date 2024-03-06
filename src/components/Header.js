@@ -32,13 +32,15 @@ function Header(){
                 </div>
             </li>
             <li className="dropdown">
-                <Link to="/">Asociación</Link>
+                <Link to="/asociacion">Asociación</Link>
                 <div className="dropdown-content">
-                    <Link to="/">Nosotros</Link>
-                    <Link to="/">Historia</Link>
-                    <Link to="/">Misión, Visión y Valores</Link>
-                    <Link to="/">Dónde estamos</Link>
-                    <Link to="/campamentos">Entidades Colaboradoras</Link>
+                    <Link to="/nosotros">Nosotros</Link>
+                    <Link to="/historia">Historia</Link>
+                    <Link to="/donde-estamos">Dónde estamos</Link>
+                    <Link to="/">Organización</Link>
+                    <Link to="/transparencia">Transparencia</Link>
+                    <Link to="/entidades-colaboradoras">Entidades Colaboradoras</Link>
+
                 </div>
             </li>
         </ul>
