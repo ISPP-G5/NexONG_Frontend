@@ -1,37 +1,40 @@
+// Activities.js
 import '../styles/styles.css';
-import Header from '../components/Header';
+import activities from '../logo/activities.bmp';
 import Footer from '../components/Footer';
+import Structure from '../components/Structure'; 
+
+const info = [
+    {title: 'Campamentos', description: 'Realización de campamentos de verano para menores de educación primaria y secundaria', link: '/campamentos'},
+    {title: 'Aula abierta', description: 'Refuerzo educativo para menores entre 6 y 18 años así como actividades de relajacion y reflexión', link: '/aula.abierta'},
+    {title: 'Aula de convivencia', description: 'Atención a alumnos con conductas disruptivas para menores entre 6 y 18 años así como actividades de relajacion y reflexión', link: '/aula-convivencia'},
+    {title: 'Talleres familiares', description: 'Actividades formativas y de apoyo para las familias', link: '/talleres-familiares'},
+    {title: 'Club de verano', description: 'Club de verano para alumnos de primaria', link: '/club-verano'}
+];
 
 function Activities() {
-	return(
-		<div classname="App">
+    const title = "ACTIVIDADES";
+    const description = "Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno.";
+    const image = activities;
 
-            <Header />
-
+    return(
+        <div className="App">
             <div className='main'>
-                <div className='title-text'>ACTIVIDADES</div>
-                <div className='text'>Nuestro proyecto recibe ayudas y subvenciones de los
-                asociados y de diversas entidades públicas y privadas que hacen posible la
-                transformación social del entorno.</div>
-                <div className='text'>
-                    Nuestras actividades:
-                    <br/>
-                    <br/>
-                    <table className='five-links-table'>
-                        <tr>
-                            <td><a href='/campamentos'>Campanentos</a></td>
-                            <td><a href='/aula-abierta'>Aula abierta</a></td>
-                            <td><a href='/aula-convivencia'>Aula de convivencia</a></td>
-                            <td><a href='/talleres-familiares'>Talleres familiares</a></td>
-                            <td><a href='/club-verano'>Club de verano</a></td>
-                        </tr>
-                    </table>
+                <div className='bg-text'>
+                    <h1>{title}</h1>
+                    <h3>{description}</h3>
                 </div>
+                <Structure 
+                    info={info} 
+                    title={title} 
+                    description={description} 
+                    image={image} 
+                    // additionalImage={additionalImage} // uncomment this line if you have an additional image
+                />
             </div>
-
-            <Footer />
-
-		</div>
-	);
+            <Footer/>
+        </div>
+    );
 }
+
 export default Activities;

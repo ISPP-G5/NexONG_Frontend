@@ -1,39 +1,23 @@
-
-# Getting Started with Create React App
-
+[![Bluejay Dashboard](https://img.shields.io/badge/Bluejay-Dashboard_05-blue.svg)](https://dashboard.bluejay.governify.io/dashboard/script/dashboardLoader.js?dashboardURL=https:%2F%2Freporter.bluejay.governify.io%2Fapi%2Fv4%2Fdashboards%2Ftpa-ISPP-2024-GH-ISPP-G5_NexONG_Frontend%2Fmain&orgId=1) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1dad745d1a86432c99b2d96cdf756fde)](https://app.codacy.com/gh/ISPP-G5/NexONG_Frontend/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+# Getting Started with NexONG_Frontend
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Getting started
 
 1. Clone repository (in VSCode)
-2. Make sure you have installed:
-   - React extension and Black formatter in VSCode
-   - Node.js in your computer
+2. Make sure you have installed: React extension in VSCode and Node.js in your computer
 3. Open folder and a new terminal
 4. Move to branch develop:
-   ```
-   git checkout develop
-   ```
+   `git checkout develop`
 5. Create your branch:
-   ```
-   git checkout -b new-branch-name develop
-   ```
-6. Install dependencies **Important: install material-ui the last one**:
-   ```
-   npm install react-scripts
-   npm install axios
-   npm install react-router-dom
-   npm install @material-ui/core --legacy-peer-deps
-   ```
-7. Now, you can run the project with:
-   ```
-   npm start
-   ```
+   `git checkout -b new-branch-name develop`
+7. Install dependencies:
+   `npm install react-scripts`
+   `npm install axios`
+   `npm install @material-ui/core`
+9. When installed, you can run the project with:
+   `npm start`
 
-**IMPORTANT: If you need to install any other dependency in the future you need to uninstall the material design. To do so:**
-```
-npm uninstall @material-ui/core
-```
 
 ## Available Scripts
 
