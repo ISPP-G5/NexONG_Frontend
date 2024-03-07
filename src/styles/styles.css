@@ -1007,3 +1007,26 @@ tbody tr:nth-child(odd) {
   width: 1.5rem;
 }
 
+
+.card-info-volunteer {
+  background-color: #cdf0fe;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #9ee5ff;
+  padding: 3%;
+  position: relative;
+  width: 80%;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-info .event-details {
+  flex: 1; 
+  text-align: center;
+}
+
+.event-details p {
+  font-size: 1.5rem; 
+  margin: 0; 
+}
