@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
+import AdminLayout from '../components/AdminLayout';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import '../styles/styles.css';
@@ -43,6 +42,7 @@ const Box = ({ lesson, index, handleDelete }) => {
   };
 
   return (
+    
     <div className="box">
       <div className="clase">
         <div className="overlap-group">
@@ -115,22 +115,14 @@ const AdminClases = () => {
   };
 
   return (
-    <div className="App">
-      <HeaderAdmin />
-      <div className='admin-main'>
-        <MenuAdmin selected='Clases' />
-        <div className='vertical-line'></div>
-        <div className='admin-container'>
-          <AddClass />
-          <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
-            {lessons.map((lesson, index) => (
-              <Box key={index} index={index} lesson={lesson} handleDelete={handleDelete} />
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="main"></div>
+    <AdminLayout selected='Clases'> {/* Use AdminLayout here */}
+    <AddClass />
+    <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
+      {lessons.map((lesson, index) => (
+        <Box key={index} index={index} lesson={lesson} handleDelete={handleDelete} />
+      ))}
     </div>
+  </AdminLayout>
   );
 };
 

@@ -1,20 +1,16 @@
 import '../styles/styles.css';
-import Footer from "../components/Footer";
-import Header from "../components/Header";
 import background from '../logo/manosabiertas.bmp';
-
-
+import Structure from '../components/Structure';
+import Footer from '../components/Footer';
 function Transparency() {
     return (
         <div className="App">
-            <Header />
-            <div className='main'>
-            <img src={background} alt="Background" className='background-pic'/> 
-            <div className='bg-text'>
-            <h1>Transparencia</h1>
-            <h3>La Asociación Manos Abiertas con Norte apuesta por la transparencia como uno de los objetivos prioritarios de intervención.
-Por ello, si quieres saber más sobre nosotros, podrás encontrar documentación institucional en las que aparece todo aquello que hemos realizado durante estos últimos años. Esperemos sirvan para acercarte más aún a nuestra asociación y a la realidad en la que estamos inmersos.</h3>
-            </div>
+            <Structure 
+                title="Transparencia"
+                description="La Asociación Manos Abiertas con Norte apuesta por la transparencia como uno de los objetivos prioritarios de intervención. Por ello, si quieres saber más sobre nosotros, podrás encontrar documentación institucional en las que aparece todo aquello que hemos realizado durante estos últimos años. Esperemos sirvan para acercarte más aún a nuestra asociación y a la realidad en la que estamos inmersos."
+                image={background}
+            />
+            
             <table className='trans'>
                 <thead>
                     <tr>
@@ -99,8 +95,8 @@ Por ello, si quieres saber más sobre nosotros, podrás encontrar documentación
                 </tbody>
             </table>
 
-            </div>
             <Footer />
+
         </div>
     )    
 }

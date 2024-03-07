@@ -1,11 +1,10 @@
 import '../styles/styles.css';
-import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
 import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, makeStyles } from '@material-ui/core';
+import AdminLayout from '../components/AdminLayout';
 
 function AdminEventos() {
   const localizer = momentLocalizer(moment);
@@ -131,69 +130,54 @@ function AdminEventos() {
     }
 
     return (
-      <div className='App'>
-        <HeaderAdmin />
-        <div className='admin-main'>
-          {/* Change selected for the name of your screen */}
-          <MenuAdmin selected='Eventos' />
-          <div className='vertical-line'></div>
-
-          <div className='admin-container'>
-            {/* Example of blue card for info */}
-           
-
-            {/* INTRODUCE HERE YOUR IMPLEMENTATIONS */}
-            <button
-                className= 'button'
-                onClick={() => setOpenAddDialog(true)}
-              > Crear Evento              
-            </button>
-            <div className={classes.calendarContainer}>
-              <Calendar
-                localizer={localizer}
-                events={events}
-                startAccessor='start'
-                endAccessor='end'
-                onSelectSlot={handleSelect}
-                onSelectEvent={handleEventClick}
-                views={['month', 'week', 'day']}
-                selectable={true}
-                step={15}
-                timeslots={4}
-                style={{ minHeight: '600px' }}
-              />
-              
-              
-            </div>
-            <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-            <DialogTitle>Add Event</DialogTitle>
-            <DialogContent>
-              {renderTextFieldComponents()}
-              
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setOpenAddDialog(false)} color="primary">Not</Button>
-              <Button onClick={handleEventAdd} color="primary">Add</Button>
-            </DialogActions>
-          </Dialog>
-          <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-            <DialogTitle>Edit Event</DialogTitle>
-            <DialogContent>
-              {renderTextFieldComponents()}
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setOpenEditDialog(false)} color="primary">Not Edit</Button>
-              <Button onClick={handleEventEdit} color="primary">Edit</Button>
-              <Button onClick={handleEventDelete} color="secondary">Delete</Button>
-            </DialogActions>
-          </Dialog>
-          </div>
+      <AdminLayout selected='Eventos'>
+        <button
+          className='button'
+          onClick={() => setOpenAddDialog(true)}
+        >
+          Crear Evento
+        </button>
+        <div className={classes.calendarContainer}>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor='start'
+            endAccessor='end'
+            onSelectSlot={handleSelect}
+            onSelectEvent={handleEventClick}
+            views={['month', 'week', 'day']}
+            selectable={true}
+            step={15}
+            timeslots={4}
+            style={{ minHeight: '600px' }}
+          />
         </div>
-      </div>
+        <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
+          <DialogTitle>Add Event</DialogTitle>
+          <DialogContent>
+            {renderTextFieldComponents()}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenAddDialog(false)} color="primary">Not</Button>
+            <Button onClick={handleEventAdd} color="primary">Add</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+          <DialogTitle>Edit Event</DialogTitle>
+          <DialogContent>
+            {renderTextFieldComponents()}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenEditDialog(false)} color="primary">Not Edit</Button>
+            <Button onClick={handleEventEdit} color="primary">Edit</Button>
+            <Button onClick={handleEventDelete} color="secondary">Delete</Button>
+          </DialogActions>
+        </Dialog>
+      </AdminLayout>
     );
-  };
-
+  }
   return <AdminEvents />;
+
 }
 
 export default AdminEventos;
