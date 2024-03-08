@@ -7,31 +7,30 @@ import MenuAdmin from '../components/MenuAdmin';
 
 const Asamblea = () => {
   return (
-    <>
-      <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '2000px', alignItems: 'center',marginLeft:'-50%'}}>
+      <div  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',marginLeft:'-75%',marginTop:'2%'}}>
         <form onSubmit={"handleSubmit"}>
 
-          <div className='field-text' style={{ marginBottom: '20px' }}>
-            <h4 style={{marginLeft:'25%'}} >Titulo</h4>
-            <input type='text' placeholder='Escriba aquí' style={{ width: '115%'}} ></input>
+          <div className='field-text' >
+            <h4 style={{marginLeft:'-65%', color: '#717070',marginBottom:'5%'}} >Título</h4>
+            <input className='asam-input' placeholder='Escriba aquí' style={{ width: '115%'}} ></input>
           </div>
           
-          <div className='field-text' style={{ marginBottom: '20px' }}>
-          <h4 style={{marginLeft:'25%'}}>Descripción</h4>
-            <input type='text' placeholder='Escriba aquí' style={{ width: '115%', height: '150px', resize: 'vertical', paddingBottom: '+40%' }} ></input>
+          <div className='field-text' >
+          <h4 style={{marginLeft:'-50%', color: '#717070',marginBottom:'5%'}}>Descripción</h4>
+            <input className='asam-input' type='text' placeholder='Escriba aquí' style={{ width: '115%', height: '150px', resize: 'vertical', paddingBottom: '+40%' }} ></input>
           </div>
           
-          <div className='field-text' style={{ marginBottom: '20px' }}>
-            <h4 style={{marginLeft:'25%'}}>Fecha</h4>
-            <input type='text' placeholder='dd/mm/yyyy' style={{ width: '115%'}} ></input>
+          <div className='field-text'>
+            <h4 style={{marginLeft:'-60%', color: '#717070',marginBottom:'5%'}}>Fecha</h4>
+            <input className='asam-input' type='text' placeholder='dd/mm/yyyy' style={{ width: '115%'}} ></input>
           </div>
           
-          <div style={{ marginLeft: '200px' }}>
+          <div style={{ marginLeft: '50%' }}>
             <button className='button' style={{width:'100px' }}>crear</button>
           </div>
         </form>
       </div>
-    </>
+    
 
   )
 
@@ -58,4 +57,4 @@ const AdminAsamblea = () => {
   );
 }
 
-export default AdminAsamblea;
+export default AdminAsamblea; 
