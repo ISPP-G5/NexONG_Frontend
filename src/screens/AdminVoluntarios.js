@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
 import PersonCard from '../components/PeopleCard';
 import AdminLayout from '../components/AdminLayout'
+import axios from 'axios';
 
-
-const voluntario = [
-  {
-    nombre: 'Nombre Voluntario 1',
-    edad: 'Edad voluntario 1',
-  },
-  {
-    nombre: 'Nombre Voluntario 2',
-    edad: 'Edad voluntario 2',
-  },
-  {
-    nombre: 'Nombre Voluntario 3',
-    edad: 'Edad voluntario 3',
-  },
-];
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+  
 
 function AdminVoluntarios() {
-  const [voluntariosList, setVoluntariosList] = useState(voluntario);
+  const [voluntariosList, setVoluntariosList] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${API_ENDPOINT}user/`)
+      .then(response => {
+        console.log(response.data);
+        setVoluntariosList(response.data.filter(u => u.role === "VOLUNTEER"))
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);  
 
   const handleDelete = (index) => {
     const updatedVoluntarios = [...voluntariosList];

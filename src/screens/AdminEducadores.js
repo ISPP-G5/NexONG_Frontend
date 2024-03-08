@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
 import PersonCard from '../components/PeopleCard';
 import AdminLayout from '../components/AdminLayout'
+import axios from 'axios';
 
-const educadores = [
-  {
-    nombre: 'Nombre Educador 1',
-    apellido: 'Apellido educador 1',
-  },
-  {
-    nombre: 'Nombre Educador 2',
-    apellido: 'Apellido educador 2',
-  },
-  {
-    nombre: 'Nombre Educador 3',
-    apellido: 'Apellido educador 3',
-  },
-];
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+
 
 function AdminEducadores() {
-  const [educadoresList, setEducadoresList] = useState(educadores);
+  const [educadoresList, setEducadoresList] = useState([]);
+  useEffect(() => {
+    axios.get(`${API_ENDPOINT}user/`)
+      .then(response => {
+        console.log(response.data);
+        setEducadoresList(response.data.filter(u => u.role === "EDUCATOR"))
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);  
+
 
   const handleDelete = (index) => {
     const updatedEducadores = [...educadoresList];

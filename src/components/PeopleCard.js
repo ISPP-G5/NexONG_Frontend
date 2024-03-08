@@ -6,8 +6,8 @@ function PersonCard({ person, onDelete }) {
         <div className='family-request'>
           <img src='https://via.placeholder.com/150' alt='placeholder' />
           <div className='family-info'>
-            <p>{person.nombre}</p>
-            <p>{person.edad || person.apellido}</p>
+            <p>{person.name}</p>
+            <p>{person.edad || person.surname}</p>
           </div>
         </div>
         <div className='edit-delete-icons'>
