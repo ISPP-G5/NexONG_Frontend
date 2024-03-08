@@ -1,28 +1,24 @@
-// AdminView.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
 import HeaderAdmin from '../components/HeaderAdmin';
 import MenuAdmin from '../components/MenuAdmin';
 import PersonCard from '../components/PeopleCard';
-
-const SociosData  = [
-  {
-    nombre: 'Nombre Voluntario 1',
-    edad: 'Edad voluntario 1',
-  },
-  {
-    nombre: 'Nombre Voluntario 2',
-    edad: 'Edad voluntario 2',
-  },
-  {
-    nombre: 'Nombre Voluntario 3',
-    edad: 'Edad voluntario 3',
-  },
-];
+import axios from 'axios';
 
 const AdminSocios = () => {
-  const [sociosList, setSociosList] = useState(SociosData);
+  const [sociosList, setSociosList] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/user/")
+      .then(response => {
+        console.log(response.data.filter(u => u.role === "PARTNER"));
+        setSociosList(response.data.filter(u => u.role === "PARTNER"));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []); 
 
   const handleDelete = (index) => {
     const updatedSocios = [...sociosList];
