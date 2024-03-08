@@ -25,8 +25,6 @@ import AboutUs from './AboutUs';
 import History from './History';
 import MisionOverviewValues from './MisionOverviewValues';
 import Association from './Association';
-import AdminFamily from './AdminFamily';
-import AdminFamilyRequests from './AdminFamilyRequests';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
 
