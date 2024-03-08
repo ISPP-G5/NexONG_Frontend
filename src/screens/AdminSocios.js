@@ -4,6 +4,7 @@ import '../styles/styles.css';
 import HeaderAdmin from '../components/HeaderAdmin';
 import MenuAdmin from '../components/MenuAdmin';
 import PersonCard from '../components/PeopleCard';
+import AdminLayout from '../components/AdminLayout';
 import axios from 'axios';
 
 const AdminSocios = () => {
@@ -27,12 +28,8 @@ const AdminSocios = () => {
   };
 
   return (
-    <div className='App'>
-      <HeaderAdmin />
-      <div className='admin-main'>
-        <MenuAdmin selected='Socios' />
-        <div className='vertical-line'></div>
-
+    
+      <AdminLayout>
         <div className='admin-container'>
           <div className='pantallas'>
             <Link to='/adminSocios' className='selected-pantalla'>
@@ -44,8 +41,8 @@ const AdminSocios = () => {
             <PersonCard key={index} person={socio} onDelete={() => handleDelete(index)} />
           ))}
         </div>
-      </div>
-    </div>
+      </AdminLayout>
+   
   );
 }
 

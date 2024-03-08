@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom';
 import '../styles/styles.css';
 import HeaderAdmin from '../components/HeaderAdmin';
 import MenuAdmin from '../components/MenuAdmin';
+import AdminLayout from '../components/AdminLayout';
 import axios from 'axios';
 
 const Asamblea = () => {
   const [titulo,setTitulo] = useState('');
   const [descripcion,setDescripcion] = useState('');
   const [fecha,setFecha] = useState('');
+  const [hora,setHora] = useState('');
+
 
   const sendForm = async () =>{
     if(!titulo || titulo === ''){
@@ -22,8 +25,8 @@ const Asamblea = () => {
       const update = await axios.post('http://127.0.0.1:8000/api/meeting/',{
         name: titulo,
         description: descripcion,
-        date: '2024-02-16',
-        time: '2024-02-16T17:50:00Z',
+        date: fecha,
+        time: hora,
         attendees: [
             1,
             2
@@ -72,7 +75,6 @@ const Asamblea = () => {
             id="date"
             label="Birthday"
             type="date"
-            defaultValue="2017-05-24"
             className='asam-input' 
             placeholder='dd/mm/yyyy'
              style={{ width: '115%'}} 
@@ -81,19 +83,18 @@ const Asamblea = () => {
           </div>
           <div className='field-text'>
             <h4 style={{marginLeft:'-60%', color: '#717070',marginBottom:'5%'}}>Hora</h4>
-            <input value={fecha}
-            id="date"
-            label="Birthday"
-            type="date"
-            defaultValue="2017-05-24"
+            <input value={hora}
+            id="datetime-local"
+            label="Next appointment"
+            type="datetime-local"
             className='asam-input' 
             placeholder='dd/mm/yyyy'
              style={{ width: '115%'}} 
-             onChange={(e) => setFecha(e.target.value)}
+             onChange={(e) => setHora(e.target.value)}
              ></input>
            </div>
           
-          <div style={{ marginLeft: '50%' }}>
+          <div style={{ marginLeft: '50%', marginTop:'2%'}}>
             <button type='submit' className='button' style={{width:'100px' }}>crear</button>
           </div>
         </form>
@@ -105,12 +106,7 @@ const Asamblea = () => {
 };
 const AdminAsamblea = () => {
   return (
-    <div className='App'>
-      <HeaderAdmin />
-      <div className='admin-main'>
-        <MenuAdmin selected='Socios' />
-        <div className='vertical-line'></div>
-
+    <AdminLayout>
         <div className='admin-container'>
           <div className='pantallas'>
             <Link to='/adminSocios'>
@@ -120,8 +116,7 @@ const AdminAsamblea = () => {
           </div>
           <Asamblea/>
         </div>
-      </div>
-    </div>
+  </AdminLayout>
   );
 }
 
