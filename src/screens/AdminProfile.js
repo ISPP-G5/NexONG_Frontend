@@ -1,59 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import '../styles/styles.css'
 import AdminLayout from '../components/AdminLayout';
+import axios from 'axios';
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminProfiles = () => {
-    return (
-      <>
-      <div>
-                
-              <AdminLayout>
+  const [valoresList, setValores] = useState([]);
 
-              
-                <div className='update-container' style={{marginLeft:'12.5%'}}>
-                <div style={{ alignSelf:'center'}}> 
-                  <img src="https://covalto-production-website.s3.amazonaws.com/Hero_Mobile_Cuenta_Personas_V1_1_8046e424ea.webp" alt={"imagen"} style={{ 
-                      maxWidth: '90%', 
-                      maxHeight: '90%', 
-                      borderRadius: '100%',
-                    }}  />
-                </div>
-                    
-                    <div style={{ alignSelf: 'center', fontWeight: 'bold'}}
-                        >Simiente</div>
+  useEffect(() => {
+    axios.get(`${API_ENDPOINT}user/`)
+      .then(response => {
+        setValores(response.data.filter(x => x.role === "ADMIN"));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-                    <div className='bold-text'>Email</div>
-                        <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>simtofe@manosabiertas.com</div>
+  return (
+    <AdminLayout>
+      {valoresList.map((profile, index) => (
+        <div key={index} className='update-container' style={{ marginLeft: '12.5%' }}>
+          <div style={{ alignSelf: 'center' }}>
+            <img src={profile.avatar} alt={"imagen"} style={{
+              maxWidth: '90%',
+              maxHeight: '90%',
+              borderRadius: '100%',
+            }} />
+          </div>
 
-                    <div className='bold-text'>Teléfono</div>
-                        <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>609123324</div>
+          <div style={{ alignSelf: 'center', fontWeight: 'bold' }}>{profile.name}</div>
 
-                    <div className='bold-text'>Contraseña</div>
-                        <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>cimientos</div>
-                    
-                    <div className='bold-text'>Dirección</div>
-                        <div className='field-text' style={{margin: '10px', maxWidth: '80%', marginLeft: '10%'}}>C. Manzana 11, 41009, Sevilla</div>
+          <div className='bold-text'>Email</div>
+          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{profile.email}</div>
 
-                    <button className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
-                          <Link to={`/adminPerfilActualizar`}
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                  backgroundColor: "aed6f1",
-                                }}>
-                            Actualizar perfil
-                          </Link>
-                    </button>
-                    </div>
-              </AdminLayout>
+          <div className='bold-text'>Teléfono</div>
+          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{profile.phone}</div>
 
+          <div className='bold-text'>Contraseña</div>
+          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{profile.password}</div>
+
+          <button className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
+            <Link to={`/adminPerfilActualizar`}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                backgroundColor: "#aed6f1", // Cambié el color aquí
+              }}>
+              Actualizar perfil
+            </Link>
+          </button>
         </div>
-      </>
-  
-    )
-  
-  };
-  
-  export default AdminProfiles;
+      ))}
+    </AdminLayout>
+  );
+};
+
+export default AdminProfiles;

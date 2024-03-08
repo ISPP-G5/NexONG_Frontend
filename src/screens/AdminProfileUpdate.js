@@ -31,9 +31,6 @@ const AdminProfilesUpdate = () => {
                     <div className='bold-text'>Repetir contraseña</div>
                         <input type='text' placeholder='Contraseña'></input>
 
-                    <div className='bold-text'>Dirección</div>
-                        <input type='text' placeholder='Dirección'></input>
-                    
                     <button className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
                             Actualizar perfil
                     </button>
