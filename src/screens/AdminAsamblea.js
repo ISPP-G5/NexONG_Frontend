@@ -12,6 +12,8 @@ const Asamblea = () => {
   const [descripcion,setDescripcion] = useState('');
   const [fecha,setFecha] = useState('');
   const [hora,setHora] = useState('');
+  const [asistentes,setAsistentes] = useState([]);
+
 
 
   const sendForm = async () =>{
@@ -19,18 +21,18 @@ const Asamblea = () => {
       window.alert("Se debe de insertar un titulo")
     }else if(!descripcion || descripcion === ''){
       window.alert("Se debe de insertar una descripción")
-    }else if(!descripcion || descripcion === ''){
+    }else if(!fecha || fecha === ''){
       window.alert("Se debe de insertar una fecha")
+    }else if(!hora || hora === ''){
+      window.alert("Se debe de insertar una hora")
     }else{
+      const listaAsistentes = asistentes.split(',');
       const update = await axios.post('http://127.0.0.1:8000/api/meeting/',{
         name: titulo,
         description: descripcion,
         date: fecha,
         time: hora,
-        attendees: [
-            1,
-            2
-        ],
+        attendees: listaAsistentes,
 
       });
       console.log(update);
@@ -45,7 +47,7 @@ const Asamblea = () => {
   }
 
   return (
-      <div  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',marginLeft:'-75%',marginTop:'2%'}}>
+      <div  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',marginLeft:'-50%',marginTop:'2%'}}>
         <form onSubmit={sendForm}>
 
           <div className='field-text' >
@@ -59,7 +61,7 @@ const Asamblea = () => {
           </div>
           
           <div className='field-text' >
-          <h4 style={{marginLeft:'-50%', color: '#717070',marginBottom:'5%'}}>Descripción</h4>
+          <h4 style={{marginLeft:'-40%', color: '#717070',marginBottom:'5%'}}>Descripción</h4>
             <input value={descripcion}
             className='asam-input' 
             type='text' 
@@ -93,6 +95,15 @@ const Asamblea = () => {
              onChange={(e) => setHora(e.target.value)}
              ></input>
            </div>
+           <div className='field-text' >
+            <h4  style={{marginLeft:'-42%', color: '#717070',marginBottom:'5%'}} >Asistentes</h4>
+            <input value={asistentes}
+             className='asam-input' 
+             placeholder='id-sistentes, ejemplo: 1,2,3,4' 
+             style={{ width: '115%'}} 
+             onChange={(e) => setAsistentes(e.target.value)}
+             ></input>
+          </div>
           
           <div style={{ marginLeft: '50%', marginTop:'2%'}}>
             <button type='submit' className='button' style={{width:'100px' }}>crear</button>
