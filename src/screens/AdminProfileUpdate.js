@@ -1,21 +1,18 @@
 import React from 'react';
 import '../styles/styles.css';
-import MenuAdmin from '../components/MenuAdmin';
-import HeaderAdmin from '../components/HeaderAdmin';
+import AdminLayout from '../components/AdminLayout';
 
 
 const AdminProfilesUpdate = () => {
     return (
       <div className='App'>
-          <HeaderAdmin />
-          <div className='admin-main'><MenuAdmin selected='Familias' />
-          <div className='vertical-line' ></div>
-
-                <div className='update-container' >
-                <div style={{textAlign:'center', margin:'5%'}}> 
+         
+            <AdminLayout>
+                <div className='update-container' style={{marginLeft:'12.5%'}}>
+                <div style={{alignSelf:'center'}}> 
                   <img src="https://img.freepik.com/foto-gratis/chico-guapo-seguro-posando-contra-pared-blanca_176420-32936.jpg" alt={"imagen"} style={{ 
-                      maxWidth: '60%', 
-                      maxHeight: '60%', 
+                      maxWidth: '90%', 
+                      maxHeight: '90%', 
                       borderRadius: '100%',
                     }}  />
                 </div>
@@ -41,8 +38,9 @@ const AdminProfilesUpdate = () => {
                             Actualizar perfil
                     </button>
               </div>
+              </AdminLayout>
         </div>
-        </div>
+        
     )
   
   };

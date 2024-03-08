@@ -1,24 +1,22 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import '../styles/styles.css'
-import MenuAdmin from '../components/MenuAdmin';
-import HeaderAdmin from '../components/HeaderAdmin';
+import AdminLayout from '../components/AdminLayout';
 
 
 const AdminProfiles = () => {
     return (
       <>
       <div>
-                <HeaderAdmin />
-              <div className='admin-main'><MenuAdmin selected='Familias' /> 
-              <div className='vertical-line'></div>  
+                
+              <AdminLayout>
 
               
-                <div className='update-container'>
-                <div style={{textAlign:'center', margin:'5%'}}> 
+                <div className='update-container' style={{marginLeft:'12.5%'}}>
+                <div style={{ alignSelf:'center'}}> 
                   <img src="https://covalto-production-website.s3.amazonaws.com/Hero_Mobile_Cuenta_Personas_V1_1_8046e424ea.webp" alt={"imagen"} style={{ 
-                      maxWidth: '60%', 
-                      maxHeight: '60%', 
+                      maxWidth: '90%', 
+                      maxHeight: '90%', 
                       borderRadius: '100%',
                     }}  />
                 </div>
@@ -49,9 +47,8 @@ const AdminProfiles = () => {
                           </Link>
                     </button>
                     </div>
+              </AdminLayout>
 
-
-        </div>
         </div>
       </>
   
