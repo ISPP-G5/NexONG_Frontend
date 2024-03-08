@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
-import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
 import PersonCard from '../components/PeopleCard';
+import AdminLayout from '../components/AdminLayout'
+
+
 const voluntario = [
   {
     nombre: 'Nombre Voluntario 1',
@@ -29,13 +30,8 @@ function AdminVoluntarios() {
   };
 
   return (
-    <div className='App'>
-      <HeaderAdmin />
-      <div className='admin-main'>
-        <MenuAdmin selected='Voluntarios' />
-        <div className='vertical-line'></div>
-
-        <div className='admin-container'>
+    <AdminLayout>
+       <div className='admin-container'>
           <div className='pantallas'>
             <Link to='/AdminVoluntarios' className='selected-pantalla'>
               Nuestros voluntarios
@@ -46,8 +42,7 @@ function AdminVoluntarios() {
             <PersonCard key={index} person={voluntario} onDelete={() => handleDelete(index)} />
           ))}
         </div>
-      </div>
-    </div>
+    </AdminLayout>
   );
 }
 

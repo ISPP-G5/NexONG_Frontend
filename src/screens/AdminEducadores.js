@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
-import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
 import PersonCard from '../components/PeopleCard';
+import AdminLayout from '../components/AdminLayout'
 
 const educadores = [
   {
@@ -30,31 +29,27 @@ function AdminEducadores() {
   };
 
   return (
-    <div className='App'>
-      <HeaderAdmin />
-      <div className='admin-main'>
-        <MenuAdmin selected='Educadores' />
-        <div className='vertical-line'></div>
 
-        <div className='admin-container'>
-          <div className='pantallas'>
-            <Link to='/AdminEducadores' className='selected-pantalla'>
-              Nuestros educadores
-            </Link>
-            <Link to='/AdminAñadirEducador'>Añadir Educador</Link>
-          </div>
-          
-          {educadoresList.map((educador, index) => (
-          <PersonCard 
-            key={index} 
-            person={educador} 
-            onDelete={() => handleDelete(index)} 
+
+    <AdminLayout>
+      <div className='admin-container'>
+        <div className='pantallas'>
+          <Link to='/AdminEducadores' className='selected-pantalla'>
+            Nuestros educadores
+          </Link>
+          <Link to='/AdminAñadirEducador'>Añadir Educador</Link>
+        </div>
+
+        {educadoresList.map((educador, index) => (
+          <PersonCard
+            key={index}
+            person={educador}
+            onDelete={() => handleDelete(index)}
           />
         ))}
-         
-        </div>
+
       </div>
-    </div>
+    </AdminLayout>
   );
 }
 

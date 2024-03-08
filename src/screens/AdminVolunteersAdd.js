@@ -19,7 +19,7 @@ function AdminVoluntaryAdd() {
             
                 {/* Example of screen with several screens inside */}
                 <div className='pantallas'>
-                    <Link to='/AdminVoluntarios'>Nuestros Proyectos</Link>
+                    <Link to='/AdminVoluntarios'>Nuestros Voluntarios</Link>
                     <Link to='/AdminAñadirVoluntarios' className='selected-pantalla'>Añadir voluntario</Link>
                 </div>
                 

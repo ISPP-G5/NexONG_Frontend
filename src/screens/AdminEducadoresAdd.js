@@ -19,7 +19,7 @@ function AdminEducadores() {
             
                 {/* Example of screen with several screens inside */}
                 <div className='pantallas'>
-                    <Link to='/AdminEducadores'>Nuestros Proyectos</Link>
+                    <Link to='/AdminEducadores'>Nuestros educadores</Link>
                     <Link to='/AdminAñadirEducadores' className='selected-pantalla'>Añadir Educador</Link>
                 </div>
                 
