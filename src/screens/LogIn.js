@@ -2,13 +2,49 @@ import '../styles/styles.css'
 import google from '../logo/google.svg'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {Link} from 'react-router-dom';
-import { useEffect } from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 function LogIn() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [users,setUsers] = useState('');
     useEffect(() => {
         window.scrollTo(0, 0);
+        axios.get( `${API_ENDPOINT}user/`)
+        .then(response => {
+            console.log(response.data);
+            setUsers(response.data)
+        }, error => {
+            console.error(error);
+        }
+        );
       }, []);
+      const navigate = useNavigate();
 
+      const handleLogin = (event) => {
+        event.preventDefault();
+        const user = users.find(user => user.email === email && user.password === password);
+    
+        if (user) {
+            if (user.volunteer != null) {
+                navigate('/form-voluntario');
+            } else if (user.family != null) {
+                navigate('/familias');
+            } else if (user.partner != null) {
+                navigate('/partners');
+            } else if (user.educator != null) {
+                navigate('/educator');
+            } else {
+                navigate(`/admin/${user.id}/`);
+            }
+            localStorage.setItem('userId', user.id);
+        } else {
+            alert('Contraseña o correo incorrecto');
+        }
+    };
     const labelStyle = {
         width: '100%', // Use percentage for width
         height: '2rem', // Use rem for height
@@ -26,6 +62,8 @@ function LogIn() {
         borderRadius: '1rem',
         margin: '0 auto',
         boxSizing: 'border-box', // Include padding and border in the width calculation
+        fontFamily: 'Helvetica', // Add this line
+
     };
 
     const flexContainerStyle = {
@@ -47,19 +85,25 @@ function LogIn() {
                     type='text'
                     placeholder='Escriba su correo electrónico'
                     style={inputStyle}
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
                     />
 
                     <a style={labelStyle}>Contraseña</a>
                     <input
-                    type='text'
+                    type='password'
                     placeholder='Escriba su contraseña'
                     style={inputStyle}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
                     />
 
                     <button className='button' style={{
-                      marginTop: '4%',
-                      fontSize: '1.5rem',
-                      width: '60%' }}>
+                        marginTop: '4%',
+                        fontSize: '1.5rem',
+                        width: '60%' }}
+                        onClick={handleLogin}
+                    >
                         Iniciar sesión
                     </button>
 
