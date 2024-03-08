@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
-import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
 import PersonCard from '../components/PeopleCard';
 import AdminLayout from '../components/AdminLayout';
 import axios from 'axios';
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 const AdminSocios = () => {
   const [sociosList, setSociosList] = useState([]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/user/")
+    axios.get(`${API_ENDPOINT}users/`)
       .then(response => {
         console.log(response.data.filter(u => u.role === "PARTNER"));
         setSociosList(response.data.filter(u => u.role === "PARTNER"));

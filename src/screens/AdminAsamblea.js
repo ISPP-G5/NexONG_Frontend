@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
-import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
 import AdminLayout from '../components/AdminLayout';
 import axios from 'axios';
 
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 const Asamblea = () => {
   const [titulo,setTitulo] = useState('');
   const [descripcion,setDescripcion] = useState('');
@@ -27,7 +27,7 @@ const Asamblea = () => {
       window.alert("Se debe de insertar una hora")
     }else{
       const listaAsistentes = asistentes.split(',');
-      const update = await axios.post('http://127.0.0.1:8000/api/meeting/',{
+      const update = await axios.post(`${API_ENDPOINT}meeting/`,{
         name: titulo,
         description: descripcion,
         date: fecha,
