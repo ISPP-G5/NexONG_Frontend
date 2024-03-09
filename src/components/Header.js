@@ -18,7 +18,7 @@ function Header(){
 
             <li><Link to="/voluntarios">Voluntariado</Link></li>
 
-            <li><Link to="/donaciones">Voluntariado</Link></li>
+            <li><Link to="/donaciones">Donaciones</Link></li>
             <li><Link to="/agenda">Agenda</Link></li>
 
             <li className="dropdown">
