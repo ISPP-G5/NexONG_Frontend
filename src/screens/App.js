@@ -32,8 +32,12 @@ import AdminEventos from './AdminEventos';
 import AdminClases from './AdminClases';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
-
-
+import KidsDailyEvaluation from './EducatorsKidsDailyEvaluation';
+import KidsYearlyEvaluation from './EducatorsKidsYearlyEvaluation';
+import EducatorsActivities from './EducatorsActivities';
+import ProyectsQuarterlyEvaluation from './EducatorsProyectsQuarterlyEvaluation';
+import ProjectsYearlyEvaluation from './EducatorsProyectsYearlyEvaluation';
+import EducatorsProfile from './EducatorsProfile';
 
 function App() {
   return (
@@ -68,18 +72,24 @@ function App() {
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
-
-
-
-
-
-      
-
-
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
+            <Route path="/niños" exact={true} element={<KidsDailyEvaluation />} />
+            <Route path="/niños/evaluaciónDiaria" exact={true} element={<KidsDailyEvaluation />} />
+            <Route path="/niños/evaluaciónAnual" exact={true} element={<KidsYearlyEvaluation />} />
+            <Route path="/niños/actividades" exact={true} element={<EducatorsActivities />} />
+            <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+            <Route path="/proyectos/evaluaciónTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+            <Route path="/proyectos/evaluaciónAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/EducatorProfile" exact={true} element={<EducatorsProfile />} />
+
+
+
+
+
+
 
             </Routes>
     </Router>
