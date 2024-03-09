@@ -17,14 +17,14 @@ const AdminProfiles = () => {
     }, []);
     useEffect(() => {
       console.log('userId',userId);
-    }, [userId]);
+    }, []);
 
   const [valoresList, setValores] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}user/${userId}`)
+    axios.get(`${API_ENDPOINT}user/`)
       .then(response => {
-        setValores(response.data.filter(x => x.role === "ADMIN"));
+        setValores(response.data.filter(x => x.id == {userId}));
       })
       .catch(error => {
         console.error(error);
@@ -62,7 +62,7 @@ const AdminProfiles = () => {
               style={{
                 textDecoration: "none",
                 color: "black",
-                backgroundColor: "#aed6f1", // Cambié el color aquí
+                backgroundColor: "#aed6f1"
               }}>
               Actualizar perfil
             </Link>
