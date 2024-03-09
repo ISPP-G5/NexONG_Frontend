@@ -8,10 +8,11 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminProfiles = () => {
 
-  const [userId, setUserId] = useState(null);
-  const id = localStorage.getItem('userId');
-
+  
+  const [userId, setUserId] = useState(20);
+  
   useEffect(() => {
+      const id = localStorage.getItem('userId');
       setUserId(id);
       console.log('userId',userId);
     }, []);
@@ -24,8 +25,7 @@ const AdminProfiles = () => {
   useEffect(() => {
     axios.get(`${API_ENDPOINT}user/`)
       .then(response => {
-        setValores(response.data.filter(x => x.id = {id}));
-        console.log(valoresList);
+        setValores(response.data.filter(x => x.id === userId));
       })
       .catch(error => {
         console.error(error);
