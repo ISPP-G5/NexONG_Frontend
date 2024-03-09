@@ -76,15 +76,16 @@ function App() {
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
-            <Route path="/niños" exact={true} element={<KidsDailyEvaluation />} />
-            <Route path="/niños/evaluaciónDiaria" exact={true} element={<KidsDailyEvaluation />} />
-            <Route path="/niños/evaluaciónAnual" exact={true} element={<KidsYearlyEvaluation />} />
-            <Route path="/niños/actividades" exact={true} element={<EducatorsActivities />} />
             <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
-            <Route path="/EducatorProfile" exact={true} element={<EducatorsProfile />} />
-
+            
+            {/* Educators */}
+            <Route path="/EducadoresProfile" exact={true} element={<EducatorsProfile />} />
+            <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
+            <Route path="/Educadores/niños/evaluacionAnual" exact={true} element={<KidsYearlyEvaluation />} />
+            <Route path="/Educadores/niños/Actividades" exact={true} element={<EducatorsActivities />} />
+            
 
 
 

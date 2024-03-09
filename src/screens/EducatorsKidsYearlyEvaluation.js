@@ -6,7 +6,7 @@ function KidsYearlyEvaluation() {
   return (
     <div>
       <HeaderEducator/>
-      <div className='educator-main'><MenuEducator selected='Niños' /> 
+      <div className='educator-main'><MenuEducator selected='Evaluación anual Niños' /> 
       <div className='vertical-line'></div>  
 
     
