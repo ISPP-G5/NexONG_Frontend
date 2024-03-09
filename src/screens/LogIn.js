@@ -37,7 +37,7 @@ function LogIn() {
             } else if (user.educator != null) {
                 navigate('/educator');
             } else {
-                navigate(`/AdminPerfil/`);
+                navigate(`/admin/${user.id}/`);
             }
             localStorage.setItem('userId', user.id);
         } else {

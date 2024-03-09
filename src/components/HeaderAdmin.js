@@ -1,7 +1,7 @@
 import logo from '../logo/macn-logo.png';
 import '../styles/styles.css';
 
-function HeaderAdmin(){
+function HeaderAdmin({id}){
     return (
         <div className='header-admin'>
             <img src={logo} alt='logo'/>

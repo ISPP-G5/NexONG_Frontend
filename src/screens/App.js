@@ -69,12 +69,7 @@ function App() {
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
 
-
-
-
-
-      
-
+            <Route path="/admin/:id" element={<AdminFamily />} />
 
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
