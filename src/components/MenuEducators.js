@@ -14,7 +14,8 @@ function MenuEducator({ selected }) {
                             item === 'Evaluación diaria' ? '/Educadores/niños/evaluacionDiaria' : 
                             item === 'Evaluación anual Niños' ? '/Educadores/niños/evaluacionAnual' : 
                             item === 'Evaluación trimestral' ? '/Educadores/proyectos/evaluacionTrimestral' : 
-                            item === 'Evvaluación anual Proyectos' ? '/Educadores/proyectos/evaluacionAnual' : 
+                            item === 'Proyectos' ? '/Educadores/proyectos/evaluacionTrimestral' : 
+                            item === 'Evaluación anual Proyectos' ? '/Educadores/proyectos/evaluacionAnual' : 
                             '/niños/actividades'
                         } 
                         className={`${item === selected ? 'selected-menu' : ''} ${item === 'Niño' || item === 'Proyecto' ? 'left-shift' : 'right-shift'}`}

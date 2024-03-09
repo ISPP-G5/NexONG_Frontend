@@ -1,18 +1,9 @@
 import React from 'react';
-import HeaderEducator from '../components/HeaderEducators';
-import MenuEducator from '../components/MenuEducators';
+import EducatorLayout from '../components/EducatorsLayout';
 function KidsYearlyEvaluation() {
-  
   return (
-    <div>
-      <HeaderEducator/>
-      <div className='educator-main'><MenuEducator selected='Evaluación anual Niños' /> 
-      <div className='vertical-line'></div>  
-
-    
-      
-    </div>
-    </div>
+    <EducatorLayout selected='Evaluación anual Niños'>
+    </EducatorLayout>
   );
 }
 
