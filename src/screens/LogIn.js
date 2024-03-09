@@ -5,7 +5,6 @@ import Footer from '../components/Footer';
 import {Link, useNavigate} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 function LogIn() {
     const [email, setEmail] = useState('');
@@ -58,12 +57,14 @@ function LogIn() {
     };
 
     const inputStyle = {
-        width: '80%', // Use 100% width for the input elements
+        width: '80%', 
         borderRadius: '1rem',
         margin: '0 auto',
-        boxSizing: 'border-box', // Include padding and border in the width calculation
-        fontFamily: 'Helvetica', // Add this line
-
+        boxSizing: 'border-box', 
+        fontFamily: 'Helvetica',
+        border: '1px solid #ccc', 
+        padding: '10px',
+        outline: 'none', 
     };
 
     const flexContainerStyle = {
@@ -80,7 +81,7 @@ function LogIn() {
                 <div className='flex-container-register' style={flexContainerStyle}>
 
                     <div className='h2-register'>Inicie sesión</div>
-                    <a style={labelStyle}>Correo electrónico</a>
+                    <label style={labelStyle}>Correo electrónico</label>
                     <input
                     type='text'
                     placeholder='Escriba su correo electrónico'
@@ -89,7 +90,7 @@ function LogIn() {
                     onChange={e => setEmail(e.target.value)}
                     />
 
-                    <a style={labelStyle}>Contraseña</a>
+                    <label style={labelStyle}>Contraseña</label>
                     <input
                     type='password'
                     placeholder='Escriba su contraseña'
