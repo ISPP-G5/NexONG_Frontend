@@ -11,7 +11,7 @@ const AdminSocios = () => {
   const [sociosList, setSociosList] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}users/`)
+    axios.get(`${API_ENDPOINT}user/`)
       .then(response => {
         console.log(response.data.filter(u => u.role === "PARTNER"));
         setSociosList(response.data.filter(u => u.role === "PARTNER"));
