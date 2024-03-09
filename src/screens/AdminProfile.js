@@ -7,10 +7,22 @@ import axios from 'axios';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminProfiles = () => {
+
+  const [userId, setUserId] = useState(null);
+  
+  useEffect(() => {
+      const id = localStorage.getItem('userId');
+      setUserId(id);
+      console.log('userId',userId);
+    }, []);
+    useEffect(() => {
+      console.log('userId',userId);
+    }, [userId]);
+
   const [valoresList, setValores] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}user/`)
+    axios.get(`${API_ENDPOINT}user/${userId}`)
       .then(response => {
         setValores(response.data.filter(x => x.role === "ADMIN"));
       })
@@ -18,6 +30,9 @@ const AdminProfiles = () => {
         console.error(error);
       });
   }, []);
+
+
+  
 
   return (
     <AdminLayout>
