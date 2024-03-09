@@ -4,7 +4,7 @@ function PersonCard({ person, onDelete }) {
     return (
       <div className='card-info' style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className='family-request'>
-          <img src='https://via.placeholder.com/150' alt='placeholder' />
+          <img src={person.avatar} alt='placeholder' style={{width:'200px'}}/>
           <div className='family-info'>
             <p>{person.name}</p>
             <p>{person.edad || person.surname}</p>
