@@ -12,11 +12,12 @@ function MenuEducator({ selected }) {
                     <a 
                         href={
                             item === 'Evaluación diaria' ? '/Educadores/niños/evaluacionDiaria' : 
+                            item === 'Niños' ? '/Educadores/niños/evaluacionDiaria' : 
                             item === 'Evaluación anual Niños' ? '/Educadores/niños/evaluacionAnual' : 
                             item === 'Evaluación trimestral' ? '/Educadores/proyectos/evaluacionTrimestral' : 
                             item === 'Proyectos' ? '/Educadores/proyectos/evaluacionTrimestral' : 
                             item === 'Evaluación anual Proyectos' ? '/Educadores/proyectos/evaluacionAnual' : 
-                            '/niños/actividades'
+                            '/Educadores/niños/Actividades'
                         } 
                         className={`${item === selected ? 'selected-menu' : ''} ${item === 'Niño' || item === 'Proyecto' ? 'left-shift' : 'right-shift'}`}
                     >{item}</a>

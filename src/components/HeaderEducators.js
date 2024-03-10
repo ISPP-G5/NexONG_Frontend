@@ -6,7 +6,7 @@ function HeaderEducator(){
         <div className='header-volunteer'>
             <img src={logo} alt='logo'/>
             <p>Manos Abiertas Con Norte</p>
-            <a href='/EducatorProfile'>Educador</a>
+            <a href='/EducadoresProfile'>Educador</a>
         </div>
         
     );

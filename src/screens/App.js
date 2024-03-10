@@ -38,7 +38,7 @@ import EducatorsActivities from './EducatorsActivities';
 import ProyectsQuarterlyEvaluation from './EducatorsProyectsQuarterlyEvaluation';
 import ProjectsYearlyEvaluation from './EducatorsProyectsYearlyEvaluation';
 import EducatorsProfile from './EducatorsProfile';
-
+import EducatorProfileUpdate from './EducatorsProileUpdate';
 function App() {
   return (
     <Router>
@@ -82,9 +82,15 @@ function App() {
             
             {/* Educators */}
             <Route path="/EducadoresProfile" exact={true} element={<EducatorsProfile />} />
+            <Route path="/EducadoresProfile/Actualizar" exact={true} element={<EducatorProfileUpdate />} />
             <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
             <Route path="/Educadores/niños/evaluacionAnual" exact={true} element={<KidsYearlyEvaluation />} />
             <Route path="/Educadores/niños/Actividades" exact={true} element={<EducatorsActivities />} />
+            <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/Educadores/proyectos/evaluacionTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+
+
             
 
 
