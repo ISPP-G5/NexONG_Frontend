@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
@@ -6,7 +6,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AdminLayout from '../components/AdminLayout';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 import '../styles/styles.css';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+
 
 const useStyles = makeStyles(() => ({
   addClassButton: {
@@ -48,10 +51,10 @@ const Box = ({ lesson, index, handleDelete }) => {
         <div className="overlap-group">
           <div className="rectangle" />
           <div className="nombre-educador">
-            <div><strong>Nombre:</strong> {lesson.nombre}</div>
-            <div><strong>Educador Asociado:</strong> {lesson.educador}</div>
-            <div><strong>Nº Alumnos:</strong> {lesson.alumnos}</div>
-            <div><strong>Información:</strong> {lesson.descripcion}</div>
+            <div><strong>Nombre:</strong> {lesson.name}</div>
+            <div><strong>Educador Asociado:</strong> {lesson.educator}</div>
+            <div><strong>Nº Alumnos:</strong> {lesson.students.length}</div>
+            <div><strong>Información:</strong> {lesson.description}</div>
           </div>
           <EditIcon className="edit-fill" />
           <DeleteIcon className="trash" onClick={onDeleteClick} />
@@ -105,7 +108,7 @@ const AdminClases = () => {
             <input type="text" placeholder="Ingrese el número" />
             <label>Más Información:</label>
             <input type="text" placeholder="Ingrese la información" />
-            <Button variant="contained" color="primary" onClick={handleClose}>
+            <Button variant="contained" color="primary">
               Crear
             </Button>
           </div>
@@ -113,6 +116,21 @@ const AdminClases = () => {
       </div>
     );
   };
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}lesson/`)
+      .then((response) => {
+        console.log('response:',response.data);
+
+        setLessons(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching lessons:', error);
+      });
+  }, []); 
+
+
 
   return (
     <AdminLayout selected='Clases'> {/* Use AdminLayout here */}
