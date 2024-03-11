@@ -45,15 +45,17 @@ const Box = ({ lesson, index, handleDelete }) => {
   };
 
   return (
-    
     <div className="box">
       <div className="clase">
         <div className="overlap-group">
           <div className="rectangle" />
           <div className="nombre-educador">
+            
             <div><strong>Nombre:</strong> {lesson.name}</div>
+            <div><strong>Descripción:</strong> {lesson.description}</div>
+            <div><strong>Capacidad:</strong> {lesson.capacity}</div>
             <div><strong>Educador Asociado:</strong> {lesson.educator}</div>
-            <div><strong>Nº Alumnos:</strong> {lesson.students.length}</div>
+            <div><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</div>
             <div><strong>Información:</strong> {lesson.description}</div>
           </div>
           <EditIcon className="edit-fill" />
@@ -64,15 +66,10 @@ const Box = ({ lesson, index, handleDelete }) => {
   );
 };
 
+
 const AdminClases = () => {
   const classes = useStyles();
-  const [lessons, setLessons] = useState([
-    { nombre: 'Clase 1', descripcion: 'Clase introducción', alumnos: 20, educador: 'Juan' },
-    { nombre: 'Clase 2', descripcion: 'Clase desarrollo', alumnos: 15, educador: 'María' },
-    { nombre: 'Clase 3', descripcion: 'Clase avanzada', alumnos: 18, educador: 'Pedro' },
-    { nombre: 'Clase 5', descripcion: 'Clase práctica', alumnos: 25, educador: 'Ana' },
-    { nombre: 'Clase 4', descripcion: 'Clase práctica', alumnos: 25, educador: 'Ana' },
-  ]);
+  const [lessons, setLessons] = useState([]);
 
   const [open, setOpen] = useState(false);
 
