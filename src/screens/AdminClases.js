@@ -80,7 +80,7 @@ const AdminClases = () => {
     end_date: '',
   });
 
-  const handleCreateLesson = () => {
+  const handleCreateLesson = (formData) => {
     axios
       .post(`${API_ENDPOINT}lesson/`, formData)
       .then((response) => {
@@ -127,17 +127,17 @@ const AddClass = () => {
     // Handle special case for the "students" field
     if (name === 'students') {
       // Split the input string by commas and convert each ID to an integer
-      const studentIds = value.split(',').map(id => parseInt(id.trim(), 10));
-      setLocalFormData((prevFormData) => ({ ...prevFormData, [name]: studentIds }));
+      const studentIds = value.split(',').map((id) => parseInt(id.trim(), 10));
+      setLocalFormData({ ...localFormData, [name]: studentIds });
     } else {
-      setLocalFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+      setLocalFormData({ ...localFormData, [name]: value });
     }
   };
-
+  
 
   const handleSubmit = () => {
-    setFormData(localFormData);
-    handleCreateLesson();
+    
+    handleCreateLesson(localFormData);
     handleClose();
   };
 
