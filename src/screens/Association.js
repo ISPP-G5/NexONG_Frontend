@@ -1,7 +1,7 @@
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
 import Footer from '../components/Footer';
-import Structure from '../components/Structure'; // import the Structure component
+import Structure from '../components/Intro'; // import the Structure component
 
 const info = [
     {title: 'Nosotros', description: 'Pequeña desc explicativa', link: '/nosotros'},

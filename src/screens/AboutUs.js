@@ -2,7 +2,7 @@ import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Structure from '../components/Structure';
+import Structure from '../components/Intro';
 
 function AboutUs() {
     return (

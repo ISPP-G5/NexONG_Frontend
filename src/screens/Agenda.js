@@ -2,7 +2,7 @@ import '../styles/styles.css';
 import logros from '../logo/agenda-logros.png';
 import globalGoals from '../logo/global-goals.png';
 import Footer from '../components/Footer';
-import Structure from '../components/Structure';
+import Structure from '../components/Intro';
 
 function Agenda() {
     return (

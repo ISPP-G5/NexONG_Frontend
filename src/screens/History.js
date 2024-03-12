@@ -2,7 +2,7 @@
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
 import chronology from '../logo/actividades-jpg-01.jpg';
-import Structure from '../components/Structure';
+import Structure from '../components/Intro';
 
 function History() {
     return (

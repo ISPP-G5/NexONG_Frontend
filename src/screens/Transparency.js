@@ -1,6 +1,6 @@
 import '../styles/styles.css';
 import background from '../logo/manosabiertas.bmp';
-import Structure from '../components/Structure';
+import Structure from '../components/Intro';
 import Footer from '../components/Footer';
 function Transparency() {
     return (

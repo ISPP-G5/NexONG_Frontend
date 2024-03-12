@@ -2,7 +2,7 @@
 import '../styles/styles.css';
 import activities from '../logo/activities.bmp';
 import Footer from '../components/Footer';
-import Structure from '../components/Structure'; 
+import Structure from '../components/Intro'; 
 
 const info = [
     {title: 'Campamentos', description: 'Realización de campamentos de verano para menores de educación primaria y secundaria', link: '/campamentos'},
