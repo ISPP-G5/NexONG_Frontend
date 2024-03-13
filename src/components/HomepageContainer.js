@@ -6,7 +6,8 @@ const HomepageContainer = ({ info }) => (
         {info.map((item, index) => (
             <div key={index} className='flex-container'>
                 <h2>{item.title}</h2>
-                <p>{item.description}</p>
+                {item.description && <p>{item.description}</p>}
+                {item.list && <ul>{item.list.map((item, index) => <li key={index}>{item}</li>)}</ul>}
                 {item.button && <Link to={item.link} className='button'>{item.button}</Link>}
             </div>
         ))}

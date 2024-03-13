@@ -13,7 +13,7 @@ function AboutUs() {
                 description="Asociación Manos Abiertas con Norte es una entidad sin ánimo de lucro, perteneciente a la Red 
                     de Obras Socioeducativas de La Salle, que trabaja en el ámbito de la intervención social en la 
                     barriada Polígono Norte y en el asentamiento chabolista de El Vacie, Sevilla."
-                page={'about'}
+                image={'activities'}
             />
             <div className='homepage-container'>
                 <div className='flex-container'>
