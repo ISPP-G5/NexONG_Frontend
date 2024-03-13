@@ -65,7 +65,7 @@ function App() {
             <Route path="/historia" element={<History />} />
             <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
             <Route path="/asociacion" element={<Association />} />
-       
+            <Route path="/admin/:id" element={<AdminFamily />} />
             <Route path="/transparencia" exact={true} element={<Transparency />} />
             <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
             <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
