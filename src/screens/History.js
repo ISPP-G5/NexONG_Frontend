@@ -14,7 +14,7 @@ function History() {
                 image={'activities'}
             />
 
-            <img src={chronology} alt="Cronología de la Asociación Manos Abiertas con Norte" className="chronology" />
+            <img src={chronology} alt="Cronología de la Asociación Manos Abiertas con Norte" />
 
         </div>
     );

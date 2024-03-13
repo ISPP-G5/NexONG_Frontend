@@ -216,6 +216,26 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
   background-image: url('../logo/camps.jpg');
 }
 
+.intro-container.openRoom::before {
+  background-image: url('../logo/open-room.jpg');
+}
+
+.intro-container.coexistenceRoom::before {
+  background-image: url('../logo/coexistence-room.jpg');
+}
+
+.intro-container.workshop::before {
+  background-image: url('../logo/family-workshops.jpg');
+}
+
+.intro-container.summerClub::before {
+  background-image: url('../logo/summer-club.jpg');
+}
+
+.intro-container.globalGoals::before {
+  background-image: url('../logo/global-goals.png');
+}
+
 .intro-text {
   background-color: rgba(0,0,0, 0.4); 
   color: white;
@@ -435,11 +455,29 @@ tbody tr:nth-child(odd) {
 
 
 
-.info-text {
+
+
+
+/********************* ACTIVIDADES TEXT ******************/
+
+.homepage-text {
   text-align: justify;
   padding: 5%;
   line-height: 30px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

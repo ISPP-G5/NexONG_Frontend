@@ -26,7 +26,7 @@ function Header(){
             <li className="dropdown">
                 <Link to="/actividades">Actividades</Link>
                 <div className="dropdown-content">
-                    <Link to="/campamentos">Campamentos</Link>
+                    <Link to="/campamentos">Campamento de verano</Link>
                     <Link to="/aula-abierta">Aula abierta</Link>
                     <Link to="/aula-convivencia">Aula de convivencia</Link>
                     <Link to="/talleres-familiares">Talleres familiares</Link>
