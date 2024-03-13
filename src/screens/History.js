@@ -3,6 +3,7 @@ import '../styles/styles.css';
 import chronology from '../logo/actividades-desarrolladas.jpg';
 import Intro from '../components/Intro';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function History() {
     return (
@@ -15,6 +16,8 @@ function History() {
             />
 
             <img src={chronology} alt="Cronología de la Asociación Manos Abiertas con Norte" />
+            
+            <Footer />
 
         </div>
     );
