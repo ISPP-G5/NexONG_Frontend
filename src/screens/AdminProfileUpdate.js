@@ -50,7 +50,6 @@ const AdminProfilesUpdate = () => {
   
 
     return (
-      <div className='App'>
          
             <AdminLayout>
                 <div className='update-container' style={{marginLeft:'12.5%'}}>
@@ -107,9 +106,8 @@ const AdminProfilesUpdate = () => {
                     <button onClick={updateAdmin} className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
                             Actualizar perfil
                     </button>
-              </div>
-              </AdminLayout>
-        </div>
+                </div>
+            </AdminLayout>
         
     )
   
