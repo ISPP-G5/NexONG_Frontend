@@ -212,6 +212,10 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
   background-image: url('../logo/activities.bmp');
 }
 
+.intro-container.camps::before {
+  background-image: url('../logo/camps.jpg');
+}
+
 .intro-text {
   background-color: rgba(0,0,0, 0.4); 
   color: white;
