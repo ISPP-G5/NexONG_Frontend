@@ -57,7 +57,6 @@ const Box = ({ lesson, index, handleDelete }) => {
             <div><strong>Capacidad:</strong> {lesson.capacity}</div>
             <div><strong>Educador Asociado:</strong> {lesson.educator}</div>
             <div><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</div>
-            <div><strong>Información:</strong> {lesson.description}</div>
           </div>
           <EditIcon className="edit-fill" />
           <DeleteIcon className="trash" onClick={onDeleteClick} />
@@ -73,6 +72,7 @@ const AdminClases = () => {
   const [open, setOpen] = useState(false);
 
   const [educators, setEducators] = useState([]);
+  const [students, setStudents] = useState([]);
 
   const handleCreateLesson = (formData) => {
     axios
@@ -123,10 +123,6 @@ const AddClass = () => {
     // Handle special cases for certain input types
     if (type === 'checkbox') {
       setLocalFormData({ ...localFormData, [name]: checked });
-    } else if (name === 'students') {
-      // Split the input string by commas and convert each ID to an integer
-      const studentIds = value.split(',').map((id) => parseInt(id.trim(), 10));
-      setLocalFormData({ ...localFormData, [name]: studentIds });
     } else if (name === 'educator') {
 
       // Set only the id of the selected educator
@@ -202,13 +198,18 @@ const AddClass = () => {
           </Select>
 
           <label>Estudiantes (IDs separados por comas):</label>
-          <input
-            type="text"
-            placeholder="Ingrese los IDs de los estudiantes"
+                <Select
             name="students"
+            multiple
             value={localFormData.students}
             onChange={handleChange}
-          />
+          >
+            {students.map((student) => (
+              <MenuItem key={student.id} value={student.id}>
+                {student.name} {/* or any other relevant student information */}
+              </MenuItem>
+            ))}
+          </Select>
 
           <label>Fecha de Inicio:</label>
           <input
@@ -225,10 +226,6 @@ const AddClass = () => {
             value={localFormData.end_date}
             onChange={handleChange}
           />
-
-
-          {/* Add other input fields similarly */}
-
           <Button type="button" variant="contained" color="primary" onClick={handleSubmit}>
             Crear
           </Button>
@@ -238,7 +235,6 @@ const AddClass = () => {
   );
 };
 
-// ... (rest of the code remains the same)
 
 
   useEffect(() => {
@@ -265,6 +261,7 @@ const AddClass = () => {
       .get(`${API_ENDPOINT}student/`)
       .then((response) => {
         console.log('response students:', response.data);
+        setStudents(response.data);
       })
       .catch((error) => {
         console.error('Error fetching educators:', error);
