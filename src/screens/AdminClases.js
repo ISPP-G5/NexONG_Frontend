@@ -6,6 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AdminLayout from '../components/AdminLayout';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 import '../styles/styles.css';
 
@@ -69,16 +71,8 @@ const AdminClases = () => {
   const classes = useStyles();
   const [lessons, setLessons] = useState([]);
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    capacity: '',
-    is_morning_lesson: true,
-    educator: '',
-    students: [],
-    start_date: '',
-    end_date: '',
-  });
+
+  const [educators, setEducators] = useState([]);
 
   const handleCreateLesson = (formData) => {
     axios
@@ -115,24 +109,36 @@ const AddClass = () => {
     name: '',
     description: '',
     capacity: '',
-    is_morning_lesson: true,
+    is_morning_lesson: false,
     educator: '',
     students: [],
     start_date: '',
     end_date: '',
   });
+  
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    // Handle special case for the "students" field
-    if (name === 'students') {
+    const { name, value, type, checked } = e.target;
+  
+    // Handle special cases for certain input types
+    if (type === 'checkbox') {
+      setLocalFormData({ ...localFormData, [name]: checked });
+    } else if (name === 'students') {
       // Split the input string by commas and convert each ID to an integer
       const studentIds = value.split(',').map((id) => parseInt(id.trim(), 10));
       setLocalFormData({ ...localFormData, [name]: studentIds });
+    } else if (name === 'educator') {
+
+      // Set only the id of the selected educator
+    
+      setLocalFormData({ ...localFormData, [name]: value });
     } else {
       setLocalFormData({ ...localFormData, [name]: value });
     }
+
+    console.log('Updated State:', localFormData);
   };
+  
   
 
   const handleSubmit = () => {
@@ -182,14 +188,18 @@ const AddClass = () => {
             onChange={handleChange}
           />
 
-          <label>ID del Educador:</label>
-          <input
-            type="text"
-            placeholder="Ingrese el ID del educador"
+          <label>Seleccione el Educador:</label>
+          <Select
             name="educator"
-            value={localFormData.educator}
+            value={localFormData.educator.id}
             onChange={handleChange}
-          />
+          >
+            {educators.map((educator) => (
+              <MenuItem key={educator.id} value={educator.id}>
+                {educator.id}
+              </MenuItem>
+            ))}
+          </Select>
 
           <label>Estudiantes (IDs separados por comas):</label>
           <input
@@ -240,6 +250,24 @@ const AddClass = () => {
       })
       .catch((error) => {
         console.error('Error fetching lessons:', error);
+      });
+
+    axios
+      .get(`${API_ENDPOINT}educator/`)
+      .then((response) => {
+        console.log('response educators:', response.data);
+        setEducators(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching educators:', error);
+      });
+    axios
+      .get(`${API_ENDPOINT}student/`)
+      .then((response) => {
+        console.log('response students:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching educators:', error);
       });
   }, []);
 
