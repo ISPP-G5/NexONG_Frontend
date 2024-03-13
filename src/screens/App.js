@@ -49,6 +49,7 @@ function App() {
             {/* Falta organizacion */}
             <Route path="/transparencia" exact={true} element={<Transparency />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
+            <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
 
             <Route path="/actividades" element={<Activities />} />
             <Route path="/campamentos" element={<Camps />} />
@@ -59,7 +60,7 @@ function App() {
                         
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/donaciones" element={<Donation />} />
-            <Route path="/voluntarios" element={<Volunteers />} />
+            <Route path="/voluntariado" element={<Volunteers />} />
             <Route path="/sugerencias" element={<Suggestions />} />
             
             <Route path="/registrarse" element={<Register />} />
@@ -81,9 +82,7 @@ function App() {
             
             
             
-            
-            <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
-
+          
 
             </Routes>
     </Router>

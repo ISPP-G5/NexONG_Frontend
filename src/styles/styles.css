@@ -188,11 +188,18 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../logo/manosabiertas.bmp');
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(4px);
   z-index: -1;
+}
+
+.intro-container.home::before {
+  background-image: url('../logo/manosabiertas.bmp');
+}
+
+.intro-container.about::before, .intro-container.asociacion::before {
+  background-image: url('../logo/activities.bmp');
 }
 
 .intro-text {

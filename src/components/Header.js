@@ -35,7 +35,7 @@ function Header(){
             </li>
             <li><Link to="/agenda">Agenda</Link></li>
             <li><Link to="/donaciones">Donaciones</Link></li>
-            <li><Link to="/voluntarios">Voluntariado</Link></li>
+            <li><Link to="/voluntariado">Voluntariado</Link></li>
             <li><Link to="/sugerencias">Sugerencias</Link></li>
             <li><Link to="/registrarse">Registrarse</Link></li>
             <li className='login'><Link to="/iniciar-sesion">Iniciar Sesión</Link></li> 

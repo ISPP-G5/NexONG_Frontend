@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Intro = ({ title, description }) => {
+const Intro = ({ title, description, page }) => {
     const [marginTop, setMarginTop] = useState('0px');
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const Intro = ({ title, description }) => {
     }, []);
 
     return (
-        <div className="intro-container" style={{ marginTop }}>
+        <div className={`intro-container ${page}`} style={{ marginTop }}>
             <div className="intro-text">
                 <h1>{title}</h1>
                 <p>{description}</p>
