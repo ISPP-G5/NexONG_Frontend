@@ -20,6 +20,8 @@ const AdminProfilesUpdate = () => {
 
     const [email, setEmail] = useState("");
 
+    const avatar = "https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg";
+
    const updateAdmin = async () => {
     if(pass2!==password){
         window.alert("¡Las contraseñas no coinciden!");
@@ -51,7 +53,7 @@ const AdminProfilesUpdate = () => {
             <AdminLayout>
                 <div className='update-container' style={{marginLeft:'12.5%'}}>
                 <div style={{alignSelf:'center'}}> 
-                  <img src="https://img.freepik.com/foto-gratis/chico-guapo-seguro-posando-contra-pared-blanca_176420-32936.jpg" alt={"imagen"} style={{ 
+                  <img src={avatar} alt={"imagen"} style={{ 
                       maxWidth: '90%', 
                       maxHeight: '90%', 
                       borderRadius: '100%',
