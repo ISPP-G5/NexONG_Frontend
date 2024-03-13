@@ -21,11 +21,7 @@ const AdminSocios = () => {
       });
   }, []); 
 
-  const handleDelete = (index) => {
-    const updatedSocios = [...sociosList];
-    updatedSocios.splice(index, 1);
-    setSociosList(updatedSocios);
-  };
+ 
 
   return (
     
@@ -38,7 +34,7 @@ const AdminSocios = () => {
             <Link to='/convocar-asamblea'>Convocar Asamblea</Link>
           </div>
           {sociosList.map((socio, index) => (
-            <PersonCard key={index} person={socio} onDelete={() => handleDelete(index)} />
+            <PersonCard key={index} person={socio} />
           ))}
         </div>
       </AdminLayout>

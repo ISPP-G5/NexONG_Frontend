@@ -11,8 +11,6 @@ function PersonCard({ person, onDelete }) {
           </div>
         </div>
         <div className='edit-delete-icons'>
-          <EditIcon className='edit-fill' style={{ marginRight: '1rem' }} />
-          <DeleteIcon className='trash' onClick={onDelete} />
         </div>
       </div>
     );
