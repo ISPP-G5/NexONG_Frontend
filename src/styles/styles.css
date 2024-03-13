@@ -194,6 +194,16 @@ p {
   z-index: -1;
 }
 
+/* IF YOU NEED TO ADD A NEW BACKGROUND IMAGE FOR THE INTRO COMPONENT
+
+COPY THIS AND CHANGE THE NAME AS LIKED:
+
+.intro-container.name::before {
+  background-image: url('../logo/image-wanted.bmp');
+}
+
+*/
+
 .intro-container.ong::before {
   background-image: url('../logo/manosabiertas.bmp');
 }
@@ -245,6 +255,9 @@ p {
   margin: 10px 0; 
 }
 
+.flex-container a {
+  text-decoration: none; 
+}
 
 .flex-container li {
   text-align: justify; 
@@ -316,6 +329,102 @@ p {
 
 
 
+/********************* WHERE ARE WE ******************/
+
+.maps-image {
+  max-width: 600px;
+  max-height: 600px;
+  object-fit: cover;
+  align-self: center;
+}
+
+@media (max-width: 600px) {
+  .maps-image {
+      max-width: 100%;
+      max-height: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+/********************* TRANSPARENCY ******************/
+
+.trans {
+  border-collapse: collapse;
+  width: 80%;
+  text-align: center;
+  padding: 10%;
+  margin: 5% 10% 5% 10%;
+}
+
+.trans a{
+  text-decoration: none;
+}
+
+.trans th{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: white;
+  color: #000;
+}
+
+.trans th{
+  border: 1.5px solid #ffc76e;
+  padding: 8px;
+  background-color: #ffc76e;
+  text-align: center;
+}
+
+.trans td {
+  border: 1.5px solid #ffc76e;
+  padding: 2%;
+}
+
+
+tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.trans tr:nth-child(even){background-color: #fff;}
+.trans td:hover {background-color: #cdf0fe;}
+
+
+@media (max-width: 768px) {
+
+  .trans { 
+      font-size: 10px;
+  }
+}
+
+
+
+
+
+
+
+
+
+/********************* COLABORATORS ENTITIES ******************/
+
+.colab-image {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
+  align-self: center;
+}
+
+@media (max-width: 600px) {
+  .colab-image {
+      max-width: 100%;
+      max-height: 100%;
+  }
+}
 
 
 
@@ -626,55 +735,6 @@ select{
   margin-left: 6%;
 }
 
-
-/*TRANSPARENCY TABLE*/
-.trans {
-  border-collapse: collapse;
-  width: 80%;
-  text-align: center;
-  padding: 10%;
-  margin: 5% 10% 5% 10%;
-}
-
-.trans a{
-  text-decoration: none;
-}
-
-.trans th{
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: white;
-  color: #000;
-}
-
-.trans th{
-  border: 1.5px solid #ffc76e;
-  padding: 8px;
-  background-color: #ffc76e;
-  text-align: center;
-}
-
-.trans td {
-  border: 1.5px solid #ffc76e;
-  padding: 2%;
-}
-
-
-tbody tr:nth-child(odd) {
-  background-color: #fff;
-}
-
-.trans tr:nth-child(even){background-color: #fff;}
-.trans td:hover {background-color: #cdf0fe;}
-
-
-@media (max-width: 768px) {
-
-  .trans { 
-      font-size: 10px;
-  }
-}
 
 
 
