@@ -11,26 +11,6 @@ function Header(){
             </Link>
         </div>
         <ul>
-            <li className='login'><Link to="/iniciar-sesion">Iniciar Sesión</Link></li> 
-            <li><Link to="/registrarse">Registrarse</Link></li>
-            <li><Link to="/sugerencias">Sugerencias</Link></li>
-            
-
-            <li><Link to="/voluntarios">Voluntariado</Link></li>
-
-            <li><Link to="/donaciones">Voluntariado</Link></li>
-            <li><Link to="/agenda">Agenda</Link></li>
-
-            <li className="dropdown">
-                <Link to="/actividades">Actividades</Link>
-                <div className="dropdown-content">
-                    <Link to="/campamentos">Campamentos</Link>
-                    <Link to="/aula-abierta">Aula abierta</Link>
-                    <Link to="/aula-convivencia">Aula de convivencia</Link>
-                    <Link to="/talleres-familiares">Talleres familiares</Link>
-                    <Link to="/club-verano">Club de verano</Link>
-                </div>
-            </li>
             <li className="dropdown">
                 <Link to="/asociacion">Asociación</Link>
                 <div className="dropdown-content">
@@ -43,6 +23,22 @@ function Header(){
 
                 </div>
             </li>
+            <li className="dropdown">
+                <Link to="/actividades">Actividades</Link>
+                <div className="dropdown-content">
+                    <Link to="/campamentos">Campamentos</Link>
+                    <Link to="/aula-abierta">Aula abierta</Link>
+                    <Link to="/aula-convivencia">Aula de convivencia</Link>
+                    <Link to="/talleres-familiares">Talleres familiares</Link>
+                    <Link to="/club-verano">Club de verano</Link>
+                </div>
+            </li>
+            <li><Link to="/agenda">Agenda</Link></li>
+            <li><Link to="/donaciones">Donaciones</Link></li>
+            <li><Link to="/voluntarios">Voluntariado</Link></li>
+            <li><Link to="/sugerencias">Sugerencias</Link></li>
+            <li><Link to="/registrarse">Registrarse</Link></li>
+            <li className='login'><Link to="/iniciar-sesion">Iniciar Sesión</Link></li> 
         </ul>
    
         </div>

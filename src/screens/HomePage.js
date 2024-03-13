@@ -43,8 +43,8 @@ function HomePage() {
                 <div className='homepage-container'>
                     {homepageContainers.map((item, index) => (
                         <div key={index} className='flex-container'>
-                            <h1>{item.title}</h1>
-                            <h3>{item.description}</h3>
+                            <h2>{item.title}</h2>
+                            <p>{item.description}</p>
                             {item.button && <Link to={item.link} className='button'>{item.button}</Link>}
                         </div>
                     ))}
