@@ -16,7 +16,6 @@ const AdminProfilesUpdate = () => {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
 
-    const [pass2, setPass2] = useState("");
 
     const [email, setEmail] = useState("");
 
@@ -25,9 +24,7 @@ const AdminProfilesUpdate = () => {
     
     
    const updateAdmin = async () => {
-    if(pass2!=password){
-        window.alert("¡Las contraseñas no coinciden!");
-    }else{
+
         const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{
             name: name,
             surname: surname,
@@ -45,7 +42,6 @@ const AdminProfilesUpdate = () => {
         }else{
             window.alert("Usuario actualizado con éxito.")
         }
-    }
    }
   
 
@@ -96,12 +92,7 @@ const AdminProfilesUpdate = () => {
                         onChange={(e) => setPassword(e.target.value)} 
                         type='password' 
                         placeholder='Contraseña'></input>
-                    
-                    <div className='bold-text'>Repetir contraseña</div>
-                        <input value={pass2}
-                        onChange={(e) => setPass2(e.target.value)}
-                        type='password' 
-                        placeholder='Contraseña'></input>
+
 
                     <button onClick={updateAdmin} className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
                             Actualizar perfil
