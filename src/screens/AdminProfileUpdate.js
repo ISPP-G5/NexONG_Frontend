@@ -22,8 +22,10 @@ const AdminProfilesUpdate = () => {
 
     const avatar = "https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg";
 
+    
+    
    const updateAdmin = async () => {
-    if(pass2!==password){
+    if(pass2!=password){
         window.alert("¡Las contraseñas no coinciden!");
     }else{
         const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{
