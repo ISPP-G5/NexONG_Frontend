@@ -440,6 +440,54 @@ select{
       width: 60%; /* Adjust the width for smaller screens */
     }
   }
+  .flex-lesson-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    background-color: #fcfdff;
+    border-radius: 2rem;
+    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;   
+    gap: 1.5rem;
+    padding: 4%;
+    position: relative;
+    width: 50%;
+    margin: 9% auto 0;
+    margin-bottom:2%;
+  }
+  /* Media Query for smaller screens */
+  @media screen and (max-width: 1000px) {
+    .flex-lesson-form {
+      width: 60%; /* Adjust the width for smaller screens */
+    }
+  }
+  .form-labelStyle {
+    width: '80%';
+    height: '2rem'; 
+    top: '5rem';
+    font-family: 'Helvetica';
+    font-style: 'normal';
+    font-weight: '505';
+    font-size: '1rem'; 
+    line-height: '1.75rem'; 
+    color: '#7C838A';
+    margin-bottom: '0rem';
+    
+    
+  }
+  .form-inputStyle{
+    width: '80%';
+    border-radius: '1rem';
+    margin: '0 auto';
+    box-sizing: 'border-box';
+  }
+
+  
+  
+  
+  
+
+  
 
   .h2-register {
     color: #000;

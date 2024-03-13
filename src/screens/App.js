@@ -23,7 +23,7 @@ import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
-
+import AdminCreateLesson from './AdminCreateLesson';
 
 
 import Volunteers from './Volunteers';
@@ -68,16 +68,9 @@ function App() {
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
-
-
-
-
-
-      
-
-
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
+            <Route path="/adminCrearClase" exact={true} element={<AdminCreateLesson />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
 
