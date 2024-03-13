@@ -33,27 +33,19 @@ const AdminProfilesUpdate = () => {
     const [pass2, setPass2] = useState("");
 
     const [email, setEmail] = useState("");
-    const [role, setRole] = useState("");
-    const [avatar, setAvatar] = useState("");
 
    const updateAdmin = async () => {
     if(pass2!=password){
         window.alert("¡Las contraseñas no coinciden!");
-    }else if(!(email.includes("@") || email.includes("."))){
-        window.alert("¡Debes introducir un correo electrónico!");
-    }else if(!name || name===""){
-        window.alert("¡Es necesario un nombre!");
-    }else if(!phone || phone==null || phone.length()!=9){
-        window.alert("¡Es necesario un número de teléfono!");
     }else{
         const update = await axios.put(`${API_ENDPOINT}user/${id}`,{
             name:name,
-            surname:valoresList[0].surname,
-            id_number:valoresList[0].id_number,
+            surname:surname,
+            id_number:id_number,
             phone:phone,
             password:password,
             email:email,
-            role:valoresList[0].role,
+            role:"ADMIN",
             avatar:"https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg",
         });
         console.log('update',update);
@@ -79,40 +71,54 @@ const AdminProfilesUpdate = () => {
                       borderRadius: '100%',
                     }}  />
                 </div>
-
+                
+                <form>
                     <div className='bold-text'>Nombre</div>
                         <input value={name} 
                         onChange={(e) => setName(e.target.value)} 
                         type='text' 
                         placeholder='Nombre'></input>
 
+                    <div className='bold-text'>Apellido</div>
+                        <input value={surname} 
+                        onChange={(e) => setSurname(e.target.value)} 
+                        type='text' 
+                        placeholder='Primer Apellido'></input>
+
+                    <div className='bold-text'>Número identificativo</div>
+                        <input value={id_number} 
+                        onChange={(e) => setId_number(e.target.value)} 
+                        type='number' 
+                        placeholder='Número identificativo'></input>
+
                     <div className='bold-text'>Email</div>
                         <input value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
-                        type='text' 
+                        type='email' 
                         placeholder='Email'></input>
 
                     <div className='bold-text'>Teléfono</div>
                         <input value={phone}
                         onChange={(e) => setPhone(e.target.value)} 
-                        type='text' 
+                        type='tel' 
                         placeholder='Número de teléfono'></input>
 
                     <div className='bold-text'>Contraseña</div>
                         <input value={password}
                         onChange={(e) => setPassword(e.target.value)} 
-                        type='text' 
+                        type='password' 
                         placeholder='Contraseña'></input>
                     
                     <div className='bold-text'>Repetir contraseña</div>
                         <input value={pass2}
                         onChange={(e) => setPass2(e.target.value)}
-                        type='text' 
+                        type='password' 
                         placeholder='Contraseña'></input>
 
                     <button onClick={updateAdmin} className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
                             Actualizar perfil
                     </button>
+                </form>
               </div>
               </AdminLayout>
         </div>
