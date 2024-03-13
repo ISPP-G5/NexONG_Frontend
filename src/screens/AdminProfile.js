@@ -8,32 +8,22 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminProfiles = () => {
 
-  
-  const [userId, setUserId] = useState(20);
-  
-  useEffect(() => {
-      const id = localStorage.getItem('userId');
-      setUserId(id);
-      console.log('userId',userId);
-    }, []);
-    useEffect(() => {
-      console.log('userId',userId);
-    }, []);
-
   const [valoresList, setValores] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}user/`)
-      .then(response => {
-        setValores(response.data.filter(x => x.id === userId));
-      })
-      .catch(error => {
-        console.error(error);
-      });
+
+      axios.get(`${API_ENDPOINT}user/`)
+        .then(response => {
+          setValores(response.data.filter(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
   }, []);
 
+  console.log('valoresList',valoresList)
 
-  
 
   return (
     <AdminLayout>
