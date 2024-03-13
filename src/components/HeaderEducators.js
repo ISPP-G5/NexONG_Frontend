@@ -1,15 +1,14 @@
-import { Link } from 'react-router-dom';
 import logo from '../logo/macn-logo.png';
 import '../styles/styles.css';
 
-function HeaderAdmin({id}){
-
+function HeaderEducator(){
     return (
-        <div className='header-admin'>
+        <div className='header-volunteer'>
             <img src={logo} alt='logo'/>
             <p>Manos Abiertas Con Norte</p>
-            <a href='/AdminPerfil'>Admin</a>
+            <a href='/EducadoresProfile'>Educador</a>
         </div>
+        
     );
 }
-export default HeaderAdmin;
+export default HeaderEducator; 
