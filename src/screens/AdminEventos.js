@@ -11,6 +11,15 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import axios from 'axios';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const labelStyle = {
+  width: '80%',
+  fontFamily: 'Helvetica',
+  fontWeight: '505',
+  fontSize: '1rem',
+  lineHeight: '1.75rem',
+  color: '#7C838A',
+  marginBottom: '0.5rem',
+};
 
 function AdminEventos() {
   const localizer = momentLocalizer(moment);
@@ -46,15 +55,6 @@ function AdminEventos() {
   }));
 
   const MultiSelect = ({ label, options, value, onChange }) => {
-    const labelStyle = {
-      width: '80%',
-      fontFamily: 'Helvetica',
-      fontWeight: '505',
-      fontSize: '1rem',
-      lineHeight: '1.75rem',
-      color: '#7C838A',
-      marginBottom: '0.5rem',
-    };
 
     return (
       <div style={{ marginBottom: '1rem' }}>
@@ -77,15 +77,7 @@ function AdminEventos() {
       boxSizing: 'border-box',
     };
 
-    const labelStyle = {
-      width: '80%',
-      fontFamily: 'Helvetica',
-      fontWeight: '505',
-      fontSize: '1rem',
-      lineHeight: '1.75rem',
-      color: '#7C838A',
-      marginBottom: '0.5rem',
-    };
+
 
     return (
       <div style={{ marginBottom: '1rem' }}>
