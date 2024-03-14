@@ -197,7 +197,6 @@ function AdminEventos() {
 
     const handleEventClick = (event) => {
       setEditEvent(event);
-      // Convert attendees and volunteers to arrays if they are not already
       const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
       const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
       setLocalFormData({
@@ -231,7 +230,7 @@ function AdminEventos() {
       fontSize: '1rem',
       lineHeight: '1.75rem',
       color: '#7C838A',
-      marginBottom: '0.5rem', // Adjusted margin
+      marginBottom: '0.5rem', 
     };
     
 

@@ -35,11 +35,9 @@ const AdminCreateLesson = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    // Handle special cases for certain input types
     if (type === 'checkbox') {
       setLocalFormData({ ...localFormData, [name]: checked });
     } else if (name === 'educator') {
-      // Set only the id of the selected educator
       setLocalFormData({ ...localFormData, [name]: value });
     } else {
       setLocalFormData({ ...localFormData, [name]: value });
@@ -49,13 +47,11 @@ const AdminCreateLesson = () => {
   };
 
   const handleSubmit = () => {
-    // Handle the creation of the lesson here
     axios
       .post(`${API_ENDPOINT}lesson/`, localFormData)
       .then((response) => {
         console.log('Response of post:', response.data);
         setLessons([...lessons, response.data]);
-        // Optionally, you can navigate or perform any other action after successful creation
       })
       .catch((error) => {
         console.error('Error creating lesson:', error);
@@ -113,7 +109,6 @@ const AdminCreateLesson = () => {
     });
   }, []);
 
-// ... (previous code)
 
 return (
   <AdminLayout selected='Clases'>
@@ -169,7 +164,7 @@ return (
     >
       {educators.map((educator) => (
         <MenuItem key={educator.id} value={educator.id}>
-          {users.find((user) => user.id === educator.id)?.name} {/* Get the name of the associated user */}
+          {users.find((user) => user.id === educator.id)?.name} 
 
         </MenuItem>
       ))}
@@ -217,7 +212,6 @@ return (
 );
 };
 
-// ... (remaining code)
 
 
 export default AdminCreateLesson;
