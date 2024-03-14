@@ -33,6 +33,8 @@ import AdminClases from './AdminClases';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
 
+import VolunteerAgenda from './VolunteerAgenda';
+
 
 
 function App() {
@@ -72,7 +74,7 @@ function App() {
 
 
 
-
+            <Route path="/voluntarioAgenda" exact={true} element={<VolunteerAgenda />} />
       
 
 
