@@ -593,6 +593,18 @@ tbody tr:nth-child(odd) {
   }
 }
 
+/*AGENDA-2030*/
+.agenda-structure {
+  display: grid;
+  padding: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  font: 500 100%/1.5 system-ui;
+}
+
 
 
 /*FOOTER*/
@@ -1092,23 +1104,42 @@ tbody tr:nth-child(odd) {
 
 /*VOLUNTEER CONTAINER*/
 .volunteer-container {
-  padding-left: 5%;
   flex: 0.85;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
+.register-form-container-add-volunteer {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 50px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form-add-volunteer {
+  text-align: center;
+}
+
+.register-form-add-volunteer button {
+  margin: 0 10px;
+}
+
 /*VOLUNTEER MENU*/
-.menu-volunteer{
+.menu-volunteer {
   background-color: #fcfdff;
   flex: 0.15;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center; 
+  justify-content: center;  
 }
+
 
 .menu-volunteer a {
   align-self: center;
