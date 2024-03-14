@@ -25,7 +25,7 @@ import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
 
 
-
+import VolunteerProfile from './VolunteerProfile';
 import Volunteers from './Volunteers';
 import Agenda from './Agenda';
 import AdminEventos from './AdminEventos';
@@ -58,8 +58,6 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
-            <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
-            <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/historia" element={<History />} />
             <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
@@ -79,6 +77,8 @@ function App() {
             <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/voluntarioPerfil" exact={true} element={<VolunteerProfile />} />
+
             
             {/* Educators */}
             <Route path="/EducadoresProfile" exact={true} element={<EducatorsProfile />} />
