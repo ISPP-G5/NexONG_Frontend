@@ -1,10 +1,17 @@
 import '../styles/styles.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, makeStyles } from '@material-ui/core';
 import AdminLayout from '../components/AdminLayout';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
+
+import axios from 'axios';
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function AdminEventos() {
   const localizer = momentLocalizer(moment);
@@ -31,6 +38,18 @@ function AdminEventos() {
   
 
   const AdminEvents = () => {
+    const [localFormData, setLocalFormData] = useState({
+      name: '',
+      description: '',
+      place: '',
+      max_volunteers: '',
+      max_attendees: '',
+      price: '',
+      attendees: [],
+      volunteers: [],
+      start_date: '',
+      end_date: '',
+    });
     const classes = useStyles();
     const [events, setEvents] = useState([]);
     const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -39,11 +58,60 @@ function AdminEventos() {
     const [eventTitle, setEventTitle] = useState('');
     const [eventDate, setEventDate] = useState('');
     const [eventTime, setEventTime] = useState('');
+    const [volunteers, setVolunteers] = useState([]);
+    const [students, setStudents] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const handleSelect = ({ start }) => {
       setEditEvent({ start, title: '', id: '' });
       setOpenAddDialog(true);
     };
+
+    useEffect(() => {
+      axios
+        .get(`${API_ENDPOINT}event/`)
+        .then((response) => {
+          console.log('response event:', response.data);
+          const formattedEvents = response.data.map(event => ({
+            id: event.id,
+            title: event.name,
+            start: new Date(event.start_date),
+            end: new Date(event.end_date),
+          }));
+          setEvents(formattedEvents);
+        })
+        .catch((error) => {
+          console.error('Error fetching events:', error);
+        });
+      axios
+        .get(`${API_ENDPOINT}volunteer/`)
+        .then((response) => {
+          console.log('response volunteers:', response.data);
+          setVolunteers(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching volunteers:', error);
+        });
+      axios
+        .get(`${API_ENDPOINT}student/`)
+        .then((response) => {
+          console.log('response students:', response.data);
+          setStudents(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching students:', error);
+        });
+        axios
+        .get(`${API_ENDPOINT}user/`)
+        .then((response) => {
+          console.log('response user:', response.data);
+          setUsers(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching users:', error);
+        });
+    }, []);
+  
 
     const handleEventAdd = () => {
       if (eventTitle && eventDate && eventTime) {
@@ -59,7 +127,20 @@ function AdminEventos() {
         setEventDate('');
         setEventTime('');
         setOpenAddDialog(false);
-      }
+      
+        }
+    };
+    const handleSubmit = () => {
+      // Handle the creation of the lesson here
+      axios
+        .post(`${API_ENDPOINT}event/`, localFormData)
+        .then((response) => {
+          console.log('Response of post:', response.data);
+          setEvents([...events, response.data]);
+        })
+        .catch((error) => {
+          console.error('Error creating lesson:', error);
+        });
     };
 
     const handleEventEdit = () => {
@@ -93,38 +174,125 @@ function AdminEventos() {
       setEventTime(moment(event.start).format('HH:mm'));
       setOpenEditDialog(true);
     };
+
+    const inputStyle = {
+      width: '80%',
+      borderRadius: '1rem',
+      margin: '0 auto',
+      boxSizing: 'border-box',
+    };
+
     function renderTextFieldComponents() {
       return (
         <>
           <TextField
             label="Nombre del evento"
-            value={eventTitle}
-            onChange={(e) => setEventTitle(e.target.value)}
+            value={localFormData.name}
+            onChange={(e) => setLocalFormData({ ...localFormData, name: e.target.value })}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+
+          <TextField
+            label="Descripción"
+            value={localFormData.description}
+            onChange={(e) => setLocalFormData({ ...localFormData, description: e.target.value })}
             InputLabelProps={{
               shrink: true,
             }}
             fullWidth
           />
           <TextField
-            label="Fecha"
-            type="date"
-            value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
+            label="Lugar"
+            value={localFormData.place}
+            onChange={(e) => setLocalFormData({ ...localFormData, place: e.target.value })}
             InputLabelProps={{
               shrink: true,
             }}
             fullWidth
           />
           <TextField
-            label="Hora"
-            type="time"
-            value={eventTime}
-            onChange={(e) => setEventTime(e.target.value)}
+              label="Precio"
+              type="number"
+              value={localFormData.price}
+              onChange={(e) => setLocalFormData({ ...localFormData, price: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          <TextField
+            label="Máximo de voluntarios"
+            type="number"
+            value={localFormData.max_volunteers}
+            onChange={(e) => setLocalFormData({ ...localFormData, max_volunteers: e.target.value })}
             InputLabelProps={{
               shrink: true,
             }}
             fullWidth
           />
+          <TextField
+            label="Máximo de asistentes"
+            type="number"
+            value={localFormData.max_attendees}
+            onChange={(e) => setLocalFormData({ ...localFormData, max_attendees: e.target.value })}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+          <TextField
+            label="Fecha de inicio"
+            type="datetime-local"
+            value={localFormData.start_date}
+            onChange={(e) => setLocalFormData({ ...localFormData, start_date: e.target.value })}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+          <TextField
+            label="Fecha de fin"
+            type="datetime-local"
+            value={localFormData.end_date}
+            onChange={(e) => setLocalFormData({ ...localFormData, end_date: e.target.value })}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />  
+          <Select
+            name="attendees"
+            multiple
+            style={inputStyle}
+
+            value={localFormData.attendees}
+            onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
+          >
+            {students.map((student) => (
+              <MenuItem key={student.id} value={student.id}>
+                {student.name} {/* Change 'name' to the relevant property */}
+              </MenuItem>
+            ))}
+          </Select>
+
+          <Select
+            name="volunteers"
+            multiple
+            style={inputStyle}
+
+            value={localFormData.volunteers}
+            onChange={(e) => setLocalFormData({ ...localFormData, volunteers: e.target.value })}
+          >
+            {volunteers.map((volunteer) => (
+              <MenuItem key={volunteer.id} value={volunteer.id}>
+                {users.find((user) => user.id === volunteer.id)?.name} {/* Get the name of the associated user */}
+              </MenuItem>
+            ))}
+        </Select>
+
         </>
       );
     }
@@ -153,13 +321,13 @@ function AdminEventos() {
           />
         </div>
         <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-          <DialogTitle>Add Event</DialogTitle>
+          <DialogTitle>Añadir Evento</DialogTitle>
           <DialogContent>
             {renderTextFieldComponents()}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenAddDialog(false)} color="primary">Not</Button>
-            <Button onClick={handleEventAdd} color="primary">Add</Button>
+            <Button onClick={() => setOpenAddDialog(false)} color="primary">Volver</Button>
+            <Button onClick={handleSubmit}color="primary">Agregar</Button>
           </DialogActions>
         </Dialog>
         <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
@@ -168,9 +336,9 @@ function AdminEventos() {
             {renderTextFieldComponents()}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenEditDialog(false)} color="primary">Not Edit</Button>
-            <Button onClick={handleEventEdit} color="primary">Edit</Button>
-            <Button onClick={handleEventDelete} color="secondary">Delete</Button>
+            <Button onClick={() => setOpenEditDialog(false)} color="primary">Volver</Button>
+            <Button onClick={handleEventEdit} color="primary">Editar</Button>
+            <Button onClick={handleEventDelete} color="secondary">Borrar</Button>
           </DialogActions>
         </Dialog>
       </AdminLayout>
