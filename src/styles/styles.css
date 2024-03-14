@@ -1030,12 +1030,10 @@ tbody tr:nth-child(odd) {
   border-radius: 25px;
   box-shadow: 0px 4px 4px #9ee5ff;
   padding: 3%;
-  position: relative;
-  width: 80%;
+  width: 50%;
   margin: 2%;
-  display: flex;
   align-items: center;
-  justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .card-info .event-details {
@@ -1108,6 +1106,7 @@ tbody tr:nth-child(odd) {
 .volunteer-container {
   flex: 0.85;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
 }

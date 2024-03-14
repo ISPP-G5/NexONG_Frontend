@@ -90,8 +90,7 @@ function App() {
             <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
             <Route path="/Educadores/proyectos/evaluacionTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
 
-            <Route path="/voluntarioEventos" exact={true} element={<VolunteersAttendance />} />
-         
+            <Route path="/voluntarioAsistencia" exact={true} element={<VolunteersAttendance />} />
             <Route path="/voluntarioAgenda" exact={true} element={<VolunteerAgenda />} />
 
 
