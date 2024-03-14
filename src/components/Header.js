@@ -17,6 +17,8 @@ function Header(){
                     <Link to="/nosotros">Nosotros</Link>
                     <Link to="/historia">Historia</Link>
                     <Link to="/donde-estamos">Dónde estamos</Link>
+                    <Link to="/mision-vision-valores">Misión, Visión y Valores</Link>
+                    <Link to="/">La salle</Link>
                     <Link to="/">Organización</Link>
                     <Link to="/transparencia">Transparencia</Link>
                     <Link to="/entidades-colaboradoras">Entidades Colaboradoras</Link>

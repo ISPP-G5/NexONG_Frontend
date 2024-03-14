@@ -46,10 +46,11 @@ function App() {
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/historia" element={<History />} />
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
+            <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
+            {/* Falta la salle */}
             {/* Falta organizacion */}
             <Route path="/transparencia" exact={true} element={<Transparency />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
-            <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
 
             <Route path="/actividades" element={<Activities />} />
             <Route path="/campamentos" element={<Camps />} />

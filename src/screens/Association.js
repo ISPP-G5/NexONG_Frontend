@@ -19,15 +19,33 @@ const info = [
         button: 'Leer más'
     },
     {
+        title: 'Dónde estamos', 
+        description: 'Pequeña desc', 
+        link: '/donde-estamos',
+        button: 'Leer más'
+    },
+    {
         title: 'Mision, Visión y Valores', 
         description: 'Pequeña desc', 
         link: '/mision-vision-valores',
         button: 'Lee más'
     },
     {
-        title: 'Dónde estamos', 
+        title: 'La salle', 
         description: 'Pequeña desc', 
-        link: '/donde-estamos',
+        link: '/',
+        button: 'Leer más'
+    },
+    {
+        title: 'Organización', 
+        description: 'Pequeña desc', 
+        link: '/',
+        button: 'Leer más'
+    },
+    {
+        title: 'Transparencia', 
+        description: 'Pequeña desc', 
+        link: '/transparencia',
         button: 'Leer más'
     },
     {
