@@ -62,8 +62,20 @@ function KidsDailyEvaluation() {
 
   const handleSubmit = async () => {
     try {
-      console.log('current date',selectedDate)
-   
+      const selectedDateObj = new Date(selectedDate);
+        selectedDateObj.setHours(0, 0, 0, 0); 
+
+        // Get today's date
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); 
+
+        // Check if selectedDate is in the future
+        if (selectedDateObj.getTime() > today.getTime()) {
+          console.log('Cannot create an evaluation for a future date');
+          alert('No puede evaluar en una fecha futura');
+          return;
+        }
+      
       const studentId = selectedStudent.id;
       const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
       console.log('Fetched evaluations:', evaluations);
@@ -83,9 +95,14 @@ function KidsDailyEvaluation() {
         console.log('Update response:', updateResponse);
         if (updateResponse.status === 200) {
           console.log('Evaluation updated successfully');
+          alert('Evaluación realizada de manera correcta');
+          setStudentEvaluations(prevEvaluations => prevEvaluations.map(evaluation => 
+            evaluation.id === studentEvaluation.id ? updateResponse.data : evaluation
+          ));
           handleCloseModal();
         } else {
           console.log('Failed to update evaluation');
+          alert('Error al evaluar al estudiante');
         }
       } else {
         console.log('Creating new evaluation with grade:', grade, 'and comment:', comment);
@@ -100,9 +117,12 @@ function KidsDailyEvaluation() {
   
         if (createResponse.status === 201) {
           console.log('Evaluation created successfully');
+          alert('Evaluación realizada de manera correcta');
+          setStudentEvaluations(prevEvaluations => [...prevEvaluations, createResponse.data]);
           handleCloseModal();
         } else {
           console.log('Failed to create evaluation');
+          alert('Error al evaluar al estudiante');
         }
       }
     } catch (error) {

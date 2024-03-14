@@ -86,9 +86,14 @@ function KidsYearlyEvaluation() {
         console.log('Update response:', updateResponse);
         if (updateResponse.status === 200) {
           console.log('Evaluation updated successfully');
+          alert('Evaluación realizada de manera correcta');
+          setStudentEvaluations(prevEvaluations => prevEvaluations.map(evaluation => 
+            evaluation.id === studentEvaluation.id ? updateResponse.data : evaluation
+          ));
           handleCloseModal();
         } else {
           console.log('Failed to update evaluation');
+          alert('Error al evaluar al estudiante');
         }
       } else {
         console.log('Creating new evaluation with grade:', grade, 'and comment:', comment);
@@ -103,9 +108,12 @@ function KidsYearlyEvaluation() {
   
         if (createResponse.status === 201) {
           console.log('Evaluation created successfully');
+          alert('Evaluación realizada de manera correcta');
+          setStudentEvaluations(prevEvaluations => [...prevEvaluations, createResponse.data]);
           handleCloseModal();
         } else {
           console.log('Failed to create evaluation');
+          alert('Error al evaluar al estudiante');
         }
       }
     } catch (error) {
