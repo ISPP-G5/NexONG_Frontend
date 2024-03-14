@@ -33,29 +33,29 @@ const AdminProfilesUpdate = () => {
 
     const avatar = "https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg";
 
-    const [pepito, setPepito] = useState(false)
+    const [valoresCorrectos, setValoresCorrectos] = useState(false)
     
    const updateAdmin = async () => {
 
         if(name==="" || !name){
             setName(valoresList.name)
-            setPepito(true)
+            setValoresCorrectos(true)
         }if(surname==="" || !surname){
             setSurname(valoresList.surname)
-            setPepito(true)
+            setValoresCorrectos(true)
         }if(id_number==="" || !id_number){
             setId_number(valoresList.id_number)
-            setPepito(true)
+            setValoresCorrectos(true)
         }if(phone==="" || !phone){
             setPhone(valoresList.phone)
-            setPepito(true)
+            setValoresCorrectos(true)
         }if(password==="" || !password){
             setPassword(valoresList.password)
-            setPepito(true)
+            setValoresCorrectos(true)
         }if(email==="" || !email){
             setEmail(valoresList.email)
-            setPepito(true)
-        }if(pepito){
+            setValoresCorrectos(true)
+        }if(valoresCorrectos){
             const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{
                 name: name,
                 surname: surname,
