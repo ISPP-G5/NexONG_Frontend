@@ -35,15 +35,17 @@ const VolunteerAgenda = () => {
       });
     axios.get(`${API_ENDPOINT}event/`)
       .then(response => {
-        setActivities(response.data.map(activity => ({
-            id: activity.id,
+        const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
+        setActivities(filteredActivities.map(activity => ({
             title: activity.name,
+            start: new Date(activity.start_date),
+            end: new Date(activity.end_date),
+            id: activity.id,
             description: activity.description,
             place: activity.place,
             max_volunteers: activity.max_volunteers,
             max_attendees: activity.max_attendees,
-            start: activity.start_date,
-            end: activity.end_date,
+            
             price: activity.price,
             attendees: activity.attendees,
             volunteers: activity.volunteers,
@@ -62,11 +64,7 @@ const VolunteerAgenda = () => {
       return;
     }
     if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
-      console.error('The volunteer is already joined.');
-      return;
-    }
-    if(selectedEvent.start!== Date.now()){
-      console.error('The event is already started.');
+      window.alert('Usted ya pertenece a este evento.');
       return;
     }
     const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
