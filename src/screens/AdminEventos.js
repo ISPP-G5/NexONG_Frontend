@@ -8,8 +8,6 @@ import AdminLayout from '../components/AdminLayout';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-
-
 import axios from 'axios';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -40,28 +38,70 @@ function AdminEventos() {
     calendarContainer: {
       flex: 1,
       position: 'relative',
-      minHeight: '20rem', 
+      minHeight: '20rem',
       marginTop: '2rem',
       overflow: 'hidden',
-      
-      width: '90%', 
+      width: '90%',
     },
-    addClassButton: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginRight: '10%',
-      marginTop: '2%',
-      height: '10%',
-      backgroundColor: '#fff',
-      border: 'none',
-      color: '#2196f3',
-      fontSize: '2rem',
-      cursor: 'pointer',
-    },
-   
   }));
-  
+
+  const MultiSelect = ({ label, options, value, onChange }) => {
+    const labelStyle = {
+      width: '80%',
+      fontFamily: 'Helvetica',
+      fontWeight: '505',
+      fontSize: '1rem',
+      lineHeight: '1.75rem',
+      color: '#7C838A',
+      marginBottom: '0.5rem',
+    };
+
+    return (
+      <div style={{ marginBottom: '1rem' }}>
+        <a style={labelStyle}>{label}</a>
+        <Select multiple value={value} onChange={onChange} fullWidth>
+          {options.map((option) => (
+            <MenuItem key={option.id} value={option.id}>
+              {option.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
+    );
+  };
+
+  const renderTextFieldComponent = (label, value, onChangeHandler, type = 'text') => {
+    const inputStyle = {
+      width: '80%',
+      borderRadius: '1rem',
+      boxSizing: 'border-box',
+    };
+
+    const labelStyle = {
+      width: '80%',
+      fontFamily: 'Helvetica',
+      fontWeight: '505',
+      fontSize: '1rem',
+      lineHeight: '1.75rem',
+      color: '#7C838A',
+      marginBottom: '0.5rem',
+    };
+
+    return (
+      <div style={{ marginBottom: '1rem' }}>
+        <a style={labelStyle}>{label}</a>
+        <TextField
+          type={type}
+          value={value}
+          onChange={(e) => onChangeHandler(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          fullWidth
+        />
+      </div>
+    );
+  };
 
   const AdminEvents = () => {
     const [localFormData, setLocalFormData] = useState(initialFormData);
@@ -76,15 +116,16 @@ function AdminEventos() {
     const [volunteers, setVolunteers] = useState([]);
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
+
     const clearLocalFormData = () => {
-      setLocalFormData(initialFormData); 
+      setLocalFormData(initialFormData);
     };
 
     const handleSelect = ({ start }) => {
       setOpenAddDialog(true);
       clearLocalFormData();
       const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
-      setLocalFormData(prevState => ({
+      setLocalFormData((prevState) => ({
         ...prevState,
         start_date: selectedDate,
       }));
@@ -94,14 +135,44 @@ function AdminEventos() {
       setOpenAddDialog(true);
       clearLocalFormData();
     };
-    
+
+    const renderTextFieldComponents = () => {
+      return (
+        <>
+          {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
+          {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({ ...localFormData, description: value }))}
+          {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
+          {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value }), 'number')}
+          {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
+          {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
+          {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
+          {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
+          <MultiSelect
+              label="Voluntarios"
+              options={volunteers.map((volunteer) => ({
+                id: volunteer.id,
+                name: users.find((user) => user.id === volunteer.id)?.name
+              }))}
+              value={localFormData.volunteers}
+              onChange={(e) => setLocalFormData({ ...localFormData, volunteers: e.target.value })}
+            />
+
+          <MultiSelect
+            label="Alumnos que asisten"
+            options={students}
+            value={localFormData.attendees}
+            onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
+          />
+        </>
+      );
+    };
 
     useEffect(() => {
       axios
         .get(`${API_ENDPOINT}event/`)
         .then((response) => {
           console.log('response event:', response.data);
-          const formattedEvents = response.data.map(event => ({
+          const formattedEvents = response.data.map((event) => ({
             id: event.id,
             title: event.name,
             description: event.description,
@@ -109,7 +180,7 @@ function AdminEventos() {
             max_volunteers: event.max_volunteers,
             max_attendees: event.max_attendees,
             price: event.price,
-            attendees: event.attendees, 
+            attendees: event.attendees,
             volunteers: event.volunteers,
             start: new Date(event.start_date),
             end: new Date(event.end_date),
@@ -119,6 +190,7 @@ function AdminEventos() {
         .catch((error) => {
           console.error('Error fetching events:', error);
         });
+
       axios
         .get(`${API_ENDPOINT}volunteer/`)
         .then((response) => {
@@ -128,6 +200,7 @@ function AdminEventos() {
         .catch((error) => {
           console.error('Error fetching volunteers:', error);
         });
+
       axios
         .get(`${API_ENDPOINT}student/`)
         .then((response) => {
@@ -137,7 +210,8 @@ function AdminEventos() {
         .catch((error) => {
           console.error('Error fetching students:', error);
         });
-        axios
+
+      axios
         .get(`${API_ENDPOINT}user/`)
         .then((response) => {
           console.log('response user:', response.data);
@@ -149,7 +223,6 @@ function AdminEventos() {
     }, []);
 
     const handleSubmit = () => {
-
       axios
         .post(`${API_ENDPOINT}event/`, localFormData)
         .then((response) => {
@@ -175,7 +248,6 @@ function AdminEventos() {
 
         setOpenEditDialog(false);
       }
-
     };
 
     const handleEventDelete = () => {
@@ -202,186 +274,22 @@ function AdminEventos() {
         end_date: moment(event.end).format('YYYY-MM-DDTHH:mm'),
       });
       setOpenEditDialog(true);
-
-
     };
-    
-
-    const inputStyle = {
-      width: '80%',
-      borderRadius: '1rem',
-      boxSizing: 'border-box',
-    };
-    
-    const labelStyle = {
-      width: '80%',
-      fontFamily: 'Helvetica',
-      fontWeight: '505',
-      fontSize: '1rem',
-      lineHeight: '1.75rem',
-      color: '#7C838A',
-      marginBottom: '0.5rem', 
-    };
-    
-
-    function renderTextFieldComponents() {
-      return (
-        <>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Nombre del evento</a>
-            <TextField
-              value={localFormData.name}
-              onChange={(e) => setLocalFormData({ ...localFormData, name: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Descripción</a>
-            <TextField
-              value={localFormData.description}
-              onChange={(e) => setLocalFormData({ ...localFormData, description: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Lugar</a>
-            <TextField
-              value={localFormData.place}
-              onChange={(e) => setLocalFormData({ ...localFormData, place: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Precio</a>
-            <TextField
-              type="number"
-              value={localFormData.price}
-              onChange={(e) => setLocalFormData({ ...localFormData, price: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Máximo Voluntarios</a>
-            <TextField
-              type="number"
-              value={localFormData.max_volunteers}
-              onChange={(e) => setLocalFormData({ ...localFormData, max_volunteers: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Voluntarios</a>
-            <Select
-              name="volunteers"
-              multiple
-              style={{ ...inputStyle, marginBottom: '0.5rem' }}
-              value={localFormData.volunteers}
-              onChange={(e) => setLocalFormData({ ...localFormData, volunteers: e.target.value })}
-              fullWidth
-            >
-              {volunteers.map((volunteer) => (
-                <MenuItem key={volunteer.id} value={volunteer.id}>
-                  {users.find((user) => user.id === volunteer.id)?.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Máximo asistentes</a>
-            <TextField
-              type="number"
-              value={localFormData.max_attendees}
-              onChange={(e) => setLocalFormData({ ...localFormData, max_attendees: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-          
-          <div style={{ marginBottom: '1rem' }}>
-             <a style={labelStyle}>Alumnos que asisten</a>
-            <Select
-              name="attendees"
-              multiple
-              style={{ ...inputStyle, marginBottom: '0.5rem' }}
-              value={localFormData.attendees}
-              onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
-              fullWidth
-            >
-              {students.map((student) => (
-                <MenuItem key={student.id} value={student.id}>
-                  {student.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Fecha Inicio</a>
-            <TextField
-              type="datetime-local"
-              value={localFormData.start_date}
-              onChange={(e) => setLocalFormData({ ...localFormData, start_date: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <a style={labelStyle}>Fecha fin</a>
-            <TextField
-              type="datetime-local"
-              value={localFormData.end_date}
-              onChange={(e) => setLocalFormData({ ...localFormData, end_date: e.target.value })}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-            />
-          </div>
-        
-          
-          
-        </>
-      );
-    }
-    
-    
 
     return (
-      <AdminLayout selected='Eventos'>
+      <AdminLayout selected="Eventos">
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-
-
-        <button className={classes.addClassButton} onClick={() => handleEventCreate()}>
-
-        <AddCircleIcon fontSize='large' />
-
-        Crear Evento
-        </button>
+          <button className="addClassButton" onClick={handleEventCreate}>
+            <AddCircleIcon fontSize="large" />
+            Crear Evento
+          </button>
         </div>
         <div className={classes.calendarContainer}>
           <Calendar
             localizer={localizer}
             events={events}
-            startAccessor='start'
-            endAccessor='end'
+            startAccessor="start"
+            endAccessor="end"
             onSelectSlot={handleSelect}
             onSelectEvent={handleEventClick}
             views={['month', 'week', 'day']}
@@ -393,30 +301,36 @@ function AdminEventos() {
         </div>
         <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
           <DialogTitle>Añadir Evento</DialogTitle>
-          <DialogContent>
-            {renderTextFieldComponents()}
-          </DialogContent>
+          <DialogContent>{renderTextFieldComponents()}</DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenAddDialog(false)} color="primary">Volver</Button>
-            <Button onClick={handleSubmit}color="primary">Agregar</Button>
+            <Button onClick={() => setOpenAddDialog(false)} color="primary">
+              Volver
+            </Button>
+            <Button onClick={handleSubmit} color="primary">
+              Agregar
+            </Button>
           </DialogActions>
         </Dialog>
         <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
           <DialogTitle>Edit Event</DialogTitle>
-          <DialogContent>
-            {renderTextFieldComponents()}
-          </DialogContent>
+          <DialogContent>{renderTextFieldComponents()}</DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenEditDialog(false)} color="primary">Volver</Button>
-            <Button onClick={handleEventEdit} color="primary">Editar</Button>
-            <Button onClick={handleEventDelete} color="secondary">Borrar</Button>
+            <Button onClick={() => setOpenEditDialog(false)} color="primary">
+              Volver
+            </Button>
+            <Button onClick={handleEventEdit} color="primary">
+              Editar
+            </Button>
+            <Button onClick={handleEventDelete} color="secondary">
+              Borrar
+            </Button>
           </DialogActions>
         </Dialog>
       </AdminLayout>
     );
-  }
-  return <AdminEvents />;
+  };
 
+  return <AdminEvents />;
 }
 
 export default AdminEventos;

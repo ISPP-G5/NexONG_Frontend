@@ -455,6 +455,29 @@ select{
     margin: auto ;
     margin-bottom:2%;
   }
+  .addClassButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10%;
+    margin-top: 2%;
+    height: 50px; /* You can adjust the height as needed */
+    width: 200px; /* You can adjust the width as needed */
+    background-color: #fff;
+    border: none;
+    color: #2196f3;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px; /* You can add border-radius for rounded corners */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* You can add box-shadow for depth */
+    transition: background-color 0.3s, color 0.3s; /* You can add transitions for smooth hover effects */
+  }
+  
+  .addClassButton:hover {
+    background-color: #f0f0f0; /* You can adjust the background color on hover */
+    color: #0d6efd; /* You can adjust the text color on hover */
+  }
+  
   /* Media Query for smaller screens */
   @media screen and (max-width: 1000px) {
     .flex-lesson-form {

@@ -11,19 +11,7 @@ import '../styles/styles.css';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const useStyles = makeStyles(() => ({
-  addClassButton: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: '10%',
-    marginTop: '2%',
-    height: '10%',
-    backgroundColor: '#fff',
-    border: 'none',
-    color: '#2196f3',
-    fontSize: '2rem',
-    cursor: 'pointer',
-  },
+ 
   lessonsContainer: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -117,7 +105,7 @@ const AdminClases = () => {
     <AdminLayout selected='Clases'>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 
-      <button className={classes.addClassButton} onClick={handleCreateClassClick}>
+      <button className= 'addClassButton' onClick={handleCreateClassClick}>
 
         <AddCircleIcon fontSize='large' />
 
