@@ -1022,7 +1022,7 @@ tbody tr:nth-child(odd) {
 .box .rectangle {
   background-color: #e6f8ff;
   border-radius: 2.5rem;
-  height: 17rem;
+  height: 20rem;
   left: 0;
   position: absolute;
   top: 0;
@@ -1039,24 +1039,25 @@ tbody tr:nth-child(odd) {
   left: 3rem;
   letter-spacing: 0;
   line-height: normal;
+  overflow: auto; /* Enable scrolling for overflow content */
   position: absolute;
   top: 1.75rem;
-  width: 15rem;
+  width: 18rem;
 }
 
 .box .edit-fill {
   height: 1.5rem;
-  left: 70%; /* Adjust as needed */
+  left: 75%; /* Adjust as needed */
   position: absolute;
-  top: 70%; /* Adjust as needed */
+  top: 80%; /* Adjust as needed */
   width: 1.5rem;
 }
 
 .box .trash {
   height: 1.5rem;
-  left: 80%; /* Adjust as needed */
+  left: 85%; /* Adjust as needed */
   position: absolute;
-  top: 70%; /* Adjust as needed */
+  top: 80%; /* Adjust as needed */
   width: 1.5rem;
 }
 

@@ -32,10 +32,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Box = ({ lesson, index, handleDelete }) => {
+const Box = ({ lesson, index, handleDelete, users }) => {
   const onDeleteClick = () => {
     handleDelete(index);
   };
+  const educator = users.find(user => user.id === lesson.educator);
+  const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
+  
 
   return (
     <div className="box">
@@ -45,10 +48,19 @@ const Box = ({ lesson, index, handleDelete }) => {
           <div className="nombre-educador">
             <div><strong>Nombre:</strong> {lesson.name}</div>
             <div><strong>Descripción:</strong> {lesson.description}</div>
+            <div><strong>Inicio:</strong> {lesson.start_date}</div>
+            <div><strong>Fin:</strong> {lesson.end_date}</div>
+
             <div><strong>Capacidad:</strong> {lesson.capacity}</div>
-            <div><strong>Educador Asociado:</strong> {lesson.educator}</div>
+            <div><strong>Educador Asociado:</strong> {educator ? educator.name : "No educator found"}</div>
             <div><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</div>
-          </div>
+
+            <div><strong>Clase de Mañana:</strong> {morningLessonText}</div> {/* Display "Sí" or "No" based on is_morning_lesson */} </div>
+
+
+
+
+
           <EditIcon className="edit-fill" />
           <DeleteIcon className="trash" onClick={onDeleteClick} />
         </div>
@@ -60,6 +72,9 @@ const Box = ({ lesson, index, handleDelete }) => {
 const AdminClases = () => {
   const classes = useStyles();
   const [lessons, setLessons] = useState([]);
+  const [users, setUsers] = useState([]);
+  
+
   const navigate = useNavigate();
   const handleDelete = (index) => {
     const updatedLessons = [...lessons];
@@ -82,6 +97,15 @@ const AdminClases = () => {
       .catch((error) => {
         console.error('Error fetching lessons:', error);
       });
+    axios
+        .get(`${API_ENDPOINT}user/`)
+        .then((response) => {
+          console.log('response user:', response.data);
+          setUsers(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching users:', error);
+        });
   }, []);
 
 
@@ -101,7 +125,7 @@ const AdminClases = () => {
 
       <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
         {lessons.map((lesson, index) => (
-          <Box key={index} index={index} lesson={lesson} handleDelete={handleDelete} />
+          <Box key={index} index={index} lesson={lesson} handleDelete={handleDelete} users={users}/>
         ))}
       </div>
     </AdminLayout>

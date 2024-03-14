@@ -21,6 +21,7 @@ const AdminCreateLesson = () => {
   const [educators, setEducators] = useState([]);
   const [students, setStudents] = useState([]);
   const [lessons, setLessons] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -91,6 +92,15 @@ const AdminCreateLesson = () => {
       .catch((error) => {
         console.error('Error fetching educators:', error);
       });
+    axios
+    .get(`${API_ENDPOINT}user/`)
+    .then((response) => {
+      console.log('response user:', response.data);
+      setUsers(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching users:', error);
+    });
   }, []);
 
 // ... (previous code)
@@ -146,7 +156,8 @@ return (
     >
       {educators.map((educator) => (
         <MenuItem key={educator.id} value={educator.id}>
-          {educator.id} {/* Change 'name' to the relevant property */}
+          {users.find((user) => user.id === educator.id)?.name} {/* Get the name of the associated user */}
+
         </MenuItem>
       ))}
     </Select>
