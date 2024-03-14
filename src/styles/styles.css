@@ -451,8 +451,8 @@ select{
     gap: 1.5rem;
     padding: 4%;
     position: relative;
-    width: 50%;
-    margin: 9% auto 0;
+    width: 40%;
+    margin: auto ;
     margin-bottom:2%;
   }
   /* Media Query for smaller screens */

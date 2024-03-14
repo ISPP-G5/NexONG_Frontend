@@ -38,8 +38,19 @@ const Box = ({ lesson, index, handleDelete, users }) => {
   };
   const educator = users.find(user => user.id === lesson.educator);
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
-  
 
+  // Function to format the date and time in a more readable format
+  const formatDateTime = (dateTimeString) => {
+    const dateTime = new Date(dateTimeString);
+    return dateTime.toLocaleString('es-ES', { hour: 'numeric', minute: 'numeric' });
+  };
+
+  // Function to format the date in a more readable format
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES');
+  };
+  
   return (
     <div className="box">
       <div className="clase">
@@ -48,19 +59,13 @@ const Box = ({ lesson, index, handleDelete, users }) => {
           <div className="nombre-educador">
             <div><strong>Nombre:</strong> {lesson.name}</div>
             <div><strong>Descripción:</strong> {lesson.description}</div>
-            <div><strong>Inicio:</strong> {lesson.start_date}</div>
-            <div><strong>Fin:</strong> {lesson.end_date}</div>
-
+            <div><strong>Inicio:</strong> {formatDate(lesson.start_date)} {formatDateTime(lesson.start_date)}</div>
+            <div><strong>Fin:</strong> {formatDate(lesson.end_date)} {formatDateTime(lesson.end_date)}</div>
             <div><strong>Capacidad:</strong> {lesson.capacity}</div>
             <div><strong>Educador Asociado:</strong> {educator ? educator.name : "No educator found"}</div>
             <div><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</div>
-
-            <div><strong>Clase de Mañana:</strong> {morningLessonText}</div> {/* Display "Sí" or "No" based on is_morning_lesson */} </div>
-
-
-
-
-
+            <div><strong>Clase de Mañana:</strong> {morningLessonText}</div>
+          </div>
           <EditIcon className="edit-fill" />
           <DeleteIcon className="trash" onClick={onDeleteClick} />
         </div>
@@ -68,7 +73,6 @@ const Box = ({ lesson, index, handleDelete, users }) => {
     </div>
   );
 };
-
 const AdminClases = () => {
   const classes = useStyles();
   const [lessons, setLessons] = useState([]);

@@ -3,6 +3,8 @@ import AdminLayout from '../components/AdminLayout';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 import '../styles/styles.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -22,6 +24,13 @@ const AdminCreateLesson = () => {
   const [students, setStudents] = useState([]);
   const [lessons, setLessons] = useState([]);
   const [users, setUsers] = useState([]);
+
+  const navigate = useNavigate();
+  const handleClassClick = () => {
+
+    navigate('/adminClases');
+  
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -68,6 +77,7 @@ const AdminCreateLesson = () => {
 
   const inputStyle = {
     width: '80%',
+    height: '2rem',
     borderRadius: '1rem',
     margin: '0 auto',
     boxSizing: 'border-box',
@@ -107,6 +117,9 @@ const AdminCreateLesson = () => {
 
 return (
   <AdminLayout selected='Clases'>
+  <button className='button' onClick={handleClassClick} style={{ marginTop: '5%', marginLeft: '2%' }}>
+    Volver
+  </button>
   <div className="flex-lesson-form">
     <a style={labelStyle}>Nombre de la clase</a>
     <input
@@ -163,19 +176,20 @@ return (
     </Select>
 
     <a style={labelStyle}>Seleccione a los estudiantes</a>
-    <Select
-      name="students"
-      multiple
-      style={inputStyle}
-      value={localFormData.students}
-      onChange={handleChange}
-    >
-      {students.map((student) => (
-        <MenuItem key={student.id} value={student.id}>
-          {student.name} {/* Change 'name' to the relevant property */}
-        </MenuItem>
-      ))}
-    </Select>
+      <Select
+    name="students"
+    multiple
+    style={inputStyle}
+    value={localFormData.students}
+    onChange={handleChange}
+  >
+    {students.map((student) => (
+      <MenuItem key={student.id} value={student.id}>
+        {student.name}
+      </MenuItem>
+    ))}
+  </Select>
+
 
     <a style={labelStyle}>Fecha de inicio</a>
     <input

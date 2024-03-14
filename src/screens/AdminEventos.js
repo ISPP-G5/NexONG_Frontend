@@ -7,6 +7,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, m
 import AdminLayout from '../components/AdminLayout';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 
 import axios from 'axios';
@@ -33,6 +34,19 @@ function AdminEventos() {
       
       width: '90%', 
     },
+    addClassButton: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: '10%',
+      marginTop: '2%',
+      height: '10%',
+      backgroundColor: '#fff',
+      border: 'none',
+      color: '#2196f3',
+      fontSize: '2rem',
+      cursor: 'pointer',
+    },
    
   }));
   
@@ -55,17 +69,42 @@ function AdminEventos() {
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [editEvent, setEditEvent] = useState(null);
-    const [eventTitle, setEventTitle] = useState('');
-    const [eventDate, setEventDate] = useState('');
-    const [eventTime, setEventTime] = useState('');
+    const [eventTitle] = useState('');
+    const [eventDate] = useState('');
+    const [eventTime] = useState('');
     const [volunteers, setVolunteers] = useState([]);
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
+    const clearLocalFormData = () => {
+      setLocalFormData({
+        name: '',
+        description: '',
+        place: '',
+        max_volunteers: '',
+        max_attendees: '',
+        price: '',
+        attendees: [],
+        volunteers: [],
+        start_date: '',
+        end_date: '',
+      }); 
+    };
 
     const handleSelect = ({ start }) => {
-      setEditEvent({ start, title: '', id: '' });
       setOpenAddDialog(true);
+      clearLocalFormData();
+      const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
+      setLocalFormData(prevState => ({
+        ...prevState,
+        start_date: selectedDate,
+      }));
     };
+
+    const handleEventCreate = () => {
+      setOpenAddDialog(true);
+      clearLocalFormData();
+    };
+    
 
     useEffect(() => {
       axios
@@ -75,6 +114,13 @@ function AdminEventos() {
           const formattedEvents = response.data.map(event => ({
             id: event.id,
             title: event.name,
+            description: event.description,
+            place: event.place,
+            max_volunteers: event.max_volunteers,
+            max_attendees: event.max_attendees,
+            price: event.price,
+            attendees: event.attendees, 
+            volunteers: event.volunteers,
             start: new Date(event.start_date),
             end: new Date(event.end_date),
           }));
@@ -111,32 +157,15 @@ function AdminEventos() {
           console.error('Error fetching users:', error);
         });
     }, []);
-  
 
-    const handleEventAdd = () => {
-      if (eventTitle && eventDate && eventTime) {
-        const start = moment(eventDate + ' ' + eventTime, 'YYYY-MM-DD HH:mm').toDate();
-        const newEvent = {
-          start,
-          end: moment(start).add(1, 'hour').toDate(),
-          title: eventTitle,
-          id: Math.random().toString(36).substring(7),
-        };
-        setEvents([...events, newEvent]);
-        setEventTitle('');
-        setEventDate('');
-        setEventTime('');
-        setOpenAddDialog(false);
-      
-        }
-    };
     const handleSubmit = () => {
-      // Handle the creation of the lesson here
+
       axios
         .post(`${API_ENDPOINT}event/`, localFormData)
         .then((response) => {
           console.log('Response of post:', response.data);
           setEvents([...events, response.data]);
+          setOpenAddDialog(false);
         })
         .catch((error) => {
           console.error('Error creating lesson:', error);
@@ -153,11 +182,10 @@ function AdminEventos() {
           title: eventTitle,
         };
         setEvents(events.map((event) => (event.id === editEvent.id ? updatedEvent : event)));
-        setEventTitle('');
-        setEventDate('');
-        setEventTime('');
+
         setOpenEditDialog(false);
       }
+
     };
 
     const handleEventDelete = () => {
@@ -169,52 +197,83 @@ function AdminEventos() {
 
     const handleEventClick = (event) => {
       setEditEvent(event);
-      setEventTitle(event.title);
-      setEventDate(moment(event.start).format('YYYY-MM-DD'));
-      setEventTime(moment(event.start).format('HH:mm'));
+      // Convert attendees and volunteers to arrays if they are not already
+      const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+      const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
+      setLocalFormData({
+        name: event.title,
+        description: event.description,
+        place: event.place,
+        max_volunteers: event.max_volunteers,
+        max_attendees: event.max_attendees,
+        price: event.price,
+        attendees: attendeesArray,
+        volunteers: volunteersArray,
+        start_date: moment(event.start).format('YYYY-MM-DDTHH:mm'),
+        end_date: moment(event.end).format('YYYY-MM-DDTHH:mm'),
+      });
       setOpenEditDialog(true);
+
+
     };
+    
 
     const inputStyle = {
       width: '80%',
       borderRadius: '1rem',
-      margin: '0 auto',
       boxSizing: 'border-box',
     };
+    
+    const labelStyle = {
+      width: '80%',
+      fontFamily: 'Helvetica',
+      fontWeight: '505',
+      fontSize: '1rem',
+      lineHeight: '1.75rem',
+      color: '#7C838A',
+      marginBottom: '0.5rem', // Adjusted margin
+    };
+    
 
     function renderTextFieldComponents() {
       return (
         <>
-          <TextField
-            label="Nombre del evento"
-            value={localFormData.name}
-            onChange={(e) => setLocalFormData({ ...localFormData, name: e.target.value })}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-          />
-
-          <TextField
-            label="Descripción"
-            value={localFormData.description}
-            onChange={(e) => setLocalFormData({ ...localFormData, description: e.target.value })}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-          />
-          <TextField
-            label="Lugar"
-            value={localFormData.place}
-            onChange={(e) => setLocalFormData({ ...localFormData, place: e.target.value })}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-          />
-          <TextField
-              label="Precio"
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Nombre del evento</a>
+            <TextField
+              value={localFormData.name}
+              onChange={(e) => setLocalFormData({ ...localFormData, name: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Descripción</a>
+            <TextField
+              value={localFormData.description}
+              onChange={(e) => setLocalFormData({ ...localFormData, description: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Lugar</a>
+            <TextField
+              value={localFormData.place}
+              onChange={(e) => setLocalFormData({ ...localFormData, place: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Precio</a>
+            <TextField
               type="number"
               value={localFormData.price}
               onChange={(e) => setLocalFormData({ ...localFormData, price: e.target.value })}
@@ -223,88 +282,111 @@ function AdminEventos() {
               }}
               fullWidth
             />
-          <TextField
-            label="Máximo de voluntarios"
-            type="number"
-            value={localFormData.max_volunteers}
-            onChange={(e) => setLocalFormData({ ...localFormData, max_volunteers: e.target.value })}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-          />
-          <TextField
-            label="Máximo de asistentes"
-            type="number"
-            value={localFormData.max_attendees}
-            onChange={(e) => setLocalFormData({ ...localFormData, max_attendees: e.target.value })}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-          />
-          <TextField
-            label="Fecha de inicio"
-            type="datetime-local"
-            value={localFormData.start_date}
-            onChange={(e) => setLocalFormData({ ...localFormData, start_date: e.target.value })}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-          />
-          <TextField
-            label="Fecha de fin"
-            type="datetime-local"
-            value={localFormData.end_date}
-            onChange={(e) => setLocalFormData({ ...localFormData, end_date: e.target.value })}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-          />  
-          <Select
-            name="attendees"
-            multiple
-            style={inputStyle}
-
-            value={localFormData.attendees}
-            onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
-          >
-            {students.map((student) => (
-              <MenuItem key={student.id} value={student.id}>
-                {student.name} {/* Change 'name' to the relevant property */}
-              </MenuItem>
-            ))}
-          </Select>
-
-          <Select
-            name="volunteers"
-            multiple
-            style={inputStyle}
-
-            value={localFormData.volunteers}
-            onChange={(e) => setLocalFormData({ ...localFormData, volunteers: e.target.value })}
-          >
-            {volunteers.map((volunteer) => (
-              <MenuItem key={volunteer.id} value={volunteer.id}>
-                {users.find((user) => user.id === volunteer.id)?.name} {/* Get the name of the associated user */}
-              </MenuItem>
-            ))}
-        </Select>
-
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Máximo Voluntarios</a>
+            <TextField
+              type="number"
+              value={localFormData.max_volunteers}
+              onChange={(e) => setLocalFormData({ ...localFormData, max_volunteers: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Voluntarios</a>
+            <Select
+              name="volunteers"
+              multiple
+              style={{ ...inputStyle, marginBottom: '0.5rem' }}
+              value={localFormData.volunteers}
+              onChange={(e) => setLocalFormData({ ...localFormData, volunteers: e.target.value })}
+              fullWidth
+            >
+              {volunteers.map((volunteer) => (
+                <MenuItem key={volunteer.id} value={volunteer.id}>
+                  {users.find((user) => user.id === volunteer.id)?.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Máximo asistentes</a>
+            <TextField
+              type="number"
+              value={localFormData.max_attendees}
+              onChange={(e) => setLocalFormData({ ...localFormData, max_attendees: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          </div>
+          
+          <div style={{ marginBottom: '1rem' }}>
+             <a style={labelStyle}>Alumnos que asisten</a>
+            <Select
+              name="attendees"
+              multiple
+              style={{ ...inputStyle, marginBottom: '0.5rem' }}
+              value={localFormData.attendees}
+              onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
+              fullWidth
+            >
+              {students.map((student) => (
+                <MenuItem key={student.id} value={student.id}>
+                  {student.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Fecha Inicio</a>
+            <TextField
+              type="datetime-local"
+              value={localFormData.start_date}
+              onChange={(e) => setLocalFormData({ ...localFormData, start_date: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <a style={labelStyle}>Fecha fin</a>
+            <TextField
+              type="datetime-local"
+              value={localFormData.end_date}
+              onChange={(e) => setLocalFormData({ ...localFormData, end_date: e.target.value })}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+            />
+          </div>
+        
+          
+          
         </>
       );
     }
+    
+    
 
     return (
       <AdminLayout selected='Eventos'>
-        <button
-          className='button'
-          onClick={() => setOpenAddDialog(true)}
-        >
-          Crear Evento
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+
+        <button className={classes.addClassButton} onClick={() => handleEventCreate()}>
+
+        <AddCircleIcon fontSize='large' />
+
+        Crear Evento
         </button>
+        </div>
         <div className={classes.calendarContainer}>
           <Calendar
             localizer={localizer}
