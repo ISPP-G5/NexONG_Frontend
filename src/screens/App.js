@@ -32,9 +32,13 @@ import AdminEventos from './AdminEventos';
 import AdminClases from './AdminClases';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
-
-
-
+import KidsDailyEvaluation from './EducatorsKidsDailyEvaluation';
+import KidsYearlyEvaluation from './EducatorsKidsYearlyEvaluation';
+import EducatorsActivities from './EducatorsActivities';
+import ProyectsQuarterlyEvaluation from './EducatorsProyectsQuarterlyEvaluation';
+import ProjectsYearlyEvaluation from './EducatorsProyectsYearlyEvaluation';
+import EducatorsProfile from './EducatorsProfile';
+import EducatorProfileUpdate from './EducatorsProileUpdate';
 function App() {
   return (
     <Router>
@@ -68,18 +72,31 @@ function App() {
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
-
-
-
-
-
-      
-
-
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
+            <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+            <Route path="/proyectos/evaluaciónTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+            <Route path="/proyectos/evaluaciónAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            
+            {/* Educators */}
+            <Route path="/EducadoresProfile" exact={true} element={<EducatorsProfile />} />
+            <Route path="/EducadoresProfile/Actualizar" exact={true} element={<EducatorProfileUpdate />} />
+            <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
+            <Route path="/Educadores/niños/evaluacionAnual" exact={true} element={<KidsYearlyEvaluation />} />
+            <Route path="/Educadores/niños/Actividades" exact={true} element={<EducatorsActivities />} />
+            <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/Educadores/proyectos/evaluacionTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+
+
+            
+
+
+
+
+
 
             </Routes>
     </Router>
