@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/styles.css';
 import AdminLayout from '../components/AdminLayout';
 import axios from 'axios';
@@ -9,19 +9,31 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const AdminProfilesUpdate = () => {
 
 
-    const [id, setId] = useState(parseInt(localStorage.getItem('userId'),10));
+    const [id, setId] = useState(parseInt(localStorage.getItem('userId'),10)); 
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [id_number, setId_number] = useState("");
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
-
-
     const [email, setEmail] = useState("");
 
     const avatar = "https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg";
 
-    
+    const [valoresList, setValores] = useState("");
+
+    useEffect(() => {
+
+      axios.get(`${API_ENDPOINT}user/`)
+        .then(response => {
+          setValores(response.data.filter(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+    }, []);
+
+    console.log("valoresList",valoresList);
     
    const updateAdmin = async () => {
 
