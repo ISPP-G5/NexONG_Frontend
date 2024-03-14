@@ -23,9 +23,6 @@ import AdminFamily from './AdminFamily';
 import AdminFamilyRequests from './AdminFamilyRequests';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
-
-
-
 import Volunteers from './Volunteers';
 import Agenda from './Agenda';
 import AdminEventos from './AdminEventos';
@@ -33,6 +30,7 @@ import AdminClases from './AdminClases';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
 import VolunteerAgenda from './VolunteerAgenda';
+import VolunteersAttendance from './VolunteersAttendance';
 import KidsDailyEvaluation from './EducatorsKidsDailyEvaluation';
 import KidsYearlyEvaluation from './EducatorsKidsYearlyEvaluation';
 import EducatorsActivities from './EducatorsActivities';
