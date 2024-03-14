@@ -1,5 +1,4 @@
 import '../styles/styles.css';
-import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Intro from '../components/Intro'; 
 import Header from '../components/Header';

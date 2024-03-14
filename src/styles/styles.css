@@ -18,6 +18,18 @@
   font-size: 2rem;
 }
 
+This will just change the color and font size of the h1 but still use the rest 
+of the styles for the h1 (f.e: font-family will be the same).
+
+If you want to create a completely new style for a h1 on a specific screen, 
+just create a new class and use it in the component. Like this:
+
+.my-screen-h1{
+  color: white;
+  font-size: 2rem;
+  text-align: justify;
+}
+
 */
 
 h1 {
@@ -74,7 +86,22 @@ p {
   margin-right: 10%;
 }
 
-input[type=text]{
+label {
+  width: 80%;
+  height: 2rem;
+  font-family: "Poppins", Helvetica;
+  font-style: 'normal';
+  font-weight: 505;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  text-align: left;
+  color: #7C838A;
+  margin-top: 1rem;
+  margin-bottom: 0rem;
+}
+
+input[type=text], input[type=email], input[type=password], input[type=number], input[type=tel] {
+  font-family: "Poppins", Helvetica;
   width: 80%;
   height: 10%;
   padding: 12px 20px;
@@ -84,9 +111,20 @@ input[type=text]{
   background-color:  #f8f8f8;
   resize: none;
   margin: 0 auto;
-  margin-left: 10%;
 }
 
+textarea {
+  font-family: "Poppins", Helvetica;
+  width: 80%;
+  min-height: 100px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 1rem;
+  background-color:  #f8f8f8;
+  resize: none;
+  margin: 0 auto;
+}
 
 
 
@@ -491,7 +529,9 @@ tbody tr:nth-child(odd) {
 
 
 
-/********************* VOLUNTEERS FORM ******************/
+/********************* FORMS: VOLUNTEERS, REGISTER, LOGIN ******************/
+
+/* REGISTER CONTAINER */
 
 .flex-container-register {
   display: flex;
@@ -515,18 +555,125 @@ tbody tr:nth-child(odd) {
   }
 }
 
-.flex-container-register p {
-  width: 80%;
-  height: 2rem;
-  top: 5rem;
-  font-family: "Poppins", Helvetica;
-  font-style: 'normal';
-  font-weight: 505;
-  font-size: 1rem;
-  line-height: 1.75rem;
-  color: #7C838A;
-  margin-bottom: 0rem;
+
+/* CHECKBOX */
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  width: 100%; 
+  margin-left: 20%;
+  margin-bottom: -2%;
 }
+
+.checkbox-label {
+  font-family: "Poppins", Helvetica;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem; 
+  line-height: 1.375rem;
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label:hover {
+    color: #5595b9;
+}
+
+.hidden-checkbox {
+    position: absolute;
+    opacity: 0;
+}
+
+.custom-checkbox {
+    width: 1.5rem; 
+    height: 1.5rem; 
+    font-family: "Poppins", Helvetica;
+    border-radius: 50%;
+    border: 2px solid #e6dddd;
+    background-color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.5rem; 
+}
+
+.hidden-checkbox:checked + .checkbox-label .custom-checkbox {
+    background-color: #00eeff;
+    border-color: #d6c8c8;
+}
+
+.hidden-checkbox:checked + .checkbox-label .custom-checkbox::after {
+    content: '';
+    display: block;
+    width: 0.75rem; 
+    height: 0.75rem; 
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 0.375rem; 
+}
+
+/* REGISTER BUTTON */
+
+.register-button {
+  background-color: #cdf0fe;
+  position: relative;
+  font-family: "Poppins", Helvetica;
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+  justify-content: center;
+  height: fit-content;
+  width: 60%;
+  padding: 2% 5% 2% 5%;
+  border: 2px solid #b7ecff;
+  border-radius: 1rem;
+  text-decoration: none;
+  margin-top: 4%;
+}
+
+.register-button:hover {
+  cursor: pointer;
+  background-color: #b7ecff;
+  box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
+}
+
+
+/* GOOGLE BUTTON */
+
+.google-button {
+  display: flex;
+  position: relative;
+  background-color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 1rem;
+  font-weight: 500;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  height: fit-content;
+  width: 60%;
+  padding: 2% 5% 2% 5%;
+  border: 1px solid #b9b9b9;
+  border-radius: 1rem;
+  box-sizing: border-box; 
+  text-decoration: none;
+}
+
+.google-button:hover {
+  cursor: pointer;
+  background-color: #b9b9b9;
+  box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
+}
+
+
+
+
+
+
+
 
 
 
@@ -550,21 +697,6 @@ tbody tr:nth-child(odd) {
 }
 
 
-
-/*
-input[type=text]{
-    width: 80%;
-    height: 10%;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color:  #f8f8f8;
-    resize: none;
-    margin: 10px;
-    margin-left: 10%;
-}
-*/
 
 select{
     width: 100%;
@@ -702,93 +834,6 @@ select{
 }
   
 
-
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Align checkboxes to the start */
-  width: 100%; /* Make sure checkboxes take the full width */
-  margin-left: 20%; /* Use rem for margin-left */
-  margin-bottom: -2%;
-}
-
-  
-
-.checkbox-label {
-  font-family: "Inter", "Helvetica";
-  font-style: normal;
-  font-weight: 400;
-
-  font-size: 1rem; /* Use rem for font-size */
-  line-height: 1.375rem; /* Use rem for line-height */
-  color: #000000;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-.checkbox-label:hover {
-    color: #5595b9;
-}
-
-.hidden-checkbox {
-    position: absolute;
-    opacity: 0;
-}
-
-.custom-checkbox {
-    width: 1.5rem; /* Use rem for width */
-    height: 1.5rem; /* Use rem for height */
-    font-family: "Inter", "Helvetica";
-    border-radius: 50%;
-    border: 2px solid #e6dddd;
-    background-color: #fff;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 0.5rem; /* Use rem for margin-right */
-}
-
-.hidden-checkbox:checked + .checkbox-label .custom-checkbox {
-    background-color: #00eeff;
-    border-color: #d6c8c8;
-}
-
-.hidden-checkbox:checked + .checkbox-label .custom-checkbox::after {
-    content: '';
-    display: block;
-    width: 0.75rem; /* Use rem for width */
-    height: 0.75rem; /* Use rem for height */
-    background-color: #ffffff;
-    border-radius: 50%;
-    margin: 0.375rem; /* Use rem for margin */
-}
-
-.button-google {
-  
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #ffffff;
-  border-radius: 1rem;
-  height: 4rem;
-  position: relative;
-  width: fit-content;
-  text-align: left;
-  font-size: 1rem; /* Adjust font size as needed */
-  padding: 2% 4%; /* Use percentage for padding */
-  font-family: "Inter", "Helvetica";
-  border: 1px solid #b9b9b9;
-  box-sizing: border-box; /* Add box-sizing property */
-  
-
-}
-
-
-.button-google-img {
-  height: 40%;
-  width: auto;
-  max-height: 80%;
-  margin-left: 6%;
-}
 
 
 

@@ -34,43 +34,37 @@ function VolunteerForm() {
           Complete este breve formulario y nos pondremos en contacto con usted
         </p>
 
-        <p>Nombre</p>
+        <label>Nombre</label>
         <input
           type='text'
           placeholder='Escriba su nombre'
         />
 
-        <p>Apellidos</p>
+        <label>Apellidos</label>
         <input
           type='text'
           placeholder='Escriba sus apellidos'
         />
 
-        <p>Correo electrónico</p>
+        <label>Correo electrónico</label>
         <input
-          type='text'
+          type='email'
           placeholder='Escriba su correo electrónico'
         />
 
-        <p>Teléfono</p>
+        <label>Teléfono</label>
         <input
-          type='text'
+          type='tel'
           placeholder='Escriba su teléfono'
         />
 
-        <p>Formación académica y experiencia laboral</p>
-        <input
-          type='text'
-          placeholder='Escriba aquí'
-        />
+        <label>Formación académica y experiencia laboral</label>
+        <textarea placeholder='Escriba aquí'></textarea>
 
-        <p>Motivación</p>
-        <input
-          type='text'
-          placeholder='Escriba aquí'
-        />        
+        <label>Motivación</label>
+        <textarea placeholder='Escriba aquí'></textarea>       
         
-        <button className='button'>Enviar</button>
+        <button className='register-button'>Enviar</button>
       
       </div>
 
