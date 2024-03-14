@@ -593,6 +593,18 @@ tbody tr:nth-child(odd) {
   }
 }
 
+/*AGENDA-2030*/
+.agenda-structure {
+  display: grid;
+  padding: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  font: 500 100%/1.5 system-ui;
+}
+
 
 
 /*FOOTER*/
