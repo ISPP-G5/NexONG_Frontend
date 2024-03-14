@@ -593,6 +593,18 @@ tbody tr:nth-child(odd) {
   }
 }
 
+/*AGENDA-2030*/
+.agenda-structure {
+  display: grid;
+  padding: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  font: 500 100%/1.5 system-ui;
+}
+
 
 
 /*FOOTER*/
@@ -715,6 +727,7 @@ tbody tr:nth-child(odd) {
 
 /*ADMIN MENU*/
 .menu{
+  margin-top: 3%;
   background-color: #fcfdff;
   flex: 0.15;
   display: flex;
@@ -757,6 +770,7 @@ tbody tr:nth-child(odd) {
 
 .vertical-line {
   width: 0.2%;
+  height: 100vh;
   background-color: #9ee5ff;
   margin-right: 3%;
 }
@@ -1130,6 +1144,108 @@ tbody tr:nth-child(odd) {
 }
 
 .selected-menu-volunteer{
+  width: 80%;
+  background-color: #cdf0fe;
+}
+/*               EDUCATORS STYLES                */
+
+/*EDUCATORS HEADER*/
+
+.header-educator {
+  background-color: #fcfdff;
+  flex: 0.15;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+  margin-bottom: 1%;
+  padding: 1%;
+  width: 100%;
+}
+
+.header-educator a {
+  text-decoration: none;
+  align-self: right;
+  color: black;
+  font-family: "Poppins", Helvetica;
+  font-size: 20px;
+  text-align: center;
+  padding: 14px 16px;
+  margin-right: 3%;
+}
+
+.header-educator a:hover {
+  cursor: pointer;
+  background: #cdf0fe;
+  color: black;
+}
+
+.header-educator p {
+  align-self: center;
+  color: black;
+  font-family: "Poppins", Helvetica;
+  font-size: 20px;
+  text-align: center;
+  margin-right: 3%;
+}
+
+.header-educator img {
+  align-self: left;
+  height: 5%;
+  width: 5%; 
+}
+
+/*VOLUNTEER MAIN CONTAINER*/
+.educator-main {
+  flex: 0.85;
+  display: flex;
+  align-items: stretch;
+}
+
+/*VOLUNTEER CONTAINER*/
+.educator-container {
+  padding-left: 5%;
+  flex: 0.85;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/*VOLUNTEER MENU*/
+.menu-educator{
+  background-color: #fcfdff;
+  flex: 0.15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-educator a {
+  align-self: center;
+  color: black;
+  font-family: "Open Sans", Helvetica;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: normal;
+  text-align: center;
+  padding: 10%;
+  text-decoration: none;
+}
+
+.menu-educator a:hover {
+  padding: 10%;
+  cursor: pointer;
+  text-align: center;
+  background: #cdf0fe;
+  color: black;
+  width: 80%;
+}
+
+.selected-menu-educator{
   width: 80%;
   background-color: #cdf0fe;
 }
