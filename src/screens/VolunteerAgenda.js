@@ -68,6 +68,11 @@ const VolunteerAgenda = () => {
       return;
     }
     const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
+    if (updatedVolunteers.length > selectedEvent.max_volunteers) {
+      window.alert('El número de voluntarios excede el límite máximo permitido.');
+      return;
+    }
+    
     axios.put(`${API_ENDPOINT}event/${selectedEvent.id}/`, { 
       id: selectedEvent.id,
       name: selectedEvent.title,
@@ -85,6 +90,8 @@ const VolunteerAgenda = () => {
       .then(response => {
         console.log('Registered volunteer for:', selectedEvent);
         setShowRegisterForm(false);
+        window.alert('Se ha unido correctamente')
+        window.location.reload(true);
       })
       .catch(error => {
         console.error('Error when registering the volunteer:', error);
