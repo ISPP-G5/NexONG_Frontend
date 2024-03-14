@@ -53,7 +53,6 @@ const AdminProfiles = () => {
               style={{
                 textDecoration: "none",
                 color: "black",
-                backgroundColor: "#aed6f1"
               }}>
               Actualizar perfil
             </Link>

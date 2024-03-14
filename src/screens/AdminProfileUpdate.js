@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/styles.css';
 import AdminLayout from '../components/AdminLayout';
 import axios from 'axios';
@@ -8,40 +8,73 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminProfilesUpdate = () => {
 
+    const [valoresList, setValores] = useState([]);
 
-    const [id, setId] = useState(parseInt(localStorage.getItem('userId'),10));
+    useEffect(() => {
+
+      axios.get(`${API_ENDPOINT}user/`)
+        .then(response => {
+          setValores(response.data.find(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
+            console.log("name", name)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+    }, []);
+
+    const [id, setId] = useState(parseInt(localStorage.getItem('userId'),10)); 
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [id_number, setId_number] = useState("");
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
-
-
     const [email, setEmail] = useState("");
 
     const avatar = "https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg";
 
-    
+    const [valoresCorrectos, setValoresCorrectos] = useState(false)
     
    const updateAdmin = async () => {
 
-        const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{
-            name: name,
-            surname: surname,
-            id_number: id_number,
-            phone : phone,
-            role: "ADMIN",
-            password: password,
-            email: email,
-            avatar: "https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg",
-        });
-        console.log('update',update);
-        const {data} = update;
-        if (data.message){
-            window.alert(data.message);
-        }else{
-            window.alert("Usuario actualizado con éxito.")
+        if(name==="" || !name){
+            setName(valoresList.name)
+            setValoresCorrectos(true)
+        }if(surname==="" || !surname){
+            setSurname(valoresList.surname)
+            setValoresCorrectos(true)
+        }if(id_number==="" || !id_number){
+            setId_number(valoresList.id_number)
+            setValoresCorrectos(true)
+        }if(phone==="" || !phone){
+            setPhone(valoresList.phone)
+            setValoresCorrectos(true)
+        }if(password==="" || !password){
+            setPassword(valoresList.password)
+            setValoresCorrectos(true)
+        }if(email==="" || !email){
+            setEmail(valoresList.email)
+            setValoresCorrectos(true)
+        }if(valoresCorrectos){
+            const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{
+                name: name,
+                surname: surname,
+                id_number: id_number,
+                phone : phone,
+                role: "ADMIN",
+                password: password,
+                email: email,
+                avatar: "https://static.vecteezy.com/system/resources/previews/015/665/684/non_2x/man-with-the-inscription-admin-icon-outline-style-vector.jpg",
+            });
+            console.log('update',update);
+            const {data} = update;
+            if (data.message){
+                window.alert(data.message);
+            }else{
+                window.alert("Usuario actualizado con éxito.")
+            }
         }
+        
    }
   
 
@@ -57,6 +90,12 @@ const AdminProfilesUpdate = () => {
                     }}  />
                 </div>
                 
+                    <div className='hd-center'>
+                        <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{width:'3.5%'}}/>
+                        <strong>Modificar sólo los datos que requieran cambio</strong>
+                        <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{width:'3.5%'}}/>
+                    </div>
+
                     <div className='bold-text'>Nombre</div>
                         <input value={name} 
                         onChange={(e) => setName(e.target.value)} 
