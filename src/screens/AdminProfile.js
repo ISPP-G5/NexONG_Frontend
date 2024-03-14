@@ -8,7 +8,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminProfiles = () => {
 
-  const [valoresList, setValores] = useState([]);
+  const [valores, setValores] = useState([]);
 
   useEffect(() => {
 
@@ -22,12 +22,10 @@ const AdminProfiles = () => {
 
   }, []);
 
-  console.log('valoresList',valoresList)
-
 
   return (
     <AdminLayout>
-      {valoresList.map((profile, index) => (
+      {valores.map((profile, index) => (
         <div key={index} className='update-container' style={{ marginLeft: '12.5%' }}>
           <div style={{ alignSelf: 'center' }}>
             <img src={profile.avatar} alt={"imagen"} style={{

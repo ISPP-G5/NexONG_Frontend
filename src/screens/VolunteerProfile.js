@@ -7,13 +7,13 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const VolunteerProfile = () => {
 
-  const [valoresList, setValores] = useState([]);
+  const [values, setValues] = useState([]);
 
   useEffect(() => {
 
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          setValores(response.data.filter(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
+          setValues(response.data.filter(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
         })
         .catch(error => {
           console.error(error);
@@ -23,7 +23,7 @@ const VolunteerProfile = () => {
 
   return (
     <VolunteerLayout>
-      {valoresList.map((perfil, pos) => (
+      {values.map((perfil, pos) => (
         <div key={pos} className='update-container' style={{ marginLeft: '12.5%' }}>
           <div style={{ alignSelf: 'center' }}>
             <img src={perfil.avatar} alt={"imagen"} style={{
