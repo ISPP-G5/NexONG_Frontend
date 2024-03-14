@@ -21,31 +21,28 @@ const VolunteerProfile = () => {
 
   }, []);
 
-  console.log('valoresList',valoresList)
-
-
   return (
     <VolunteerLayout>
-      {valoresList.map((profile, index) => (
-        <div key={index} className='update-container' style={{ marginLeft: '12.5%' }}>
+      {valoresList.map((perfil, pos) => (
+        <div key={pos} className='update-container' style={{ marginLeft: '12.5%' }}>
           <div style={{ alignSelf: 'center' }}>
-            <img src={profile.avatar} alt={"imagen"} style={{
+            <img src={perfil.avatar} alt={"imagen"} style={{
               maxWidth: '90%',
               maxHeight: '90%',
               borderRadius: '100%',
             }} />
           </div>
 
-          <div style={{ alignSelf: 'center', fontWeight: 'bold' }}>{profile.name}</div>
+          <div className='hd-center'><strong>{perfil.name}</strong></div>
 
           <div className='bold-text'>Email</div>
-          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{profile.email}</div>
+          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{perfil.email}</div>
 
           <div className='bold-text'>Teléfono</div>
-          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{profile.phone}</div>
+          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{perfil.phone}</div>
 
           <div className='bold-text'>Contraseña</div>
-          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{profile.password}</div>
+          <div className='field-text' style={{ margin: '10px', maxWidth: '80%', marginLeft: '10%' }}>{perfil.password}</div>
 
         </div>
       ))}
