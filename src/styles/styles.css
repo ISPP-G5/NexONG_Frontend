@@ -262,7 +262,7 @@ li.dropdown {
 }
 
 
-input[type=text]{
+input{
     width: 80%;
     height: 10%;
     padding: 12px 20px;
@@ -936,6 +936,7 @@ tbody tr:nth-child(odd) {
   margin: 0;
   padding: 0;
 }
+
 .flex-container-Volunteer {
   background-color: #fcfdff;
   border-radius: 25px;
