@@ -16,6 +16,18 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function AdminEventos() {
   const localizer = momentLocalizer(moment);
+  const initialFormData = {
+    name: '',
+    description: '',
+    place: '',
+    max_volunteers: '',
+    max_attendees: '',
+    price: '',
+    attendees: [],
+    volunteers: [],
+    start_date: '',
+    end_date: '',
+  };
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,18 +64,7 @@ function AdminEventos() {
   
 
   const AdminEvents = () => {
-    const [localFormData, setLocalFormData] = useState({
-      name: '',
-      description: '',
-      place: '',
-      max_volunteers: '',
-      max_attendees: '',
-      price: '',
-      attendees: [],
-      volunteers: [],
-      start_date: '',
-      end_date: '',
-    });
+    const [localFormData, setLocalFormData] = useState(initialFormData);
     const classes = useStyles();
     const [events, setEvents] = useState([]);
     const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -76,18 +77,7 @@ function AdminEventos() {
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
     const clearLocalFormData = () => {
-      setLocalFormData({
-        name: '',
-        description: '',
-        place: '',
-        max_volunteers: '',
-        max_attendees: '',
-        price: '',
-        attendees: [],
-        volunteers: [],
-        start_date: '',
-        end_date: '',
-      }); 
+      setLocalFormData(initialFormData); 
     };
 
     const handleSelect = ({ start }) => {
