@@ -1,31 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import '../styles/styles.css';
-import HeaderAdmin from '../components/HeaderAdmin';
-import MenuAdmin from '../components/MenuAdmin';
+import ShowType from '../components/ShowVolunteersAndEducators';
+import axios from 'axios';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+
 
 function AdminVoluntaryAdd() {
+  const [VoluntariosPendientes, setVoluntariosPendientes] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${API_ENDPOINT}volunteer/`)
+            .then(response => {
+              console.log(response.data.filter(u => u.status === "PENDING"));
+              setVoluntariosPendientes(response.data.filter(u => u.status === "PENDING"));
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
     
   return (
-    <div className='App'>
-        <HeaderAdmin />
-        <div className='admin-main'>
-
-            {/* Change selected for the name of your screen */}
-            <MenuAdmin selected='Voluntarios' />
-            <div className='vertical-line'></div>  
-
-            <div className='admin-container'>
-            
-                {/* Example of screen with several screens inside */}
-                <div className='pantallas'>
-                    <Link to='/AdminVoluntarios'>Nuestros Voluntarios</Link>
-                    <Link to='/AdminAñadirVoluntarios' className='selected-pantalla'>Añadir voluntario</Link>
-                </div>
-                
-            </div>
-        </div>        
-    </div>
+    <ShowType type = "VOLUNTEER" añadir={true} voluntariosData={VoluntariosPendientes}></ShowType>
+    
   );
 }
 
