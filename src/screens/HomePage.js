@@ -2,7 +2,17 @@ import '../styles/styles.css';
 import background from '../logo/manosabiertas.bmp';
 import Footer from '../components/Footer';
 import Structure from '../components/Structure';
+import axios from 'axios';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+
 function HomePage() {
+    axios.get( `${API_ENDPOINT}`)
+    .then(response => {
+        console.log(response.data);
+    }, error => {
+        console.error(error);
+    }
+    );
         return (
             <div className="App">
             <Structure 

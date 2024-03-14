@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/styles.css';
 import MenuAdmin from '../components/MenuAdmin';
 import HeaderAdmin from '../components/HeaderAdmin';
 
 
 const AdminProfilesUpdate = () => {
+    const [userId, setUserId] = useState(null);
+    useEffect(() => {
+        const id = localStorage.getItem('userId');
+        setUserId(id);
+        console.log('userId',userId);
+      }, []);
+      useEffect(() => {
+        console.log('userId',userId);
+      }, [userId]);
     return (
+        
       <div className='App'>
           <HeaderAdmin />
           <div className='admin-main'><MenuAdmin selected='Familias' />
