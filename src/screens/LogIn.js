@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import {Link, useNavigate} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 function LogIn() {
     const [email, setEmail] = useState('');
@@ -41,7 +43,7 @@ function LogIn() {
             }
             localStorage.setItem('userId', user.id);
         } else {
-            alert('Contraseña o correo incorrecto');
+            toast.error('Contraseña o correo incorrecto');
         }
     };
     const labelStyle = {
@@ -73,6 +75,7 @@ function LogIn() {
 
     return (
         <div className="App">
+            <ToastContainer/> 
 
             <Header/>
 

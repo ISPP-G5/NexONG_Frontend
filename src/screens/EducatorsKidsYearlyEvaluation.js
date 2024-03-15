@@ -8,7 +8,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import '../styles/styles.css';
-
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 function KidsYearlyEvaluation() {
@@ -86,14 +87,14 @@ function KidsYearlyEvaluation() {
         console.log('Update response:', updateResponse);
         if (updateResponse.status === 200) {
           console.log('Evaluation updated successfully');
-          alert('Evaluación realizada de manera correcta');
+          toast.success('Evaluación realizada de manera correcta');
           setStudentEvaluations(prevEvaluations => prevEvaluations.map(evaluation => 
             evaluation.id === studentEvaluation.id ? updateResponse.data : evaluation
           ));
           handleCloseModal();
         } else {
           console.log('Failed to update evaluation');
-          alert('Error al evaluar al estudiante');
+          toast.error('Error al evaluar al estudiante');
         }
       } else {
         console.log('Creating new evaluation with grade:', grade, 'and comment:', comment);
@@ -105,20 +106,21 @@ function KidsYearlyEvaluation() {
           evaluation_type: 1,
         });
         console.log('Create response:', createResponse);
-  
+      
         if (createResponse.status === 201) {
           console.log('Evaluation created successfully');
-          alert('Evaluación realizada de manera correcta');
+          toast.success('Evaluación realizada de manera correcta');
           setStudentEvaluations(prevEvaluations => [...prevEvaluations, createResponse.data]);
           handleCloseModal();
         } else {
           console.log('Failed to create evaluation');
-          alert('Error al evaluar al estudiante');
+          toast.error('Error al evaluar al estudiante');
         }
       }
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+      } catch (error) {
+        console.error('An error occurred:', error);
+        toast.error('Todos los campos son obligatorios');
+      }
   };
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
@@ -217,7 +219,9 @@ function KidsYearlyEvaluation() {
   console.log('phone',phone)
 
   return (
+    
     <EducatorLayout selected='Evaluación anual Niños'>
+       <ToastContainer />
       <div className='admin-container'></div>
       {students && students.map((student, index) => (
         <StudentCard
@@ -234,6 +238,7 @@ function KidsYearlyEvaluation() {
       ))}
      {showEditModal && (
         <Dialog open={showEditModal} onClose={handleCloseModal}>
+        
           <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit}>
