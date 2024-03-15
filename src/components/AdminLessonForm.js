@@ -16,7 +16,7 @@ const AdminLessonForm = ({ initialData, handleSubmit }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setFormData(initialData); // Populate form data with initial data
+    setFormData(initialData);
 
     axios
       .get(`${API_ENDPOINT}educator/`)
@@ -44,27 +44,23 @@ const AdminLessonForm = ({ initialData, handleSubmit }) => {
       .catch((error) => {
         console.error('Error fetching users:', error);
       });
-  }, [initialData]); // Run effect when initialData changes
+  }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     
-    // Check if the input is a date field
     if (type === 'datetime-local') {
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
-      
     } else {
-      // For other fields, update the form data as usual
       setFormData((prevData) => ({
         ...prevData,
         [name]: type === 'checkbox' ? checked : value,
       }));
     }
   };
-  
   
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
@@ -74,56 +70,54 @@ const AdminLessonForm = ({ initialData, handleSubmit }) => {
     }));
   };
 
-
-
   return (
     <div className="flex-lesson-form">
-        
-      <a className="form-label">Nombre de la clase</a>
+      <a style={labelStyle}>Nombre de la clase</a>
       <input
         type="text"
         placeholder="Ingrese el nombre"
         name="name"
-        className="form-input"
+        style={inputStyle}
         value={formData.name}
         onChange={handleChange}
       />
 
-      <a className="form-labelStyle">Descripción</a>
+      <a style={labelStyle}>Descripción</a>
       <input
         type="text"
         placeholder="Ingrese descripción"
         name="description"
-        className="form-input"
+        style={inputStyle}
         value={formData.description}
         onChange={handleChange}
       />
 
-      <a className="form-label">Capacidad</a>
+      <a style={labelStyle}>Capacidad</a>
       <input
         type="number"
         placeholder="Ingrese la capacidad"
         name="capacity"
-        className="form-input"
+        style={inputStyle}
         value={formData.capacity}
         onChange={handleChange}
         min="1"
       />
 
-      <a className="form-label">¿Es una clase por la mañana?</a>
+      <a style={labelStyle}>¿Es una clase por la mañana?</a>
       <input
         type="checkbox"
         name="is_morning_lesson"
+        style={inputStyle}
         checked={formData.is_morning_lesson}
         onChange={handleChange}
       />
 
-      <a className="form-label">Seleccione al educador/a</a>
+      <a style={labelStyle}>Seleccione al educador/a</a>
       <Select
         name="educator"
+        style={inputStyle}
         value={formData.educator}
         onChange={handleSelectChange}
-        className="form-input"
       >
         {educators.map((educator) => (
           <MenuItem key={educator.id} value={educator.id}>
@@ -132,13 +126,13 @@ const AdminLessonForm = ({ initialData, handleSubmit }) => {
         ))}
       </Select>
 
-      <a className="form-label">Seleccione a los estudiantes</a>
+      <a style={labelStyle}>Seleccione a los estudiantes</a>
       <Select
         name="students"
         multiple
+        style={inputStyle}
         value={formData.students}
         onChange={handleChange}
-        className="form-input"
       >
         {students.map((student) => (
           <MenuItem key={student.id} value={student.id}>
@@ -147,33 +141,50 @@ const AdminLessonForm = ({ initialData, handleSubmit }) => {
         ))}
       </Select>
 
-      <a className="form-label">Fecha de inicio</a>
+      <a style={labelStyle}>Fecha de inicio</a>
       <input
         type="datetime-local"
         name="start_date"
-        className="form-input"
+        style={inputStyle}
         value={formData.start_date}
         onChange={handleChange}
       />
 
-      <a className="form-label">Fecha de fin</a>
+      <a style={labelStyle}>Fecha de fin</a>
       <input
         type="datetime-local"
         name="end_date"
-        className="form-input"
+        style={inputStyle}
         value={formData.end_date}
         onChange={handleChange}
       />
 
-      
-       
-        <button className="button" onClick={() => handleSubmit(formData)}>
-          Guardar
-        </button>
-     
-      
+      <button className="button" onClick={() => handleSubmit(formData)}>
+        Guardar
+      </button>
     </div>
   );
+};
+
+const labelStyle = {
+  width: '80%',
+  height: '2rem',
+  top: '5rem',
+  fontFamily: 'Helvetica',
+  fontStyle: 'normal',
+  fontWeight: '505',
+  fontSize: '1rem',
+  lineHeight: '1.75rem',
+  color: '#7C838A',
+  marginBottom: '0rem',
+};
+
+const inputStyle = {
+  width: '80%',
+  height: '2rem',
+  borderRadius: '1rem',
+  margin: '0 auto',
+  boxSizing: 'border-box',
 };
 
 export default AdminLessonForm;
