@@ -13,8 +13,8 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const useStyles = makeStyles(() => ({
  
   lessonsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(28rem, 1fr))',
     marginTop: '2rem',
     gap: '2rem', // Adjust as needed
   },

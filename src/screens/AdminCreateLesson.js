@@ -4,6 +4,8 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '../styles/styles.css';
 
@@ -24,6 +26,7 @@ const AdminCreateLesson = () => {
   const [students, setStudents] = useState([]);
   const [lessons, setLessons] = useState([]);
   const [users, setUsers] = useState([]);
+  
 
   const navigate = useNavigate();
   const handleClassClick = () => {
@@ -47,14 +50,36 @@ const AdminCreateLesson = () => {
   };
 
   const handleSubmit = () => {
+    if (!localFormData.name || !localFormData.description || !localFormData.capacity || !localFormData.start_date || !localFormData.end_date) {
+      toast.error('Por favor, rellene todos los campos.');
+      return;
+    }
     axios
       .post(`${API_ENDPOINT}lesson/`, localFormData)
       .then((response) => {
         console.log('Response of post:', response.data);
-        setLessons([...lessons, response.data]);
+        toast.success('Clase creada con éxito');
       })
       .catch((error) => {
-        console.error('Error creating lesson:', error);
+        if (error.response && error.response.data) {
+          const { data } = error.response;
+          // Update state with backend validation errors
+          if (data && data.detail) {
+            toast.error(data.detail);
+          } else if (data && data.capacity) {
+            toast.error('Error: el número de alumnos no debe superar a la capacidad.');
+          } else if (data && data.start_date) {
+            toast.error('Error: la fecha de inicio no puede ser en el pasado.');
+          } else if (data && data.end_date) {
+            toast.error('Error: la fecha de fin no puede ser anterior a la de inicio.');
+          } else if (data && data.students) {
+            toast.error('Error: hay estudiantes que no pertenecen a este turno'); // Display students error
+          } else {
+            toast.error('Ha ocurrido un error al crear la clase.');
+          }
+        } else {
+          console.error('Error creating lesson:', error);
+        }
       });
   };
 
@@ -115,6 +140,7 @@ return (
   <button className='button' onClick={handleClassClick} style={{ marginTop: '5%', marginLeft: '2%' }}>
     Volver
   </button>
+  <ToastContainer />
   <div className="flex-lesson-form">
     <a style={labelStyle}>Nombre de la clase</a>
     <input

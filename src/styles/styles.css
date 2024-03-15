@@ -465,7 +465,7 @@ select{
     width: 200px; /* You can adjust the width as needed */
     background-color: #fff;
     border: none;
-    color: #2196f3;
+    color: #000102;
     font-size: 20px;
     cursor: pointer;
     border-radius: 5px; /* You can add border-radius for rounded corners */
@@ -1039,8 +1039,8 @@ tbody tr:nth-child(odd) {
   height: 21rem;
   width: 28rem;
   margin-bottom: 2rem;
-  margin-right: 0%;
-  margin-left: 5%;
+  position: relative;
+  
 }
 
 .box .clase {

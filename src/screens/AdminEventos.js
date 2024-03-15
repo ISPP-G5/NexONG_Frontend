@@ -9,6 +9,8 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const labelStyle = {
@@ -216,19 +218,49 @@ function AdminEventos() {
           console.error('Error fetching users:', error);
         });
     }, []);
-
     const handleSubmit = () => {
+      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+        toast.error('Por favor, rellene todos los campos.');
+        return;
+      }
       axios
         .post(`${API_ENDPOINT}event/`, localFormData)
         .then((response) => {
           console.log('Response of post:', response.data);
+          toast.success('Evento creado con éxito');
+
           setEvents([...events, response.data]);
           setOpenAddDialog(false);
         })
         .catch((error) => {
-          console.error('Error creating lesson:', error);
+          if (error.response && error.response.data) {
+            const { data } = error.response;
+            // Update state with backend validation errors
+            if (data && data.detail) {
+              toast.error('Error: ' + data.detail); // Customized Spanish error message
+            } else if (data && data.name) {
+              toast.error('Error: ' + data.name[0]); // Customized Spanish error message
+            } else if (data && data.description) {
+              toast.error('Error: ' + data.description[0]); // Customized Spanish error message
+            } else if (data && data.place) {
+              toast.error('Error: ' + data.place[0]); // Customized Spanish error message
+            } else if (data && data.start_date) {
+              toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
+            } else if (data && data.end_date) {
+              toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
+            } else if (data && data.max_attendees) {
+              toast.error('Error: No pueden haber más asistenes que el máximo establecido'); // Customized Spanish error message
+            } else if (data && data.max_volunteers) {
+              toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
+            } else {
+              toast.error('Ha ocurrido un error al crear el evento.'); // Customized Spanish error message
+            }
+          } else {
+            console.error('Error creating event:', error);
+          }
         });
     };
+    
 
     const handleEventEdit = () => {
       if (editEvent && eventTitle && eventDate && eventTime) {
@@ -273,12 +305,14 @@ function AdminEventos() {
 
     return (
       <AdminLayout selected="Eventos">
+        <ToastContainer />
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <button className="addClassButton" onClick={handleEventCreate}>
             <AddCircleIcon fontSize="large" />
             Crear Evento
           </button>
         </div>
+
         <div className={classes.calendarContainer}>
           <Calendar
             localizer={localizer}
