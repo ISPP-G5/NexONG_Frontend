@@ -144,6 +144,7 @@ return (
       name="capacity"
       value={localFormData.capacity}
       onChange={handleChange}
+      min = "1"
     />
 
     <a style={labelStyle}>¿Es una clase por la mañana?</a>
