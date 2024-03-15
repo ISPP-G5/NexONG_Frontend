@@ -475,7 +475,7 @@ select{
   
   .addClassButton:hover {
     background-color: #f0f0f0; /* You can adjust the background color on hover */
-    color: #0d6efd; /* You can adjust the text color on hover */
+    color: #9ee5ff; /* You can adjust the text color on hover */
   }
   
   /* Media Query for smaller screens */

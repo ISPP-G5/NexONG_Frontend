@@ -9,11 +9,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import '../styles/styles.css';
+import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const useStyles = makeStyles(() => ({
- 
   lessonsContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(28rem, 1fr))',
@@ -23,29 +23,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
-  const onDeleteClick = () => {
-    handleDelete(index);
-  };
-  
+  const navigate = useNavigate();
   const educator = users.find(user => user.id === lesson.educator);
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
 
-  // Function to format the date and time in a more readable format
-  const formatDateTime = (dateTimeString) => {
-    const dateTime = new Date(dateTimeString);
-    const offset = dateTime.getTimezoneOffset();
-    const adjustedDateTime = new Date(dateTime.getTime() + offset * 60000); // Convert offset to milliseconds
-    return adjustedDateTime.toLocaleString('es-ES', { hour: 'numeric', minute: 'numeric' });
+  const onDeleteClick = () => {
+    handleDelete(lesson.id);
   };
-  
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const offset = date.getTimezoneOffset();
-    const adjustedDate = new Date(date.getTime() + offset * 60000); // Convert offset to milliseconds
-    return adjustedDate.toLocaleDateString('es-ES');
-  };
-  
-  
+
   return (
     <div className="box">
       <div className="clase">
@@ -54,8 +39,8 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
           <div className="nombre-educador">
             <div><strong>Nombre:</strong> {lesson.name}</div>
             <div><strong>Descripción:</strong> {lesson.description}</div>
-            <div><strong>Inicio:</strong> {formatDate(lesson.start_date)} {formatDateTime(lesson.start_date)}</div>
-            <div><strong>Fin:</strong> {formatDate(lesson.end_date)} {formatDateTime(lesson.end_date)}</div>
+            <div><strong>Inicio:</strong> {lesson.start_date} {lesson.start_time}</div>
+            <div><strong>Fin:</strong> {lesson.end_date} {lesson.end_time}</div>
             <div><strong>Capacidad:</strong> {lesson.capacity}</div>
             <div><strong>Educador Asociado:</strong> {educator ? educator.name : "No se encontró educador"}</div>
             <div><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</div>
@@ -68,39 +53,43 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
     </div>
   );
 };
+
 const AdminClases = () => {
   const classes = useStyles();
   const [lessons, setLessons] = useState([]);
   const [users, setUsers] = useState([]);
-  
+  const [lessonToDelete, setLessonToDelete] = useState(null);
 
   const navigate = useNavigate();
-  const handleDelete = (index) => {
-    const lessonId = lessons[index].id; // Assuming each lesson object has an 'id' property
-    axios
-      .delete(`${API_ENDPOINT}lesson/${lessonId}/`)
-      .then((response) => {
-        console.log('Lesson deleted successfully');
-        toast.success('Clase eliminada con éxito');
 
-        
-        const updatedLessons = [...lessons];
-        updatedLessons.splice(index, 1);
-        setLessons(updatedLessons);
-      })
-      .catch((error) => {
-        console.error('Error deleting lesson:', error);
-      });
+  const handleDelete = (lessonId) => {
+    setLessonToDelete(lessonId);
   };
+
+  const handleDeleteConfirmation = () => {
+    if (lessonToDelete) {
+      axios
+        .delete(`${API_ENDPOINT}lesson/${lessonToDelete}/`)
+        .then((response) => {
+          console.log('Lesson deleted successfully');
+          toast.success('Clase eliminada con éxito');
+          setLessons(lessons.filter(lesson => lesson.id !== lessonToDelete));
+        })
+        .catch((error) => {
+          console.error('Error deleting lesson:', error);
+        })
+        .finally(() => {
+          setLessonToDelete(null); // Reset lessonToDelete state
+        });
+    }
+  };
+
   const handleEditClick = (lessonId) => {
     navigate(`/adminEditarClase/${lessonId}`);
   };
-  
 
   const handleCreateClassClick = () => {
-
     navigate('/adminCrearClase');
-  
   };
 
   useEffect(() => {
@@ -114,38 +103,48 @@ const AdminClases = () => {
         console.error('Error fetching lessons:', error);
       });
     axios
-        .get(`${API_ENDPOINT}user/`)
-        .then((response) => {
-          console.log('response user:', response.data);
-          setUsers(response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching users:', error);
-        });
+      .get(`${API_ENDPOINT}user/`)
+      .then((response) => {
+        console.log('response user:', response.data);
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching users:', error);
+      });
   }, []);
-
 
   return (
     <AdminLayout selected='Clases'>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-
-      <button className= 'addClassButton' onClick={handleCreateClassClick}>
-
-        <AddCircleIcon fontSize='large' />
-
-        Crear Clase
-
-      </button>
-
-
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <button className="addClassButton" onClick={handleCreateClassClick}>
+          <AddCircleIcon fontSize='large' />
+          Crear Clase
+        </button>
       </div>
       <ToastContainer />
-
       <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
         {lessons.map((lesson, index) => (
-          <Box key={index} index={index} lesson={lesson} handleDelete={handleDelete} handleEditClick={handleEditClick}users={users}/>
+          <Box
+            key={index}
+            index={index}
+            lesson={lesson}
+            handleDelete={handleDelete}
+            handleEditClick={handleEditClick}
+            users={users}
+          />
         ))}
       </div>
+      <Dialog open={lessonToDelete !== null} onClose={() => setLessonToDelete(null)}>
+        <DialogTitle>¿Estás seguro que quieres borrar esta clase?</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setLessonToDelete(null)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleDeleteConfirmation} color="secondary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </AdminLayout>
   );
 };
