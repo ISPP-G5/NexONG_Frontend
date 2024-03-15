@@ -11,8 +11,7 @@ import SummerClub from './SummerClub';
 import Transparency from './Transparency';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
-import AdminProfileUpdate from './AdminProfileUpdate';
-import AdminProfile from './AdminProfile';
+
 import HomePage from './HomePage';
 import VolunteerForm from './VolunteerForm';
 import AboutUs from './AboutUs';
@@ -24,8 +23,13 @@ import AdminFamilyRequests from './AdminFamilyRequests';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
 
-
+import AdminProfileUpdate from './AdminProfileUpdate';
+import AdminProfile from './AdminProfile';
+import EducatorProfile from './EducatorProfile';
+import EducatorProfileUpdate from './EducatorProfileUpdate';
 import VolunteerProfile from './VolunteerProfile';
+import VolunteerProfileUpdate from './VolunteerProfileUpdate';
+
 import Volunteers from './Volunteers';
 import Agenda from './Agenda';
 import AdminEventos from './AdminEventos';
@@ -37,8 +41,7 @@ import KidsYearlyEvaluation from './EducatorsKidsYearlyEvaluation';
 import EducatorsActivities from './EducatorsActivities';
 import ProyectsQuarterlyEvaluation from './EducatorsProyectsQuarterlyEvaluation';
 import ProjectsYearlyEvaluation from './EducatorsProyectsYearlyEvaluation';
-import EducatorsProfile from './EducatorsProfile';
-import EducatorProfileUpdate from './EducatorsProileUpdate';
+
 function App() {
   return (
     <Router>
@@ -64,8 +67,6 @@ function App() {
             <Route path="/asociacion" element={<Association />} />
             <Route path="/admin/:id" element={<AdminFamily />} />
             <Route path="/transparencia" exact={true} element={<Transparency />} />
-            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
-            <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
@@ -77,12 +78,19 @@ function App() {
             <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
-            <Route path="/voluntarioPerfil" exact={true} element={<VolunteerProfile />} />
 
+            {/* Profiles */}
+            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
+            <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
             
+            <Route path="/voluntarioPerfil" exact={true} element={<VolunteerProfile />} />
+            <Route path="/voluntarioPerfilActualizar" exact={true} element={<VolunteerProfileUpdate />} />
+            
+            <Route path="/educadorPerfil" exact={true} element={<EducatorProfile />} />
+            <Route path="/educadorPerfilActualizar" exact={true} element={<EducatorProfileUpdate />} />
+
+
             {/* Educators */}
-            <Route path="/EducadoresProfile" exact={true} element={<EducatorsProfile />} />
-            <Route path="/EducadoresProfile/Actualizar" exact={true} element={<EducatorProfileUpdate />} />
             <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
             <Route path="/Educadores/niños/evaluacionAnual" exact={true} element={<KidsYearlyEvaluation />} />
             <Route path="/Educadores/niños/Actividades" exact={true} element={<EducatorsActivities />} />
@@ -91,7 +99,7 @@ function App() {
             <Route path="/Educadores/proyectos/evaluacionTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
 
             <Route path="/admin/:id" element={<AdminFamily />} />
-
+            
 
             </Routes>
     </Router>
