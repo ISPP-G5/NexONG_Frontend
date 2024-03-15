@@ -30,6 +30,7 @@ import Volunteers from './Volunteers';
 import Agenda from './Agenda';
 import AdminEventos from './AdminEventos';
 import AdminClases from './AdminClases';
+import AdminEditarClase from './AdminEditarClase';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
 
@@ -81,6 +82,7 @@ function App() {
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
             <Route path="/adminCrearClase" exact={true} element={<AdminCreateLesson />} />
+            <Route path="/adminEditarClase/:lessonId" exact={true} element={<AdminEditarClase />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
             <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
