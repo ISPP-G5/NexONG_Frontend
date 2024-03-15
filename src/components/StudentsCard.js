@@ -19,7 +19,7 @@ const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, on
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
        
-        <button className="edit-button" onClick={onEdit}>Editar</button>
+        <button className="edit-button" onClick={onEdit}>Evaluar</button>
         <button className="bottom-right-button " onClick={onInfo}>Contactar</button>
 
 
