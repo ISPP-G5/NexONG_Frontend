@@ -3,8 +3,38 @@ import google from '../logo/google.svg'
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {Link} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Donation() {
+
+    const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+
+    // const[name,setName] = useState('');
+    // const[email,setEmail] = useState('');
+
+    // const sendOneTimeForm = async () => {
+    //     if(!name || name === ''){
+    //         window.alert("Se debe insertar un nombre")
+    //     }else if(!email || email === ''){
+    //         window.alert("Se debe insertar un correo electrónico")
+    //     }else{
+    //         const update = await axios.post(`${API_ENDPOINT}meeting/`,{
+    //             name: name,
+    //             email: email,
+    //         });
+    //         console.log(update);
+    //         const{data} = update;
+    //         if(data.message){
+    //             window.alert(data.message);
+    //         }else{
+    //             window.alert('Placeholder: Send to donation page')
+    //         }
+    //     }
+    // }
+
+    const[name,setName] = useState('');
+    // const
 
     const tableStyle = {
         width: '100%',
@@ -48,10 +78,13 @@ function Donation() {
                         </td>
                     </tr>
                     <tr>
-                        <td style={{borderRight:'3px solid #b7ecff',
+                        <td style={{
+                        borderRight:'3px solid #b7ecff',
+                        verticalAlign:'top',
                         paddingLeft:'5%',
-                        paddingRight:'5%'}}>
-
+                        paddingRight:'5%',}}>
+                        {/* <form onSubmit={sendOneTimeForm}> */}
+                            
                             <div style={paragraphStyle}>
                                 Si quiere ayudarnos con algún donativo puntual,
                                 puede hacerlo a través de una transferencia
@@ -69,37 +102,70 @@ function Donation() {
                             
                             <div>
 
-                                <div style={labelStyle}>Nombre y apellidos</div>
+                                <div style={labelStyle}>Nombre</div>
+                                <input
+                                // value={name}
+                                type='text'
+                                placeholder='Escriba su nombre'
+                                style={inputStyle}
+                                // onChange={(e) => setName(e.target.value)}
+                                />
+
+                                <div style={labelStyle}>Apellidos</div>
                                 <input
                                 type='text'
-                                placeholder='Escriba su nombre y apellidos'
+                                placeholder='Escriba sus apellidos'
                                 style={inputStyle}
                                 />
 
                                 <div style={labelStyle}>Correo electrónico</div>
                                 <input
+                                // value={email}
                                 type='text'
                                 placeholder='Escriba su correo electrónico'
                                 style={inputStyle}
+                                // onChange={(e) => setEmail(e.target.value)}
+                                />
+
+                                <div style={labelStyle}>Documento de pago</div>
+                                <input
+                                type='file'
                                 />
 
                             </div>
 
-                            <button className='button' style={{
+                            <button type='submit' className='button' style={{
                                   marginTop: '4%',
                                   fontSize: '1.5rem',
                                   width: '30%' }}>
                                     Enviar
                                 </button>
 
+                        {/* </form> */}
                         </td>
-                        <td style={{paddingLeft:'5%',
+                        <td style={{
+                        verticalAlign:'top',
+                        paddingLeft:'5%',
                         paddingRight:'5%'}}>
 
                             <div className='flex-container'>
                                 <h2>Regístrese</h2>
 
                                 <div>
+
+                                    <div style={labelStyle}>Nombre</div>
+                                    <input
+                                    type='text'
+                                    placeholder='Escriba su nombre'
+                                    style={inputStyle}
+                                    />
+
+                                    <div style={labelStyle}>Apellidos</div>
+                                    <input
+                                    type='text'
+                                    placeholder='Escriba sus apellidos'
+                                    style={inputStyle}
+                                    />
 
                                     <div style={labelStyle}>Correo electrónico</div>
                                     <input
@@ -110,14 +176,14 @@ function Donation() {
 
                                     <div style={labelStyle}>Contraseña</div>
                                     <input
-                                    type='text'
+                                    type='password'
                                     placeholder='Escriba su contraseña'
                                     style={inputStyle}
                                     />
 
                                     <div style={labelStyle}>Confirmar contraseña</div>
                                     <input
-                                    type='text'
+                                    type='password'
                                     placeholder='Confirme su contraseña'
                                     style={inputStyle}
                                     />
