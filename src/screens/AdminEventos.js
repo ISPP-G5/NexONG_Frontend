@@ -218,6 +218,7 @@ function AdminEventos() {
           console.error('Error fetching users:', error);
         });
     }, []);
+
     const handleSubmit = () => {
       if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
         toast.error('Por favor, rellene todos los campos.');
@@ -260,7 +261,6 @@ function AdminEventos() {
           }
         });
     };
-    
 
     const handleEventEdit = () => {
       if (editEvent && eventTitle && eventDate && eventTime) {
@@ -279,8 +279,17 @@ function AdminEventos() {
 
     const handleEventDelete = () => {
       if (editEvent) {
-        setEvents(events.filter((event) => event.id !== editEvent.id));
-        setOpenEditDialog(false);
+        axios
+          .delete(`${API_ENDPOINT}event/${editEvent.id}/`)
+          .then(() => {
+            setEvents(events.filter((event) => event.id !== editEvent.id));
+            setOpenEditDialog(false);
+            toast.success('Evento eliminado correctamente');
+          })
+          .catch((error) => {
+            console.error('Error deleting event:', error);
+            toast.error('Ha ocurrido un error al eliminar el evento.');
+          });
       }
     };
 
