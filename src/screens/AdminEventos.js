@@ -113,10 +113,13 @@ function AdminEventos() {
     const [volunteers, setVolunteers] = useState([]);
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+    const [eventToDelete, setEventToDelete] = useState(null);
 
     const clearLocalFormData = () => {
       setLocalFormData(initialFormData);
     };
+
 
     const handleSelect = ({ start }) => {
       setOpenAddDialog(true);
@@ -234,6 +237,10 @@ function AdminEventos() {
           setOpenAddDialog(false);
         })
         .catch((error) => {
+          if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+            toast.error('Por favor, rellene todos los campos.');
+            return;
+          }
           if (error.response && error.response.data) {
             const { data } = error.response;
             // Update state with backend validation errors
@@ -263,27 +270,85 @@ function AdminEventos() {
     };
 
     const handleEventEdit = () => {
-      if (editEvent && eventTitle && eventDate && eventTime) {
-        const start = moment(eventDate + ' ' + eventTime, 'YYYY-MM-DD HH:mm').toDate();
-        const updatedEvent = {
+      if (editEvent) {
+        const updatedEventData = {
           ...editEvent,
-          start,
-          end: moment(start).add(1, 'hour').toDate(),
-          title: eventTitle,
+          name: localFormData.name,
+          description: localFormData.description,
+          place: localFormData.place,
+          max_volunteers: localFormData.max_volunteers,
+          max_attendees: localFormData.max_attendees,
+          price: localFormData.price,
+          attendees: localFormData.attendees,
+          volunteers: localFormData.volunteers,
+          start_date: localFormData.start_date,
+          end_date: localFormData.end_date,
         };
-        setEvents(events.map((event) => (event.id === editEvent.id ? updatedEvent : event)));
-
-        setOpenEditDialog(false);
+    
+        axios
+          .put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData)
+          .then((response) => {
+            const updatedEvent = response.data;
+            setEvents(prevEvents =>
+              prevEvents.map(event => event.id === updatedEvent.id ? updatedEvent : event)
+            );
+            setOpenEditDialog(false);
+            toast.success('Evento actualizado correctamente');
+          })
+          .catch((error) => {
+            if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+              toast.error('Por favor, rellene todos los campos.');
+              return;
+            }
+            
+            if (error.response && error.response.data) {
+              const { data } = error.response;
+              if (data && data.detail) {
+                toast.error('Error: ' + data.detail); // General error message
+              } else if (data && data.name) {
+                toast.error('Error: ' + data.name[0]); // Error message for name field
+              } else if (data && data.description) {
+                toast.error('Error: ' + data.description[0]); // Error message for description field
+              } else if (data && data.place) {
+                toast.error('Error: ' + data.place[0]); // Error message for place field
+              } else if (data && data.start_date) {
+                toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
+              } else if (data && data.end_date) {
+                toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
+              } else if (data && data.max_attendees) {
+                toast.error('Error: No pueden haber más asistenes que el máximo establecido'); // Customized Spanish error message
+              } else if (data && data.max_volunteers) {
+                toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
+              } else {
+                toast.error('Ha ocurrido un error al actualizar el evento.'); // Customized Spanish error message
+              }
+            } else {
+              console.error('Error updating event:', error);
+              toast.error('Ha ocurrido un error al actualizar el evento.');
+            }
+          });
       }
     };
+    
+    
+    
 
     const handleEventDelete = () => {
       if (editEvent) {
+        setEventToDelete(editEvent);
+        setConfirmDeleteOpen(true);
+
+    };
+  };
+    const handleConfirmDelete = () => {
+      if (eventToDelete) {
         axios
-          .delete(`${API_ENDPOINT}event/${editEvent.id}/`)
+          .delete(`${API_ENDPOINT}event/${eventToDelete.id}/`)
           .then(() => {
-            setEvents(events.filter((event) => event.id !== editEvent.id));
+            setEvents(events.filter((event) => event.id !== eventToDelete.id));
             setOpenEditDialog(false);
+            setConfirmDeleteOpen(false);
+            setEventToDelete(null);
             toast.success('Evento eliminado correctamente');
           })
           .catch((error) => {
@@ -292,6 +357,7 @@ function AdminEventos() {
           });
       }
     };
+    
 
     const handleEventClick = (event) => {
       setEditEvent(event);
@@ -350,20 +416,32 @@ function AdminEventos() {
           </DialogActions>
         </Dialog>
         <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-          <DialogTitle>Edit Event</DialogTitle>
-          <DialogContent>{renderTextFieldComponents()}</DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenEditDialog(false)} color="primary">
-              Volver
-            </Button>
-            <Button onClick={handleEventEdit} color="primary">
-              Editar
-            </Button>
-            <Button onClick={handleEventDelete} color="secondary">
-              Borrar
-            </Button>
-          </DialogActions>
-        </Dialog>
+  <DialogTitle>Edit Event</DialogTitle>
+  <DialogContent>{renderTextFieldComponents()}</DialogContent>
+  <DialogActions>
+    <Button onClick={() => setOpenEditDialog(false)} color="primary">
+      Volver
+    </Button>
+    <Button onClick={handleEventEdit} color="primary">
+      Editar
+    </Button>
+    <Button onClick={handleEventDelete} color="secondary">
+      Borrar
+    </Button>
+  </DialogActions>
+</Dialog>
+<Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+  <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
+  <DialogActions>
+    <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+      Cancelar
+    </Button>
+    <Button onClick={handleConfirmDelete} color="secondary">
+      Confirmar
+    </Button>
+  </DialogActions>
+</Dialog>
+
       </AdminLayout>
     );
   };
