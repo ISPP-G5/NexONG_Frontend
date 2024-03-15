@@ -1,4 +1,3 @@
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 function PersonCard({ person, añadir, descargar, aceptar, denegar, voluntariosData }) {
   
@@ -28,7 +27,6 @@ function PersonCard({ person, añadir, descargar, aceptar, denegar, voluntariosD
           </div>
         </div>
         : <div className='edit-delete-icons'>
-        <EditIcon className='edit-fill' style={{ marginRight: '1rem' }} />
         <DeleteIcon className='trash' onClick={handleDenegar} />
       </div>}
     </div>
