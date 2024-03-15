@@ -8,7 +8,7 @@ import axios from 'axios';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function ShowType({ type,añadir,voluntariosAceptados,voluntariosData }) {
-    //Type represents the type of the entity that is going to be received (educator,volunteer)
+    //Type represents the type of the entity that is going to be received (educator,volunteer,partner)
     const [typeList, setTypeList] = useState([]);
 
     useEffect(() => {
@@ -72,7 +72,7 @@ function ShowType({ type,añadir,voluntariosAceptados,voluntariosData }) {
         }else{
             window.alert("Usuario actualizado con éxito.")
         }*/
-        window.alert("Usuario no puede ser aceptado hasta que se solucione los problemas de la api.")
+        window.alert("Usuario no puede ser aceptado, la funcionalidad esta comentada hasta nuevo aviso.")
    }
     
     const denegarSolicitud = async(id) =>{
@@ -109,11 +109,11 @@ function ShowType({ type,añadir,voluntariosAceptados,voluntariosData }) {
         <AdminLayout>
             <div className='admin-container'>
                 <div className='pantallas'>
-                    <Link to={`/Admin${type === "VOLUNTEER" ?"Voluntarios":"Educadores"}`} className={añadir?'':'selected-pantalla'}>
-                        Nuestros {type === "VOLUNTEER" ?"Voluntarios":"Educadores"}
+                    <Link to={type === "VOLUNTEER" ?"/adminVoluntarios":type === "EDUCATOR"?"/adminEducadores":"/AdminSocios"} className={añadir?'':'selected-pantalla'}>
+                        Nuestros {type === "VOLUNTEER" ?"Voluntarios":type === "EDUCATOR"?"Educadores":"Socios"}
                     </Link>
-                    <Link to={`/AdminAñadir${type === "VOLUNTEER" ?"Voluntario":"Educador"}` } className={!añadir?'':'selected-pantalla'}>
-                        Añadir {type === "VOLUNTEER" ?"Voluntario":"Educador"}</Link>
+                    <Link to={type === "VOLUNTEER" ?"/AdminAñadirVoluntario":type === "EDUCATOR"?"/AdminAñadirEducador":"/convocar-asamblea" } className={!añadir?'':'selected-pantalla'}>
+                         {type === "VOLUNTEER" ?" Añadir Voluntario":type === "EDUCATOR"?"Añadir Educador":"Covocar Asamblea"}</Link>
                 </div>
                 {typeList.map((t, index) => (
                     <PersonCard key={index} person={t} añadir={añadir} voluntariosData={voluntariosData} descargar={descargarDocumentacion} aceptar={aceptarSolicitud} denegar={denegarSolicitud}/>
