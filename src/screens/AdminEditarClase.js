@@ -4,6 +4,7 @@ import AdminLessonForm from '../components/AdminLessonForm'; // Import the form 
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import handleApiError from '../components/AdminApiErrors';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -40,35 +41,23 @@ const AdminEditLesson = () => {
       toast.error('Por favor, rellene todos los campos.');
       return;
     }
-
+  
     axios
       .put(`${API_ENDPOINT}lesson/${lessonId}/`, formData)
       .then((response) => {
         toast.success('Clase actualizada exitosamente');
       })
       .catch((error) => {
-        if (error.response && error.response.data) {
-          const { data } = error.response;
-          // Update state with backend validation errors
-          if (data && data.detail) {
-            toast.error(data.detail);
-          } else if (data && data.capacity) {
-            toast.error('Error: el número de alumnos no debe superar a la capacidad.');
-          } else if (data && data.start_date) {
-            toast.error('Error: la fecha de inicio no puede ser en el pasado.');
-          } else if (data && data.end_date) {
-            toast.error('Error: la fecha de fin no puede ser anterior a la de inicio.');
-          } else if (data && data.students) {
-            toast.error('Error: hay estudiantes que no pertenecen a este turno'); // Display students error
-          } else {
-            toast.error('Ha ocurrido un error al actualizar la clase.');
-          }
-        } else {
-          console.error('Error updating lesson:', error);
-          toast.error('Error al actualizar la clase. Por favor, inténtelo de nuevo.');
-        }
+        handleApiError(error, {
+          detail: 'Ha ocurrido un error al actualizar la clase.',
+          capacity: 'Error: el número de alumnos no debe superar a la capacidad.',
+          start_date: 'Error: la fecha de inicio no puede ser en el pasado.',
+          end_date: 'Error: la fecha de fin no puede ser anterior a la de inicio.',
+          students: 'Error: hay estudiantes que no pertenecen a este turno',
+        });
       });
   };
+  
 
   return (
     <AdminLayout selected='Clases'>

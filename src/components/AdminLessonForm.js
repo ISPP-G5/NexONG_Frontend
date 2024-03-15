@@ -74,9 +74,7 @@ const AdminLessonForm = ({ initialData, handleSubmit }) => {
     }));
   };
 
-  const handleCancelClick = () => {
-    navigate('/adminClases');
-  };
+
 
   return (
     <div className="flex-lesson-form">
@@ -91,7 +89,7 @@ const AdminLessonForm = ({ initialData, handleSubmit }) => {
         onChange={handleChange}
       />
 
-      <a className="form-label">Descripción</a>
+      <a className="form-labelStyle">Descripción</a>
       <input
         type="text"
         placeholder="Ingrese descripción"
