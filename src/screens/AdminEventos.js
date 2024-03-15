@@ -416,14 +416,14 @@ function AdminEventos() {
           </DialogActions>
         </Dialog>
         <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-  <DialogTitle>Edit Event</DialogTitle>
+  <DialogTitle>Editar Evento</DialogTitle>
   <DialogContent>{renderTextFieldComponents()}</DialogContent>
   <DialogActions>
     <Button onClick={() => setOpenEditDialog(false)} color="primary">
       Volver
     </Button>
     <Button onClick={handleEventEdit} color="primary">
-      Editar
+      Guardar
     </Button>
     <Button onClick={handleEventDelete} color="secondary">
       Borrar
