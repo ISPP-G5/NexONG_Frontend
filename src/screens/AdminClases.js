@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AdminLayout from '../components/AdminLayout';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import '../styles/styles.css';
 
@@ -69,10 +71,23 @@ const AdminClases = () => {
 
   const navigate = useNavigate();
   const handleDelete = (index) => {
-    const updatedLessons = [...lessons];
-    updatedLessons.splice(index, 1);
-    setLessons(updatedLessons);
+    const lessonId = lessons[index].id; // Assuming each lesson object has an 'id' property
+    axios
+      .delete(`${API_ENDPOINT}lesson/${lessonId}/`)
+      .then((response) => {
+        console.log('Lesson deleted successfully');
+        toast.success('Clase eliminada con éxito');
+
+        
+        const updatedLessons = [...lessons];
+        updatedLessons.splice(index, 1);
+        setLessons(updatedLessons);
+      })
+      .catch((error) => {
+        console.error('Error deleting lesson:', error);
+      });
   };
+  
   const handleCreateClassClick = () => {
 
     navigate('/adminCrearClase');
@@ -113,7 +128,9 @@ const AdminClases = () => {
 
       </button>
 
+
       </div>
+      <ToastContainer />
 
       <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
         {lessons.map((lesson, index) => (
