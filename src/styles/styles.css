@@ -332,6 +332,10 @@ select{
 
 /* Francisco */
 
+.ToastContainer{
+  z-index: 999;
+}
+
 .update-container{
   background-color: #fcfdff;
   border-radius: 25px;

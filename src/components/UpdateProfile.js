@@ -121,54 +121,53 @@ const UpdateProfile = ({tipo}) => {
                       borderRadius: '100%',
                     }}  />
                 </div>
-                
-                    <div className='hd-center'>
-                        <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{width:'3.5%'}}/>
-                        <strong>Modificar sólo los datos que requieran cambio</strong>
-                        <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{width:'3.5%'}}/>
-                    </div>
 
-                    <div className='bold-text'>Nombre</div>
-                        <input value={name} 
-                        onChange={(e) => setName(e.target.value)} 
-                        type='text' 
-                        placeholder='Nombre'></input>
-
-                    <div className='bold-text'>Apellido</div>
-                        <input value={surname} 
-                        onChange={(e) => setSurname(e.target.value)} 
-                        type='text' 
-                        placeholder='Primer Apellido'></input>
-
-                    <div className='bold-text'>DNI/NIE/Pasaporte</div>
-                        <input value={id_number} 
-                        onChange={(e) => setId_number(e.target.value)} 
-                        type='text' 
-                        placeholder='DNI/NIE/Pasaporte'></input>
-
-                    <div className='bold-text'>Número de teléfono</div>
-                        <input value={phone}
-                        onChange={(e) => setPhone(e.target.value)} 
-                        type='tel' 
-                        placeholder='Número de teléfono'></input>
-
-                    <div className='bold-text'>Correo electrónico</div>
-                        <input value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        type='email' 
-                        placeholder='ejemplo@gmail.com'></input>
-
-                    <div className='bold-text'>Contraseña</div>
-                        <input value={password}
-                        onChange={(e) => setPassword(e.target.value)} 
-                        type='password' 
-                        placeholder='Contraseña'></input>
-
-
-                    <button onClick={updateAdmin} className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
-                            Actualizar perfil
-                    </button>
+                <div className='hd-center'>
+                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} />
+                    <strong>Modificar sólo los datos que requieran cambio</strong>
+                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} />
                 </div>
+
+                <div className='bold-text'>Nombre</div>
+                <input value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    type='text'
+                    placeholder='Nombre'></input>
+
+                <div className='bold-text'>Apellido</div>
+                <input value={surname}
+                    onChange={(e) => setSurname(e.target.value)}
+                    type='text'
+                    placeholder='Primer Apellido'></input>
+
+                <div className='bold-text'>DNI/NIE/Pasaporte</div>
+                <input value={id_number}
+                    onChange={(e) => setId_number(e.target.value)}
+                    type='text'
+                    placeholder='DNI/NIE/Pasaporte'></input>
+
+                <div className='bold-text'>Número de teléfono</div>
+                <input value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    type='tel'
+                    placeholder='Número de teléfono'></input>
+
+                <div className='bold-text'>Correo electrónico</div>
+                <input value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type='email'
+                    placeholder='ejemplo@gmail.com'></input>
+
+                <div className='bold-text'>Contraseña</div>
+                <input value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type='password'
+                    placeholder='Contraseña'></input>
+
+
+                <button onClick={updateAdmin} className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
+                    Actualizar perfil
+                </button>
             </div>
             </>
         
