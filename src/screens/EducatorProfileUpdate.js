@@ -8,7 +8,7 @@ const EducatorProfileUpdate = () => {
     return (
          
             <EducatorLayout>
-                <UpdateProfile usuario={'educador'}/>
+                <UpdateProfile tipo={'educador'}/>
             </EducatorLayout>
         
     )
