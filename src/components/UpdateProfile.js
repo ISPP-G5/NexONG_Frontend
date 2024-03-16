@@ -169,6 +169,7 @@ const UpdateProfile = ({tipo}) => {
                     Actualizar perfil
                 </button>
             </div>
+            </div>
             </>
         
     )
