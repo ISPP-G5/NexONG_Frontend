@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/styles.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
@@ -100,7 +102,7 @@ const UpdateProfile = ({tipo}) => {
             if (data.message){
                 window.alert(data.message);
             }else{
-                window.alert("Usuario actualizado con éxito.")
+                toast.success("Usuario actualizado con éxito.")
             }
 
             navigate(`/${tipo}Perfil/`); //Navego al perfil      
