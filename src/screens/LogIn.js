@@ -29,7 +29,7 @@ function LogIn() {
     
         if (user) {
             if (user.volunteer != null) {
-                navigate('/form-voluntario');
+                navigate('/voluntarioPerfil');
             } else if (user.family != null) {
                 navigate('/familias');
             } else if (user.partner != null) {

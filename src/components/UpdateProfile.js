@@ -43,26 +43,15 @@ const UpdateProfile = ({tipo}) => {
     
     const updateAdmin = async () => {
         
-        if(avatar==="" || !avatar){
-            setAvatar(valoresList.avatar)
-            setValoresCorrectos(true)
-        }if(family==="" || !family){
-            setFamily(valoresList.family)
-            setValoresCorrectos(true)
-        }if(partner==="" || !partner){
-            setPartner(valoresList.partner)
-            setValoresCorrectos(true)
-        }if(educator==="" || !educator){
-            setEducator(valoresList.educator)
-            setValoresCorrectos(true)
-        }if(education_center==="" || !education_center){
-            setEducation_center(valoresList.education_center)
-            setValoresCorrectos(true)
-        }if(role==="" || !role){
+        setAvatar(valoresList.avatar)
+        setFamily(valoresList.family)
+        setPartner(valoresList.partner)
+        setEducator(valoresList.educator)
+        setEducation_center(valoresList.education_center)
+        setVolunteer(valoresList.volunteer)
+
+        if(role==="" || !role){
             setRole(valoresList.role)
-            setValoresCorrectos(true)
-        }if(volunteer==="" || !volunteer){
-            setVolunteer(valoresList.volunteer)
             setValoresCorrectos(true)
         }if(name==="" || !name){
             setName(valoresList.name)
