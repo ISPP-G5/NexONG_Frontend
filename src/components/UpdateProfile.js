@@ -51,7 +51,6 @@ const UpdateProfile = ({tipo}) => {
     const [valoresCorrectos, setValoresCorrectos] = useState(false)
     
     const updateAdmin = async () => {
-        
         //Id necesario para usuarios no administradores
         setAvatar(valoresList.avatar)
         setFamily(valoresList.family)
@@ -59,31 +58,31 @@ const UpdateProfile = ({tipo}) => {
         setEducator(valoresList.educator)
         setEducation_center(valoresList.education_center)
         setVolunteer(valoresList.volunteer)
-
+    
         //Compruebo que se le asigna un valor
         if(role==="" || !role){
             setRole(valoresList.role)
-            setValoresCorrectos(true)
-        }if(name==="" || !name){
+        }
+        if(name==="" || !name){
             setName(valoresList.name)
-            setValoresCorrectos(true)
-        }if(surname==="" || !surname){
+        }
+        if(surname==="" || !surname){
             setSurname(valoresList.surname)
-            setValoresCorrectos(true)
-        }if(id_number==="" || !id_number){
+        }
+        if(id_number==="" || !id_number){
             setId_number(valoresList.id_number)
-            setValoresCorrectos(true)
-        }if(phone==="" || !phone){
+        }
+        if(phone==="" || !phone){
             setPhone(valoresList.phone)
-            setValoresCorrectos(true)
-        }if(password==="" || !password){
+        }
+        if(password==="" || !password){
             setPassword(valoresList.password)
-            setValoresCorrectos(true)
-        }if(email==="" || !email){
+        }
+        if(email==="" || !email){
             setEmail(valoresList.email)
-            setValoresCorrectos(true)
-        }if(valoresCorrectos){
-            try{
+        }
+    
+        try{
             const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{ //Hago el PUT
                 name: name,
                 surname: surname,
@@ -107,31 +106,29 @@ const UpdateProfile = ({tipo}) => {
                 navigate(`/${tipo}Perfil/`); //Navego al perfil      
 
             }} catch (error){
-                if (error.response && error.response.status === 400) {
-                    toast.error("Datos no válidos.");
-                    console.log("no perfe")
-                } else {
-                    console.error("Error:", error);
-                }
+                toast.error("Datos no válidos.");
+
             }
 
         }
         
-   }
+   
 
    
   
 
     return (
-
-            <><div><ToastContainer/></div>
-            <div className='update-container' style={{ marginLeft: '12.5%' }}>
-                <div style={{ alignSelf: 'center' }}>
-                    <img src={valoresList.avatar} alt={"imagen"} style={{
-                        maxWidth: '90%',
-                        maxHeight: '90%',
-                        borderRadius: '100%',
-                    }} />
+        <>
+        <ToastContainer />
+            <div>
+                 
+                <div className='update-container' style={{marginLeft:'12.5%'}}>
+                <div style={{alignSelf:'center'}}> 
+                  <img src={valoresList.avatar} alt={"imagen"} style={{ 
+                      maxWidth: '90%', 
+                      maxHeight: '90%', 
+                      borderRadius: '100%',
+                    }}  />
                 </div>
 
                 <div className='hd-center'>
@@ -180,6 +177,8 @@ const UpdateProfile = ({tipo}) => {
                 <button onClick={updateAdmin} className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
                     Actualizar perfil
                 </button>
+            </div>
+            
             </div></>
         
     )
