@@ -31,7 +31,7 @@ function Donation() {
         setDate(formattedDate);
     }, []);
 
-    const handleFileChange = (e) => {
+    const handlePaymentDocChange = (e) => {
         const file = e.target.files[0];
         setPaymentDoc(file);
     }
@@ -235,7 +235,7 @@ function Donation() {
                                 <div style={labelStyle}>Documento de pago</div>
                                 <input
                                 type='file'
-                                onChange={handleFileChange}
+                                onChange={handlePaymentDocChange}
                                 />
 
                             </div>
