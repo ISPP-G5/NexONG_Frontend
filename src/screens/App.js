@@ -16,12 +16,16 @@ import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
 import AdminSocios from './AdminSocios'
 import VolunteerForm from './VolunteerForm';
+import AVoluntarios from './AdminVoluntarios';
+import AEducadores from './AdminEducadores';
+import AdminFamily from './AdminFamily';
+import AdminFamilyRequests from './AdminFamilyRequests';
+import AEducadoresAdd from './AdminEducadoresAdd';
+import VoluntariosAdd from './AdminVolunteersAdd';
 import AboutUs from './AboutUs';
 import History from './History';
 import MisionOverviewValues from './MisionOverviewValues';
 import Association from './Association';
-import AdminFamily from './AdminFamily';
-import AdminFamilyRequests from './AdminFamilyRequests';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
 
@@ -71,6 +75,10 @@ function App() {
 
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+
+            <Route path="/adminVoluntarios" element={<AVoluntarios />} />
+            <Route path="/adminEducadores" element={<AEducadores />} />
+
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/historia" element={<History />} />
             <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
@@ -79,8 +87,11 @@ function App() {
             <Route path="/transparencia" exact={true} element={<Transparency />} />
             <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
             <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
+
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
+            <Route path="/adminAñadirEducador" exact={true} element={<AEducadoresAdd />} />
+            <Route path="/adminAñadirVoluntario" exact={true} element={<VoluntariosAdd />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
