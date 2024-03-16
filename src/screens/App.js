@@ -14,6 +14,7 @@ import '../styles/styles.css';
 import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import HomePage from './HomePage';
+import AdminSocios from './AdminSocios'
 import VolunteerForm from './VolunteerForm';
 import AVoluntarios from './AdminVoluntarios';
 import AEducadores from './AdminEducadores';
@@ -36,6 +37,7 @@ import AdminEventos from './AdminEventos';
 import AdminClases from './AdminClases';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
+import AdminAsamblea from './AdminAsamblea';
 
 import VolunteerAgenda from './VolunteerAgenda';
 
@@ -68,6 +70,9 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
+            <Route path="/adminSocios" element={<AdminSocios />} />
+            <Route path="/convocar-asamblea" element={<AdminAsamblea />} />
+
             <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
             <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
 
