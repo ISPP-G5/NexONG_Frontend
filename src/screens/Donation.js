@@ -10,18 +10,13 @@ function Donation() {
 
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-    const[name,setName] = useState('');
-    const[surname,setSurname] = useState('');
-    const[email,setEmail] = useState('');
+    // ONE-TIME DONATIONS //////////////////////////////////////////
+
+    const[oneTimeName,setOneTimeName] = useState('');
+    const[oneTimeSurname,setOneTimeSurname] = useState('');
+    const[oneTimeEmail,setOneTimeEmail] = useState('');
     const[paymentDoc,setPaymentDoc] = useState('');
     const[date,setDate] = useState('');
-
-    const[idNumber,setIdNumber] = useState('');
-    const[password,setPassword] = useState('');
-    const[confirmPassword,setConfirmPassword] = useState('');
-    const[address,setAddress] = useState('');
-    const[birthdate,setBirthdate] = useState('');
-    const[enrollmentDoc,setEnrollmentDoc] = useState('');
 
     useEffect(() => {
         const currentDate = new Date();
@@ -36,26 +31,21 @@ function Donation() {
         setPaymentDoc(file);
     }
 
-    const handleEnrollmentDocChange = (e) => {
-        const file = e.target.files[0]
-        setEnrollmentDoc(file);
-    }
-
     const sendOneTimeForm = async (e) => {
         e.preventDefault();
-        if(!name || name === ''){
+        if(!oneTimeName || oneTimeName === ''){
             window.alert("Se debe insertar un nombre")
-        }else if(!surname || surname === ''){
+        }else if(!oneTimeSurname || oneTimeSurname === ''){
             window.alert("Se deben insertar apellidos")
-        }else if(!email || email === ''){
+        }else if(!oneTimeEmail || oneTimeEmail === ''){
             window.alert("Se debe insertar un correo electrónico")
         }else if(!paymentDoc){
             window.alert("Se debe adjuntar un documento de pago")
         }else{
             const oneTimeFormData = new FormData();
-            oneTimeFormData.append('name',name);
-            oneTimeFormData.append('surname',surname);
-            oneTimeFormData.append('email',email);
+            oneTimeFormData.append('name',oneTimeName);
+            oneTimeFormData.append('surname',oneTimeSurname);
+            oneTimeFormData.append('email',oneTimeEmail);
             oneTimeFormData.append('proof_of_payment_document',paymentDoc);
             oneTimeFormData.append('date',date);
             try {
@@ -79,13 +69,32 @@ function Donation() {
         }
     }
 
+    ////////////////////////////////////////////////////////////////
+
+    // RECURRING DONATIONS /////////////////////////////////////////
+
+    const[recurringName,setRecurringName] = useState('');
+    const[recurringSurname,setRecurringSurname] = useState('');
+    const[recurringEmail,setRecurringEmail] = useState('');
+    const[idNumber,setIdNumber] = useState('');
+    const[password,setPassword] = useState('');
+    const[confirmPassword,setConfirmPassword] = useState('');
+    const[address,setAddress] = useState('');
+    const[birthdate,setBirthdate] = useState('');
+    const[enrollmentDoc,setEnrollmentDoc] = useState('');
+
+    const handleEnrollmentDocChange = (e) => {
+        const file = e.target.files[0]
+        setEnrollmentDoc(file);
+    }
+
     const sendRecurringForm = async(e) => {
         e.preventDefault();
-        if(!name || name === ''){
+        if(!recurringName || recurringName === ''){
             window.alert("Se debe insertar un nomrbe")
-        }else if(!surname || surname === ''){
+        }else if(!recurringSurname || recurringSurname === ''){
             window.alert("Se deben insertar apellidos")
-        }else if(!email || email === ''){
+        }else if(!recurringEmail || recurringEmail === ''){
             window.alert("Se debe insertar un correo electrónico")
         }else if(!idNumber || idNumber === ''){
             window.alert("Se debe insertar un DNI")
@@ -107,9 +116,9 @@ function Donation() {
             const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData);
             const partnerId = partnerResponse.data.id;
             const recurringFormData = new FormData();
-            recurringFormData.append('name',name);
-            recurringFormData.append('surname',surname);
-            recurringFormData.append('email',email);
+            recurringFormData.append('name',recurringName);
+            recurringFormData.append('surname',recurringSurname);
+            recurringFormData.append('email',recurringEmail);
             recurringFormData.append('id_number',idNumber);
             recurringFormData.append('password',password);
             recurringFormData.append('role',"PARTNER");
@@ -134,6 +143,8 @@ function Donation() {
             }
         }
     }
+
+    ////////////////////////////////////////////////////////////////
 
     const tableStyle = {
         width: '100%',
@@ -207,29 +218,29 @@ function Donation() {
 
                                 <div style={labelStyle}>Nombre</div>
                                 <input
-                                value={name}
+                                value={oneTimeName}
                                 type='text'
                                 placeholder='Escriba su nombre'
                                 style={inputStyle}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => setOneTimeName(e.target.value)}
                                 />
 
                                 <div style={labelStyle}>Apellidos</div>
                                 <input
-                                value={surname}
+                                value={oneTimeSurname}
                                 type='text'
                                 placeholder='Escriba sus apellidos'
                                 style={inputStyle}
-                                onChange={(e) => setSurname(e.target.value)}
+                                onChange={(e) => setOneTimeSurname(e.target.value)}
                                 />
 
                                 <div style={labelStyle}>Correo electrónico</div>
                                 <input
-                                value={email}
+                                value={oneTimeEmail}
                                 type='text'
                                 placeholder='Escriba su correo electrónico'
                                 style={inputStyle}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => setOneTimeEmail(e.target.value)}
                                 />
 
                                 <div style={labelStyle}>Documento de pago</div>
@@ -262,29 +273,29 @@ function Donation() {
 
                                     <div style={labelStyle}>Nombre</div>
                                     <input
-                                    value={name}
+                                    value={recurringName}
                                     type='text'
                                     placeholder='Escriba su nombre'
                                     style={inputStyle}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) => setRecurringName(e.target.value)}
                                     />
 
                                     <div style={labelStyle}>Apellidos</div>
                                     <input
-                                    value={surname}
+                                    value={recurringSurname}
                                     type='text'
                                     placeholder='Escriba sus apellidos'
                                     style={inputStyle}
-                                    onChange={(e) => setSurname(e.target.value)}
+                                    onChange={(e) => setRecurringSurname(e.target.value)}
                                     />
 
                                     <div style={labelStyle}>Correo electrónico</div>
                                     <input
-                                    value={email}
+                                    value={recurringEmail}
                                     type='text'
                                     placeholder='Escriba su correo electrónico'
                                     style={inputStyle}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => setRecurringEmail(e.target.value)}
                                     />
 
                                     <div style={labelStyle}>DNI</div>
