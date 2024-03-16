@@ -106,7 +106,7 @@ function Donation() {
             window.alert("Se debe insertar una fecha de nacimento")
         }else if(!password || password === ''){
             window.alert("Se debe insertar una contraseña")
-        }else if(password != confirmPassword){
+        }else if (password !== confirmPassword){
             window.alert("Las contraseñas no coinciden")
         }else{
             const partnerData = new FormData();
