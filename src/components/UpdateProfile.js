@@ -7,7 +7,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const UpdateProfile = () => {
 
-    const id = useState(parseInt(localStorage.getItem('userId'),10)); 
+    const id = localStorage.getItem('userId');
     const [avatar, setAvatar] = useState("");
 
     const [valoresList, setValores] = useState([]);
@@ -16,7 +16,7 @@ const UpdateProfile = () => {
 
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          setValores(response.data.find(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
+          setValores(response.data.find(x=>x.id==parseInt(id,10)));
             console.log("name", name)
             setAvatar(valoresList.avatar)
         })
