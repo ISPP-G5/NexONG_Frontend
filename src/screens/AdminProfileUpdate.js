@@ -8,7 +8,7 @@ const AdminProfileUpdate = () => {
     return (
          
             <AdminLayout>
-                <UpdateProfile/>
+                <UpdateProfile usuario={'admin'}/>
             </AdminLayout>
         
     )

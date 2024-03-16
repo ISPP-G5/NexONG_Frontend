@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/styles.css';
 import axios from 'axios';
+import { Navigation } from '@material-ui/icons';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
-const UpdateProfile = () => {
+const UpdateProfile = ({usuario}) => {
 
     const id = localStorage.getItem('userId');
     const [avatar, setAvatar] = useState("");
@@ -105,9 +106,13 @@ const UpdateProfile = () => {
             }else{
                 window.alert("Usuario actualizado con éxito.")
             }
+
+                setTimeout(window.location.href=`/${usuario}Perfil/`, 1);              
         }
         
    }
+
+   
   
 
     return (

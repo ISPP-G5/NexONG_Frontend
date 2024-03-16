@@ -8,7 +8,7 @@ const VolunteerProfileUpdate = () => {
     return (
          
             <VolunteerLayout>
-                <UpdateProfile/>
+                <UpdateProfile usuario={'voluntario'}/>
             </VolunteerLayout>
         
     )
