@@ -100,6 +100,7 @@ function Donation() {
             
             <div className='main'>
                 <table style={tableStyle}>
+                    <thead>
                     <tr>
                         <td style={{width:'50%'}}>
                             <h1>Donaciones puntuales</h1>
@@ -108,7 +109,10 @@ function Donation() {
                             <h1>Donaciones recurrentes</h1>
                         </td>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr>
+
                         <td style={{
                         borderRight:'3px solid #b7ecff',
                         verticalAlign:'top',
@@ -269,6 +273,7 @@ function Donation() {
                             </div>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
 
