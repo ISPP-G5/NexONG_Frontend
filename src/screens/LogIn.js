@@ -35,7 +35,7 @@ function LogIn() {
             } else if (user.partner != null) {
                 navigate('/partners');
             } else if (user.educator != null) {
-                navigate('/educator');
+                navigate('/educadorPerfil');
             } else {
                 navigate(`/admin/${user.id}/`);
             }
