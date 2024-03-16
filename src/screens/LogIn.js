@@ -31,13 +31,13 @@ function LogIn() {
     
         if (user) {
             if (user.volunteer != null) {
-                navigate('/form-voluntario');
+                navigate('/voluntarioPerfil');
             } else if (user.family != null) {
                 navigate('/familias');
             } else if (user.partner != null) {
                 navigate('/partners');
             } else if (user.educator != null) {
-                navigate('/educadores');
+                navigate('/educadorPerfil');
             } else {
                 navigate(`/admin/${user.id}/`);
             }

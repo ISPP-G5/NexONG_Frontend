@@ -11,8 +11,7 @@ import SummerClub from './SummerClub';
 import Transparency from './Transparency';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
-import AdminProfileUpdate from './AdminProfileUpdate';
-import AdminProfile from './AdminProfile';
+
 import HomePage from './HomePage';
 import AdminSocios from './AdminSocios'
 import VolunteerForm from './VolunteerForm';
@@ -29,7 +28,12 @@ import Association from './Association';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
 
-
+import AdminProfileUpdate from './AdminProfileUpdate';
+import AdminProfile from './AdminProfile';
+import EducatorProfile from './EducatorProfile';
+import EducatorProfileUpdate from './EducatorProfileUpdate';
+import VolunteerProfile from './VolunteerProfile';
+import VolunteerProfileUpdate from './VolunteerProfileUpdate';
 
 import Volunteers from './Volunteers';
 import Agenda from './Agenda';
@@ -48,8 +52,7 @@ import KidsYearlyEvaluation from './EducatorsKidsYearlyEvaluation';
 import EducatorsActivities from './EducatorsActivities';
 import ProyectsQuarterlyEvaluation from './EducatorsProyectsQuarterlyEvaluation';
 import ProjectsYearlyEvaluation from './EducatorsProyectsYearlyEvaluation';
-import EducatorsProfile from './EducatorsProfile';
-import EducatorProfileUpdate from './EducatorsProileUpdate';
+
 
 function App() {
   return (
@@ -70,14 +73,14 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
+
             <Route path="/adminSocios" element={<AdminSocios />} />
             <Route path="/convocar-asamblea" element={<AdminAsamblea />} />
 
-            <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
-            <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
 
             <Route path="/adminVoluntarios" element={<AVoluntarios />} />
             <Route path="/adminEducadores" element={<AEducadores />} />
+
 
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/historia" element={<History />} />
@@ -85,8 +88,6 @@ function App() {
             <Route path="/asociacion" element={<Association />} />
             <Route path="/admin/:id" element={<AdminFamily />} />
             <Route path="/transparencia" exact={true} element={<Transparency />} />
-            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
-            <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
 
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
@@ -101,10 +102,19 @@ function App() {
             <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
             <Route path="/proyectos/evaluaciónAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+
+            {/* Profiles */}
+            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
+            <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
             
+            <Route path="/voluntarioPerfil" exact={true} element={<VolunteerProfile />} />
+            <Route path="/voluntarioPerfilActualizar" exact={true} element={<VolunteerProfileUpdate />} />
+            
+            <Route path="/educadorPerfil" exact={true} element={<EducatorProfile />} />
+            <Route path="/educadorPerfilActualizar" exact={true} element={<EducatorProfileUpdate />} />
+
+
             {/* Educators */}
-            <Route path="/EducadoresProfile" exact={true} element={<EducatorsProfile />} />
-            <Route path="/EducadoresProfile/Actualizar" exact={true} element={<EducatorProfileUpdate />} />
             <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
             <Route path="/Educadores" exact={true} element={<KidsDailyEvaluation />} />
             <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
@@ -114,8 +124,13 @@ function App() {
             <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
             <Route path="/Educadores/proyectos/evaluacionTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
 
+
+            <Route path="/admin/:id" element={<AdminFamily />} />
+            
+
          
             <Route path="/voluntarioAgenda" exact={true} element={<VolunteerAgenda />} />
+
 
 
 
