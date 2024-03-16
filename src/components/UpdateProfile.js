@@ -83,6 +83,7 @@ const UpdateProfile = ({tipo}) => {
             setEmail(valoresList.email)
             setValoresCorrectos(true)
         }if(valoresCorrectos){
+            try{
             const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{ //Hago el PUT
                 name: name,
                 surname: surname,
@@ -102,10 +103,17 @@ const UpdateProfile = ({tipo}) => {
             if (data.message){
                 window.alert(data.message);
             }else{
-                toast.success("Usuario actualizado con éxito.")
+                toast.success("Usuario actualizado con éxito.");
+                navigate(`/${tipo}Perfil/`); //Navego al perfil      
+
+            }} catch (error){
+                if (error.response && error.response.status === 400) {
+                    toast.error("Datos introducidos incorrectos");
+                } else {
+                    console.error("Error:", error);
+                }
             }
 
-            navigate(`/${tipo}Perfil/`); //Navego al perfil      
         }
         
    }
@@ -114,8 +122,8 @@ const UpdateProfile = ({tipo}) => {
   
 
     return (
-         
             <div>
+
                 <div className='update-container' style={{marginLeft:'12.5%'}}>
                 <div style={{alignSelf:'center'}}> 
                   <img src={valoresList.avatar} alt={"imagen"} style={{ 
@@ -166,7 +174,8 @@ const UpdateProfile = ({tipo}) => {
                         onChange={(e) => setPassword(e.target.value)} 
                         type='password' 
                         placeholder='Contraseña'></input>
-
+                    
+                    <ToastContainer/>
 
                     <button onClick={updateAdmin} className='button' style={{textAlign:'center', alignSelf:'center', margin:'4%'}}>
                             Actualizar perfil
