@@ -7,13 +7,13 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function AdminEducadores() {
   const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [id_number, setId_number] = useState("");
-  const [phone, setPhone] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [identificacion, setIdentificacion] = useState("");
+  const [telefono, SetTelefono] = useState("");
   const [password, setPassword] = useState("");
   const [fecha,setFecha] = useState("");
-  const [email, setEmail] = useState("");
+  const [correo, setCorreo] = useState("");
 
   const createUser = async () => {
 
@@ -33,13 +33,13 @@ function AdminEducadores() {
             });
 
     const update = await axios.post(`${API_ENDPOINT}user/`, {
-      name: name,
-      surname: surname,
-      id_number: id_number,
-      phone: phone,
+      name: nombre,
+      surname: apellido,
+      id_number: identificacion,
+      phone: telefono,
       role: "EDUCATOR",
       password: password,
-      email: email,
+      email: correo,
       educator:id,
       avatar: "https://avatars.githubusercontent.com/u/43956",
     });
@@ -65,32 +65,32 @@ function AdminEducadores() {
         </div>
         <div className='update-container' style={{ marginLeft: '12.5%', marginTop: '2.5%' }}>
           <div className='bold-text'>Nombre</div>
-          <input value={name}
-            onChange={(e) => setName(e.target.value)}
+          <input value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
             type='text'
             placeholder='Nombre'></input>
 
           <div className='bold-text'>Apellido</div>
-          <input value={surname}
-            onChange={(e) => setSurname(e.target.value)}
+          <input value={apellido}
+            onChange={(e) => setApellido(e.target.value)}
             type='text'
             placeholder='Primer Apellido'></input>
 
           <div className='bold-text'>Identificación</div>
-          <input value={id_number}
-            onChange={(e) => setId_number(e.target.value)}
+          <input value={identificacion}
+            onChange={(e) => setIdentificacion(e.target.value)}
             type='text'
             placeholder='DNI/NIE/Pasaporte'></input>
 
           <div className='bold-text'>Email</div>
-          <input value={email}
-            onChange={(e) => setEmail(e.target.value)}
+          <input value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
             type='email'
             placeholder='Email'></input>
 
           <div className='bold-text'>Teléfono</div>
-          <input value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+          <input value={telefono}
+            onChange={(e) => SetTelefono(e.target.value)}
             type='tel'
             placeholder='Número de teléfono'></input>
 
