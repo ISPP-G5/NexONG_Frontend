@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/styles.css';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -11,6 +13,9 @@ const UpdateProfile = ({tipo}) => {
     const [avatar, setAvatar] = useState("");
 
     const [valoresList, setValores] = useState([]);
+
+    const navigate = useNavigate();
+
 
     useEffect(() => {
 
@@ -26,6 +31,7 @@ const UpdateProfile = ({tipo}) => {
 
     }, []);
 
+    //Atributos
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [id_number, setId_number] = useState("");
@@ -39,10 +45,12 @@ const UpdateProfile = ({tipo}) => {
     const [educator, setEducator] = useState("");
     const [education_center, setEducation_center] = useState("");
 
+    //Atributos son correctos
     const [valoresCorrectos, setValoresCorrectos] = useState(false)
     
     const updateAdmin = async () => {
         
+        //Id necesario para usuarios no administradores
         setAvatar(valoresList.avatar)
         setFamily(valoresList.family)
         setPartner(valoresList.partner)
@@ -50,6 +58,7 @@ const UpdateProfile = ({tipo}) => {
         setEducation_center(valoresList.education_center)
         setVolunteer(valoresList.volunteer)
 
+        //Compruebo que se le asigna un valor
         if(role==="" || !role){
             setRole(valoresList.role)
             setValoresCorrectos(true)
@@ -72,7 +81,7 @@ const UpdateProfile = ({tipo}) => {
             setEmail(valoresList.email)
             setValoresCorrectos(true)
         }if(valoresCorrectos){
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{
+            const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{ //Hago el PUT
                 name: name,
                 surname: surname,
                 id_number: id_number,
@@ -95,7 +104,7 @@ const UpdateProfile = ({tipo}) => {
                 window.alert("Usuario actualizado con éxito.")
             }
 
-                setTimeout(window.location.href=`/${tipo}Perfil/`, 1);              
+            navigate(`/${tipo}Perfil/`); //Navego al perfil      
         }
         
    }
@@ -133,23 +142,23 @@ const UpdateProfile = ({tipo}) => {
                         type='text' 
                         placeholder='Primer Apellido'></input>
 
-                    <div className='bold-text'>Identificación</div>
+                    <div className='bold-text'>DNI/NIE/Pasaporte</div>
                         <input value={id_number} 
                         onChange={(e) => setId_number(e.target.value)} 
                         type='text' 
                         placeholder='DNI/NIE/Pasaporte'></input>
 
-                    <div className='bold-text'>Email</div>
-                        <input value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        type='email' 
-                        placeholder='Email'></input>
-
-                    <div className='bold-text'>Teléfono</div>
+                    <div className='bold-text'>Número de teléfono</div>
                         <input value={phone}
                         onChange={(e) => setPhone(e.target.value)} 
                         type='tel' 
                         placeholder='Número de teléfono'></input>
+
+                    <div className='bold-text'>Correo electrónico</div>
+                        <input value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        type='email' 
+                        placeholder='ejemplo@gmail.com'></input>
 
                     <div className='bold-text'>Contraseña</div>
                         <input value={password}
