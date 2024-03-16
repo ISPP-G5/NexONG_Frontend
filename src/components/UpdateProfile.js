@@ -96,7 +96,6 @@ const UpdateProfile = ({tipo}) => {
                 education_center: education_center,
                 educator: educator,
             });
-            console.log('update',update);
             const {data} = update;
             if (data.message){
                 window.alert(data.message);
