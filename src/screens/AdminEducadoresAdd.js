@@ -11,7 +11,7 @@ function AdminEducadores() {
   const [apellido, setApellido] = useState("");
   const [identificacion, setIdentificacion] = useState("");
   const [telefono, SetTelefono] = useState("");
-  const [password, setPassword] = useState("");
+  const [clave, setPassword] = useState("");
   const [fecha,setFecha] = useState("");
   const [correo, setCorreo] = useState("");
 
@@ -38,15 +38,14 @@ function AdminEducadores() {
       id_number: identificacion,
       phone: telefono,
       role: "EDUCATOR",
-      password: password,
+      password: clave,
       email: correo,
       educator:id,
       avatar: "https://avatars.githubusercontent.com/u/43956",
     });
-    console.log('update', update);
-    const { data } = update;
-    if (data.message) {
-      window.alert(data.message);
+    const { datos } = update;
+    if (datos.message) {
+      window.alert(datos.message);
     } else {
       window.alert("Usuario creado con éxito.")
     }
@@ -95,7 +94,7 @@ function AdminEducadores() {
             placeholder='Número de teléfono'></input>
 
           <div className='bold-text'>Contraseña</div>
-          <input value={password}
+          <input value={clave}
             onChange={(e) => setPassword(e.target.value)}
             type='password'
             placeholder='Contraseña'></input>
