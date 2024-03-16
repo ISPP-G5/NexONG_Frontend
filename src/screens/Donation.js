@@ -10,31 +10,62 @@ function Donation() {
 
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-    // const[name,setName] = useState('');
-    // const[email,setEmail] = useState('');
-
-    // const sendOneTimeForm = async () => {
-    //     if(!name || name === ''){
-    //         window.alert("Se debe insertar un nombre")
-    //     }else if(!email || email === ''){
-    //         window.alert("Se debe insertar un correo electrónico")
-    //     }else{
-    //         const update = await axios.post(`${API_ENDPOINT}meeting/`,{
-    //             name: name,
-    //             email: email,
-    //         });
-    //         console.log(update);
-    //         const{data} = update;
-    //         if(data.message){
-    //             window.alert(data.message);
-    //         }else{
-    //             window.alert('Placeholder: Send to donation page')
-    //         }
-    //     }
-    // }
-
     const[name,setName] = useState('');
-    // const
+    const[surname,setSurname] = useState('');
+    const[email,setEmail] = useState('');
+    const[paymentDoc,setPaymentDoc] = useState('');
+    const[date,setDate] = useState('');
+
+    useEffect(() => {
+        const currentDate = new Date();
+        const formattedDate = currentDate.getFullYear() + '-' + (
+            '0' + (currentDate.getMonth() + 1)).slice(-2) + '-' + (
+            '0' + currentDate.getDate()).slice(-2);
+        setDate(formattedDate);
+    }, []);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setPaymentDoc(file);
+    }
+
+    const sendOneTimeForm = async (e) => {
+        e.preventDefault();
+        if(!name || name === ''){
+            window.alert("Se debe insertar un nombre")
+        }else if(!surname || surname === ''){
+            window.alert("Se deben insertar apellidos")
+        }else if(!email || email === ''){
+            window.alert("Se debe insertar un correo electrónico")
+        }else if(!paymentDoc){
+            window.alert("Se debe adjuntar un documento de pago")
+        }else{
+            const oneTimeFormData = new FormData();
+            oneTimeFormData.append('name',name);
+            oneTimeFormData.append('surname',surname);
+            oneTimeFormData.append('email',email);
+            oneTimeFormData.append('proof_of_payment_document',paymentDoc);
+            oneTimeFormData.append('date',date);
+            try {
+                const update = await axios.post(`${API_ENDPOINT}punctual-donation/`,
+                oneTimeFormData,
+                {
+                    headers:{
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(update);
+                const { data } = update;
+                if (data.message) {
+                    window.alert(data.message);
+                } else {
+                    window.alert('Operación realizada correctamente. Se le enviará un justificante de pago.')
+                }
+            } catch (error) {
+                console.error('Error', error);
+            }
+        }
+    }
 
     const tableStyle = {
         width: '100%',
@@ -83,7 +114,7 @@ function Donation() {
                         verticalAlign:'top',
                         paddingLeft:'5%',
                         paddingRight:'5%',}}>
-                        {/* <form onSubmit={sendOneTimeForm}> */}
+                        <form onSubmit={sendOneTimeForm}>
                             
                             <div style={paragraphStyle}>
                                 Si quiere ayudarnos con algún donativo puntual,
@@ -104,32 +135,35 @@ function Donation() {
 
                                 <div style={labelStyle}>Nombre</div>
                                 <input
-                                // value={name}
+                                value={name}
                                 type='text'
                                 placeholder='Escriba su nombre'
                                 style={inputStyle}
-                                // onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => setName(e.target.value)}
                                 />
 
                                 <div style={labelStyle}>Apellidos</div>
                                 <input
+                                value={surname}
                                 type='text'
                                 placeholder='Escriba sus apellidos'
                                 style={inputStyle}
+                                onChange={(e) => setSurname(e.target.value)}
                                 />
 
                                 <div style={labelStyle}>Correo electrónico</div>
                                 <input
-                                // value={email}
+                                value={email}
                                 type='text'
                                 placeholder='Escriba su correo electrónico'
                                 style={inputStyle}
-                                // onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value)}
                                 />
 
                                 <div style={labelStyle}>Documento de pago</div>
                                 <input
                                 type='file'
+                                onChange={handleFileChange}
                                 />
 
                             </div>
@@ -141,7 +175,7 @@ function Donation() {
                                     Enviar
                                 </button>
 
-                        {/* </form> */}
+                        </form>
                         </td>
                         <td style={{
                         verticalAlign:'top',
