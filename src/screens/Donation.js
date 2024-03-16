@@ -16,6 +16,13 @@ function Donation() {
     const[paymentDoc,setPaymentDoc] = useState('');
     const[date,setDate] = useState('');
 
+    const[idNumber,setIdNumber] = useState('');
+    const[password,setPassword] = useState('');
+    const[confirmPassword,setConfirmPassword] = useState('');
+    const[address,setAddress] = useState('');
+    const[birthdate,setBirthdate] = useState('');
+    const[enrollmentDoc,setEnrollmentDoc] = useState('');
+
     useEffect(() => {
         const currentDate = new Date();
         const formattedDate = currentDate.getFullYear() + '-' + (
@@ -27,6 +34,11 @@ function Donation() {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setPaymentDoc(file);
+    }
+
+    const handleEnrollmentDocChange = (e) => {
+        const file = e.target.files[0]
+        setEnrollmentDoc(file);
     }
 
     const sendOneTimeForm = async (e) => {
@@ -59,10 +71,66 @@ function Donation() {
                 if (data.message) {
                     window.alert(data.message);
                 } else {
-                    window.alert('Operación realizada correctamente. Se le enviará un justificante de pago.')
+                    window.alert('Operación realizada correctamente. Se le enviará un justificante de pago. (TO DO)')
                 }
             } catch (error) {
                 console.error('Error', error);
+            }
+        }
+    }
+
+    const sendRecurringForm = async(e) => {
+        e.preventDefault();
+        if(!name || name === ''){
+            window.alert("Se debe insertar un nomrbe")
+        }else if(!surname || surname === ''){
+            window.alert("Se deben insertar apellidos")
+        }else if(!email || email === ''){
+            window.alert("Se debe insertar un correo electrónico")
+        }else if(!idNumber || idNumber === ''){
+            window.alert("Se debe insertar un DNI")
+        }else if(!address || address === ''){
+            window.alert("Se debe insertar una dirección")
+        }else if(!enrollmentDoc || enrollmentDoc === ''){
+            window.alert("Se debe adjuntar un documento de inscripción")
+        }else if(!birthdate || birthdate === ''){
+            window.alert("Se debe insertar una fecha de nacimento")
+        }else if(!password || password === ''){
+            window.alert("Se debe insertar una contraseña")
+        }else if(password != confirmPassword){
+            window.alert("Las contraseñas no coinciden")
+        }else{
+            const partnerData = new FormData();
+            partnerData.append('address',address);
+            partnerData.append('enrollment_document',enrollmentDoc);
+            partnerData.append('birthdate',birthdate);
+            const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData);
+            const partnerId = partnerResponse.data.id;
+            const recurringFormData = new FormData();
+            recurringFormData.append('name',name);
+            recurringFormData.append('surname',surname);
+            recurringFormData.append('email',email);
+            recurringFormData.append('id_number',idNumber);
+            recurringFormData.append('password',password);
+            recurringFormData.append('role',"PARTNER");
+            recurringFormData.append('partner',partnerId);
+            try{
+                const update = await axios.post(`${API_ENDPOINT}user/`,
+                recurringFormData,
+                {
+                    headers:{
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(update);
+                const { data } = update;
+                if (data.message){
+                    window.alert(data.message);
+                }else{
+                    window.alert('Operación realizada correctamente. PLACEHOLDER: Enviar a página de donación')
+                }
+            }catch(error){
+                console.error('Error',error);
             }
         }
     }
@@ -185,6 +253,7 @@ function Donation() {
                         verticalAlign:'top',
                         paddingLeft:'5%',
                         paddingRight:'5%'}}>
+                        <form onSubmit={sendRecurringForm}>
 
                             <div className='flex-container'>
                                 <h2>Regístrese</h2>
@@ -193,37 +262,79 @@ function Donation() {
 
                                     <div style={labelStyle}>Nombre</div>
                                     <input
+                                    value={name}
                                     type='text'
                                     placeholder='Escriba su nombre'
                                     style={inputStyle}
+                                    onChange={(e) => setName(e.target.value)}
                                     />
 
                                     <div style={labelStyle}>Apellidos</div>
                                     <input
+                                    value={surname}
                                     type='text'
                                     placeholder='Escriba sus apellidos'
                                     style={inputStyle}
+                                    onChange={(e) => setSurname(e.target.value)}
                                     />
 
                                     <div style={labelStyle}>Correo electrónico</div>
                                     <input
+                                    value={email}
                                     type='text'
                                     placeholder='Escriba su correo electrónico'
                                     style={inputStyle}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    />
+
+                                    <div style={labelStyle}>DNI</div>
+                                    <input
+                                    value={idNumber}
+                                    type='text'
+                                    placeholder='Escriba su DNI'
+                                    style={inputStyle}
+                                    onChange={(e) => setIdNumber(e.target.value)}
+                                    />
+
+                                    <div style={labelStyle}>Dirección</div>
+                                    <input
+                                    value={address}
+                                    type='text'
+                                    placeholder='Escriba su dirección'
+                                    style={inputStyle}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    />
+
+                                    <div style={labelStyle}>Documento de inscripción</div>
+                                    <input
+                                    type='file'
+                                    onChange={handleEnrollmentDocChange}
+                                    />
+
+                                    <div style={labelStyle}>Fecha de nacimiento</div>
+                                    <input
+                                    value={birthdate}
+                                    type='date'
+                                    style={inputStyle}
+                                    onChange={(e) => setBirthdate(e.target.value)}
                                     />
 
                                     <div style={labelStyle}>Contraseña</div>
                                     <input
+                                    value={password}
                                     type='password'
                                     placeholder='Escriba su contraseña'
                                     style={inputStyle}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     />
 
                                     <div style={labelStyle}>Confirmar contraseña</div>
                                     <input
+                                    value={confirmPassword}
                                     type='password'
                                     placeholder='Confirme su contraseña'
                                     style={inputStyle}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                     />
 
                                 </div>
@@ -236,7 +347,7 @@ function Donation() {
 
                                     <br/>
 
-                                    <button className='button' style={{
+                                    <button type='submit' className='button' style={{
                                       marginTop: '4%',
                                       fontSize: '1.5rem',
                                       width: '60%' }}>
@@ -271,6 +382,7 @@ function Donation() {
                                 
 
                             </div>
+                        </form>
                         </td>
                     </tr>
                     </tbody>
