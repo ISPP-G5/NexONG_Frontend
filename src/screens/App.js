@@ -11,20 +11,29 @@ import SummerClub from './SummerClub';
 import Transparency from './Transparency';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import '../styles/styles.css';
-import AdminProfileUpdate from './AdminProfileUpdate';
-import AdminProfile from './AdminProfile';
+
 import HomePage from './HomePage';
+import AdminSocios from './AdminSocios'
 import VolunteerForm from './VolunteerForm';
+import AVoluntarios from './AdminVoluntarios';
+import AEducadores from './AdminEducadores';
+import AdminFamily from './AdminFamily';
+import AdminFamilyRequests from './AdminFamilyRequests';
+import AEducadoresAdd from './AdminEducadoresAdd';
+import VoluntariosAdd from './AdminVolunteersAdd';
 import AboutUs from './AboutUs';
 import History from './History';
 import MisionOverviewValues from './MisionOverviewValues';
 import Association from './Association';
-import AdminFamily from './AdminFamily';
-import AdminFamilyRequests from './AdminFamilyRequests';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
 
-
+import AdminProfileUpdate from './AdminProfileUpdate';
+import AdminProfile from './AdminProfile';
+import EducatorProfile from './EducatorProfile';
+import EducatorProfileUpdate from './EducatorProfileUpdate';
+import VolunteerProfile from './VolunteerProfile';
+import VolunteerProfileUpdate from './VolunteerProfileUpdate';
 
 import Volunteers from './Volunteers';
 import Agenda from './Agenda';
@@ -32,7 +41,17 @@ import AdminEventos from './AdminEventos';
 import AdminClases from './AdminClases';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
+import AdminAsamblea from './AdminAsamblea';
 
+import VolunteerAgenda from './VolunteerAgenda';
+
+
+
+import KidsDailyEvaluation from './EducatorsKidsDailyEvaluation';
+import KidsYearlyEvaluation from './EducatorsKidsYearlyEvaluation';
+import EducatorsActivities from './EducatorsActivities';
+import ProyectsQuarterlyEvaluation from './EducatorsProyectsQuarterlyEvaluation';
+import ProjectsYearlyEvaluation from './EducatorsProyectsYearlyEvaluation';
 
 
 function App() {
@@ -54,32 +73,66 @@ function App() {
             <Route path="/form-voluntario" element={<VolunteerForm />} />
             <Route path="/talleres-familiares" element={<FamilyWorkshop />} />
             <Route path="/club-verano" element={<SummerClub />} />
-            <Route path="/adminProfile" exact={true} element={<AdminProfile />} />
-            <Route path="/adminProfileUpdate" exact={true} element={<AdminProfileUpdate />} />
+
+            <Route path="/adminSocios" element={<AdminSocios />} />
+            <Route path="/convocar-asamblea" element={<AdminAsamblea />} />
+
+
+            <Route path="/adminVoluntarios" element={<AVoluntarios />} />
+            <Route path="/adminEducadores" element={<AEducadores />} />
+
+
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/historia" element={<History />} />
             <Route path="/mision-vision-valores" element={<MisionOverviewValues />} />
             <Route path="/asociacion" element={<Association />} />
-       
+            <Route path="/admin/:id" element={<AdminFamily />} />
             <Route path="/transparencia" exact={true} element={<Transparency />} />
-            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
-            <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
+
             <Route path="/adminFamilias" exact={true} element={<AdminFamily />} />
             <Route path="/adminFamiliasSolicitudes" exact={true} element={<AdminFamilyRequests />} />
+            <Route path="/adminAñadirEducador" exact={true} element={<AEducadoresAdd />} />
+            <Route path="/adminAñadirVoluntario" exact={true} element={<VoluntariosAdd />} />
             <Route path="/entidades-colaboradoras" exact={true} element={<ColaboratorEntities />} />
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
-
-
-
-
-
-      
-
-
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
+            <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+            <Route path="/proyectos/evaluaciónTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+            <Route path="/proyectos/evaluaciónAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+
+            {/* Profiles */}
+            <Route path="/adminPerfil" exact={true} element={<AdminProfile />} />
+            <Route path="/adminPerfilActualizar" exact={true} element={<AdminProfileUpdate />} />
+            
+            <Route path="/voluntarioPerfil" exact={true} element={<VolunteerProfile />} />
+            <Route path="/voluntarioPerfilActualizar" exact={true} element={<VolunteerProfileUpdate />} />
+            
+            <Route path="/educadorPerfil" exact={true} element={<EducatorProfile />} />
+            <Route path="/educadorPerfilActualizar" exact={true} element={<EducatorProfileUpdate />} />
+
+
+            {/* Educators */}
+            <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
+            <Route path="/Educadores" exact={true} element={<KidsDailyEvaluation />} />
+            <Route path="/Educadores/niños/evaluacionDiaria" exact={true} element={<KidsDailyEvaluation />} />
+            <Route path="/Educadores/niños/evaluacionAnual" exact={true} element={<KidsYearlyEvaluation />} />
+            <Route path="/Educadores/niños/Actividades" exact={true} element={<EducatorsActivities />} />
+            <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/Educadores/proyectos/evaluacionAnual" exact={true} element={<ProjectsYearlyEvaluation />} />
+            <Route path="/Educadores/proyectos/evaluacionTrimestral" exact={true} element={<ProyectsQuarterlyEvaluation />} />
+
+
+            <Route path="/admin/:id" element={<AdminFamily />} />
+            
+
+         
+            <Route path="/voluntarioAgenda" exact={true} element={<VolunteerAgenda />} />
+
+
+
 
             </Routes>
     </Router>
