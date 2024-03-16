@@ -103,8 +103,7 @@ const UpdateProfile = ({tipo}) => {
             if (data.message){
                 window.alert(data.message);
             }else{
-                toast.success("Usuario actualizado con éxito.");
-                console.log("perfe")
+
                 navigate(`/${tipo}Perfil/`); //Navego al perfil      
 
             }} catch (error){
@@ -125,8 +124,7 @@ const UpdateProfile = ({tipo}) => {
 
     return (
 
-        <><ToastContainer /><div>
-
+            <><div><ToastContainer/></div>
             <div className='update-container' style={{ marginLeft: '12.5%' }}>
                 <div style={{ alignSelf: 'center' }}>
                     <img src={valoresList.avatar} alt={"imagen"} style={{
@@ -182,8 +180,7 @@ const UpdateProfile = ({tipo}) => {
                 <button onClick={updateAdmin} className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
                     Actualizar perfil
                 </button>
-            </div>
-        </div></>
+            </div></>
         
     )
   
