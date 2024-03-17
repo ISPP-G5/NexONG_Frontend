@@ -27,7 +27,7 @@ import MisionOverviewValues from './MisionOverviewValues';
 import Association from './Association';
 import ColaboratorEntities from './ColaboratorEntities';
 import WhereWeAre from './WhereWeAre';
-
+import AdminCreateLesson from './AdminCreateLesson';
 import AdminProfileUpdate from './AdminProfileUpdate';
 import AdminProfile from './AdminProfile';
 import EducatorProfile from './EducatorProfile';
@@ -35,10 +35,12 @@ import EducatorProfileUpdate from './EducatorProfileUpdate';
 import VolunteerProfile from './VolunteerProfile';
 import VolunteerProfileUpdate from './VolunteerProfileUpdate';
 
+
 import Volunteers from './Volunteers';
 import Agenda from './Agenda';
 import AdminEventos from './AdminEventos';
 import AdminClases from './AdminClases';
+import AdminEditarClase from './AdminEditarClase';
 import AdminProyectos from './AdminProyectos';
 import AdminCrearProyecto from './AdminCrearProyecto';
 import AdminAsamblea from './AdminAsamblea';
@@ -97,6 +99,8 @@ function App() {
             <Route path="/donde-estamos" exact={true} element={<WhereWeAre />} />
             <Route path="/adminEventos" exact={true} element={<AdminEventos />} />
             <Route path="/adminClases" exact={true} element={<AdminClases />} />
+            <Route path="/adminCrearClase" exact={true} element={<AdminCreateLesson />} />
+            <Route path="/adminEditarClase/:lessonId" exact={true} element={<AdminEditarClase />} />
             <Route path="/adminProyectos" exact={true} element={<AdminProyectos />} />
             <Route path="/adminCrearProyecto" exact={true} element={<AdminCrearProyecto />} />
             <Route path="/proyectos" exact={true} element={<ProyectsQuarterlyEvaluation />} />
