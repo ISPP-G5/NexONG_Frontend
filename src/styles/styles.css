@@ -456,6 +456,77 @@ select{
       width: 60%; /* Adjust the width for smaller screens */
     }
   }
+  .flex-lesson-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    background-color: #fcfdff;
+    border-radius: 2rem;
+    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;   
+    gap: 1.5rem;
+    padding: 4%;
+    position: relative;
+    width: 40%;
+    margin: auto ;
+    margin-bottom:2%;
+  }
+  .addClassButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10%;
+    margin-top: 2%;
+    height: 50px; /* You can adjust the height as needed */
+    width: 200px; /* You can adjust the width as needed */
+    background-color: #fff;
+    border: none;
+    color: #000102;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px; /* You can add border-radius for rounded corners */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* You can add box-shadow for depth */
+    transition: background-color 0.3s, color 0.3s; /* You can add transitions for smooth hover effects */
+  }
+  
+  .addClassButton:hover {
+    background-color: #f0f0f0; /* You can adjust the background color on hover */
+    color: #9ee5ff; /* You can adjust the text color on hover */
+  }
+  
+  /* Media Query for smaller screens */
+  @media screen and (max-width: 1000px) {
+    .flex-lesson-form {
+      width: 60%; /* Adjust the width for smaller screens */
+    }
+  }
+  .form-labelStyle {
+    width: '80%';
+    height: '2rem'; 
+    top: '5rem';
+    font-family: 'Helvetica';
+    font-style: 'normal';
+    font-weight: '505';
+    font-size: '1rem'; 
+    line-height: '1.75rem'; 
+    color: '#7C838A';
+    margin-bottom: '0rem';
+    
+    
+  }
+  .form-inputStyle{
+    width: '80%';
+    border-radius: '1rem';
+    margin: '0 auto';
+    box-sizing: 'border-box';
+  }
+
+  
+  
+  
+  
+
+  
 
   .h2-register {
     color: #000;
@@ -1030,8 +1101,8 @@ tbody tr:nth-child(odd) {
   height: 21rem;
   width: 28rem;
   margin-bottom: 2rem;
-  margin-right: 0%;
-  margin-left: 5%;
+  position: relative;
+  
 }
 
 .box .clase {
@@ -1050,7 +1121,7 @@ tbody tr:nth-child(odd) {
 .box .rectangle {
   background-color: #e6f8ff;
   border-radius: 2.5rem;
-  height: 17rem;
+  height: 20rem;
   left: 0;
   position: absolute;
   top: 0;
@@ -1067,24 +1138,25 @@ tbody tr:nth-child(odd) {
   left: 3rem;
   letter-spacing: 0;
   line-height: normal;
+  overflow: auto; /* Enable scrolling for overflow content */
   position: absolute;
   top: 1.75rem;
-  width: 15rem;
+  width: 18rem;
 }
 
 .box .edit-fill {
   height: 1.5rem;
-  left: 70%; /* Adjust as needed */
+  left: 75%; /* Adjust as needed */
   position: absolute;
-  top: 70%; /* Adjust as needed */
+  top: 80%; /* Adjust as needed */
   width: 1.5rem;
 }
 
 .box .trash {
   height: 1.5rem;
-  left: 80%; /* Adjust as needed */
+  left: 85%; /* Adjust as needed */
   position: absolute;
-  top: 70%; /* Adjust as needed */
+  top: 80%; /* Adjust as needed */
   width: 1.5rem;
 }
 
