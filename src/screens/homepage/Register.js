@@ -10,7 +10,7 @@ function Register() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
   const [marginTop, setMarginTop] = useState('0px');
@@ -44,7 +44,7 @@ function Register() {
     <div className="App">
         <Header />
 
-        <div className='flex-container-register' style={{ marginTop }}>
+        <div className='register-container' style={{ marginTop }}>
           <h2> Regístrese</h2>
           <label>Correo electrónico</label>
           <input

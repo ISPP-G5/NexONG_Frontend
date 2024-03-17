@@ -78,7 +78,7 @@ function LogIn() {
 
             <Header/>
 
-            <div className='flex-container-register' style={{marginTop}}>
+            <div className='register-container' style={{marginTop}}>
 
                 <h2>Inicie sesión</h2>
                 <label>Correo electrónico</label>

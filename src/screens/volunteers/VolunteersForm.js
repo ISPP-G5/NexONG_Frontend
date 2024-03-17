@@ -6,6 +6,13 @@ import Footer from '../../components/Footer';
 
 
 function VolunteersForm() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
+  // To avoid the Header supperposition
+
   const [marginTop, setMarginTop] = useState('0px');
 
     useEffect(() => {
@@ -27,7 +34,7 @@ function VolunteersForm() {
     <div className="App">
       <Header />
       
-      <div className='flex-container-register' style={{ marginTop }}>
+      <div className='register-container' style={{ marginTop }}>
         <h2>Formulario de Voluntarios</h2>
         
         <p style={{ color: 'black', marginBottom: '1rem'}}>

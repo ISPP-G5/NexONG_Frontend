@@ -14,6 +14,25 @@ function HomePageDonation() {
         window.scrollTo(0, 0);
       }, []);
 
+    // To avoid the Header supperposition
+
+    const [marginTop, setMarginTop] = useState('0px');
+
+    useEffect(() => {
+        const adjustIntroMargin = () => {
+            const headerHeight = document.querySelector('.header').offsetHeight;
+            const extraMargin = 30; 
+            setMarginTop(`${headerHeight + extraMargin}px`); 
+        };
+
+        window.addEventListener('resize', adjustIntroMargin);
+        adjustIntroMargin();
+
+        return () => {
+            window.removeEventListener('resize', adjustIntroMargin);
+        };
+    }, []);
+
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
     // ONE-TIME DONATIONS //////////////////////////////////////////
@@ -195,228 +214,176 @@ function HomePageDonation() {
             <ToastContainer />
             <Header/>
             
-            <div className='main'>
-                <table style={tableStyle}>
-                    <thead>
-                    <tr>
-                        <td style={{width:'50%'}}>
-                            <h1>Donaciones puntuales</h1>
-                        </td>
-                        <td style={{width:'50%'}}>
-                            <h1>Donaciones recurrentes</h1>
-                        </td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
+            <table className='donations-table' style={{marginTop}}>
+                <thead>
+                <tr>
+                    <td style={{width:'50%'}}>
+                        <h1>Donaciones puntuales</h1>
+                    </td>
+                    <td style={{width:'50%'}}>
+                        <h1>Donaciones recurrentes</h1>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td className='donations-table-td'>
+                        
+                        <div>
+                            <p>Si quiere ayudarnos con algún donativo puntual,
+                            puede hacerlo a través de una transferencia
+                            bancaria a nuestra cuenta o a través de nuestro
+                            código de Bizum.</p>
+                            <p>¡Ambas opciones son bienvenidas!</p>
+                            <ul>
+                                <li>IBAN: ES63 2100 2409 5002 0019 2504</li>
+                                <li>Bizum: ONG: 03857</li>
+                            </ul>
+                            <p>Para recibir un justificante, por favor rellene
+                            los siguientes campos:</p>
+                        </div>
+                        
+                        <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}} onSubmit={sendOneTimeForm}>
 
-                        <td style={{
-                        borderRight:'3px solid #b7ecff',
-                        verticalAlign:'top',
-                        paddingLeft:'5%',
-                        paddingRight:'5%',}}>
-                        <form onSubmit={sendOneTimeForm}>
-                            
-                            <div style={paragraphStyle}>
-                                Si quiere ayudarnos con algún donativo puntual,
-                                puede hacerlo a través de una transferencia
-                                bancaria a nuestra cuenta o a través de nuestro
-                                código de Bizum.
-                                <br/>
-                                ¡Ambas opciones son bienvenidas!
-                                <ul>
-                                    <li>IBAN: ES63 2100 2409 5002 0019 2504</li>
-                                    <li>Bizum: ONG: 03857</li>
-                                </ul>
-                                Para recibir un justificante, por favor rellene
-                                los siguientes campos:
-                            </div>
-                            
-                            <div>
+                            <label>Nombre</label>
+                            <input
+                            value={oneTimeName}
+                            type='text'
+                            placeholder='Escriba su nombre'
+                            onChange={(e) => setOneTimeName(e.target.value)}
+                            />
 
-                                <div style={labelStyle}>Nombre</div>
-                                <input
-                                value={oneTimeName}
-                                type='text'
-                                placeholder='Escriba su nombre'
-                                style={inputStyle}
-                                onChange={(e) => setOneTimeName(e.target.value)}
-                                />
+                            <label>Apellidos</label>
+                            <input
+                            value={oneTimeSurname}
+                            type='text'
+                            placeholder='Escriba sus apellidos'
+                            onChange={(e) => setOneTimeSurname(e.target.value)}
+                            />
 
-                                <div style={labelStyle}>Apellidos</div>
-                                <input
-                                value={oneTimeSurname}
-                                type='text'
-                                placeholder='Escriba sus apellidos'
-                                style={inputStyle}
-                                onChange={(e) => setOneTimeSurname(e.target.value)}
-                                />
+                            <label>Correo electrónico</label>
+                            <input
+                            value={oneTimeEmail}
+                            type='text'
+                            placeholder='Escriba su correo electrónico'
+                            onChange={(e) => setOneTimeEmail(e.target.value)}
+                            />
 
-                                <div style={labelStyle}>Correo electrónico</div>
-                                <input
-                                value={oneTimeEmail}
-                                type='text'
-                                placeholder='Escriba su correo electrónico'
-                                style={inputStyle}
-                                onChange={(e) => setOneTimeEmail(e.target.value)}
-                                />
+                            <label>Documento de pago</label>
+                            <input
+                            type='file'
+                            onChange={handlePaymentDocChange}
+                            />
 
-                                <div style={labelStyle}>Documento de pago</div>
-                                <input
-                                type='file'
-                                onChange={handlePaymentDocChange}
-                                />
 
-                            </div>
-
-                            <button type='submit' className='button' style={{
-                                  marginTop: '4%',
-                                  fontSize: '1.5rem',
-                                  width: '30%' }}>
-                                    Enviar
-                                </button>
+                            <button type='submit' className='register-button'>
+                                Enviar
+                            </button>
 
                         </form>
-                        </td>
-                        <td style={{
-                        verticalAlign:'top',
-                        paddingLeft:'5%',
-                        paddingRight:'5%'}}>
-                        <form onSubmit={sendRecurringForm}>
+                    </td>
 
-                            <div className='flex-container'>
-                                <h2>Regístrese</h2>
+                    <td style={{borderRight: 'none'}}>
 
-                                <div>
+                        <form className='register-container' style={{width: '70%', marginTop: '0%'}} onSubmit={sendRecurringForm}>
 
-                                    <div style={labelStyle}>Nombre</div>
-                                    <input
-                                    value={recurringName}
-                                    type='text'
-                                    placeholder='Escriba su nombre'
-                                    style={inputStyle}
-                                    onChange={(e) => setRecurringName(e.target.value)}
-                                    />
+                            <h2>Regístrese</h2>
 
-                                    <div style={labelStyle}>Apellidos</div>
-                                    <input
-                                    value={recurringSurname}
-                                    type='text'
-                                    placeholder='Escriba sus apellidos'
-                                    style={inputStyle}
-                                    onChange={(e) => setRecurringSurname(e.target.value)}
-                                    />
+                   
+                            <label>Nombre</label>
+                            <input
+                            value={recurringName}
+                            type='text'
+                            placeholder='Escriba su nombre'
+                            onChange={(e) => setRecurringName(e.target.value)}
+                            />
 
-                                    <div style={labelStyle}>Correo electrónico</div>
-                                    <input
-                                    value={recurringEmail}
-                                    type='text'
-                                    placeholder='Escriba su correo electrónico'
-                                    style={inputStyle}
-                                    onChange={(e) => setRecurringEmail(e.target.value)}
-                                    />
+                            <label>Apellidos</label>
+                            <input
+                            value={recurringSurname}
+                            type='text'
+                            placeholder='Escriba sus apellidos'
+                            onChange={(e) => setRecurringSurname(e.target.value)}
+                            />
 
-                                    <div style={labelStyle}>DNI</div>
-                                    <input
-                                    value={idNumber}
-                                    type='text'
-                                    placeholder='Escriba su DNI'
-                                    style={inputStyle}
-                                    onChange={(e) => setIdNumber(e.target.value)}
-                                    />
+                            <label>Correo electrónico</label>
+                            <input
+                            value={recurringEmail}
+                            type='text'
+                            placeholder='Escriba su correo electrónico'
+                            onChange={(e) => setRecurringEmail(e.target.value)}
+                            />
 
-                                    <div style={labelStyle}>Dirección</div>
-                                    <input
-                                    value={address}
-                                    type='text'
-                                    placeholder='Escriba su dirección'
-                                    style={inputStyle}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                    />
+                            <label>DNI</label>
+                            <input
+                            value={idNumber}
+                            type='text'
+                            placeholder='Escriba su DNI'
+                            onChange={(e) => setIdNumber(e.target.value)}
+                            />
 
-                                    <div style={labelStyle}>Documento de inscripción</div>
-                                    <input
-                                    type='file'
-                                    onChange={handleEnrollmentDocChange}
-                                    />
+                            <label>Dirección</label>
+                            <input
+                            value={address}
+                            type='text'
+                            placeholder='Escriba su dirección'
+                            onChange={(e) => setAddress(e.target.value)}
+                            />
 
-                                    <div style={labelStyle}>Fecha de nacimiento</div>
-                                    <input
-                                    value={birthdate}
-                                    type='date'
-                                    style={inputStyle}
-                                    onChange={(e) => setBirthdate(e.target.value)}
-                                    />
+                            <label>Documento de inscripción</label>
+                            <input
+                            type='file'
+                            onChange={handleEnrollmentDocChange}
+                            />
 
-                                    <div style={labelStyle}>Contraseña</div>
-                                    <input
-                                    value={password}
-                                    type='password'
-                                    placeholder='Escriba su contraseña'
-                                    style={inputStyle}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    />
+                            <label>Fecha de nacimiento</label>
+                            <input
+                            value={birthdate}
+                            type='date'
+                            onChange={(e) => setBirthdate(e.target.value)}
+                            />
 
-                                    <div style={labelStyle}>Confirmar contraseña</div>
-                                    <input
-                                    value={confirmPassword}
-                                    type='password'
-                                    placeholder='Confirme su contraseña'
-                                    style={inputStyle}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    />
+                            <label>Contraseña</label>
+                            <input
+                            value={password}
+                            type='password'
+                            placeholder='Escriba su contraseña'
+                            onChange={(e) => setPassword(e.target.value)}
+                            />
 
-                                </div>
+                            <label>Confirmar contraseña</label>
+                            <input
+                            value={confirmPassword}
+                            type='password'
+                            placeholder='Confirme su contraseña'
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
 
-                                <div style={{
-                                  display:'flex',
-                                  flexDirection:'column',
-                                  alignItems:'center',
-                                  justyfyContent:'center'}}>
 
-                                    <br/>
+                            <button className='register-button'>
+                                Crear cuenta
+                            </button>
 
-                                    <button type='submit' className='button' style={{
-                                      marginTop: '4%',
-                                      fontSize: '1.5rem',
-                                      width: '60%' }}>
-                                        Crear cuenta
-                                    </button>
+                            <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
 
-                                    <div style={{
-                                      marginTop: '4%',
-                                      marginBottom: '4%'}}>
-                                        ó
-                                    </div>
+                            <Link to={"https://myaccount.google.com/"} className='google-button'>
+                                <span>Registrarse con Google</span>
+                                <img src={google} alt="Logo"/>
+                            </Link>
 
-                                    <button className='button-google' style={{fontWeight:'bold'}}>
-                                        <span>Registrarse con Google</span>
-                                        <Link to="https://myaccount.google.com/">
-                                            <img src={google} alt="Logo" className='button-google-img' />
-                                        </Link>
-                                    </button>
 
-                                    <div style={{
-                                      color: 'gray',
-                                      marginTop: '4%',
-                                      marginBottom: '4%'}}>
-                                        ¿Ya tiene cuenta?
-                                        &nbsp;
-                                        <Link to="/registrarse" style={{color: '#6FC0DB'}}>
-                                            Inicie sesión aquí
-                                        </Link>.
-                                    </div>
-                                    
-                                </div>
-                                
+                            <p style={{ textAlign: 'center', marginBottom: '5%'}}>
+                                ¿Ya tiene una cuenta?&nbsp;
+                                <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
+                                Inicie sesión aquí
+                                </Link>.
+                            </p>
 
-                            </div>
                         </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
             <Footer/>
         </div>
