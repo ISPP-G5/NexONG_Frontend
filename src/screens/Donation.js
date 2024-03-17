@@ -88,12 +88,6 @@ function Donation() {
         setEnrollmentDoc(file);
     }
 
-    const crypto = require('crypto');
-
-    function secureCompare(str1, str2){
-        const hash1 = crypto.create
-    }
-
     const sendRecurringForm = async(e) => {
         e.preventDefault();
         if(!recurringName || recurringName === ''){
