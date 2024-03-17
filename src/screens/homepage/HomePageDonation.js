@@ -182,33 +182,6 @@ function HomePageDonation() {
 
     ////////////////////////////////////////////////////////////////
 
-    const tableStyle = {
-        width: '100%',
-        marginTop: '7%',
-        marginBottom: '2%',
-        paddingLeft: '5%',
-        paddingRight: '5%',
-    };
-
-    const paragraphStyle = {
-        textAlign: 'justify',
-        marginTop: '30px',
-        marginBotton: '30px',
-    }
-
-    const labelStyle = {
-        padding: '10px',
-        color: '#7C838A',
-        textAlign: 'left',
-    };
-
-    const inputStyle = {
-        width: '100%', // Use 100% width for the input elements
-        borderRadius: '1rem',
-        margin: '0 auto',
-        boxSizing: 'border-box', // Include padding and border in the width calculation
-    };
-
     return (
         <div className="App">
             <ToastContainer />
