@@ -698,10 +698,22 @@ tbody tr:nth-child(odd) {
 
 
 
+input[type=password]{
+  width: 80%;
+  height: 10%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color:  #f8f8f8;
+  resize: none;
+  margin: 10px;
+  margin-left: 10%;
+}
+
 select{
     width: 100%;
     height: 10%;
-    padding: 12px 20px;
     border: 2px solid #ccc;
     border-radius: 4px;
     background-color: #f1f1f1;
@@ -746,6 +758,10 @@ select{
   }
 
 /* Francisco */
+
+.ToastContainer{
+  z-index: 999;
+}
 
 .update-container{
   background-color: #fcfdff;
@@ -1053,6 +1069,8 @@ select{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    
+
 }
 
 .kids-info {
@@ -1213,11 +1231,17 @@ select{
   
 }
 
-.div-container{
-  background-color:#eaf5f8 ;
-  height: 120px;
-  margin-top: 100px ;
 
+.asam-input{
+  width: 100%;
+  height: 30%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color:  #f8f8f8;
+  resize: none;
+  margin-left: 10%;
 }
 
 
@@ -1225,8 +1249,8 @@ select{
   height: 21rem;
   width: 28rem;
   margin-bottom: 2rem;
-  margin-right: 0%;
-  margin-left: 5%;
+  position: relative;
+  
 }
 
 .box .clase {
@@ -1245,7 +1269,7 @@ select{
 .box .rectangle {
   background-color: #e6f8ff;
   border-radius: 2.5rem;
-  height: 17rem;
+  height: 20rem;
   left: 0;
   position: absolute;
   top: 0;
@@ -1262,24 +1286,25 @@ select{
   left: 3rem;
   letter-spacing: 0;
   line-height: normal;
+  overflow: auto; /* Enable scrolling for overflow content */
   position: absolute;
   top: 1.75rem;
-  width: 15rem;
+  width: 18rem;
 }
 
 .box .edit-fill {
   height: 1.5rem;
-  left: 70%; /* Adjust as needed */
+  left: 75%; /* Adjust as needed */
   position: absolute;
-  top: 70%; /* Adjust as needed */
+  top: 80%; /* Adjust as needed */
   width: 1.5rem;
 }
 
 .box .trash {
   height: 1.5rem;
-  left: 80%; /* Adjust as needed */
+  left: 85%; /* Adjust as needed */
   position: absolute;
-  top: 70%; /* Adjust as needed */
+  top: 80%; /* Adjust as needed */
   width: 1.5rem;
 }
 
@@ -1453,14 +1478,14 @@ select{
   width: 5%; 
 }
 
-/*VOLUNTEER MAIN CONTAINER*/
+/*EDUCATOR MAIN CONTAINER*/
 .educator-main {
   flex: 0.85;
   display: flex;
   align-items: stretch;
 }
 
-/*VOLUNTEER CONTAINER*/
+/*EDUCATOR CONTAINER*/
 .educator-container {
   padding-left: 5%;
   flex: 0.85;
@@ -1470,7 +1495,7 @@ select{
   justify-content: center;
 }
 
-/*VOLUNTEER MENU*/
+/*EDUCATOR MENU*/
 .menu-educator{
   background-color: #fcfdff;
   flex: 0.15;
@@ -1505,4 +1530,58 @@ select{
 .selected-menu-educator{
   width: 80%;
   background-color: #cdf0fe;
+}
+
+/*EVALUATION STYLES*/
+.evaluation-select option {
+  width: 2em; 
+  text-align: left;
+}
+.evaluation-select, .submit-button {
+  width: 6rem; 
+  height: 2rem; 
+  margin-bottom: 1rem; 
+  margin-right: 30%;
+}
+.evaluation-title {
+  font-size: 1.5rem; 
+}
+.edit-button {
+  position: absolute;
+  top: 0;
+  right: 2rem;
+  background-color: cdf0fe; /* Bootstrap's warning color */
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin: 0.25rem 0.125rem;
+  cursor: pointer;
+}
+.bottom-right-button {
+  position: absolute;
+  bottom: 0;
+  right: 2rem;
+  background-color: cdf0fe; /* Bootstrap's warning color */
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin: 0.25rem 0.125rem;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .evaluation-title {
+    font-size: 1rem; 
+    margin-left: 40%;
+  }
+  .evaluation-select, .submit-button, .edit-button, .bottom-right-button {
+    width: 40%; 
+    margin-right: 0; 
+  }
 }

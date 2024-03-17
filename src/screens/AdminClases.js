@@ -1,59 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { useNavigate } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AdminLayout from '../components/AdminLayout';
-import Dialog from '@material-ui/core/Dialog';
-import Button from '@material-ui/core/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 import '../styles/styles.css';
+import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const useStyles = makeStyles(() => ({
-  addClassButton: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: '10%',
-    marginTop: '2%',
-    height: '10%',
-    backgroundColor: '#fff',
-    border: 'none',
-    color: '#2196f3',
-    fontSize: '2rem',
-    cursor: 'pointer',
-  },
-  formContainer: {
-    padding: '20px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-  },
   lessonsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(28rem, 1fr))',
     marginTop: '2rem',
     gap: '2rem', // Adjust as needed
   },
 }));
 
-const Box = ({ lesson, index, handleDelete }) => {
+const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
+  const navigate = useNavigate();
+  const educator = users.find(user => user.id === lesson.educator);
+  const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
+
   const onDeleteClick = () => {
-    handleDelete(index);
+    handleDelete(lesson.id);
   };
 
   return (
-    
     <div className="box">
       <div className="clase">
         <div className="overlap-group">
           <div className="rectangle" />
           <div className="nombre-educador">
-            <div><strong>Nombre:</strong> {lesson.nombre}</div>
-            <div><strong>Educador Asociado:</strong> {lesson.educador}</div>
-            <div><strong>Nº Alumnos:</strong> {lesson.alumnos}</div>
-            <div><strong>Información:</strong> {lesson.descripcion}</div>
+            <div><strong>Nombre:</strong> {lesson.name}</div>
+            <div><strong>Descripción:</strong> {lesson.description}</div>
+            <div><strong>Inicio:</strong> {lesson.start_date} {lesson.start_time}</div>
+            <div><strong>Fin:</strong> {lesson.end_date} {lesson.end_time}</div>
+            <div><strong>Capacidad:</strong> {lesson.capacity}</div>
+            <div><strong>Educador Asociado:</strong> {educator ? educator.name : "No se encontró educador"}</div>
+            <div><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</div>
+            <div><strong>Clase de Mañana:</strong> {morningLessonText}</div>
           </div>
-          <EditIcon className="edit-fill" />
+          <EditIcon className="edit-fill" onClick={() => handleEditClick(lesson.id)} />
           <DeleteIcon className="trash" onClick={onDeleteClick} />
         </div>
       </div>
@@ -63,66 +56,96 @@ const Box = ({ lesson, index, handleDelete }) => {
 
 const AdminClases = () => {
   const classes = useStyles();
-  const [lessons, setLessons] = useState([
-    { nombre: 'Clase 1', descripcion: 'Clase introducción', alumnos: 20, educador: 'Juan' },
-    { nombre: 'Clase 2', descripcion: 'Clase desarrollo', alumnos: 15, educador: 'María' },
-    { nombre: 'Clase 3', descripcion: 'Clase avanzada', alumnos: 18, educador: 'Pedro' },
-    { nombre: 'Clase 5', descripcion: 'Clase práctica', alumnos: 25, educador: 'Ana' },
-    { nombre: 'Clase 4', descripcion: 'Clase práctica', alumnos: 25, educador: 'Ana' },
-  ]);
+  const [lessons, setLessons] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [lessonToDelete, setLessonToDelete] = useState(null);
 
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleDelete = (lessonId) => {
+    setLessonToDelete(lessonId);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleDeleteConfirmation = () => {
+    if (lessonToDelete) {
+      axios
+        .delete(`${API_ENDPOINT}lesson/${lessonToDelete}/`)
+        .then((response) => {
+          console.log('Lesson deleted successfully');
+          toast.success('Clase eliminada con éxito');
+          setLessons(lessons.filter(lesson => lesson.id !== lessonToDelete));
+        })
+        .catch((error) => {
+          console.error('Error deleting lesson:', error);
+        })
+        .finally(() => {
+          setLessonToDelete(null); // Reset lessonToDelete state
+        });
+    }
   };
 
-  const handleDelete = (index) => {
-    const updatedLessons = [...lessons];
-    updatedLessons.splice(index, 1);
-    setLessons(updatedLessons);
+  const handleEditClick = (lessonId) => {
+    navigate(`/adminEditarClase/${lessonId}`);
   };
 
-  const AddClass = () => {
-    return (
+  const handleCreateClassClick = () => {
+    navigate('/adminCrearClase');
+  };
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}lesson/`)
+      .then((response) => {
+        console.log('response:', response.data);
+        setLessons(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching lessons:', error);
+      });
+    axios
+      .get(`${API_ENDPOINT}user/`)
+      .then((response) => {
+        console.log('response user:', response.data);
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching users:', error);
+      });
+  }, []);
+
+  return (
+    <AdminLayout selected='Clases'>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <button className={classes.addClassButton} onClick={handleClickOpen}>
+        <button className="addClassButton" onClick={handleCreateClassClick}>
           <AddCircleIcon fontSize='large' />
           Crear Clase
         </button>
-
-        <Dialog open={open} onClose={handleClose}>
-          <div className={classes.formContainer}>
-            <label>Nombre de la Clase:</label>
-            <input type="text" placeholder="Ingrese el nombre" />
-            <label>Nombre del Educador:</label>
-            <input type="text" placeholder="Ingrese el nombre" />
-            <label>Número de alumnos:</label>
-            <input type="text" placeholder="Ingrese el número" />
-            <label>Más Información:</label>
-            <input type="text" placeholder="Ingrese la información" />
-            <Button variant="contained" color="primary" onClick={handleClose}>
-              Crear
-            </Button>
-          </div>
-        </Dialog>
       </div>
-    );
-  };
-
-  return (
-    <AdminLayout selected='Clases'> {/* Use AdminLayout here */}
-    <AddClass />
-    <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
-      {lessons.map((lesson, index) => (
-        <Box key={index} index={index} lesson={lesson} handleDelete={handleDelete} />
-      ))}
-    </div>
-  </AdminLayout>
+      <ToastContainer />
+      <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
+        {lessons.map((lesson, index) => (
+          <Box
+            key={index}
+            index={index}
+            lesson={lesson}
+            handleDelete={handleDelete}
+            handleEditClick={handleEditClick}
+            users={users}
+          />
+        ))}
+      </div>
+      <Dialog open={lessonToDelete !== null} onClose={() => setLessonToDelete(null)}>
+        <DialogTitle>¿Estás seguro que quieres borrar esta clase?</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setLessonToDelete(null)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleDeleteConfirmation} color="secondary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </AdminLayout>
   );
 };
 
