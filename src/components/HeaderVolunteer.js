@@ -6,7 +6,7 @@ function HeaderVolunteer(){
         <div className='header-volunteer'>
             <img src={logo} alt='logo'/>
             <p>Manos Abiertas Con Norte</p>
-            <a href='/VolunteerProfile'>Voluntario</a>
+            <a href='/voluntarioPerfil'>Voluntario</a>
         </div>
         
     );
