@@ -1,8 +1,9 @@
-import '../styles/styles.css';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Intro from '../../components/Intro';
 import Footer from '../../components/Footer';
-import { Link } from 'react-router-dom';
 
 
 const entidadesData = [
@@ -49,6 +50,10 @@ const entidadesData = [
 
 
 function HomePageColaboratorEntities() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return (
         <main className="App">
             <Header />

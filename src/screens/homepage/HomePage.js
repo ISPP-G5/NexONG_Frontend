@@ -1,9 +1,10 @@
-import '../styles/styles.css';
-import Header from '../components/Header';
-import Intro from '../components/Intro';
-import Footer from '../components/Footer';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
+import Header from '../../components/Header';
+import Intro from '../../components/Intro';
+import HomepageContainer from '../../components/HomepageContainer';
+import Footer from '../../components/Footer';
 import axios from 'axios';
-import HomepageContainer from '../components/HomepageContainer';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 
@@ -15,7 +16,7 @@ const info = [
     {
       title: 'Entidades Colaboradoras',
       description: 'Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno.',
-      link: '/entidades-colaboradoras',
+      link: '/asociacion/entidades-colaboradoras',
       button: 'Conócelas',
     },
     {
@@ -28,6 +29,9 @@ const info = [
 
 
 function HomePage() {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
     axios.get( `${API_ENDPOINT}`)
     .then(response => {
         console.log(response.data);

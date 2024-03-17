@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import '../styles/styles.css';
+import '../../styles/styles.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 

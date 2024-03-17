@@ -255,7 +255,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 */
 
 .intro-container.ong::before {
-  background-image: url('../logo/manosabiertas.bmp');
+  background-image: url('../logo/manosabiertas.png');
 }
 
 .intro-container.activities::before {
@@ -522,6 +522,55 @@ tbody tr:nth-child(odd) {
 }
 
 
+
+
+
+
+
+
+/********************* AGENDA ******************/
+.agenda-structure {
+  display: grid;
+  padding: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  font: 500 100%/1.5 system-ui;
+}
+
+.agenda-structure img {
+  max-width: 100%;
+  height: auto;
+}
+
+.agenda-intro, .agenda-plan {
+  display: flex;
+  padding: 2rem;
+  gap: 1rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  font: 500 100%/1.5 system-ui;
+}
+
+.agenda-intro img, .agenda-plan img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .agenda-intro {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .agenda-plan {
+    flex-direction: column-reverse;
+  }
+}
 
 
 
@@ -850,17 +899,6 @@ select{
 }
   
 
-/*AGENDA-2030*/
-.agenda-structure {
-  display: grid;
-  padding: 2rem;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-  font: 500 100%/1.5 system-ui;
-}
 
 
 

@@ -1,4 +1,4 @@
-import '../styles/styles.css'
+import '../../styles/styles.css';
 import AdminLayout from '../../components/AdminLayout';
 import Profile from '../../components/Profile'
 

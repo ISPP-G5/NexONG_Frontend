@@ -46,8 +46,8 @@ import EducatorsProfileUpdate from './educators/EducatorsProfileUpdate';
 import EducatorsKidsEvaluationDaily from './educators/EducatorsKidsEvaluationDaily';
 import EducatorsKidsEvaluationYearly from './educators/EducatorsKidsEvaluationYearly';
 import EducatorsKidsActivities from './educators/EducatorsKidsActivities';
-import EducatorsProjectsEvaluationYearly from './educators/EducatorsProjectsEvaluationYearly';
-import EducatorsProjectsEvaluationQuarterly from './educators/EducatorsProjectsEvaluationQuarterly';
+import EducatorsProjectsEvaluationYearly from './educators/EducatorsProyectsEvaluationYearly';
+import EducatorsProjectsEvaluationQuarterly from './educators/EducatorsProyectsEvaluationQuarterly';
 
 // VOLUNTEERS
 import VolunteersProfile from './volunteers/VolunteersProfile';

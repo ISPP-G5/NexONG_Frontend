@@ -1,61 +1,66 @@
-import '../styles/styles.css';
-import Footer from '../components/Footer';
-import Intro from '../components/Intro'; 
-import Header from '../components/Header';
-import HomepageContainer from '../components/HomepageContainer';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
+import Footer from '../../components/Footer';
+import Intro from '../../components/Intro'; 
+import Header from '../../components/Header';
+import HomepageContainer from '../../components/HomepageContainer';
 
 const info = [
     {
         title: 'Nosotros', 
         description: 'Pequeña desc explicativa', 
-        link: '/nosotros',
+        link: '/asociacion/nosotros',
         button: 'Conócenos'
     },
     {
         title: 'Historia', 
         description: 'Pequeña desc', 
-        link: '/historia',
+        link: '/asociacion/historia',
         button: 'Leer más'
     },
     {
         title: 'Dónde estamos', 
         description: 'Pequeña desc', 
-        link: '/donde-estamos',
+        link: '/asociacion/donde-estamos',
         button: 'Leer más'
     },
     {
         title: 'Mision, Visión y Valores', 
         description: 'Pequeña desc', 
-        link: '/mision-vision-valores',
+        link: '/asociacion/mision-vision-valores',
         button: 'Lee más'
     },
     {
         title: 'La salle', 
         description: 'Pequeña desc', 
-        link: '/',
+        link: '/asociacion/la-salle',
         button: 'Leer más'
     },
     {
         title: 'Organización', 
         description: 'Pequeña desc', 
-        link: '/',
+        link: '/asociacion/organizacion',
         button: 'Leer más'
     },
     {
         title: 'Transparencia', 
         description: 'Pequeña desc', 
-        link: '/transparencia',
+        link: '/asociacion/transparencia',
         button: 'Leer más'
     },
     {
         title: 'Entidades Colaboradoras', 
         description: 'Pequeña desc', 
-        link: '/entidades-colaboradoras',
+        link: '/asociacion/entidades-colaboradoras',
         button: 'Conócelas'
     }
 ];
 
 function HomePageAssociation() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return(
         <div className="App">
             <Header/>

@@ -1,9 +1,9 @@
-import '../styles/styles.css';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
 import Header from '../../components/Header';
 import Intro from '../../components/Intro';
 import HomepageContainer from '../../components/HomepageContainer';
 import Footer from '../../components/Footer';
-import { useNavigate } from 'react-router-dom';
 
 
 const info = [
@@ -18,12 +18,16 @@ const info = [
     {
       title: '¿Quieres ser voluntario?',
       description: 'Si esta interesado en ser voluntario pulse el siguiente botón.',
-      link: '/form-voluntario',
+      link: '/form-voluntariado',
       button: 'Participa con nosotros',
     },
   ];
 
 function HomePageVolunteers () {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    
     return (
         <div className="App">
             <Header />

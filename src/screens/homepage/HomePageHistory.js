@@ -1,11 +1,16 @@
 // History.js
-import '../styles/styles.css';
-import chronology from '../logo/actividades-desarrolladas.jpg';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
 import Intro from '../../components/Intro';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import chronology from '../../logo/actividades-desarrolladas.jpg';
 
 function HomePageHistory() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+      
     return (
         <div className="App">
             <Header/>

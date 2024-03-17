@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/styles.css';
+import '../../styles/styles.css';
 import HeaderAdmin from '../../components/HeaderAdmin';
 import MenuAdmin from '../../components/MenuAdmin';
 import EditIcon from '@material-ui/icons/Edit';

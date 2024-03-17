@@ -8,7 +8,7 @@ import AdminLayout from '../../components/AdminLayout';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import '../styles/styles.css';
+import '../../styles/styles.css';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;

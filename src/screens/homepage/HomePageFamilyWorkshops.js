@@ -1,9 +1,14 @@
-import '../styles/styles.css';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
 import Header from '../../components/Header';
 import Intro from '../../components/Intro';
 import Footer from '../../components/Footer';
 
 function HomePageFamilyWorkshops() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return (
         <div className="App">
             <Header/>

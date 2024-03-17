@@ -1,4 +1,4 @@
-import '../styles/styles.css';
+import '../../styles/styles.css';
 import VolunteerLayout from '../../components/VolunteerLayout';
 import UpdateProfile from '../../components/UpdateProfile';
 

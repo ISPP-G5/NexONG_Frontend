@@ -7,6 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import handleApiError from '../../components/AdminApiErrors';
 import 'react-toastify/dist/ReactToastify.css';
 
+import '../../styles/styles.css';
+
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminLessonsEdit = () => {

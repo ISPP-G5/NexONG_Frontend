@@ -4,6 +4,7 @@ import moment from 'moment';
 import HeaderVolunteer from '../../components/HeaderVolunteer';
 import MenuVolunteer from '../../components/MenuVolunteer';
 import axios from 'axios';
+import '../../styles/styles.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 

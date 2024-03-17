@@ -1,7 +1,7 @@
 // AdminView.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/styles.css';
+import '../../styles/styles.css';
 import AdminLayout from '../../components/AdminLayout';
 import axios from 'axios';
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import HeaderEducator from '../../components/HeaderEducators';
+import '../../styles/styles.css';
 
 function EducatorsProjectsEvaluationQuarterly() {
   return (

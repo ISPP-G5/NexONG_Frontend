@@ -1,14 +1,18 @@
-import '../styles/styles.css'
-import google from '../logo/google.svg'
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import {Link} from 'react-router-dom';
+import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
+import {Link} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import google from '../../logo/google.svg'
 import axios from 'axios';
 
+
 function HomePageDonation() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 

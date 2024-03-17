@@ -1,7 +1,7 @@
-import '../styles/styles.css'
+import '../../styles/styles.css'
 import React, { useEffect, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import google from '../logo/google.svg'
+import google from '../../logo/google.svg'
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import axios from 'axios';
@@ -11,6 +11,10 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 
 function LogIn() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [users,setUsers] = useState('');

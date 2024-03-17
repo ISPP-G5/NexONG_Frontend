@@ -1,10 +1,15 @@
-import '../styles/styles.css';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Intro from '../components/Intro';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import Intro from '../../components/Intro';
 
 function HomePageCamps() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return (
         <div className="App">
             <Header/>

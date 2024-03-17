@@ -1,10 +1,9 @@
-import React from 'react';
-import people from '../logo/sllider.png';
+import '../../styles/styles.css';
+import React, { useEffect } from 'react';
 import Header from '../../components/Header';
 import Intro from '../../components/Intro';
 import HomepageContainer from '../../components/HomepageContainer';
 import Footer from '../../components/Footer';
-import '../styles/styles.css';
 
 const info = [
     {
@@ -22,6 +21,10 @@ const info = [
   ];
 
 function HomePageMisionOverviewValues() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return (
         <div className="App">
             <Header/>

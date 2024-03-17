@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/styles.css';
+import '../../styles/styles.css';
 import ShowType from '../../components/ShowVolunteersAndEducators';
 import axios from 'axios';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;

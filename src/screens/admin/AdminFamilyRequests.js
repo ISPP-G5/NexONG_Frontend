@@ -1,5 +1,5 @@
 // AdminFamilyRequests.js
-import '../styles/styles.css';
+import '../../styles/styles.css';
 import AdminLayout from '../../components/AdminLayout';
 import FamilyCard from '../../components/FamilyCard';
 

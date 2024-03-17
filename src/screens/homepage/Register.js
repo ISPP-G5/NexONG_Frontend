@@ -1,12 +1,16 @@
-import '../styles/styles.css';
+import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
-import google from '../logo/google.svg';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import google from '../../logo/google.svg';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 
 function Register() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
   const [marginTop, setMarginTop] = useState('0px');

@@ -1,10 +1,15 @@
-import '../styles/styles.css';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
 import Header from '../../components/Header';
 import Intro from '../../components/Intro';
 import Footer from '../../components/Footer';
 
 
 function HomePageWhereWeAre() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return (
         <main className="App">
             <Header />

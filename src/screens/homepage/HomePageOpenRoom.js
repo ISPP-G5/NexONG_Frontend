@@ -1,9 +1,14 @@
-import '../styles/styles.css';
+import '../../styles/styles.css';
+import { useEffect } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Intro from '../../components/Intro';
 
 function HomePageOpenRoom() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return (
         <div className="App">
             <Header/>
