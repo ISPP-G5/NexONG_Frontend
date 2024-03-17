@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {Link} from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 function Donation() {
@@ -34,13 +36,13 @@ function Donation() {
     const sendOneTimeForm = async (e) => {
         e.preventDefault();
         if(!oneTimeName || oneTimeName === ''){
-            window.alert("Se debe insertar un nombre")
+            toast.error("Introduzca un nombre");
         }else if(!oneTimeSurname || oneTimeSurname === ''){
-            window.alert("Se deben insertar apellidos")
+            toast.error("Introduzca apellidos")
         }else if(!oneTimeEmail || oneTimeEmail === ''){
-            window.alert("Se debe insertar un correo electrónico")
+            toast.error("Introduzca un correo electrónico")
         }else if(!paymentDoc){
-            window.alert("Se debe adjuntar un documento de pago")
+            toast.error("Adjunte un documento de pago")
         }else{
             const oneTimeFormData = new FormData();
             oneTimeFormData.append('name',oneTimeName);
@@ -59,9 +61,9 @@ function Donation() {
                 console.log(update);
                 const { data } = update;
                 if (data.message) {
-                    window.alert(data.message);
+                    toast.error(data.message);
                 } else {
-                    window.alert('Operación realizada correctamente. Se le enviará un justificante de pago. (TO DO)')
+                    toast.success('Operación realizada correctamente. Se le enviará un justificante de pago. (TO DO)')
                 }
             } catch (error) {
                 console.error('Error', error);
@@ -102,23 +104,23 @@ function Donation() {
     const sendRecurringForm = async(e) => {
         e.preventDefault();
         if(!recurringName || recurringName === ''){
-            window.alert("Se debe insertar un nomrbe")
+            toast.error("Introduzca un nombre")
         }else if(!recurringSurname || recurringSurname === ''){
-            window.alert("Se deben insertar apellidos")
+            toast.error("Introduzca apellidos")
         }else if(!recurringEmail || recurringEmail === ''){
-            window.alert("Se debe insertar un correo electrónico")
+            toast.error("Introduzca un correo electrónico")
         }else if(!idNumber || idNumber === ''){
-            window.alert("Se debe insertar un DNI")
+            toast.error("Introduzca un DNI")
         }else if(!address || address === ''){
-            window.alert("Se debe insertar una dirección")
+            toast.error("Introduzca una dirección")
         }else if(!enrollmentDoc || enrollmentDoc === ''){
-            window.alert("Se debe adjuntar un documento de inscripción")
+            toast.error("Adjunte un documento de inscripción")
         }else if(!birthdate || birthdate === ''){
-            window.alert("Se debe insertar una fecha de nacimento")
+            toast.error("Introduzca una fecha de nacimiento")
         }else if(!password || password === ''){
-            window.alert("Se debe insertar una contraseña")
+            toast.error("Introduzca una contraseña")
         }else if (!constantTimeComparison(password, confirmPassword)){
-            window.alert("Las contraseñas no coinciden")
+            toast.error("Las contraseñas no coinciden")
         }else{
             const partnerData = new FormData();
             partnerData.append('address',address);
@@ -145,9 +147,9 @@ function Donation() {
                 console.log(update);
                 const { data } = update;
                 if (data.message){
-                    window.alert(data.message);
+                    toast.error(data.message);
                 }else{
-                    window.alert('Operación realizada correctamente. PLACEHOLDER: Enviar a página de donación')
+                    toast.success('Operación realizada correctamente. PLACEHOLDER: Enviar a página de donación')
                 }
             }catch(error){
                 console.error('Error',error);
@@ -186,6 +188,7 @@ function Donation() {
 
     return (
         <div className="App">
+            <ToastContainer />
             <Header/>
             
             <div className='main'>
