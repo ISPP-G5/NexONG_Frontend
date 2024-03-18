@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/styles.css';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
+import Pantallas from '../../components/Pantallas';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+
+const pantallas = [
+  {
+    pantalla: 'Nuestros educadores',
+    link: '/admin/educadores',
+    selected: false,
+  },
+  {
+    pantalla: 'Añadir educador',
+    link: '/admin/educadores/agregar',
+    selected: true,
+  }
+];
 
 function AdminEducatorsAdd() {
   const [id, setId] = useState("");
@@ -53,15 +67,8 @@ function AdminEducatorsAdd() {
   }
 
   return (
-    <AdminLayout>
-      <div className='admin-container'>
-        <div className='pantallas'>
-          <Link to="/AdminEducadores">
-            Nuestros Educadores
-          </Link>
-          <Link to="/AdminAñadirEducador" className="selected-pantalla">
-            Añadir Educador</Link>
-        </div>
+    <LayoutProfiles profile='admin' selected='Educadores'>
+        <Pantallas pantallas={pantallas} />
         <div className='update-container' style={{ marginLeft: '12.5%', marginTop: '2.5%' }}>
           <div className='bold-text'>Nombre</div>
           <input value={nombre}
@@ -113,8 +120,7 @@ function AdminEducatorsAdd() {
               Crear perfil
             </button>
           </div>
-        </div>
-    </AdminLayout>
+    </LayoutProfiles>
   );
 }
 

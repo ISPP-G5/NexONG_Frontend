@@ -13,7 +13,7 @@ const Profile = ({usuario}) => {
 
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          setValores(response.data.filter(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
+          setValores(response.data.filter(x=>x.id===parseInt(localStorage.getItem('userId'),10)));
         })
         .catch(error => {
           console.error(error);
@@ -46,7 +46,7 @@ const Profile = ({usuario}) => {
           <input type='password' value={profile.password} style={{ margin: '10px', maxWidth: '90%', marginLeft: '5%', borderColor:'#fcfdff',backgroundColor:'#fcfdff' }}></input>
 
           <button className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
-            <Link to={`/${usuario}PerfilActualizar`}
+            <Link to={`/${usuario}/perfil/actualizar`}
               style={{
                 textDecoration: "none",
                 color: "black",

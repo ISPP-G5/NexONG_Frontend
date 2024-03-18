@@ -39,15 +39,15 @@ function LogIn() {
 
         if (user) {
             if (user.volunteer != null) {
-                navigate('/voluntarioPerfil');
+                navigate('/voluntario/perfil');
             } else if (user.family != null) {
-                navigate('/familias');
+                navigate('/familia/perfil');
             } else if (user.partner != null) {
-                navigate('/partners');
+                navigate('/partner/perfil');
             } else if (user.educator != null) {
-                navigate('/educadorPerfil');
+                navigate('/educador/perfil');
             } else {
-                navigate(`/admin/${user.id}/`);
+                navigate(`/admin/voluntarios`);
             }
             localStorage.setItem('userId', user.id);
         } else {

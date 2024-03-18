@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/styles.css';
 
 const Intro = ({ title, description, image }) => {
     const [marginTop, setMarginTop] = useState('0px');

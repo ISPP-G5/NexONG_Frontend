@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import AdminLessonForm from '../../components/AdminLessonForm'; // Import the form component
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -63,13 +63,13 @@ const AdminLessonsEdit = () => {
   
 
   return (
-    <AdminLayout selected='Clases'>
+    <LayoutProfiles profile={'admin'} selected={'Clases'}>
       <ToastContainer />
-      <button className='button' onClick={() => navigate('/adminClases')} style={{ marginTop: '5%', marginLeft: '2%' }}>
+      <button className='button' onClick={() => navigate('/admin/clases')} style={{ marginTop: '5%', marginLeft: '2%' }}>
         Volver
       </button>
       <AdminLessonForm initialData={lessonData} handleSubmit={handleSubmit} />
-    </AdminLayout>
+    </LayoutProfiles>
   );
 };
 

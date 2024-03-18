@@ -1,18 +1,29 @@
 // AdminFamilyRequests.js
 import '../../styles/styles.css';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import FamilyCard from '../../components/FamilyCard';
+import Pantallas from '../../components/Pantallas';
+
+const pantallas = [
+  {
+    pantalla: 'Nuestras familias',
+    link: '/admin/familias',
+    selected: false,
+  },
+  {
+    pantalla: 'Solicitudes',
+    link: '/admin/familias/solicitudes',
+    selected: true,
+  }
+];
 
 function AdminFamilyRequests() {
   return (
-    <AdminLayout selected='Familias'>
-      <div className='pantallas'>
-        <a href='/AdminFamilias'>Nuestras familias</a>
-        <a href='/AdminFamiliasSolicitudes' className='selected-pantalla'>Solicitudes</a>
-      </div>
+    <LayoutProfiles profile='admin' selected='Familias'>
+      <Pantallas pantallas={pantallas} />
       <FamilyCard familyName="Family Name" kidName="Kid's Name" />
       <FamilyCard familyName="Family Name" kidName="Kid's Name" />
-    </AdminLayout>
+    </LayoutProfiles>
   );
 }
 

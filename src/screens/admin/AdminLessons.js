@@ -4,7 +4,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -23,7 +23,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
-  const navigate = useNavigate();
   const educator = users.find(user => user.id === lesson.educator);
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
 
@@ -85,11 +84,11 @@ const AdminLessons = () => {
   };
 
   const handleEditClick = (lessonId) => {
-    navigate(`/adminEditarClase/${lessonId}`);
+    navigate(`/admin/clases/editar/${lessonId}`);
   };
 
   const handleCreateClassClick = () => {
-    navigate('/adminCrearClase');
+    navigate('/admin/clases/crear');
   };
 
   useEffect(() => {
@@ -114,7 +113,7 @@ const AdminLessons = () => {
   }, []);
 
   return (
-    <AdminLayout selected='Clases'>
+    <LayoutProfiles profile={'admin'} selected={'Clases'}>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button className="addClassButton" onClick={handleCreateClassClick}>
           <AddCircleIcon fontSize='large' />
@@ -145,7 +144,7 @@ const AdminLessons = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </AdminLayout>
+    </LayoutProfiles>
   );
 };
 

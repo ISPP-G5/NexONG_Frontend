@@ -1,10 +1,22 @@
 // AdminView.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../styles/styles.css';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
+import Pantallas from '../../components/Pantallas';
 
+const pantallas = [
+  {
+    pantalla: 'Nuestras socios',
+    link: '/admin/socios',
+    selected: false,
+  },
+  {
+    pantalla: 'Convocar asamblea',
+    link: '/admin/socios/asamblea',
+    selected: true,
+  }
+];
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 const Asamblea = () => {
@@ -115,20 +127,13 @@ const Asamblea = () => {
   )
 
 };
-const AdminAssembly = () => {
+const AdminPartnersAssembly = () => {
   return (
-    <AdminLayout>
-        <div className='admin-container'>
-          <div className='pantallas'>
-            <Link to='/adminSocios'>
-              Nuestros Socios
-            </Link>
-            <Link to='/convocar-asamblea'  className='selected-pantalla' >Convocar Asamblea</Link>
-          </div>
-          <Asamblea/>
-        </div>
-  </AdminLayout>
+    <LayoutProfiles profile='admin' selected='Socios'>
+        <Pantallas pantallas={pantallas}/>
+        <Asamblea/>
+    </LayoutProfiles>
   );
 }
 
-export default AdminAssembly; 
+export default AdminPartnersAssembly; 

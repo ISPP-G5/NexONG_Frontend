@@ -103,7 +103,7 @@ const UpdateProfile = ({tipo}) => {
                 window.alert(data.message);
             }else{
 
-                navigate(`/${tipo}Perfil/`); //Navego al perfil      
+                navigate(`/${tipo}/perfil/`); //Navego al perfil      
 
             }} catch (error){
                 toast.error("Datos no válidos.");

@@ -4,7 +4,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, makeStyles } from '@material-ui/core';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -379,8 +379,8 @@ function AdminEvents() {
     };
 
     return (
-      <AdminLayout selected="Eventos">
-        <ToastContainer />
+      <LayoutProfiles profile='admin' selected='Eventos'>
+      <ToastContainer />
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <button className="addClassButton" onClick={handleEventCreate}>
             <AddCircleIcon fontSize="large" />
@@ -442,7 +442,7 @@ function AdminEvents() {
   </DialogActions>
 </Dialog>
 
-      </AdminLayout>
+      </LayoutProfiles>
     );
   };
 

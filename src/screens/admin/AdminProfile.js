@@ -1,13 +1,13 @@
 import '../../styles/styles.css';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import Profile from '../../components/Profile'
 
 const AdminProfile = () => {
 
   return (
-    <AdminLayout>
+    <LayoutProfiles profile={'admin'} >
       <Profile usuario={'admin'}/>
-    </AdminLayout>
+    </LayoutProfiles>
   );
 };
 

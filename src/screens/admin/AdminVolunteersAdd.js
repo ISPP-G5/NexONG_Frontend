@@ -4,6 +4,18 @@ import ShowType from '../../components/ShowVolunteersAndEducators';
 import axios from 'axios';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+const pantallas = [
+  {
+    pantalla: 'Nuestros voluntarios',
+    link: '/admin/voluntarios',
+    selected: false,
+  },
+  {
+    pantalla: 'Solicitudes',
+    link: '/admin/voluntarios/agregar',
+    selected: true,
+  }
+];
 
 function AdminVolunteersAdd() {
   const [VoluntariosPendientes, setVoluntariosPendientes] = useState([]);
@@ -20,7 +32,7 @@ function AdminVolunteersAdd() {
     }, []);
     
   return (
-    <ShowType type = "VOLUNTEER" añadir={true} voluntariosData={VoluntariosPendientes}></ShowType>
+    <ShowType type = "VOLUNTEER" pantallas={pantallas} añadir={true} voluntariosData={VoluntariosPendientes}></ShowType>
     
   );
 }

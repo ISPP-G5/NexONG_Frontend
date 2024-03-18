@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import EducatorLayout from '../../components/EducatorsLayout';
 import axios from 'axios';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import StudentCard from '../../components/StudentsCard'; 
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -12,7 +12,7 @@ import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
-function EducatorsKidsEvaluationDaily() {
+function EducatorKidsEvaluationYearly() {
   const [userId,setUserId] = useState(null);
   const [educatorId,setEducatorId] = useState(null);
   const [kids,setKids] = useState(null);
@@ -24,10 +24,9 @@ function EducatorsKidsEvaluationDaily() {
   const [comment, setComment] = useState("");
   const [grade, setGrade] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
+  const [studentEvaluations, setStudentEvaluations] = useState([]);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [studentEvaluations, setStudentEvaluations] = useState([]);
-
   const handleEvaluationChange = (id) => (event) => {
     setEvaluation((prevEvaluation) => ({
       ...prevEvaluation,
@@ -63,29 +62,21 @@ function EducatorsKidsEvaluationDaily() {
 
   const handleSubmit = async () => {
     try {
-      const selectedDateObj = new Date(selectedDate);
-        selectedDateObj.setHours(0, 0, 0, 0); 
-
-        // Get today's date
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); 
-
-        // Check if selectedDate is in the future
-        if (selectedDateObj.getTime() > today.getTime()) {
-          console.log('Cannot create an evaluation for a future date');
-          toast.error('No puede evaluar en una fecha futura');
-          return;
-        }
-      
+      console.log('current date',selectedDate)
+   
       const studentId = selectedStudent.id;
       const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
       console.log('Fetched evaluations:', evaluations);
+  
+      // Check if an evaluation already exists for the current year
+      const currentYear = new Date().getFullYear();
       const studentEvaluation = evaluations.find(evaluation => 
         evaluation.student === parseInt(studentId) && 
-        evaluation.evaluation_type === 2 &&
-        evaluation.date === selectedDate // Check if the evaluation is for the current date
+        evaluation.evaluation_type === 1 &&
+        new Date(evaluation.date).getFullYear() === currentYear
       );
       console.log('Found student evaluation:', studentEvaluation);
+  
       if (studentEvaluation) {
         console.log('Updating evaluation with grade:', grade, 'and comment:', comment);
         const updateResponse = await axios.put(`${API_ENDPOINT}student-evaluation/${studentEvaluation.id}/`, {
@@ -112,10 +103,10 @@ function EducatorsKidsEvaluationDaily() {
           date: selectedDate, // Use current date
           comment: comment,
           student: parseInt(studentId),
-          evaluation_type: 2,
+          evaluation_type: 1,
         });
         console.log('Create response:', createResponse);
-  
+      
         if (createResponse.status === 201) {
           console.log('Evaluation created successfully');
           toast.success('Evaluación realizada de manera correcta');
@@ -123,13 +114,13 @@ function EducatorsKidsEvaluationDaily() {
           handleCloseModal();
         } else {
           console.log('Failed to create evaluation');
-          toast.success('Error al evaluar al estudiante');
+          toast.error('Error al evaluar al estudiante');
         }
       }
-    } catch (error) {
-      console.error('An error occurred:', error);
-      toast.error('Todos los campos son obligatorios')
-    }
+      } catch (error) {
+        console.error('An error occurred:', error);
+        toast.error('Todos los campos son obligatorios');
+      }
   };
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
@@ -145,7 +136,7 @@ function EducatorsKidsEvaluationDaily() {
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
           console.log(response)
-          const user = response.data.find(user => user.id == userId);
+          const user = response.data.find(user => user.id === userId);
           console.log('user',user)
           if (user) {
             setEducatorId(user.educator);
@@ -188,14 +179,33 @@ function EducatorsKidsEvaluationDaily() {
         });
     }
   }, [kids]);
- 
+ const getStudentEvaluation = (studentId) => {
+  const filteredEvaluations = studentEvaluations.filter(evaluation => 
+    evaluation.student === parseInt(studentId) && 
+    (evaluation.evaluation_type === 1 )
+  );
+
+  if (filteredEvaluations.length === 0) {
+    return 'Sin evaluar';
+  }
   
+  filteredEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  // Check if the most recent evaluation is from the current year
+  const currentYear = new Date().getFullYear();
+  if (new Date(filteredEvaluations[0].date).getFullYear() === currentYear) {
+    // Return the grade of the most recent evaluation
+    return filteredEvaluations[0].grade;
+  } else {
+    return 'Sin evaluar';
+  }
+};
   useEffect(() => {
     if (selectedStudent) {
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
           console.log('usert',response.data)
-          const user = response.data.find(user => user.family == selectedStudent.family);
+          const user = response.data.find(user => user.family === selectedStudent.family);
           if (user) {
             setEmail(user.email);
             setPhone(user.phone);
@@ -207,26 +217,13 @@ function EducatorsKidsEvaluationDaily() {
   console.log('students',students)
   console.log('email',email)
   console.log('phone',phone)
-  const getStudentEvaluation = (studentId) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // set the time to 00:00:00
-  
-    const filteredEvaluations = studentEvaluations.filter(evaluation => 
-      evaluation.student === parseInt(studentId) && 
-      evaluation.evaluation_type === 2 &&
-      new Date(evaluation.date).setHours(0, 0, 0, 0) === today.getTime() // check if the evaluation date is today
-    );
-  
-    if (filteredEvaluations.length === 0) {
-      return 'Sin evaluar';
-    }
-  
-    // Return the grade of the evaluation for the current day
-    return filteredEvaluations[0].grade;
-  };
+
+
+
   return (
-    <EducatorLayout selected='Evaluación diaria'>
-      <ToastContainer />
+    
+    <LayoutProfiles profile={'educador'} selected={'Evaluación anual Niños'}>
+       <ToastContainer />
       <div className='admin-container'></div>
       {students && students.map((student, index) => (
         <StudentCard
@@ -243,6 +240,7 @@ function EducatorsKidsEvaluationDaily() {
       ))}
      {showEditModal && (
         <Dialog open={showEditModal} onClose={handleCloseModal}>
+        
           <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit}>
@@ -251,6 +249,15 @@ function EducatorsKidsEvaluationDaily() {
                 <select value={grade} onChange={handleGradeChange} className="evaluation-select">
                   <option value="0">0</option>
                   <option value="1">1</option>
+                  <option value="2">2</option>´
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
                 </select>
               </label>
               <label>
@@ -289,7 +296,8 @@ function EducatorsKidsEvaluationDaily() {
        </DialogActions>
      </Dialog>
      )}
-    </EducatorLayout>
+    </LayoutProfiles>
   );
 }
-export default EducatorsKidsEvaluationDaily;
+
+export default EducatorKidsEvaluationYearly;

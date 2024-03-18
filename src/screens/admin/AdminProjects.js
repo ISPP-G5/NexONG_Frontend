@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import '../../styles/styles.css';
-import HeaderAdmin from '../../components/HeaderAdmin';
-import MenuAdmin from '../../components/MenuAdmin';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Pantallas from '../../components/Pantallas';
+
+
+const pantallas = [
+  {
+    pantalla: 'Nuestros proyectos',
+    link: '/admin/proyectos',
+    selected: true,
+  },
+  {
+    pantalla: 'Añadir proyectos',
+    link: '/admin/proyectos/crear',
+    selected: false,
+  }
+];
 
 const proyectos = [
   {
@@ -30,35 +44,23 @@ function AdminProjects() {
   };
 
   return (
-    <div className='App'>
-      <HeaderAdmin />
-      <div className='admin-main'>
-        <MenuAdmin selected='Proyectos' />
-        <div className='vertical-line'></div>
+    <LayoutProfiles profile={'admin'} selected={'Proyectos'}>
 
-        <div className='admin-container'>
-          <div className='pantallas'>
-            <a href='/AdminProyectos' className='selected-pantalla'>
-              Nuestros proyectos
-            </a>
-            <a href='/AdminCrearProyecto'>Añadir Proyecto</a>
+      <Pantallas pantallas={pantallas} />
+      {proyectosList.map((proyecto, index) => (
+        <div className='card-info' key={index}>
+          <div className='proyecto-info'>
+            <p>{proyecto.nombre}</p>
+            <p>{proyecto.descripcion}</p>
           </div>
-          {proyectosList.map((proyecto, index) => (
-            <div className='card-info' key={index}>
-              <div className='proyecto-info'>
-                <p>{proyecto.nombre}</p>
-                <p>{proyecto.descripcion}</p>
-              </div>
-              <div className='vertical-line'></div>
-              <div className='edit-delete-icons'>
-                <EditIcon className='edit-fill' style={{ marginRight: '1rem' }} />
-                <DeleteIcon className='trash' onClick={() => handleDelete(index)} />
-              </div>
-            </div>
-          ))}
+          <div className='vertical-line'></div>
+          <div className='edit-delete-icons'>
+            <EditIcon className='edit-fill' style={{ marginRight: '1rem' }} />
+            <DeleteIcon className='trash' onClick={() => handleDelete(index)} />
+          </div>
         </div>
-      </div>
-    </div>
+      ))}
+    </LayoutProfiles>
   );
 }
 

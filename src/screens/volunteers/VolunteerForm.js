@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 
 
 
-function VolunteersForm() {
+function VolunteerForm() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -83,4 +83,4 @@ function VolunteersForm() {
 
 }
 
-export default VolunteersForm;
+export default VolunteerForm;

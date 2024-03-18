@@ -1,17 +1,26 @@
 import React from 'react';
 import '../../styles/styles.css';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
+import Pantallas from '../../components/Pantallas';
+
+const pantallas = [
+  {
+    pantalla: 'Nuestros proyectos',
+    link: '/admin/proyectos',
+    selected: false,
+  },
+  {
+    pantalla: 'Añadir proyectos',
+    link: '/admin/proyectos/crear',
+    selected: true,
+  }
+];
 
 function AdminProjectsCreate() {
   return (
-    <AdminLayout selected='Proyectos'> 
-      <div className='admin-container'>
-        <div className='pantallas'>
-          <a href='/AdminProyectos'>Nuestros Proyectos</a>
-          <a href='/AdminCrearProyecto' className='selected-pantalla'>Añadir Proyecto</a>
-        </div>
-      </div>
-    </AdminLayout>
+    <LayoutProfiles profile={'admin'} selected={'Proyectos'}>
+        <Pantallas pantallas={pantallas} />
+    </LayoutProfiles>
   );
 }
 export default AdminProjectsCreate;

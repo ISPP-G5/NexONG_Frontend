@@ -1,9 +1,23 @@
 import '../../styles/styles.css';
 import React, { useState, useEffect } from 'react';
-import AdminLayout from '../../components/AdminLayout';
 import axios from 'axios';
+import LayoutProfiles from '../../components/LayoutProfiles';
+import Pantallas from '../../components/Pantallas';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+
+const pantallas = [
+  {
+    pantalla: 'Nuestras familias',
+    link: '/admin/familias',
+    selected: true,
+  },
+  {
+    pantalla: 'Solicitudes',
+    link: '/admin/familias/solicitudes',
+    selected: false,
+  }
+];
 
 function AdminFamily() {
 
@@ -52,11 +66,10 @@ function AdminFamily() {
   }, []);
   
   return (
-    <AdminLayout selected='Familias'>
-      <div className='pantallas'>
-        <a href='/AdminFamilias' className='selected-pantalla'>Nuestras familias</a>
-        <a href='/AdminFamiliasSolicitudes'>Solicitudes</a>
-      </div>
+    <LayoutProfiles profile={'admin'} selected={'Familias'}>
+
+      <Pantallas pantallas={pantallas}/>
+
       {families.map((family, index) => (
         <div className='card-info' key={index}>
           <div className='family-info'>
@@ -83,7 +96,7 @@ function AdminFamily() {
           </div>
         </div>
       ))}
-    </AdminLayout>
+    </LayoutProfiles>
   );
 }
 

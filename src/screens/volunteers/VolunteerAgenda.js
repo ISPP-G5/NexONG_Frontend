@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import HeaderVolunteer from '../../components/HeaderVolunteer';
-import MenuVolunteer from '../../components/MenuVolunteer';
 import axios from 'axios';
 import '../../styles/styles.css';
+import LayoutProfiles from '../../components/LayoutProfiles';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const localizer = momentLocalizer(moment);
 
-const VolunteersAgenda = () => {
+const VolunteerAgenda = () => {
   const [activities, setActivities] = useState([]);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -100,40 +99,33 @@ const VolunteersAgenda = () => {
   };
 
   return (
-    <div className="App">
-      <HeaderVolunteer />
-      <div className='volunteer-main'>
-        <MenuVolunteer selected='Agenda' />
-        <div className='vertical-line' />
+    <LayoutProfiles profile={'voluntario'} selected={'Agenda'}>
 
-        <div className='volunteer-container'>
-          <Calendar
-            localizer={localizer}
-            events={activities}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-            selectable={true}
-            onSelectEvent={(event) => {
-              setSelectedEvent(event);
-              setShowRegisterForm(true);
-            }}
-          />
-          {showRegisterForm && (
-            <div className='register-form-container-add-volunteer'>
-                <div className='register-form-add-volunteer'>
-                    <h3>¿Quieres unirte a este evento?</h3>
-                    <button onClick={handleRegister}>Sí</button>
-                    <button onClick={() => setShowRegisterForm(false)}>No</button>
-                </div>
+      <Calendar
+        localizer={localizer}
+        events={activities}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500 }}
+        selectable={true}
+        onSelectEvent={(event) => {
+          setSelectedEvent(event);
+          setShowRegisterForm(true);
+        }}
+      />
+      {showRegisterForm && (
+        <div className='register-form-container-add-volunteer'>
+            <div className='register-form-add-volunteer'>
+                <h3>¿Quieres unirte a este evento?</h3>
+                <button onClick={handleRegister}>Sí</button>
+                <button onClick={() => setShowRegisterForm(false)}>No</button>
             </div>
-          )}
         </div>
-      </div>
-    </div>
+      )}
+    </LayoutProfiles>
   );
 };
 
-export default VolunteersAgenda;
+export default VolunteerAgenda;
 
 

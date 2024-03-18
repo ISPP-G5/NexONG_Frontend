@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminLayout from '../../components/AdminLayout';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
@@ -31,7 +31,7 @@ const AdminLessonsCreate = () => {
   const navigate = useNavigate();
   const handleClassClick = () => {
 
-    navigate('/adminClases');
+    navigate('/admin/clases');
   
   };
 
@@ -136,7 +136,7 @@ const AdminLessonsCreate = () => {
 
 
 return (
-  <AdminLayout selected='Clases'>
+  <LayoutProfiles profile={'admin'} selected={'Clases'}>
   <button className='button' onClick={handleClassClick} style={{ marginTop: '5%', marginLeft: '2%' }}>
     Volver
   </button>
@@ -235,7 +235,7 @@ return (
       Crear
     </button>
   </div>
-  </AdminLayout>
+  </LayoutProfiles>
 );
 };
 

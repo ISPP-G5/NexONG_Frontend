@@ -7,7 +7,6 @@ const AdminPartners = () => {
     
     return (
       <ShowType type = "PARTNER"></ShowType>
-      
     );
    
 }

@@ -6,6 +6,18 @@ import axios from 'axios';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
   
+const pantallas = [
+  {
+    pantalla: 'Nuestros voluntarios',
+    link: '/admin/voluntarios',
+    selected: true,
+  },
+  {
+    pantalla: 'Solicitudes',
+    link: '/admin/voluntarios/agregar',
+    selected: false,
+  }
+];
 
 function AdminVolunteers() {
   const [voluntariosAceptados, setVoluntariosAceptado] = useState([]);
@@ -22,7 +34,7 @@ function AdminVolunteers() {
     
 
   return (
-    <ShowType type = "VOLUNTEER" voluntariosData={voluntariosAceptados} voluntariosAceptados={true}></ShowType>
+    <ShowType type = "VOLUNTEER" pantallas={pantallas} voluntariosData={voluntariosAceptados} voluntariosAceptados={true}></ShowType>
     
   );
 }
