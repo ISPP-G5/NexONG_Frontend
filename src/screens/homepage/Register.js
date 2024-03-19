@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import google from '../../logo/google.svg';
 import LayoutHomepage from '../../components/LayoutHomepage';
-
+import useAdjustMargin from '../../components/useAdjustMargin';
 
 function Register() {
   useEffect(() => {
@@ -12,7 +12,6 @@ function Register() {
 
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
-  const [marginTop, setMarginTop] = useState('0px');
 
   const handleFamilyChange = () => {
     setIsFamilyChecked(!isFamilyChecked);
@@ -24,20 +23,7 @@ function Register() {
     setIsFamilyChecked(false);
   };
 
-  useEffect(() => {
-      const adjustIntroMargin = () => {
-          const headerHeight = document.querySelector('.header').offsetHeight;
-          const extraMargin = 30; 
-          setMarginTop(`${headerHeight + extraMargin}px`); 
-      };
-
-      window.addEventListener('resize', adjustIntroMargin);
-      adjustIntroMargin();
-
-      return () => {
-          window.removeEventListener('resize', adjustIntroMargin);
-      };
-  }, []);
+  const marginTop = useAdjustMargin();
 
   return (
     <LayoutHomepage 

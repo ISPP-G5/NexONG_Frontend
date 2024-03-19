@@ -6,31 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import google from '../../logo/google.svg'
 import axios from 'axios';
 import LayoutHomepage from '../../components/LayoutHomepage';
-
+import useAdjustMargin from '../../components/useAdjustMargin';
 
 function HomePageDonation() {
     useEffect(() => {
         window.scrollTo(0, 0);
       }, []);
 
-    // To avoid the Header supperposition
+    const marginTop = useAdjustMargin();
 
-    const [marginTop, setMarginTop] = useState('0px');
-
-    useEffect(() => {
-        const adjustIntroMargin = () => {
-            const headerHeight = document.querySelector('.header').offsetHeight;
-            const extraMargin = 30; 
-            setMarginTop(`${headerHeight + extraMargin}px`); 
-        };
-
-        window.addEventListener('resize', adjustIntroMargin);
-        adjustIntroMargin();
-
-        return () => {
-            window.removeEventListener('resize', adjustIntroMargin);
-        };
-    }, []);
 
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 

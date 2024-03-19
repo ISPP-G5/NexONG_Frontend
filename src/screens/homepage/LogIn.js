@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import google from '../../logo/google.svg'
 import LayoutHomepage from '../../components/LayoutHomepage';
+import useAdjustMargin from '../../components/useAdjustMargin';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,22 +55,7 @@ function LogIn() {
         }
     };
 
-    const [marginTop, setMarginTop] = useState('0px');
-    
-    useEffect(() => {
-        const adjustIntroMargin = () => {
-            const headerHeight = document.querySelector('.header').offsetHeight;
-            const extraMargin = 30; 
-            setMarginTop(`${headerHeight + extraMargin}px`); 
-        };
-
-        window.addEventListener('resize', adjustIntroMargin);
-        adjustIntroMargin();
-
-        return () => {
-            window.removeEventListener('resize', adjustIntroMargin);
-        };
-    }, []);
+    const marginTop = useAdjustMargin();
 
     return (
         <LayoutHomepage 

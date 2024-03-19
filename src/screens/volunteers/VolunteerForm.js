@@ -1,7 +1,7 @@
 import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
 import LayoutHomepage from '../../components/LayoutHomepage';
-
+import useAdjustMargin from '../../components/useAdjustMargin';
 
 
 function VolunteerForm() {
@@ -10,24 +10,8 @@ function VolunteerForm() {
   }, []);
 
 
-  // To avoid the Header supperposition
+  const marginTop = useAdjustMargin();
 
-  const [marginTop, setMarginTop] = useState('0px');
-
-    useEffect(() => {
-        const adjustIntroMargin = () => {
-            const headerHeight = document.querySelector('.header').offsetHeight;
-            const extraMargin = 30; 
-            setMarginTop(`${headerHeight + extraMargin}px`); 
-        };
-
-        window.addEventListener('resize', adjustIntroMargin);
-        adjustIntroMargin();
-
-        return () => {
-            window.removeEventListener('resize', adjustIntroMargin);
-        };
-    }, []);
 
   return (
     <LayoutHomepage 
