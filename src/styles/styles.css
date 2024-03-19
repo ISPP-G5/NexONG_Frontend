@@ -280,8 +280,8 @@ select{
   }
 
   .header-profiles a {
-    width: 30%; 
-    margin-right: 15%; 
+    width: fit-content; 
+    margin-right: 20%; 
   }
 }
 
@@ -856,7 +856,7 @@ tbody tr:nth-child(odd) {
   padding: 2rem;
   position: relative;
   width: 35%;
-  margin: auto;
+  margin: 2% auto;
   margin-bottom: 5%;
 }
 

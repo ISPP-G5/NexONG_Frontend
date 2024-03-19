@@ -71,6 +71,7 @@ const VolunteerAgenda = () => {
     }
     if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
       window.alert('Usted ya pertenece a este evento.');
+      setShowRegisterForm(false); 
       return;
     }
     const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];

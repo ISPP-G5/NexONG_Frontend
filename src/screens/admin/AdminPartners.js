@@ -4,7 +4,7 @@ import ShowType from '../../components/ShowVolunteersAndEducators';
 
 const pantallas = [
   {
-    pantalla: 'Nuestras socios',
+    pantalla: 'Nuestros socios',
     link: '/admin/socios',
     selected: true,
   },

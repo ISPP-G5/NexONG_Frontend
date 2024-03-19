@@ -7,7 +7,7 @@ import Pantallas from '../../components/Pantallas';
 
 const pantallas = [
   {
-    pantalla: 'Nuestras socios',
+    pantalla: 'Nuestros socios',
     link: '/admin/socios',
     selected: false,
   },

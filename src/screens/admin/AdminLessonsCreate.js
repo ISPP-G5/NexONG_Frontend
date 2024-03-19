@@ -83,27 +83,6 @@ const AdminLessonsCreate = () => {
       });
   };
 
-  const labelStyle = {
-    width: '80%',
-    height: '2rem',
-    top: '5rem',
-    fontFamily: 'Helvetica',
-    fontStyle: 'normal',
-    fontWeight: '505',
-    fontSize: '1rem',
-    lineHeight: '1.75rem',
-    color: '#7C838A',
-    marginBottom: '0rem',
-  };
-
-  const inputStyle = {
-    width: '80%',
-    height: '2rem',
-    borderRadius: '1rem',
-    margin: '0 auto',
-    boxSizing: 'border-box',
-  };
-
   useEffect(() => {
     axios
       .get(`${API_ENDPOINT}educator/`)
@@ -137,7 +116,7 @@ const AdminLessonsCreate = () => {
 
 return (
   <LayoutProfiles profile={'admin'} selected={'Clases'}>
-  <button className='button' onClick={handleClassClick} style={{ alignSelf: 'start', marginLeft: '10%' }}>
+  <button className='button' onClick={handleClassClick} style={{ alignSelf: 'start', marginLeft: '15%' }}>
     Volver
   </button>
   <ToastContainer />
