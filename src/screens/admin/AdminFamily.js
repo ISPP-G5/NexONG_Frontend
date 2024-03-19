@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import Pantallas from '../../components/Pantallas';
+import PersonCard from '../../components/PersonCard';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -69,31 +70,17 @@ function AdminFamily() {
     <LayoutProfiles profile={'admin'} selected={'Familias'}>
 
       <Pantallas pantallas={pantallas}/>
-
-      {families.map((family, index) => (
-        <div className='card-info' key={index}>
-          <div className='family-info'>
-            <p>Nombre familia: {family.name}</p>
-            <p>Número de niños: {kids.filter(kid => kid.family === family.id).length}</p>
-          </div>
-          <div className='kids-info'>
-            {kids.filter(kid => kid.family === family.id).map((kid, kidIndex) => {
-              const kidLesson = lessons.find(lesson => lesson.students.includes(kid.id));
-              const kidEvaluation = evaluations.find(evaluation => evaluation.student === kid.id);
-              return (
-                <div className='kid' key={kidIndex}>
-                  <p>Nombre de niño: {kid.name} {kid.surname}</p>
-                  <p>Fecha de nacimiento: {kid.birthdate}</p>
-                  <p>Curso: {kid.current_education_year}</p>
-                  <p>Clase: {kidLesson ? kidLesson.name : 'Not enrolled in any class'}</p>
-                  <p>Evaluacion: {kidEvaluation ? kidEvaluation.grade : 'No evaluation'}</p>
-                  {kid.status === 'EXPIRED' && <p style={{ color: 'red' }}>EXPIRED</p>}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+      {families.map((t, index) => (
+          <PersonCard 
+            key={index} 
+            person={t} 
+            personType='family'
+            kids={kids}
+            lessons={lessons}
+            evaluations={evaluations}
+          />
       ))}
+
     </LayoutProfiles>
   );
 }
