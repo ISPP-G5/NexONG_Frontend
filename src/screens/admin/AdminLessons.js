@@ -10,17 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import '../../styles/styles.css';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
+import ButtonCreate from '../../components/ButtonCreate';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-const useStyles = makeStyles(() => ({
-  lessonsContainer: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(28rem, 1fr))',
-    marginTop: '2rem',
-    gap: '2rem', // Adjust as needed
-  },
-}));
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
   const educator = users.find(user => user.id === lesson.educator);
@@ -32,29 +25,21 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
 
   return (
     <div className="box">
-      <div className="clase">
-        <div className="overlap-group">
-          <div className="rectangle" />
-          <div className="nombre-educador">
-            <div><strong>Nombre:</strong> {lesson.name}</div>
-            <div><strong>Descripción:</strong> {lesson.description}</div>
-            <div><strong>Inicio:</strong> {lesson.start_date} {lesson.start_time}</div>
-            <div><strong>Fin:</strong> {lesson.end_date} {lesson.end_time}</div>
-            <div><strong>Capacidad:</strong> {lesson.capacity}</div>
-            <div><strong>Educador Asociado:</strong> {educator ? educator.name : "No se encontró educador"}</div>
-            <div><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</div>
-            <div><strong>Clase de Mañana:</strong> {morningLessonText}</div>
-          </div>
-          <EditIcon className="edit-fill" onClick={() => handleEditClick(lesson.id)} />
-          <DeleteIcon className="trash" onClick={onDeleteClick} />
-        </div>
-      </div>
+        <p><strong>Nombre:</strong> {lesson.name}</p>
+        <p><strong>Descripción:</strong> {lesson.description}</p>
+        <p><strong>Inicio:</strong> {lesson.start_date} {lesson.start_time}</p>
+        <p><strong>Fin:</strong> {lesson.end_date} {lesson.end_time}</p>
+        <p><strong>Capacidad:</strong> {lesson.capacity}</p>
+        <p><strong>Educador Asociado:</strong> {educator ? educator.name : "No se encontró educador"}</p>
+        <p><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</p>
+        <p><strong>Clase de Mañana:</strong> {morningLessonText}</p>
+        <EditIcon className="edit-fill" onClick={() => handleEditClick(lesson.id)} />
+        <DeleteIcon className="trash" onClick={onDeleteClick} />
     </div>
   );
 };
 
 const AdminLessons = () => {
-  const classes = useStyles();
   const [lessons, setLessons] = useState([]);
   const [users, setUsers] = useState([]);
   const [lessonToDelete, setLessonToDelete] = useState(null);
@@ -114,14 +99,9 @@ const AdminLessons = () => {
 
   return (
     <LayoutProfiles profile={'admin'} selected={'Clases'}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <button className="addClassButton" onClick={handleCreateClassClick}>
-          <AddCircleIcon fontSize='large' />
-          Crear Clase
-        </button>
-      </div>
+      <ButtonCreate text='Crear clase' handleCreate={handleCreateClassClick} />
       <ToastContainer />
-      <div className={classes.lessonsContainer} style={{ marginRight: '20rem' }}>
+      <div className='lessons-container'>
         {lessons.map((lesson, index) => (
           <Box
             key={index}

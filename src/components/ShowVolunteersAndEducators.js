@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
-import PersonCard from '../components/PeopleCard';
+import PersonCard from './PersonCard';
 import LayoutProfiles from '../components/LayoutProfiles';
 import axios from 'axios';
 import Pantallas from './Pantallas';
@@ -107,8 +107,8 @@ function ShowType({ type,pantallas,añadir,voluntariosAceptados,voluntariosData 
     
 
     return (
-        <LayoutProfiles profile={'admin'} selected={type === "VOLUNTEER" ? 'Voluntarios': type === "EDUCATOR" ? 'Educadores': type === "PARTNERS" ? 'Socios' : ''}>
-            <Pantallas pantallas={pantallas} />
+        <LayoutProfiles profile={'admin'} selected={type === "VOLUNTEER" ? 'Voluntarios': type === "EDUCATOR" ? 'Educadores': type === "PARTNER" ? 'Socios' : ''}>
+            {pantallas && <Pantallas pantallas={pantallas} />}
             {typeList.map((t, index) => (
                 <PersonCard key={index} person={t} añadir={añadir} voluntariosData={voluntariosData} descargar={descargarDocumentacion} aceptar={aceptarSolicitud} denegar={denegarSolicitud}/>
             ))}

@@ -12,12 +12,12 @@ const pantallas = [
   },
   {
     pantalla: 'Solicitudes',
-    link: '/admin/voluntarios/agregar',
+    link: '/admin/voluntarios/solicitudes',
     selected: true,
   }
 ];
 
-function AdminVolunteersAdd() {
+function AdminVolunteersRequests() {
   const [VoluntariosPendientes, setVoluntariosPendientes] = useState([]);
 
     useEffect(() => {
@@ -37,4 +37,4 @@ function AdminVolunteersAdd() {
   );
 }
 
-export default AdminVolunteersAdd;
+export default AdminVolunteersRequests;

@@ -29,9 +29,10 @@ import AdminProfileUpdate from './admin/AdminProfileUpdate';
 import AdminFamily from './admin/AdminFamily';
 import AdminFamilyRequests from './admin/AdminFamilyRequests';
 import AdminVolunteers from './admin/AdminVolunteers';
-import AdminVolunteerssAdd from './admin/AdminVolunteersAdd';
+import AdminVolunteersRequests from './admin/AdminVolunteersRequests';
 import AdminEducators from './admin/AdminEducators';
 import AdminEducatorsAdd from './admin/AdminEducatorsAdd';
+import AdminPartners from './admin/AdminPartners';
 import AdminPartnersAssembly from './admin/AdminPartnersAssembly';
 import AdminEvents from './admin/AdminEvents';
 import AdminLessons from './admin/AdminLessons';
@@ -94,12 +95,12 @@ function App() {
             <Route path="/admin/perfil/actualizar" exact={true} element={<AdminProfileUpdate />} />
 
             <Route path="/admin/voluntarios" element={<AdminVolunteers />} />
-            <Route path="/admin/voluntarios/agregar" exact={true} element={<AdminVolunteerssAdd />} />
+            <Route path="/admin/voluntarios/solicitudes" exact={true} element={<AdminVolunteersRequests />} />
 
             <Route path="/admin/educadores" element={<AdminEducators />} />
             <Route path="/admin/educadores/agregar" exact={true} element={<AdminEducatorsAdd />} />
 
-            {/* Routes para socios aquí */}
+            <Route path="/admin/socios" exact={true} element={<AdminPartners />} />
             <Route path="/admin/socios/asamblea" exact={true} element={<AdminPartnersAssembly />} />
 
             <Route path="/admin/familias" exact={true} element={<AdminFamily />} />

@@ -74,10 +74,8 @@ function AdminFamily() {
         <div className='card-info' key={index}>
           <div className='family-info'>
             <p>Nombre familia: {family.name}</p>
-            {/*family.info && <p>Information: {family.info}</p>*/}
             <p>Número de niños: {kids.filter(kid => kid.family === family.id).length}</p>
           </div>
-          <div className='vertical-line'></div>
           <div className='kids-info'>
             {kids.filter(kid => kid.family === family.id).map((kid, kidIndex) => {
               const kidLesson = lessons.find(lesson => lesson.students.includes(kid.id));
@@ -85,8 +83,8 @@ function AdminFamily() {
               return (
                 <div className='kid' key={kidIndex}>
                   <p>Nombre de niño: {kid.name} {kid.surname}</p>
-                  <p>Fecha de nacimiento: {kid.birthdate} </p>
-                  <p>Curso: {kid.current_education_year} </p>
+                  <p>Fecha de nacimiento: {kid.birthdate}</p>
+                  <p>Curso: {kid.current_education_year}</p>
                   <p>Clase: {kidLesson ? kidLesson.name : 'Not enrolled in any class'}</p>
                   <p>Evaluacion: {kidEvaluation ? kidEvaluation.grade : 'No evaluation'}</p>
                   {kid.status === 'EXPIRED' && <p style={{ color: 'red' }}>EXPIRED</p>}

@@ -49,7 +49,7 @@ function Register() {
           <label>Correo electrónico</label>
           <input
             type='email'
-            placeholder='Repita su contraseña'
+            placeholder='Escriba su correo electrónico'
           />
 
           <label>Contraseña</label>

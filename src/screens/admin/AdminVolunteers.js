@@ -14,7 +14,7 @@ const pantallas = [
   },
   {
     pantalla: 'Solicitudes',
-    link: '/admin/voluntarios/agregar',
+    link: '/admin/voluntarios/solicitudes',
     selected: false,
   }
 ];

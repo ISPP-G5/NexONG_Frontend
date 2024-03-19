@@ -7,9 +7,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, m
 import LayoutProfiles from '../../components/LayoutProfiles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import ButtonCreate from '../../components/ButtonCreate';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -74,16 +74,17 @@ function AdminEvents() {
 
   const renderTextFieldComponent = (label, value, onChangeHandler, type = 'text') => {
     const inputStyle = {
-      width: '80%',
-      borderRadius: '1rem',
-      boxSizing: 'border-box',
+      boxSizing: 'none',
+      border: 'none',
+      backgroundColor: 'transparent',
+      width: '100%',
     };
 
 
 
     return (
       <div style={{ marginBottom: '1rem' }}>
-        <a style={labelStyle}>{label}</a>
+        <label style={labelStyle}>{label}</label>
         <TextField
           type={type}
           value={value}
@@ -93,7 +94,8 @@ function AdminEvents() {
           }}
           fullWidth
           inputProps={{
-            min: 0
+            min: 0,
+            style: inputStyle
           }}
         />
       </div>
@@ -381,12 +383,7 @@ function AdminEvents() {
     return (
       <LayoutProfiles profile='admin' selected='Eventos'>
       <ToastContainer />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button className="addClassButton" onClick={handleEventCreate}>
-            <AddCircleIcon fontSize="large" />
-            Crear Evento
-          </button>
-        </div>
+      <ButtonCreate text='Crear evento' handleCreate={handleEventCreate} />
 
         <div className={classes.calendarContainer}>
           <Calendar
@@ -400,9 +397,10 @@ function AdminEvents() {
             selectable={true}
             step={15}
             timeslots={4}
-            style={{ minHeight: '600px' }}
+            className='calendar'
           />
         </div>
+
         <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
           <DialogTitle>Añadir Evento</DialogTitle>
           <DialogContent>{renderTextFieldComponents()}</DialogContent>
@@ -415,32 +413,34 @@ function AdminEvents() {
             </Button>
           </DialogActions>
         </Dialog>
+
         <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-  <DialogTitle>Editar Evento</DialogTitle>
-  <DialogContent>{renderTextFieldComponents()}</DialogContent>
-  <DialogActions>
-    <Button onClick={() => setOpenEditDialog(false)} color="primary">
-      Volver
-    </Button>
-    <Button onClick={handleEventEdit} color="primary">
-      Guardar
-    </Button>
-    <Button onClick={handleEventDelete} color="secondary">
-      Borrar
-    </Button>
-  </DialogActions>
-</Dialog>
-<Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
-  <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
-  <DialogActions>
-    <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
-      Cancelar
-    </Button>
-    <Button onClick={handleConfirmDelete} color="secondary">
-      Confirmar
-    </Button>
-  </DialogActions>
-</Dialog>
+          <DialogTitle>Editar Evento</DialogTitle>
+          <DialogContent>{renderTextFieldComponents()}</DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenEditDialog(false)} color="primary">
+              Volver
+            </Button>
+            <Button onClick={handleEventEdit} color="primary">
+              Guardar
+            </Button>
+            <Button onClick={handleEventDelete} color="secondary">
+              Borrar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+          <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
+          <DialogActions>
+            <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmDelete} color="secondary">
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
 
       </LayoutProfiles>
     );

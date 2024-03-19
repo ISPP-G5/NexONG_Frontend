@@ -137,57 +137,55 @@ const AdminLessonsCreate = () => {
 
 return (
   <LayoutProfiles profile={'admin'} selected={'Clases'}>
-  <button className='button' onClick={handleClassClick} style={{ marginTop: '5%', marginLeft: '2%' }}>
+  <button className='button' onClick={handleClassClick} style={{ alignSelf: 'start', marginLeft: '10%' }}>
     Volver
   </button>
   <ToastContainer />
-  <div className="flex-lesson-form">
-    <a style={labelStyle}>Nombre de la clase</a>
+  <div className="register-container admin">
+    <label>Nombre de la clase</label>
     <input
       type="text"
       placeholder="Ingrese el nombre"
       name="name"
-      style={inputStyle}
       value={localFormData.name}
       onChange={handleChange}
     />
 
-    <a style={labelStyle}>Descripción</a>
+    <label>Descripción</label>
     <input
       type="text"
-      style={inputStyle}
       placeholder="Ingrese descripción"
       name="description"
       value={localFormData.description}
       onChange={handleChange}
     />
 
-    <a style={labelStyle}>Capacidad</a>
+    <label>Capacidad</label>
     <input
       type="number"
-      style={inputStyle}
       placeholder="Ingrese la capacidad"
       name="capacity"
       value={localFormData.capacity}
       onChange={handleChange}
       min = "1"
     />
+    
+    <div style={{ marginTop: '4%' }}>
+      <input
+        type="checkbox"
+        name="is_morning_lesson"
+        checked={localFormData.is_morning_lesson}
+        onChange={handleChange}
+      />
+      <label>¿Es una clase por la mañana?</label>
+    </div>
 
-    <a style={labelStyle}>¿Es una clase por la mañana?</a>
-    <input
-      type="checkbox"
-      style={inputStyle}
-      name="is_morning_lesson"
-      checked={localFormData.is_morning_lesson}
-      onChange={handleChange}
-    />
-
-    <a style={labelStyle}>Seleccione al educador/a</a>
+    <label>Seleccione al educador/a</label>
     <Select
       name="educator"
-      style={inputStyle}
       value={localFormData.educator.id}
       onChange={handleChange}
+      style={{ width: '70%' }} 
     >
       {educators.map((educator) => (
         <MenuItem key={educator.id} value={educator.id}>
@@ -197,41 +195,39 @@ return (
       ))}
     </Select>
 
-    <a style={labelStyle}>Seleccione a los estudiantes</a>
+    <label>Seleccione a los estudiantes</label>
       <Select
-    name="students"
-    multiple
-    style={inputStyle}
-    value={localFormData.students}
-    onChange={handleChange}
-  >
-    {students.map((student) => (
-      <MenuItem key={student.id} value={student.id}>
-        {student.name}
-      </MenuItem>
-    ))}
-  </Select>
+        name="students"
+        multiple
+        value={localFormData.students}
+        onChange={handleChange}
+        style={{ width: '70%' }} 
+      >
+        {students.map((student) => (
+          <MenuItem key={student.id} value={student.id}>
+            {student.name}
+          </MenuItem>
+        ))}
+      </Select>
 
 
-    <a style={labelStyle}>Fecha de inicio</a>
+    <label>Fecha de inicio</label>
     <input
       type="datetime-local"
       name="start_date"
-      style={inputStyle}
       value={localFormData.start_date}
       onChange={handleChange}
     />
 
-    <a style={labelStyle}>Fecha de fin</a>
+    <label>Fecha de fin</label>
     <input
       type="datetime-local"
       name="end_date"
-      style={inputStyle}
       value={localFormData.end_date}
       onChange={handleChange}
     />
 
-    <button className="button" onClick={handleSubmit}>
+    <button className="register-button" onClick={handleSubmit}>
       Crear
     </button>
   </div>

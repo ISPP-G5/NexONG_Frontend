@@ -1,7 +1,7 @@
 // AdminFamilyRequests.js
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
-import FamilyCard from '../../components/FamilyCard';
+import PersonCard from '../../components/PersonCard';
 import Pantallas from '../../components/Pantallas';
 
 const pantallas = [
@@ -17,12 +17,24 @@ const pantallas = [
   }
 ];
 
+const familyItems = [
+  {
+    familyName: "Family Name",
+    kidName: "Kid's Name"
+  },
+  {
+    familyName: "Family Name",
+    kidName: "Kid's Name"
+  }
+];
+
 function AdminFamilyRequests() {
   return (
     <LayoutProfiles profile='admin' selected='Familias'>
       <Pantallas pantallas={pantallas} />
-      <FamilyCard familyName="Family Name" kidName="Kid's Name" />
-      <FamilyCard familyName="Family Name" kidName="Kid's Name" />
+      {familyItems.map((t, index) => (
+          <PersonCard key={index} person={t} añadir={true} />
+      ))}
     </LayoutProfiles>
   );
 }
