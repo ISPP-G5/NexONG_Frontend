@@ -58,7 +58,7 @@ function MenuProfiles({ profile, selected }) {
             <tr key={index}>
                 <td 
                 className={item === selected ? 'selected-menu-profiles' : ''}
-                style={item === 'Familias' ? { borderBottom: '2px solid #9ee5ff' } : {}}
+                style={item === 'Familias' || (profile === 'educador' && item === 'Niños') || (profile === 'educador' && item === 'Proyectos')? { borderBottom: '2px solid #9ee5ff' } : {}}
                 >                    
                 <a href={links[item]}>{item}</a>
                 </td>
