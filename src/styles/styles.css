@@ -43,8 +43,7 @@ h1 {
   font-weight: bold;
   text-align: center;
 }
-
-@media screen and (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   h1 {
     font-size: 2rem;
   }
@@ -58,7 +57,7 @@ h2 {
   text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   h1 {
     font-size: 1.5rem;
   }
@@ -73,7 +72,7 @@ h3 {
   text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   h3 {
     font-size: 1rem;
   }
@@ -274,7 +273,7 @@ select{
   color: black;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .header-profiles p, .header-profiles a {
     font-size: 16px; 
   }
@@ -310,7 +309,7 @@ select{
   align-items: flex-end;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .profiles-container {
     width: 70%; /* Take up the remaining space after the menu on smaller screens */
     margin-top: 25%;
@@ -363,7 +362,7 @@ select{
   background: #cdf0fe; 
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .menu-profiles {
     width: 30%; 
   }
@@ -419,7 +418,7 @@ select{
     border-bottom: 3px solid #9ee5ff;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .pantallas {
     margin-left: 30%;
     margin-bottom: 5%;
@@ -562,7 +561,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
   margin-bottom: 1rem;
 }
 
-@media screen and (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .flex-container {
     flex: 1 0 80%; /* On smaller screens, the flex items will take up the full width of the container */
     margin: 1em;
@@ -619,7 +618,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
   margin: 0 10px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .footer-contact, .footer-address, .footer-social-media {
     flex-basis: 100%;
     margin: 10px 0;
@@ -640,7 +639,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
   align-self: center;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .maps-image {
       max-width: 100%;
       max-height: 100%;
@@ -697,7 +696,7 @@ tbody tr:nth-child(odd) {
 .trans td:hover {background-color: #cdf0fe;}
 
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
 
   .trans { 
       font-size: 10px;
@@ -721,7 +720,7 @@ tbody tr:nth-child(odd) {
   align-self: center;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .colab-image {
       max-width: 100%;
       max-height: 100%;
@@ -783,13 +782,11 @@ tbody tr:nth-child(odd) {
   height: auto;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .agenda-intro {
     flex-direction: column;
   }
-}
 
-@media (max-width: 768px) {
   .agenda-plan {
     flex-direction: column-reverse;
   }
@@ -873,7 +870,7 @@ tbody tr:nth-child(odd) {
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .register-container {
     width: 60%; 
   }
@@ -992,7 +989,7 @@ tbody tr:nth-child(odd) {
   box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
 
   .register-button.admin, .register-button.admin a{
     font-size: 16px;
@@ -1095,7 +1092,7 @@ tbody tr:nth-child(odd) {
     margin-left: 15%;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .card-info {
     max-width: 70%;
     flex-direction: column; 
@@ -1140,7 +1137,7 @@ tbody tr:nth-child(odd) {
   right: 5%;
 }
 
-@media screen and (max-width: 600px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .buttons-requests {
     position: static;
     height: 15%;
@@ -1243,7 +1240,7 @@ tbody tr:nth-child(odd) {
   font-size: 30px !important;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .trash, .edit-fill {
     font-size: 15px !important;
     margin: 5%;
@@ -1271,7 +1268,7 @@ tbody tr:nth-child(odd) {
   justify-content: space-between;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .lessons-container {
     width: 70%; 
     margin-left: 15%;
@@ -1296,7 +1293,7 @@ tbody tr:nth-child(odd) {
   font-size: 20px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .box {
     width: 100%; 
     font-size: 12px;
@@ -1335,7 +1332,7 @@ tbody tr:nth-child(odd) {
   box-shadow: 0 6px 10px 0 #7c7c7c24, 0 7px 25px 0 #7c7c7c24;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .button-create {
     width: 150px; 
     margin-bottom: 5%;
@@ -1363,7 +1360,7 @@ tbody tr:nth-child(odd) {
   align-self: center;
 }
 
-@media screen and (max-width: 768px) {
+@media (min-width: 1px) and (max-width: 768px) {
   .calendar {
     margin-left: 15%;
     margin-right: 0;
@@ -1400,6 +1397,7 @@ tbody tr:nth-child(odd) {
   width: 2em; 
   text-align: left;
 }
+
 .evaluation-select {
   width: 6rem; 
   height: 2rem; 
