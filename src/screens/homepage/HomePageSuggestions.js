@@ -1,8 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Intro from '../../components/Intro';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 function HomePageSuggestions() {
   useEffect(() => {
@@ -10,14 +8,10 @@ function HomePageSuggestions() {
   }, []);
 
   return (
-    <div className="App">
-        <Header/>
-        <Intro 
-            title="Sugerencias"
-            image={'ong'}
-        />
-        <Footer/>
-    </div>
+    <LayoutHomepage 
+      title="Sugerencias"
+      image={'ong'}
+    />  
   );
 }
 export default HomePageSuggestions;

@@ -1,7 +1,6 @@
 import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 
 
@@ -31,8 +30,9 @@ function VolunteerForm() {
     }, []);
 
   return (
-    <div className="App">
-      <Header />
+    <LayoutHomepage 
+            intro={false}
+        > 
       
       <div className='register-container' style={{ marginTop }}>
         <h2>Formulario de Voluntarios</h2>
@@ -74,10 +74,7 @@ function VolunteerForm() {
         <button className='register-button'>Enviar</button>
       
       </div>
-
-      <Footer />
-
-    </div>
+    </LayoutHomepage>
   );
 
 

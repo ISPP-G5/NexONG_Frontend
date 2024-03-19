@@ -1,8 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Intro from '../../components/Intro';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 function HomePageCoexistenceRoom() {
     useEffect(() => {
@@ -10,13 +8,11 @@ function HomePageCoexistenceRoom() {
       }, []);
 
     return (
-        <div className="App">
-            <Header/>
-            <Intro 
-                title='AULA DE CONVIVENCIA'
-                description='Atención a alumnos con conductas disruptivas para menores entre 6 y 18 años así como actividades de relajacion y reflexión'
-                image={'coexistenceRoom'}
-            />
+        <LayoutHomepage 
+            title='AULA DE CONVIVENCIA'
+            description='Atención a alumnos con conductas disruptivas para menores entre 6 y 18 años así como actividades de relajacion y reflexión'
+            image={'coexistenceRoom'}
+        > 
             <div className='homepage-text'>
                 <p>
                     Se trata de un programa encaminado a la prevención y reinserción en el
@@ -88,9 +84,7 @@ function HomePageCoexistenceRoom() {
                     los responsables de los colegios e institutos de la zona.
                 </p>
             </div>
-                
-            <Footer/>
-        </div>
+        </LayoutHomepage>
     );
 }
 export default HomePageCoexistenceRoom;

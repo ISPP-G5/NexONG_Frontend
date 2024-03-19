@@ -1,8 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Intro from '../../components/Intro';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 function HomePageSummerClub() {
     useEffect(() => {
@@ -10,13 +8,11 @@ function HomePageSummerClub() {
       }, []);
 
     return (
-        <div className="App">
-            <Header/>
-            <Intro 
-                title='CLUB DE VERANO'
-                description='Club de verano para alumnos de primaria'
-                image={'summerClub'}
-            />
+        <LayoutHomepage 
+            title='CLUB DE VERANO'
+            description='Club de verano para alumnos de primaria'
+            image={'summerClub'}
+        >  
             <div className='homepage-text'>
                 <p>
                     Organizado por Asociación Manos Abiertas y animado por un
@@ -33,8 +29,7 @@ function HomePageSummerClub() {
                     se llevan a cabo.
                 </p>
             </div>
-            <Footer/>
-        </div>
+        </LayoutHomepage>
     );
 }
 export default HomePageSummerClub;

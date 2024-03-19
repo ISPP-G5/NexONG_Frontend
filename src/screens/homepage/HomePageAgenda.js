@@ -1,8 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Intro from '../../components/Intro';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 // PHOTOS
 import logros from '../../logo/agenda2030/agenda-logros.png';
@@ -26,13 +24,11 @@ function HomePageAgenda() {
       }, []);
 
     return (
-        <div className="App">
-            <Header/>
-            <Intro 
-                title="Agenda 2030"
-                image={'globalGoals'}
-            />
-
+        <LayoutHomepage 
+            title={'Agenda 2030'} 
+            description={'Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada.'}
+            image={'globalGoals'}
+        > 
             <div className='agenda-intro'>
                 <div>
                     <h1>Introducción</h1>
@@ -94,8 +90,7 @@ function HomePageAgenda() {
             <img src={logo} alt='manos abiertas' width={300}></img>
             <h1>JUNTOS/AS PODEMOS CONSEGUIRLO</h1>
             </div>
-            <Footer />
-        </div>
+        </LayoutHomepage>
     );
 }
 export default HomePageAgenda;    

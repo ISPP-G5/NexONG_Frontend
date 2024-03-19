@@ -1,8 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Intro from '../../components/Intro';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 function HomePageOpenRoom() {
     useEffect(() => {
@@ -10,13 +8,11 @@ function HomePageOpenRoom() {
       }, []);
 
     return (
-        <div className="App">
-            <Header/>
-            <Intro 
-                title='AULA ABIERTA'
-                description='Refuerzo educativo para menores entre 6 y 18 años así como actividades de relajacion y reflexión'
-                image='openRoom'
-            />
+        <LayoutHomepage 
+            title='AULA ABIERTA'
+            description='Refuerzo educativo para menores entre 6 y 18 años así como actividades de relajacion y reflexión'
+            image='openRoom'
+        >  
             <div className='homepage-text'>
                 <p>
                     El programa escolar está destinado a mejorar las
@@ -37,8 +33,7 @@ function HomePageOpenRoom() {
                     específicas que se presenten en las diferentes asignaturas.
                 </p>
             </div>
-            <Footer/>
-        </div>
+        </LayoutHomepage>
     );
 }
 export default HomePageOpenRoom;

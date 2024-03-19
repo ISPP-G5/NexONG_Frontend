@@ -2,10 +2,9 @@ import '../../styles/styles.css'
 import React, { useEffect, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import google from '../../logo/google.svg'
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 import axios from 'axios';
-import { toast,ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -73,11 +72,10 @@ function LogIn() {
     }, []);
 
     return (
-        <div className="App">
-            <ToastContainer/> 
-
-            <Header/>
-
+        <LayoutHomepage 
+            intro={false}
+            toastcontainer={true}
+        >  
             <div className='register-container' style={{marginTop}}>
 
                 <h2>Inicie sesión</h2>
@@ -116,11 +114,7 @@ function LogIn() {
                 </p>
 
             </div>
-
-
-            <Footer/>
-
-        </div>
+        </LayoutHomepage>
     );
   }
 export default LogIn;

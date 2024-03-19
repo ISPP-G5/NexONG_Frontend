@@ -1,8 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Intro from '../../components/Intro';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 function HomePageFamilyWorkshops() {
     useEffect(() => {
@@ -10,13 +8,11 @@ function HomePageFamilyWorkshops() {
       }, []);
 
     return (
-        <div className="App">
-            <Header/>
-            <Intro 
-                title='TALLERES FAMILIARES'
-                description='Actividades formativas y de apoyo para las familias'
-                image={'workshop'}
-            />
+        <LayoutHomepage 
+            title='TALLERES FAMILIARES'
+            description='Actividades formativas y de apoyo para las familias'
+            image={'workshop'}
+        >  
             <div className='homepage-text'>
                 <p>
                     Con este proyecto damos respuesta a las necesidades detectadas a nivel
@@ -30,8 +26,7 @@ function HomePageFamilyWorkshops() {
                     talleres, cineforum, potenciaremos la capacidad de transmitir emociones.
                 </p>
             </div>
-            <Footer/>
-        </div>
+        </LayoutHomepage>
     );
 }
 export default HomePageFamilyWorkshops;

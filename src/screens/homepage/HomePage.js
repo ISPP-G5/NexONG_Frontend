@@ -1,9 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Intro from '../../components/Intro';
-import HomepageContainer from '../../components/HomepageContainer';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 import axios from 'axios';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -40,17 +37,12 @@ function HomePage() {
     }
     );
         return (
-            <div className="App">
-                <Header/>
-                <Intro 
-                    title="Asociación Manos Abiertas con Norte"
-                    description="Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada."
-                    image={'ong'}
-                />
-                <HomepageContainer info={info} />
-                <Footer/>
-            </div>
-        
+          <LayoutHomepage 
+            title={'Asociación Manos Abiertas con Norte'} 
+            description={'Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada.'}
+            image={'ong'}
+            info={info}
+          />        
          );
     }
 export default HomePage;    

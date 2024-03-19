@@ -1,9 +1,6 @@
 import '../../styles/styles.css';
 import React, { useEffect } from 'react';
-import Header from '../../components/Header';
-import Intro from '../../components/Intro';
-import HomepageContainer from '../../components/HomepageContainer';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 const info = [
     {
@@ -26,15 +23,11 @@ function HomePageMisionOverviewValues() {
       }, []);
 
     return (
-        <div className="App">
-            <Header/>
-            <Intro 
-                title="MISIÓN, VISIÓN Y VALORES"
-                image={'ong'}
-            />
-            <HomepageContainer info={info} />
-            <Footer/>
-        </div>
+        <LayoutHomepage 
+            title="MISIÓN, VISIÓN Y VALORES"
+            image={'ong'}
+            info={info}
+          /> 
     );
 }
 

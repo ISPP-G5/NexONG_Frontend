@@ -1,9 +1,7 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../../components/Header';
-import Intro from '../../components/Intro';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 
 const entidadesData = [
@@ -55,13 +53,11 @@ function HomePageColaboratorEntities() {
       }, []);
 
     return (
-        <main className="App">
-            <Header />
-            <Intro 
-                title="Entidades Colaboradoras"
-                description="Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno."
-                image={'ong'}
-            />
+        <LayoutHomepage 
+            title="Entidades Colaboradoras"
+            description="Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno."
+            image={'ong'}
+        > 
             
             <div className='homepage-container'>
                 {entidadesData.map(ed =>{return(
@@ -71,8 +67,7 @@ function HomePageColaboratorEntities() {
                 </div>
                 )})}
             </div>
-            <Footer />
-        </main>
+        </LayoutHomepage>
     );
 }
 export default HomePageColaboratorEntities;    

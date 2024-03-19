@@ -1,10 +1,7 @@
 // Activities.js
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Footer from '../../components/Footer';
-import Intro from '../../components/Intro'; 
-import Header from '../../components/Header';
-import HomepageContainer from '../../components/HomepageContainer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 const info = [
     {
@@ -48,16 +45,12 @@ function HomePageActivities() {
     const description = "Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno.";
 
     return(
-        <div className="App">
-            <Header/>
-            <Intro 
-                title={title}
-                description={description}
-                image={'activities'}
-            />
-            <HomepageContainer info={info} />
-            <Footer/>
-        </div>
+        <LayoutHomepage 
+            title={title} 
+            description={description}
+            image={'activities'}
+            info={info}
+          /> 
     );
 }
 

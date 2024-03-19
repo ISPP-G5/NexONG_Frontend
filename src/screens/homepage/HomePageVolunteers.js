@@ -1,9 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
-import Intro from '../../components/Intro';
-import HomepageContainer from '../../components/HomepageContainer';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 
 const info = [
@@ -29,17 +26,12 @@ function HomePageVolunteers () {
     }, []);
     
     return (
-        <div className="App">
-            <Header />
-            <Intro 
-                title="Voluntarios"
-                description="Gracias a la colaboración de nuestros voluntarios los proyectos y actividades son posibles de realizar."
-                image={'volunteers'}
-            />
-
-            <HomepageContainer info={info} />
-            <Footer />
-        </div>
-         );
-    }
+      <LayoutHomepage 
+        title="Voluntarios"
+        description="Gracias a la colaboración de nuestros voluntarios los proyectos y actividades son posibles de realizar."
+        image={'volunteers'}
+        info={info}
+      /> 
+    );
+}
 export default HomePageVolunteers;

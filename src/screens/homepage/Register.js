@@ -2,8 +2,7 @@ import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import google from '../../logo/google.svg';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 
 function Register() {
@@ -41,8 +40,9 @@ function Register() {
   }, []);
 
   return (
-    <div className="App">
-        <Header />
+    <LayoutHomepage 
+            intro={false}
+        > 
 
         <div className='register-container' style={{ marginTop }}>
           <h2> Regístrese</h2>
@@ -110,8 +110,7 @@ function Register() {
           </p>
 
         </div>
-        <Footer />
-    </div>
+    </LayoutHomepage>
   );
 }
 

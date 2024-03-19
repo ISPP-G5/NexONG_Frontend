@@ -1,12 +1,11 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import google from '../../logo/google.svg'
 import axios from 'axios';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 
 function HomePageDonation() {
@@ -183,10 +182,13 @@ function HomePageDonation() {
     ////////////////////////////////////////////////////////////////
 
     return (
-        <div className="App">
-            <ToastContainer />
-            <Header/>
-            
+        <LayoutHomepage 
+            title={'Asociación Manos Abiertas con Norte'} 
+            description={'Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada.'}
+            image={'ong'}
+            toastcontainer={true}
+            intro={false}
+        > 
             <table className='donations-table' style={{marginTop}}>
                 <thead>
                 <tr>
@@ -358,8 +360,7 @@ function HomePageDonation() {
                 </tbody>
             </table>
 
-            <Footer/>
-        </div>
+        </LayoutHomepage>
     );
   }
 export default HomePageDonation;

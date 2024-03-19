@@ -1,9 +1,7 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Intro from '../../components/Intro';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 function HomePageCamps() {
     useEffect(() => {
@@ -11,13 +9,11 @@ function HomePageCamps() {
       }, []);
 
     return (
-        <div className="App">
-            <Header/>
-            <Intro 
-                title='CAMPAMENTO DE VERANO'
-                description='Realización de campamentos de verano para menores de educación primaria y secundaria'
-                image={'camps'}
-            />
+        <LayoutHomepage 
+            title={'CAMPAMENTO DE VERANO'} 
+            description='Realización de campamentos de verano para menores de educación primaria y secundaria'
+            image={'camps'}
+        > 
             <div className='homepage-text'>
                 <p>
                     Esta actividad la hemos realizado como cada año junto
@@ -30,8 +26,7 @@ function HomePageCamps() {
                     durante el curso.
                 </p>
             </div>
-            <Footer/>
-        </div>
+        </LayoutHomepage>
     );
 }
 export default HomePageCamps;

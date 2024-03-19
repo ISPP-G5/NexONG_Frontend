@@ -1,8 +1,6 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
-import Intro from '../../components/Intro';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
+import LayoutHomepage from '../../components/LayoutHomepage';
 
 function HomePageTransparency() {
     useEffect(() => {
@@ -10,14 +8,11 @@ function HomePageTransparency() {
       }, []);
 
     return (
-        <div className="App">
-            <Header />
-            <Intro 
-                title="Transparencia"
-                description="La Asociación Manos Abiertas con Norte apuesta por la transparencia como uno de los objetivos prioritarios de intervención. Por ello, si quieres saber más sobre nosotros, podrás encontrar documentación institucional en las que aparece todo aquello que hemos realizado durante estos últimos años. Esperemos sirvan para acercarte más aún a nuestra asociación y a la realidad en la que estamos inmersos."
-                image={'ong'}
-            />
-            
+        <LayoutHomepage 
+            title="Transparencia"
+            description="La Asociación Manos Abiertas con Norte apuesta por la transparencia como uno de los objetivos prioritarios de intervención. Por ello, si quieres saber más sobre nosotros, podrás encontrar documentación institucional en las que aparece todo aquello que hemos realizado durante estos últimos años. Esperemos sirvan para acercarte más aún a nuestra asociación y a la realidad en la que estamos inmersos."
+            image={'ong'}
+        >  
             <table className='trans'>
                 <thead>
                     <tr>
@@ -101,10 +96,7 @@ function HomePageTransparency() {
                 </tr>
                 </tbody>
             </table>
-
-            <Footer />
-
-        </div>
+        </LayoutHomepage>
     )    
 }
 
