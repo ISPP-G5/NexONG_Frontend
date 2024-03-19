@@ -135,9 +135,7 @@ function EducatorKidsEvaluationYearly() {
     if (userId) {
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          console.log(response)
-          const user = response.data.find(user => user.id === userId);
-          console.log('user',user)
+          const user = response.data.find(user => user.id == userId);
           if (user) {
             setEducatorId(user.educator);
           }
@@ -204,7 +202,6 @@ function EducatorKidsEvaluationYearly() {
     if (selectedStudent) {
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          console.log('usert',response.data)
           const user = response.data.find(user => user.family === selectedStudent.family);
           if (user) {
             setEmail(user.email);
@@ -214,10 +211,12 @@ function EducatorKidsEvaluationYearly() {
     }
   }, [selectedStudent]);
 
-  console.log('students',students)
-  console.log('email',email)
-  console.log('phone',phone)
-
+  const inputStyle = {
+    boxSizing: 'none',
+    backgroundColor: 'transparent',
+    width: '100%',
+    marginBottom: '3%',
+  };
 
 
   return (
@@ -244,12 +243,12 @@ function EducatorKidsEvaluationYearly() {
           <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit}>
-              <label style={{display: 'block'}}>
-                Nota:
+              <label style={{display: 'block', marginBottom: '3%'}}>
+                Nota: &nbsp;
                 <select value={grade} onChange={handleGradeChange} className="evaluation-select">
                   <option value="0">0</option>
                   <option value="1">1</option>
-                  <option value="2">2</option>´
+                  <option value="2">2</option>
                   <option value="3">3</option>
                   <option value="4">4</option>
                   <option value="5">5</option>
@@ -260,14 +259,10 @@ function EducatorKidsEvaluationYearly() {
                   <option value="10">10</option>
                 </select>
               </label>
-              <label>
-                Comentario:
-                <input type="text" value={comment} onChange={handleCommentChange} className="evaluation-select" />
-              </label>
-              <label>
-                Fecha:
-                <input type="date" value={selectedDate} onChange={handleDateChange} className="evaluation-select" />
-              </label>
+              <label>Comentario:</label>
+                <input type="text" value={comment} onChange={handleCommentChange} style={inputStyle} />
+              <label>Fecha:</label>
+                <input type="date" value={selectedDate} onChange={handleDateChange} style={inputStyle} />
             </form>
           </DialogContent>
           <DialogActions>

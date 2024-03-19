@@ -79,13 +79,11 @@ function EducatorKidsEvaluationDaily() {
       
       const studentId = selectedStudent.id;
       const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
-      console.log('Fetched evaluations:', evaluations);
       const studentEvaluation = evaluations.find(evaluation => 
         evaluation.student === parseInt(studentId) && 
         evaluation.evaluation_type === 2 &&
         evaluation.date === selectedDate // Check if the evaluation is for the current date
       );
-      console.log('Found student evaluation:', studentEvaluation);
       if (studentEvaluation) {
         console.log('Updating evaluation with grade:', grade, 'and comment:', comment);
         const updateResponse = await axios.put(`${API_ENDPOINT}student-evaluation/${studentEvaluation.id}/`, {
@@ -144,9 +142,7 @@ function EducatorKidsEvaluationDaily() {
     if (userId) {
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          console.log(response)
-          const user = response.data.find(user => user.id === userId);
-          console.log('user',user)
+          const user = response.data.find(user => user.id == userId);
           if (user) {
             setEducatorId(user.educator);
           }
@@ -194,7 +190,6 @@ function EducatorKidsEvaluationDaily() {
     if (selectedStudent) {
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          console.log('usert',response.data)
           const user = response.data.find(user => user.family === selectedStudent.family);
           if (user) {
             setEmail(user.email);
@@ -204,9 +199,7 @@ function EducatorKidsEvaluationDaily() {
     }
   }, [selectedStudent]);
 
-  console.log('students',students)
-  console.log('email',email)
-  console.log('phone',phone)
+
   const getStudentEvaluation = (studentId) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // set the time to 00:00:00
@@ -225,6 +218,12 @@ function EducatorKidsEvaluationDaily() {
     return filteredEvaluations[0].grade;
   };
 
+  const inputStyle = {
+    boxSizing: 'none',
+    backgroundColor: 'transparent',
+    width: '100%',
+    marginBottom: '3%',
+  };
 
   return (
     <LayoutProfiles profile={'educador'} selected={'Evaluación diaria'}>
@@ -247,21 +246,17 @@ function EducatorKidsEvaluationDaily() {
           <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit}>
-              <label style={{display: 'block'}}>
-                Nota:
-                <select value={grade} onChange={handleGradeChange} className="evaluation-select">
+              <label style={{display: 'block', marginBottom: '3%'}}>
+                Nota: &nbsp;
+                <select value={grade} onChange={handleGradeChange} className='evaluation-select'>
                   <option value="0">0</option>
                   <option value="1">1</option>
                 </select>
               </label>
-              <label>
-                Comentario:
-                <input type="text" value={comment} onChange={handleCommentChange} className="evaluation-select" />
-              </label>
-              <label>
-                Fecha:
-                <input type="date" value={selectedDate} onChange={handleDateChange} className="evaluation-select" />
-              </label>
+              <label>Comentario:</label>
+              <input type="text" value={comment} onChange={handleCommentChange} style={inputStyle} />
+              <label>Fecha:</label>
+                <input type="date" value={selectedDate} onChange={handleDateChange} style={inputStyle} />
             </form>
           </DialogContent>
           <DialogActions>

@@ -1,7 +1,7 @@
 import '../styles/styles.css';
 import React from 'react';
 
-const adminItems = ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Colegios', 'Clases', 'Eventos', 'Proyectos'];
+const adminItems = ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Proyectos'];
 const educatorItems = ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades', 'Proyectos','Evaluación trimestral','Evaluación anual Proyectos'];
 const volunteerItems = ['Agenda', 'Asistencia'];
 const familyItems = ['Niños', 'Evaluación diaria','Evaluación anual','Observaciones','Autorizaciones','Calendario'];
@@ -18,7 +18,7 @@ function MenuProfiles({ profile, selected }) {
                 <tr key={index}>
                     <td 
                         className={item === selected ? 'selected-menu-profiles' : ''}
-                        style={item === 'Colegios' ? { borderBottom: '2px solid #9ee5ff' } : {}}
+                        style={item === 'Familias' ? { borderBottom: '2px solid #9ee5ff' } : {}}
                     >                    
                     <a 
                         href={
@@ -26,7 +26,6 @@ function MenuProfiles({ profile, selected }) {
                             item === 'Educadores' ? '/admin/educadores' : 
                             item === 'Socios' ? '/admin/socios' : 
                             item === 'Familias' ? '/admin/familias' : 
-                            item === 'Colegios' ? '/admin/colegios' : 
                             item === 'Clases' ? '/admin/clases' : 
                             item === 'Eventos' ? '/admin/eventos' : 
                             item === 'Proyectos' ?'/admin/proyectos':

@@ -69,54 +69,53 @@ function AdminEducatorsAdd() {
   return (
     <LayoutProfiles profile='admin' selected='Educadores'>
         <Pantallas pantallas={pantallas} />
-        <div className='update-container' style={{ marginLeft: '12.5%', marginTop: '2.5%' }}>
-          <div className='bold-text'>Nombre</div>
+        <div className='register-container admin' >
+          <label>Nombre</label>
           <input value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             type='text'
             placeholder='Nombre'></input>
 
-          <div className='bold-text'>Apellido</div>
+          <label>Apellido</label>
           <input value={apellido}
             onChange={(e) => setApellido(e.target.value)}
             type='text'
             placeholder='Primer Apellido'></input>
 
-          <div className='bold-text'>Identificación</div>
+          <label>Identificación</label>
           <input value={identificacion}
             onChange={(e) => setIdentificacion(e.target.value)}
             type='text'
             placeholder='DNI/NIE/Pasaporte'></input>
 
-          <div className='bold-text'>Email</div>
+          <label>Email</label>
           <input value={correo}
             onChange={(e) => setCorreo(e.target.value)}
             type='email'
             placeholder='Email'></input>
 
-          <div className='bold-text'>Teléfono</div>
+          <label>Teléfono</label>
           <input value={telefono}
             onChange={(e) => SetTelefono(e.target.value)}
             type='tel'
             placeholder='Número de teléfono'></input>
 
-          <div className='bold-text'>Contraseña</div>
+          <label>Contraseña</label>
           <input value={clave}
             onChange={(e) => setPassword(e.target.value)}
             type='password'
             placeholder='Contraseña'></input>
           
-          <div className='bold-text'>Fecha</div>
+          <label>Fecha</label>
             <input value={fecha}
               id="date"
               label="Birthday"
               type="date"
-              className='asam-input'
               placeholder='dd/mm/yyyy'
               onChange={(e) => setFecha(e.target.value)}
             ></input>
           
-            <button onClick={createUser} className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
+            <button onClick={createUser} className='register-button admin' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
               Crear perfil
             </button>
           </div>

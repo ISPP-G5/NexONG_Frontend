@@ -5,6 +5,12 @@ import axios from 'axios';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const localizer = momentLocalizer(moment);
@@ -106,7 +112,7 @@ const VolunteerAgenda = () => {
         events={activities}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
+        className='calendar'
         selectable={true}
         onSelectEvent={(event) => {
           setSelectedEvent(event);
@@ -114,13 +120,17 @@ const VolunteerAgenda = () => {
         }}
       />
       {showRegisterForm && (
-        <div className='register-form-container-add-volunteer'>
-            <div className='register-form-add-volunteer'>
-                <h3>¿Quieres unirte a este evento?</h3>
-                <button onClick={handleRegister}>Sí</button>
-                <button onClick={() => setShowRegisterForm(false)}>No</button>
-            </div>
-        </div>
+        <Dialog open={showRegisterForm} onClose={() => setShowRegisterForm(false)}>
+        <DialogTitle>¿Quieres unirte a este evento?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleRegister} color="primary">
+            Sí
+          </Button>
+          <Button onClick={() => setShowRegisterForm(false)} color="secondary">
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
       )}
     </LayoutProfiles>
   );

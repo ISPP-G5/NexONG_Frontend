@@ -126,7 +126,7 @@ const AdminLessonsEdit = () => {
   return (
     <LayoutProfiles profile={'admin'} selected={'Clases'}>
       <ToastContainer />
-      <button className='button' onClick={() => navigate('/admin/clases')} style={{ marginTop: '5%', marginLeft: '2%' }}>
+      <button className='button' onClick={() => navigate('/admin/clases')} style={{ alignSelf: 'start', marginLeft: '10%' }}>
         Volver
       </button>
       <div className="register-container admin">
