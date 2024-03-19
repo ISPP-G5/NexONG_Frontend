@@ -97,10 +97,10 @@ label {
   text-align: left;
   color: #7C838A;
   margin-top: 1rem;
-  margin-bottom: 0rem;
+  margin-bottom: 0;
 }
 
-input[type=text], input[type=email], input[type=password], input[type=number], input[type=tel], input[type=date], input[type=datetime-local] {
+input[type='text'], input[type='email'], input[type='password'], input[type='number'], input[type='tel'], input[type='date'], input[type='datetime-local'] {
   font-family: "Poppins", Helvetica;
   width: 80%;
   height: 10%;
@@ -511,7 +511,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 }
 
 .intro-text {
-  background-color: rgba(0,0,0, 0.4); 
+  background-color: rgba(0,0,0, 40%); 
   color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;
@@ -877,13 +877,15 @@ tbody tr:nth-child(odd) {
   .register-container {
     width: 60%; 
   }
+
   .register-container.admin {
     max-width: 60%; 
     margin-left: 15%;
     margin-right: 0;
-    padding: 20px 10px 20px 10px;
+    padding: 20px 10px;
     justify-content: flex-end;
   }
+
   .register-container.admin label, .register-container.admin input {
     font-size: small;
     margin: 0;
@@ -978,6 +980,7 @@ tbody tr:nth-child(odd) {
   text-decoration: none;
   margin-top: 4%;
 }
+
 .register-button a {
   text-decoration: none;
   color: black;
@@ -990,6 +993,7 @@ tbody tr:nth-child(odd) {
 }
 
 @media (max-width: 768px) {
+
   .register-button.admin, .register-button.admin a{
     font-size: 16px;
   }
@@ -1123,7 +1127,8 @@ tbody tr:nth-child(odd) {
 }
 
 
-/* BUTTONS CARD INFO*/
+/* BUTTONS CARD INFO */
+
 .buttons-requests {
   flex: 0.25;
   display: flex;
