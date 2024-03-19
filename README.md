@@ -35,14 +35,19 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Stylesheet
 
-**Every screen** has to start with the following div:
+For **every homepage screen** has to start with the following Layout (title, description and image can be removed if intro = false):
 ```
-<div classname='App'>
-   /* Your content here */
-</div>
+<LayoutHomepage 
+   title={titulo} 
+   description={descripcion}
+   image={imagen} // mirar las distintas imagenes en el intro-container de styles.css
+   info={info}
+   intro={false} // optional
+   toastcontainer={true} //optional
+ />   
 ```
 
-For **profiles screens** this is not needed but it is needed to call the component **Layoutprofiles** instead. Here is an example of screen Familias from admin, depending which screen modify the profile and selected parameters for the corresponding of your screen (you can see every screen name in **MenuProfiles**):
+For **every profiles screens** this is not needed but it is needed to call the component **Layoutprofiles** instead. Here is an example of screen Familias from admin, depending which screen modify the profile and selected parameters for the corresponding of your screen (you can see every screen name in **MenuProfiles**):
 ```
 <LayoutProfiles profile={'admin'} selected={'Familias'}>
    /* Your content here */
