@@ -12,6 +12,7 @@ function EducatorKidsActivities() {
   const [kids, setKids] = useState([]);
   const [activities, setActivities] = useState([]);
   const [users, setUsers] = useState([]);
+  const [exits, setExits] = useState([]);
 
 
   useEffect(() => {
@@ -42,6 +43,15 @@ function EducatorKidsActivities() {
       .catch((error) => {
         console.error('Error fetching users:', error);
       });
+    axios
+      .get(`${API_ENDPOINT}center-exit/`)
+      .then((response) => {
+        console.log('response exits:', response.data);
+        setExits(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching users:', error);
+      });
   }, []);
 
   return (
@@ -51,6 +61,7 @@ function EducatorKidsActivities() {
             key={index} 
             activities={t}
             kids={kids}
+            exits={exits}
            
           />
       ))}

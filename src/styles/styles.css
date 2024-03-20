@@ -1103,7 +1103,7 @@ tbody tr:nth-child(odd) {
   margin-right: 15%;
 }
 .activity-checkbox {
-  width: 2.9rem;
+  width: 3rem;
   height: 1.2rem;
   border-radius: 25%; 
   border: 1px solid #000; 
@@ -1112,9 +1112,9 @@ tbody tr:nth-child(odd) {
   cursor: pointer;
 }
 
-.activity-checkbox.checked {
-  background-color: hsl(36, 100%, 82%); 
-}
+
+
+
 
 
 /* CARD INFO FAMILY */
