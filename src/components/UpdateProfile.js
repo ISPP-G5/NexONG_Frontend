@@ -89,67 +89,64 @@ const UpdateProfile = ({tipo}) => {
 
     return (
         <>
-        <ToastContainer />
-            <div>
-                 
-                <div className='update-container' style={{marginLeft:'12.5%'}}>
-                <div style={{alignSelf:'center'}}> 
-                  <img src={valoresList.avatar} alt={"imagen"} style={{ 
-                      maxWidth: '90%', 
-                      maxHeight: '90%', 
-                      borderRadius: '100%',
-                    }}  />
-                </div>
+            <ToastContainer />
+            <div  className='register-container admin' style={{width: '300px'}}>
+                <img src={valoresList.avatar} alt={"imagen"} />
 
-                <div className='hd-center'>
-                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} />
+                <div style={{ marginTop: '2%', marginBottom: '2%'}}>
+                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
                     <strong>Modificar sólo los datos que requieran cambio</strong>
-                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} />
+                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
                 </div>
 
                 <div className='bold-text'>Nombre</div>
                 <input defaultValue={name}
                     onChange={(e) => setName(e.target.value)}
                     type='text'
-                    placeholder='Nombre'></input>
+                    placeholder='Nombre'
+                ></input>
 
                 <div className='bold-text'>Apellido</div>
                 <input defaultValue={surname}
                     onChange={(e) => setSurname(e.target.value)}
                     type='text'
-                    placeholder='Primer Apellido'></input>
+                    placeholder='Primer Apellido'
+                ></input>
 
                 <div className='bold-text'>DNI/NIE/Pasaporte</div>
                 <input defaultValue={id_number}
                     onChange={(e) => setId_number(e.target.value)}
                     type='text'
-                    placeholder='DNI/NIE/Pasaporte'></input>
+                    placeholder='DNI/NIE/Pasaporte'
+                ></input>
 
                 <div className='bold-text'>Número de teléfono</div>
                 <input defaultValue={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     type='tel'
-                    placeholder='Número de teléfono'></input>
+                    placeholder='Número de teléfono'
+                ></input>
 
                 <div className='bold-text'>Correo electrónico</div>
                 <input defaultValue={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type='email'
-                    placeholder='ejemplo@gmail.com'></input>
+                    placeholder='ejemplo@gmail.com'
+                ></input>
 
                 <div className='bold-text'>Contraseña</div>
                 <input defaultValue={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
-                    placeholder='Contraseña'></input>
+                    placeholder='Contraseña'
+                ></input>
 
 
-                <button onClick={updateAdmin} className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
+                <button onClick={updateAdmin} className='register-button admin' >
                     Actualizar perfil
                 </button>
             </div>
-            </div>
-            </>
+        </>
         
     )
   

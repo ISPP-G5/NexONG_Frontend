@@ -13,7 +13,7 @@ const Profile = ({usuario}) => {
 
       axios.get(`${API_ENDPOINT}user/`)
         .then(response => {
-          setValores(response.data.filter(x=>x.id==parseInt(localStorage.getItem('userId'),10)));
+          setValores(response.data.filter(x=>x.id===parseInt(localStorage.getItem('userId'),10)));
         })
         .catch(error => {
           console.error(error);
@@ -23,34 +23,24 @@ const Profile = ({usuario}) => {
 
 
   return (
-    <div>
+    <div  className='register-container admin' style={{width: '300px'}}>
       {valores.map((profile, index) => (
-        <div key={index} className='update-container' style={{ marginLeft: '12.5%' }}>
-          <div style={{ alignSelf: 'center' }}>
-            <img src={profile.avatar} alt={"imagen"} style={{
-              maxWidth: '90%',
-              maxHeight: '90%',
-              borderRadius: '100%',
-            }} />
-          </div>
+        <div key={index}>
+          <img src={profile.avatar} alt={"imagen"} />
 
-          <div style={{ alignSelf: 'center', fontWeight: 'bold' }}>{profile.name}</div>
+          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.name}</div>
 
-          <div className='bold-text'>Email</div>
-          <input type='text' value={profile.email} style={{ margin: '10px', maxWidth: '90%', marginLeft: '5%', borderColor:'#fcfdff',backgroundColor:'#fcfdff' }}></input>
+          <p>Email</p>
+          <input type='text' value={profile.email} readOnly></input>
 
-          <div className='bold-text'>Teléfono</div>
-          <input type='text' value={profile.phone} style={{ margin: '10px', maxWidth: '90%', marginLeft: '5%', borderColor:'#fcfdff',backgroundColor:'#fcfdff' }}></input>
+          <p>Teléfono</p>
+          <input type='text' value={profile.phone} readOnly></input>
 
-          <div className='bold-text'>Contraseña</div>
-          <input type='password' value={profile.password} style={{ margin: '10px', maxWidth: '90%', marginLeft: '5%', borderColor:'#fcfdff',backgroundColor:'#fcfdff' }}></input>
+          <p>Contraseña</p>
+          <input type='password' value={profile.password} readOnly></input>
 
-          <button className='button' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
-            <Link to={`/${usuario}PerfilActualizar`}
-              style={{
-                textDecoration: "none",
-                color: "black",
-              }}>
+          <button className='register-button admin' >
+            <Link to={`/${usuario}/perfil/actualizar`}>
               Actualizar perfil
             </Link>
           </button>
