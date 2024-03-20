@@ -8,15 +8,90 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. Make sure you have installed: React extension in VSCode and Node.js in your computer
 3. Open folder and a new terminal
 4. Move to branch develop:
-   `git checkout develop`
-5. Create your branch:
-   `git checkout -b new-branch-name develop`
-7. Install dependencies:
-   `npm install react-scripts`
-   `npm install axios`
-   `npm install @material-ui/core`
+   ```
+   git checkout develop
+   ```
+5. Create your branch (**Do not forget to write develop at the end**):
+   ```
+   git checkout -b new-branch-name develop
+   ```
+6. Install dependencies (make sure to install the material design last and to include the `--legacy-peer-deps` tag):
+   ```
+   npm install react-scripts
+   npm install axios
+   npm install react-big-calendar
+   npm install react-toastify
+   npm install @material-ui/core --legacy-peer-deps
+   ```
+7. If you have any problem installing the dependencies try the tag `--force`.
+8. If you need to add any new dependency, please uninstall the material design like follows or include the `--force` tag when installing the new dependency
+   ```
+   npm uninstall @material-ui/core
+   ```
 9. When installed, you can run the project with:
-   `npm start`
+   ```
+   npm start
+   ```
+
+## Stylesheet
+
+For **every homepage screen** has to start with the following Layout (title, description and image can be removed if intro = false):
+```
+<LayoutHomepage 
+   title={titulo} 
+   description={descripcion}
+   image={imagen} // mirar las distintas imagenes en el intro-container de styles.css
+   info={info}
+   intro={false} // optional
+   toastcontainer={true} //optional
+ />   
+```
+
+For **every profiles screens** this is not needed but it is needed to call the component **Layoutprofiles** instead. Here is an example of screen Familias from admin, depending which screen modify the profile and selected parameters for the corresponding of your screen (you can see every screen name in **MenuProfiles**):
+```
+<LayoutProfiles profile={'admin'} selected={'Familias'}>
+   /* Your content here */
+</LayoutProfiles>
+```
+
+
+There are some **fixed styles** so it has a consistent style over every screen. Those styles are: `h1, h2, h3, p, label, input, textarea, select`
+
+</br>
+
+### - IF NEEDED TO BE CHANGED CHANGE IT FOR YOUR SCREEN LIKE FOLLOWS:
+
+```
+.my-screen h1{
+  color: white;
+  font-size: 2rem;
+}
+```
+
+This will just change the color and font size of the h1 but still use the rest of the styles for the h1 (f.e: font-family will be the same).
+
+If you want to create a completely new style for a h1 on a specific screen, just create a new class and use it in the component. Like this:
+
+```
+.my-screen-h1{
+  color: white;
+  font-size: 2rem;
+  text-align: justify;
+}
+```
+**IF THIS DOESN'T WORK, USE !IMPORTANT TO OVERRIDE THE STYLES OR WRITE INLINE STYLES ON YOUR HTML COMPONENTS.**
+
+</br>
+
+### - IF YOU NEED TO ADD A NEW BACKGROUND IMAGE FOR THE INTRO COMPONENT
+
+Copy this and change the name as liked:
+```
+.intro-container.name::before {
+  background-image: url('../logo/image-wanted.bmp');
+}
+```
+
 
 
 ## Available Scripts
