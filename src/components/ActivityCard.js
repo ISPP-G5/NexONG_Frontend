@@ -25,7 +25,7 @@ function ActivityCard({ activities, kids, users, exits }) {
       {attendees.length > 0 && (
         <div className='kids-activity-info'>
           <div className="attendance-header">
-            <p><strong>Asistentes autorizados:</strong></p>
+            <p><strong>Asistentes autorizados</strong></p>
             <p style={{ marginRight: '13%' }}><strong>Asistencia</strong></p> {/* Add margin-right */}
           </div>
 
