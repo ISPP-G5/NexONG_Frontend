@@ -206,13 +206,6 @@ function EducatorKidsEvaluationYearly() {
     }
   }, [selectedStudent]);
 
-  const inputStyle = {
-    boxSizing: 'none',
-    backgroundColor: 'transparent',
-    width: '100%',
-    marginBottom: '3%',
-  };
-
 
   return (
     

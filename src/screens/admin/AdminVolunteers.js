@@ -2,7 +2,7 @@ import '../../styles/styles.css';
 import React, { useState, useEffect } from 'react';
 
 import ShowType from '../../components/ShowVolunteersAndEducators';
-import axios from 'axios';
+import useFetchData from '../../components/useFetchData';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
   
@@ -20,21 +20,11 @@ const pantallas = [
 ];
 
 function AdminVolunteers() {
-  const [voluntariosAceptados, setVoluntariosAceptado] = useState([]);
-
-    useEffect(() => {
-        axios.get(`${API_ENDPOINT}volunteer/`)
-            .then(response => {
-              setVoluntariosAceptado(response.data.filter(u => u.status === "ACCEPTED"));
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-    
+  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACCEPTED");
+   
 
   return (
-    <ShowType type = "VOLUNTEER" pantallas={pantallas} voluntariosData={voluntariosAceptados} voluntariosAceptados={true}></ShowType>
+    <ShowType type = "VOLUNTEER" pantallas={pantallas} voluntariosData={volunteers} voluntariosAceptados={true}></ShowType>
     
   );
 }

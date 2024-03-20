@@ -213,13 +213,6 @@ function EducatorKidsEvaluationDaily() {
     return filteredEvaluations[0].grade;
   };
 
-  const inputStyle = {
-    boxSizing: 'none',
-    backgroundColor: 'transparent',
-    width: '100%',
-    marginBottom: '3%',
-  };
-
   return (
     <LayoutProfiles profile={'educador'} selected={'Evaluación diaria'}>
       <ToastContainer />

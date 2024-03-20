@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../../styles/styles.css';
 import ShowType from '../../components/ShowVolunteersAndEducators';
-import axios from 'axios';
+import useFetchData from '../../components/useFetchData';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
@@ -18,21 +18,10 @@ const pantallas = [
 ];
 
 function AdminVolunteersRequests() {
-  const [VoluntariosPendientes, setVoluntariosPendientes] = useState([]);
-
-    useEffect(() => {
-        axios.get(`${API_ENDPOINT}volunteer/`)
-            .then(response => {
-              console.log(response.data.filter(u => u.status === "PENDING"));
-              setVoluntariosPendientes(response.data.filter(u => u.status === "PENDING"));
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "PENDING");
     
   return (
-    <ShowType type = "VOLUNTEER" pantallas={pantallas} añadir={true} voluntariosData={VoluntariosPendientes}></ShowType>
+    <ShowType type = "VOLUNTEER" pantallas={pantallas} añadir={true} voluntariosData={volunteers}></ShowType>
     
   );
 }
