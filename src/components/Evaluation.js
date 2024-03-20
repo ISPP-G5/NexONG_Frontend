@@ -21,7 +21,6 @@ export default function EducatorEvaluationCommon() {
   const [phone, setPhone] = useState("");
   const [studentEvaluations, setStudentEvaluations] = useState([]); 
   const [evaluationTypes,setEvaluationTypes] = useState([]);
-  const [lessonStudents, setLessonStudents] = useState([]);
 
   const handleEvaluationChange = (id) => (event) => {
     setEvaluation((prevEvaluation) => ({
@@ -48,7 +47,6 @@ export default function EducatorEvaluationCommon() {
   useEffect(() => {
     axios.get(`${API_ENDPOINT}evaluation-type/`)
       .then(response => {
-        //const ids = response.data.map(evaluationTypes => evaluationTypes.id);
         setEvaluationTypes(response.data);
       });
   }, []);
@@ -80,24 +78,25 @@ useEffect(() => {
   }
 }, [kids]);
 
-useEffect(() => {
-  if (selectedStudent) {
-    axios.get(`${API_ENDPOINT}user/`)
-    console.log(selectedStudent)
-      .then(response => {
-        const user = response.data.find(user => user.family == selectedStudent.family);
-        if (user) {
-          setEmail(user.email);
-          setPhone(user.phone);
-        }
-      });
-  }
-}, [selectedStudent]);
+
   const handleEdit = (id) => {
     const student = students.find(student => student.id === id);
     setSelectedStudent(student);
     setShowEditModal(true);
   };
+  useEffect(() => {
+    if (selectedStudent) {
+      console.log(selectedStudent);
+      axios.get(`${API_ENDPOINT}user/`)
+        .then(response => {
+          const user = response.data.find(user => user.family == selectedStudent.family);
+          if (user) {
+            setEmail(user.email);
+            setPhone(user.phone);
+          }
+        });
+    }
+  }, [selectedStudent]);
 
   const handleInfo = (id) => {
     const student = students.find(student => student.id === id);
