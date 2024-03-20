@@ -1,27 +1,21 @@
 import '../../styles/styles.css';
-import React, { useEffect, useState } from 'react';
-import { toast,ToastContainer } from 'react-toastify';
-import axios from 'axios';
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import StudentEvaluation from '../../components/StudentEvaluation';
 import 'react-toastify/dist/ReactToastify.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import EducatorEvaluationCommon from '../../components/Evaluation';
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 function EducatorKidsEvaluationDaily() {
   const {
-    userId, setUserId,
-    educatorId, setEducatorId,
-    kids, setKids,
-    students, setStudents,
-     setEvaluation,
+   students,
     selectedStudent, 
     showEditModal,
     showInfoModal,
     comment,
     grade,
     selectedDate,
-    email, setEmail,
+    email,
     handleEvaluationChange,
     handleEdit,
     handleInfo,
@@ -32,78 +26,11 @@ function EducatorKidsEvaluationDaily() {
     handleSubmit,
     handleDateChange,
     getStudentEvaluation,
-    phone,setPhone,
-   setStudentEvaluations,
+    phone,
+   
   } = EducatorEvaluationCommon();
 
   
-
-  useEffect (()=>{
-    const id = localStorage.getItem('userId');
-    setUserId(id);
-  },[]);
-
-  useEffect(() => {
-    if (userId) {
-      axios.get(`${API_ENDPOINT}user/`)
-        .then(response => {
-          const user = response.data.find(user => user.id == userId);
-          if (user) {
-            setEducatorId(user.educator);
-          }
-        });
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    if (educatorId) {
-      axios.get(`${API_ENDPOINT}lesson-event/`)
-        .then(response => {
-          const event = response.data.find(event => event.educators.includes(educatorId));
-          if (event) {
-            setKids(event.attendees);
-          }
-        });
-    }
-  }, [educatorId]);
-
-  useEffect(() => {
-    if (kids) {
-      axios.get(`${API_ENDPOINT}student/`)
-        .then(response => {
-          const matchingStudents = response.data.filter(student => kids.includes(student.id));
-          setStudents(matchingStudents);
-  
-          // Fetch evaluations
-          axios.get(`${API_ENDPOINT}student-evaluation/`)
-            .then(response => {
-              setStudentEvaluations(response.data);
-            });
-  
-          // Set initial evaluation state
-          const initialEvaluation = {};
-          matchingStudents.forEach(student => {
-            initialEvaluation[student.id] = '0'; 
-          });
-          setEvaluation(initialEvaluation);
-        });
-    }
-  }, [kids]);
- 
-  
-  useEffect(() => {
-    if (selectedStudent) {
-      axios.get(`${API_ENDPOINT}user/`)
-        .then(response => {
-          const user = response.data.find(user => user.family == selectedStudent.family);
-          if (user) {
-            setEmail(user.email);
-            setPhone(user.phone);
-          }
-        });
-    }
-  }, [selectedStudent]);
-
 
   
 
