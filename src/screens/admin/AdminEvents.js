@@ -149,18 +149,9 @@ function AdminEvents() {
           {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
           {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
           {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
-          <MultiSelect
-              label="Voluntarios"
-              options={volunteers.map((volunteer) => ({
-                id: volunteer.id,
-                name: users.find((user) => user.id === volunteer.id)?.name
-              }))}
-              value={localFormData.volunteers}
-              onChange={(e) => setLocalFormData({ ...localFormData, volunteers: e.target.value })}
-            />
 
           <MultiSelect
-            label="Alumnos que asisten"
+              label="Alumnos que asisten"
             options={students}
             value={localFormData.attendees}
             onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
@@ -365,6 +356,8 @@ function AdminEvents() {
       setEditEvent(event);
       const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
       const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
+      const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+      const endDate = moment(event.end).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
       setLocalFormData({
         name: event.title,
         description: event.description,
@@ -374,11 +367,12 @@ function AdminEvents() {
         price: event.price,
         attendees: attendeesArray,
         volunteers: volunteersArray,
-        start_date: moment(event.start).format('YYYY-MM-DDTHH:mm'),
-        end_date: moment(event.end).format('YYYY-MM-DDTHH:mm'),
+        start_date: startDate,
+        end_date: endDate,
       });
       setOpenEditDialog(true);
     };
+    
 
     return (
       <LayoutProfiles profile='admin' selected='Eventos'>
