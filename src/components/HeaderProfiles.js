@@ -8,7 +8,7 @@ function HeaderProfiles({profile, id}){
         <div className='header-profiles'>
             <img className='header-logo' src={logo} alt='logo'/>
             <p>Manos Abiertas Con Norte</p>
-            <Link to={`/${profile}/perfil`}>{profile}</Link>        
+            <Link to={`/${profile}/perfil`}>{profile}</Link>  
         </div>
     );
 }

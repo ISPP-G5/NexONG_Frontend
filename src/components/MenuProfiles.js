@@ -1,5 +1,7 @@
 import '../styles/styles.css';
 import React from 'react';
+import LogoutButton from './LogOutButton';
+
 
 const profileItems = {
     admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Proyectos'],
@@ -64,6 +66,8 @@ function MenuProfiles({ profile, selected }) {
                 </td>
             </tr>
             ))}
+            <LogoutButton/>
+
         </tbody>
         </table>
     );

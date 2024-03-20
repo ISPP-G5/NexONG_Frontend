@@ -1182,6 +1182,7 @@ tbody tr:nth-child(odd) {
   font-size: 15px;
   font-weight: 500;
   padding: 3% 5% 3% 5%;
+  color: #ffffff;
   font-family: "Poppins", Helvetica;
   border: 2px solid #a7e6b3;
 }
@@ -1201,6 +1202,7 @@ tbody tr:nth-child(odd) {
   font-size: 15px;
   font-weight: 500;
   padding: 3% 5% 3% 5%;
+  color: #ffffff;
   font-family: "Poppins", Helvetica;
   border: 2px solid #ff3c32;
 }

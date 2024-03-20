@@ -48,70 +48,37 @@ const UpdateProfile = ({tipo}) => {
     const [education_center, setEducation_center] = useState("");
 
     //Atributos son correctos
-    const [valoresCorrectos, setValoresCorrectos] = useState(false)
     
     const updateAdmin = async () => {
-        //Id necesario para usuarios no administradores
-        setAvatar(valoresList.avatar)
-        setFamily(valoresList.family)
-        setPartner(valoresList.partner)
-        setEducator(valoresList.educator)
-        setEducation_center(valoresList.education_center)
-        setVolunteer(valoresList.volunteer)
+        try {
+            const updatedData = {
+                name: name || valoresList.name,
+                surname: surname || valoresList.surname,
+                id_number: id_number || valoresList.id_number,
+                phone: phone || valoresList.phone,
+                password: password || valoresList.password,
+                email: email || valoresList.email,
+                role: role || valoresList.role,
+                avatar: avatar || valoresList.avatar,
+                family: family || valoresList.family,
+                partner: partner || valoresList.partner,
+                volunteer: volunteer || valoresList.volunteer,
+                education_center: education_center || valoresList.education_center,
+                educator: educator || valoresList.educator,
+            };
     
-        //Compruebo que se le asigna un valor
-        if(role==="" || !role){
-            setRole(valoresList.role)
-        }
-        if(name==="" || !name){
-            setName(valoresList.name)
-        }
-        if(surname==="" || !surname){
-            setSurname(valoresList.surname)
-        }
-        if(id_number==="" || !id_number){
-            setId_number(valoresList.id_number)
-        }
-        if(phone==="" || !phone){
-            setPhone(valoresList.phone)
-        }
-        if(password==="" || !password){
-            setPassword(valoresList.password)
-        }
-        if(email==="" || !email){
-            setEmail(valoresList.email)
-        }
+            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
     
-        try{
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{ //Hago el PUT
-                name: name,
-                surname: surname,
-                id_number: id_number,
-                phone : phone,
-                password: password,
-                email: email,
-                role: role,
-                avatar: avatar,
-                family: family,
-                partner: partner,
-                volunteer: volunteer,
-                education_center: education_center,
-                educator: educator,
-            });
-            const {data} = update;
-            if (data.message){
+            const { data } = update;
+            if (data.message) {
                 window.alert(data.message);
-            }else{
-
-                navigate(`/${tipo}/perfil/`); //Navego al perfil      
-
-            }} catch (error){
-                toast.error("Datos no válidos.");
-
+            } else {
+                navigate(`/${tipo}/perfil`);
             }
-
+        } catch (error) {
+            toast.error("Datos no válidos.");
         }
-        
+    };
    
 
    
@@ -131,7 +98,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Nombre</p>
                 <input 
-                    value={name}
+                    defaultValue={name}
                     onChange={(e) => setName(e.target.value)}
                     type='text'
                     placeholder='Nombre'
@@ -139,7 +106,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Apellido</p>
                 <input 
-                    value={surname}
+                    defaultValue={surname}
                     onChange={(e) => setSurname(e.target.value)}
                     type='text'
                     placeholder='Primer Apellido'
@@ -147,7 +114,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>DNI/NIE/Pasaporte</p>
                 <input 
-                    value={id_number}
+                    defaultValue={id_number}
                     onChange={(e) => setId_number(e.target.value)}
                     type='text'
                     placeholder='DNI/NIE/Pasaporte'
@@ -155,7 +122,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Número de teléfono</p>
                 <input 
-                    value={phone}
+                    defaultValue={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     type='tel'
                     placeholder='Número de teléfono'
@@ -163,7 +130,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Correo electrónico</p>
                 <input 
-                    value={email}
+                    defaultValue={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type='email'
                     placeholder='ejemplo@gmail.com'
@@ -171,7 +138,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Contraseña</p>
                 <input 
-                    value={password}
+                    defaultValue={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
                     placeholder='Contraseña'
