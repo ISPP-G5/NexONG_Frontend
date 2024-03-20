@@ -27,10 +27,12 @@ function EducatorKidsEvaluationDaily() {
     handleDateChange,
     getStudentEvaluation,
     phone,
+    lesson,
+    evaluationTypes,
    
   } = EducatorEvaluationCommon();
 
-  
+
 
   
 
@@ -39,7 +41,6 @@ function EducatorKidsEvaluationDaily() {
       <ToastContainer />
       <StudentEvaluation 
         students={students}
-        evaluationType={2}
         grade={grade}
         handleGradeChange={handleGradeChange}
         comment={comment}
@@ -58,6 +59,10 @@ function EducatorKidsEvaluationDaily() {
         handleEvaluationChange={handleEvaluationChange}
         handleEdit={handleEdit}
         handleInfo={handleInfo} 
+        lessons={lesson}
+        evaluationTypes={evaluationTypes}
+        date ={selectedDate}
+
       />
     </LayoutProfiles>
   );

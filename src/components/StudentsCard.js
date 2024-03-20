@@ -1,10 +1,12 @@
 // StudentCard.js
 import React, { useEffect } from 'react';
 
-const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, onEvaluationChange, onSubmit, onEdit , onInfo}) => {
+
+const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, onEdit , onInfo,lesson}) => {
   useEffect(() => {
     console.log('evaluation prop changed:', evaluation);
   }, [evaluation]);
+
 
   return (
     <div className='card-info'>
@@ -13,6 +15,7 @@ const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, on
         <div className='family-info'  style={{ borderRight: 'none', borderBottom: 'none'}}>
           <p>{familyName}</p>
           <p>{kidName}</p>
+          <p>{lesson}</p>
           <p>{currentEducationYear}</p>
           <p>Última evaluación: {evaluation}</p>
         </div>
