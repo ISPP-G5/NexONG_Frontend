@@ -11,6 +11,7 @@ function EducatorKidsActivities() {
 
   const [kids, setKids] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [users, setUsers] = useState([]);
 
 
   useEffect(() => {
@@ -31,6 +32,15 @@ function EducatorKidsActivities() {
       })
       .catch((error) => {
         console.error('Error fetching lessons:', error);
+      });
+    axios
+      .get(`${API_ENDPOINT}user/`)
+      .then((response) => {
+        console.log('response user:', response.data);
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching users:', error);
       });
   }, []);
 

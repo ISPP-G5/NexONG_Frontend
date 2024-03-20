@@ -1,40 +1,50 @@
 import React, { useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 
-function ActivityCard({ activities, kids}) {
-  const [attendance, setAttendance] =  useState({});
+function ActivityCard({ activities, kids, users }) {
+  const [attendance, setAttendance] = useState({});
+  const attendeeIds = activities.attendees || [];
 
-  const handleAttendanceChange = (kidId) => {
+  const attendees = kids.filter(kid => attendeeIds.includes(kid.id));
+
+  const handleAttendanceChange = (kidId, value) => {
     setAttendance(prevState => ({
       ...prevState,
-      [kidId]: !prevState[kidId]
+      [kidId]: prevState[kidId] === value ? null : value
     }));
   };
 
   return (
-    <div className='card-info'>
-      <div className='activities-info'>
+    <div className='card-info-activity'>
+      <div className='activity-info'>
         <p>Nombre de actividad: {activities.name}</p>
       </div>
-      {kids &&
-      <div className='kids-info'>
-        {kids.map((kid, kidIndex) => (
-          <div className='kid' key={kidIndex}>
-            <p>Nombre de niño: {kid.name} {kid.surname}</p>
-            <p>Asistencia: 
-              <Checkbox
-                checked={attendance[kid.id] || false}
-                onChange={() => handleAttendanceChange(kid.id)}
-                color="primary"
-                inputProps={{ 'aria-label': 'primary checkbox' }}
-              />
-            </p>
+
+      {attendees.length > 0 && (
+        <div className='kids-activity-info'>
+          <div className="attendance-header">
+            <p>Asistentes autorizados:</p>
+            <p style={{ marginRight: '13%' }}>Asistencia</p> {/* Add margin-right */}
           </div>
-        ))}
-      </div>
-      }
 
-
+          {attendees.map((kid, kidIndex) => (
+            <div className='kids-activity' key={kidIndex}>
+              <p>{kid.name} {kid.surname}</p>
+              <div className="attendance-options">
+                <div 
+                  className={`activity-checkbox ${attendance[kid.id] === 'YES' ? 'checked' : ''}`}
+                  onClick={() => handleAttendanceChange(kid.id, attendance[kid.id] === 'YES' ? null : 'YES')}
+                />
+                <p>Sí</p>
+                <div 
+                  className={`activity-checkbox ${attendance[kid.id] === 'NO' ? 'checked' : ''}`}
+                  onClick={() => handleAttendanceChange(kid.id, attendance[kid.id] === 'NO' ? null : 'NO')}
+                />
+                <p>No</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
