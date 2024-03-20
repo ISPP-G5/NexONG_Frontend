@@ -9,6 +9,7 @@ const Profile = ({usuario}) => {
 
   const [valores, setValores] = useState([]);
 
+  //Traemos los datos del usuario que ha iniciado sesión
   useEffect(() => {
 
       axios.get(`${API_ENDPOINT}user/`)
@@ -21,7 +22,7 @@ const Profile = ({usuario}) => {
 
   }, []);
 
-
+  //Mostramos los datos en inputs para censurar la contraseña
   return (
     <div  className='register-container admin' style={{width: '300px'}}>
       {valores.map((profile, index) => (

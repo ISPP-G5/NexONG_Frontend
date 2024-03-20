@@ -18,7 +18,7 @@ const UpdateProfile = ({tipo}) => {
 
     const navigate = useNavigate();
 
-
+    //Traemos los datos del usuario
     useEffect(() => {
 
       axios.get(`${API_ENDPOINT}user/`)
@@ -51,7 +51,7 @@ const UpdateProfile = ({tipo}) => {
     
     const updateAdmin = async () => {
         try {
-            const updatedData = {
+            const updatedData = { //En el caso de no darle un valor, se coge el original
                 name: name || valoresList.name,
                 surname: surname || valoresList.surname,
                 id_number: id_number || valoresList.id_number,
@@ -98,7 +98,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Nombre</p>
                 <input 
-                    defaultValue={name}
+                    defaultValue={name} //defaultValue es como value, pero permite el cambio
                     onChange={(e) => setName(e.target.value)}
                     type='text'
                     placeholder='Nombre'
