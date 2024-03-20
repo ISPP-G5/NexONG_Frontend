@@ -9,33 +9,30 @@ function Footer () {
     return (    
         <div className='footer'>
             <div className='footer-contact'>
-                <div className='text'>
-                Email: <a href="mailto:manosabiertas@lasalleandalucia.net" style={{ color: 'black' }}>manosabiertas@lasalleandalucia.net</a>
-                <p>Teléfonos: 650485214 || 640168593</p>
-                <p>Fax:158 425 252</p>
-                </div>
+                <p>Email:&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:manosabiertas@lasalleandalucia.net" style={{ color: 'black', display: 'inline' }}>manosabiertas@lasalleandalucia.net</a></p>
+                <p>Teléfonos:&nbsp;&nbsp;&nbsp;&nbsp;650485214&nbsp;&nbsp;ó&nbsp;&nbsp;640168593</p>
+                <p>Fax:&nbsp;&nbsp;&nbsp;&nbsp;158 425 252</p>
             </div>
 
             <div className='footer-address'> 
-                <div className='text'>Polígono norte Sevilla (41009):
-                <p>Plaza Río de Janeiro, 10 </p>
-                <p>Calle Meléndez Valdés, 28</p>
-                </div>
+                <p>Polígono norte Sevilla (41009):</p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Plaza Río de Janeiro, 10 </p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Calle Meléndez Valdés, 28</p>
             </div>
         
             <div className='footer-social-media'>
-                <a href="https://www.facebook.com/ajmmaa/" target="_blank" rel="noopener noreferrer">
-                <FacebookIcon style={{ color: '#3b5998' }} />
-                </a>
-                <a href="https://twitter.com/ajmmaa" target="_blank" rel="noopener noreferrer">
-                    <TwitterIcon style={{ color: '#1DA1F2' }} />
-                </a>
-                <a href="https://www.instagram.com/ajmanosabiertas/" target="_blank" rel="noopener noreferrer">
-                    <InstagramIcon style={{ color: '#C13584' }} />
-                </a> 
-                <a href="https://api.whatsapp.com/send/?phone=650485214&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer">
-                    <WhatsAppIcon style={{ color: '#25D366' }} />
-                </a>  
+            <a href="https://www.facebook.com/ajmmaa/" target="_blank" rel="noopener noreferrer">
+            <FacebookIcon style={{ color: '#3b5998', fontSize: '40px' }} />
+            </a>
+            <a href="https://twitter.com/ajmmaa" target="_blank" rel="noopener noreferrer">
+            <TwitterIcon style={{ color: '#1DA1F2', fontSize: '40px' }} />
+            </a>
+            <a href="https://www.instagram.com/ajmanosabiertas/" target="_blank" rel="noopener noreferrer">
+            <InstagramIcon style={{ color: '#C13584', fontSize: '40px' }} />
+            </a> 
+            <a href="https://api.whatsapp.com/send/?phone=650485214&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer">
+            <WhatsAppIcon style={{ color: '#25D366', fontSize: '40px' }} />
+            </a>  
             </div>
         
         </div>

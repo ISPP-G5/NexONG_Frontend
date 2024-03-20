@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
-import PersonCard from '../components/PeopleCard';
-import AdminLayout from '../components/AdminLayout';
+import PersonCard from './PersonCard';
+import LayoutProfiles from '../components/LayoutProfiles';
 import axios from 'axios';
+import Pantallas from './Pantallas';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-function ShowType({ type,añadir,voluntariosAceptados,voluntariosData }) {
+function ShowType({ type,pantallas,añadir,voluntariosAceptados,voluntariosData }) {
     //Type represents the type of the entity that is going to be received (educator,volunteer,partner)
     const [typeList, setTypeList] = useState([]);
 
@@ -106,20 +107,12 @@ function ShowType({ type,añadir,voluntariosAceptados,voluntariosData }) {
     
 
     return (
-        <AdminLayout>
-            <div className='admin-container'>
-                <div className='pantallas'>
-                    <Link to={type === "VOLUNTEER" ?"/adminVoluntarios":type === "EDUCATOR"?"/adminEducadores":"/AdminSocios"} className={añadir?'':'selected-pantalla'}>
-                        Nuestros {type === "VOLUNTEER" ?"Voluntarios":type === "EDUCATOR"?"Educadores":"Socios"}
-                    </Link>
-                    <Link to={type === "VOLUNTEER" ?"/AdminAñadirVoluntario":type === "EDUCATOR"?"/AdminAñadirEducador":"/convocar-asamblea" } className={!añadir?'':'selected-pantalla'}>
-                         {type === "VOLUNTEER" ?" Añadir Voluntario":type === "EDUCATOR"?"Añadir Educador":"Covocar Asamblea"}</Link>
-                </div>
-                {typeList.map((t, index) => (
-                    <PersonCard key={index} person={t} añadir={añadir} voluntariosData={voluntariosData} descargar={descargarDocumentacion} aceptar={aceptarSolicitud} denegar={denegarSolicitud}/>
-                ))}
-            </div>
-        </AdminLayout>
+        <LayoutProfiles profile={'admin'} selected={type === "VOLUNTEER" ? 'Voluntarios': type === "EDUCATOR" ? 'Educadores': type === "PARTNER" ? 'Socios' : ''}>
+            {pantallas && <Pantallas pantallas={pantallas} />}
+            {typeList.map((t, index) => (
+                <PersonCard key={index} person={t} añadir={añadir} voluntariosData={voluntariosData} descargar={descargarDocumentacion} aceptar={aceptarSolicitud} denegar={denegarSolicitud}/>
+            ))}
+        </LayoutProfiles>
     );
 }
 
