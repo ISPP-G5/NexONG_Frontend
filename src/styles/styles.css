@@ -1052,6 +1052,18 @@ tbody tr:nth-child(odd) {
   justify-content: flex-start;
 }
 
+.card-info-event{
+  align-self: center;
+  background-color: #cdf0fe;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #9ee5ff;
+  padding: 3%;
+  position: relative;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+}
+
 .family-info {
     flex: 0.30;
     display: flex;

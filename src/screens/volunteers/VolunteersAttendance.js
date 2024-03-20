@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/styles.css';
-import HeaderVolunteer from '../components/HeaderVolunteer';
-import MenuVolunteer from '../components/MenuVolunteer';
+import '../../styles/styles.css';
+import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -52,25 +51,19 @@ const VolunteersAttendance = () => {
     }, [userId,currentUser.volunteerId]);
 
   return (
-    <div className='App'>
-      <HeaderVolunteer />
+    <LayoutProfiles profile={'voluntario'} selected={'Agenda'}>
 
-      <div className='volunteer-main'>
-        <MenuVolunteer selected='Asistencia' />
-        <div className='vertical-line' />
-        <div className='volunteer-container'>
               {eventsList.map((event, index) => (
-              <div className='card-info-volunteer' key={index}>
-                <div className='event-details'>
+              <div className='card-info-event' key={index}>
+                <div>
                     <p>Evento: {event.name}</p>
                     <p>Comienzo: {event.start_date.getDate()}/{event.start_date.getMonth()}/{event.start_date.getFullYear()}, {event.start_date.getHours()}h</p>
                     <p>Final: {event.end_date.getDate()}/{event.end_date.getMonth()}/{event.end_date.getFullYear()}, {event.end_date.getHours()}h</p>
                 </div>
               </div>
               ))}
-          </div>
-        </div>
-      </div>
+
+    </LayoutProfiles>
   );
 }
 

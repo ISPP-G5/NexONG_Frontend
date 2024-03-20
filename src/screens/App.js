@@ -54,6 +54,7 @@ import EducatorProjectsEvaluationQuarterly from './educators/EducatorProyectsEva
 import VolunteerProfile from './volunteers/VolunteerProfile';
 import VolunteerProfileUpdate from './volunteers/VolunteerProfileUpdate';
 import VolunteerAgenda from './volunteers/VolunteerAgenda';
+import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
 
 
@@ -135,9 +136,8 @@ function App() {
             {/* VOLUNTEERS ROUTES */}
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
             <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />  
-      
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
-
+            <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
 
             </Routes>
     </Router>
