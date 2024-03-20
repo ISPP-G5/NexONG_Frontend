@@ -19,14 +19,14 @@ function ActivityCard({ activities, kids, users, exits }) {
   return (
     <div className='card-info-activity'>
       <div className='activity-info'>
-        <p>Nombre de actividad: {activities.name}</p>
+        <p><strong>{activities.name}</strong></p>
       </div>
 
       {attendees.length > 0 && (
         <div className='kids-activity-info'>
           <div className="attendance-header">
-            <p>Asistentes autorizados:</p>
-            <p style={{ marginRight: '13%' }}>Asistencia</p> {/* Add margin-right */}
+            <p><strong>Asistentes autorizados:</strong></p>
+            <p style={{ marginRight: '13%' }}><strong>Asistencia</strong></p> {/* Add margin-right */}
           </div>
 
           {attendees.map((kid, kidIndex) => {
