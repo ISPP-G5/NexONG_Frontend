@@ -21,6 +21,8 @@ export default function EducatorEvaluationCommon() {
   const [phone, setPhone] = useState("");
   const [studentEvaluations, setStudentEvaluations] = useState([]); 
   const [evaluationTypes,setEvaluationTypes] = useState([]);
+  const [lessonStudents, setLessonStudents] = useState([]);
+
   const handleEvaluationChange = (id) => (event) => {
     setEvaluation((prevEvaluation) => ({
       ...prevEvaluation,
@@ -57,8 +59,9 @@ export default function EducatorEvaluationCommon() {
         .then(response => {
           const lessons = response.data.filter(lesson => lesson.educator === educatorId);
           if (lessons.length > 0) {
-            const allStudents = lessons.reduce((students, lesson) => [...students, ...lesson.students.map(student => ({...student, lessonId: lesson.id}))], []);
+            const allStudents = lessons.reduce((students, lesson) => [...students, ...lesson.students], []);
             console.log('allStudents',allStudents)
+  
             setKids(allStudents);
             setLesson(lessons)
           }
