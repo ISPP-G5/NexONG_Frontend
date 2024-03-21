@@ -110,7 +110,14 @@ function ShowType({ type,pantallas,añadir,voluntariosAceptados,voluntariosData 
         <LayoutProfiles profile={'admin'} selected={type === "VOLUNTARIO" ? 'Voluntarios': type === "EDUCADOR" ? 'Educadores': type === "SOCIO" ? 'Socios' : ''}>
             {pantallas && <Pantallas pantallas={pantallas} />}
             {typeList.map((t, index) => (
-                <PersonCard key={index} person={t} añadir={añadir} voluntariosData={voluntariosData} descargar={descargarDocumentacion} aceptar={aceptarSolicitud} denegar={denegarSolicitud}/>
+                <PersonCard 
+                    key={index} 
+                    person={t} 
+                    añadir={añadir} 
+                    voluntariosData={voluntariosData} 
+                    descargar={descargarDocumentacion} 
+                    aceptar={aceptarSolicitud} 
+                    denegar={denegarSolicitud}/>
             ))}
         </LayoutProfiles>
     );
