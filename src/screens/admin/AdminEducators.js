@@ -1,5 +1,8 @@
 import '../../styles/styles.css';
-import ShowType from '../../components/ShowVolunteersAndEducators';
+import ShowType from '../../components/ShowAdminProfiles';
+import { useFetchUsersByRole } from '../../components/useFetchData';
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const pantallas = [
@@ -16,9 +19,16 @@ const pantallas = [
 ];
 
 function AdminEducators() {
+
+  const userEducators = useFetchUsersByRole(API_ENDPOINT, "EDUCADOR");
+
   return (
 
-    <ShowType type = "EDUCADOR" pantallas={pantallas}></ShowType>
+    <ShowType 
+      data={userEducators}
+      type="Educadores" 
+      pantallas={pantallas} 
+    />
     
   );
 }

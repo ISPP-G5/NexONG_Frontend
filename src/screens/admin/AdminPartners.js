@@ -1,5 +1,8 @@
 import '../../styles/styles.css';
-import ShowType from '../../components/ShowVolunteersAndEducators';
+import ShowType from '../../components/ShowAdminProfiles';
+import { useFetchUsersByRole } from '../../components/useFetchData';
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const pantallas = [
@@ -16,10 +19,17 @@ const pantallas = [
 ];
 
 const AdminPartners = () => {
+
+  const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO");
+
     
-    return (
-      <ShowType type = "SOCIO" pantallas={pantallas}></ShowType>
-    );
+  return (
+  <ShowType 
+    data={userPartners}
+    type="Socios" 
+    pantallas={pantallas} 
+  />
+  );
    
 }
 
