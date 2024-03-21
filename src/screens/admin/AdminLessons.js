@@ -16,7 +16,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
-  const educator = users.find(user => user.id === lesson.educator);
+  const educator = users.find(user => user.id === lesson.educators);
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
 
   const onDeleteClick = () => {
