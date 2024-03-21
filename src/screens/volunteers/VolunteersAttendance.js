@@ -51,7 +51,7 @@ const VolunteersAttendance = () => {
     }, [userId,currentUser.volunteerId]);
 
   return (
-    <LayoutProfiles profile={'voluntario'} selected={'Agenda'}>
+    <LayoutProfiles profile={'voluntario'} selected={'Asistencia'}>
 
               {eventsList.map((event, index) => (
               <div className='card-info-event' key={index}>
