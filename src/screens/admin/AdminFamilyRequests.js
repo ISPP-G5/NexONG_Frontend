@@ -83,6 +83,7 @@ function AdminFamilyRequests() {
           <PersonCard 
             key={index} 
             person={t} 
+            personType='family'
             añadir={true} 
             descargar={handleDescargar}
             aceptar={handleAceptar}

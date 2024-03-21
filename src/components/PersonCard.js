@@ -12,14 +12,14 @@ function PersonCard({ person, personType, kids, lessons, evaluations, añadir, d
     <div className='card-info'>
       {personType === 'family' ?
       <div className='family-info'>
-        <p>{person.name}</p>
+        <p><strong>{person.name}</strong></p>
         <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
       </div> 
       :
       <div className='family-request'>
         <img src={person.avatar} alt='placeholder' />
         <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
-          <p>{person.name}</p>
+          {personType === 'family' ? <p><strong>{person.name}</strong></p> : <p>{person.name}</p>}
           <p>{person.edad || person.surname}</p>
         </div>
       </div>
@@ -35,7 +35,7 @@ function PersonCard({ person, personType, kids, lessons, evaluations, añadir, d
               <p>Fecha de nacimiento: {kid.birthdate}</p>
               <p>Curso: {kid.current_education_year}</p>
               <p>Clase: {kidLesson ? kidLesson.name : 'Not enrolled in any class'}</p>
-              <p>Evaluacion: {kidEvaluation ? kidEvaluation.grade : 'No evaluacion'}</p>
+              <p>Evaluación: {kidEvaluation ? kidEvaluation.grade : 'No evaluacion'}</p>
               {kid.status === 'CADUCADO' && <p style={{ color: 'red' }}>CADUCADO</p>}
             </div>
           );
