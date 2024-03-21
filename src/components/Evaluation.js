@@ -21,13 +21,31 @@ export default function EducatorEvaluationCommon() {
   const [phone, setPhone] = useState("");
   const [studentEvaluations, setStudentEvaluations] = useState([]); 
   const [evaluationTypes,setEvaluationTypes] = useState([]);
-
+  const [lastEvaluation, setLastEvaluation] = useState(null);
   const handleEvaluationChange = (id) => (event) => {
     setEvaluation((prevEvaluation) => ({
       ...prevEvaluation,
       [id]: event.target.value,
     }));
   };
+  useEffect(() => {
+    if (selectedStudent) {
+      const studentEvaluation = studentEvaluations.find(evaluation => evaluation.student === selectedStudent.id);
+  
+      if (studentEvaluation) {
+        setComment(studentEvaluation.comment);
+        setGrade(studentEvaluation.grade);
+        setLesson(studentEvaluation.lesson);
+        setSelectedDate(new Date(studentEvaluation.date));
+      } else {
+        setComment("");
+        setGrade("");
+        setLesson("");
+        setSelectedDate(null);
+      }
+    }
+  }, [selectedStudent, studentEvaluations]);
+ 
   useEffect(() => {
     const id = localStorage.getItem('userId');
     setUserId(id);
@@ -119,6 +137,7 @@ useEffect(() => {
     setGrade(event.target.value);
   };
   const handleSubmit = async () => {
+    
     try {
       const selectedDateObj = new Date(selectedDate);
       
@@ -139,18 +158,19 @@ useEffect(() => {
     
      
       const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
+
       const studentEvaluation = evaluations.find(evaluation => 
         evaluation.student === parseInt(studentId) && 
         evaluation.evaluation_types === evaluationTypes &&
         evaluation.date === selectedDate
       );
-  
       if (studentEvaluation) {
         console.log('Updating evaluation with grade:', grade, 'and comment:', comment);
         const updateResponse = await axios.patch(`${API_ENDPOINT}student-evaluation/${studentEvaluation.id}/`, {
           ...studentEvaluation,
-          grade: parseInt(grade, 10), // Update the grade
-          comment: comment, // Update the comment
+          grade: parseInt(grade, 10), 
+          comment: comment, 
+          date: selectedDate, 
         });
         console.log('Update response:', updateResponse);
         if (updateResponse.status === 200) {
@@ -159,6 +179,8 @@ useEffect(() => {
           setStudentEvaluations(prevEvaluations => prevEvaluations.map(evaluation => 
             evaluation.id === studentEvaluation.id ? updateResponse.data : evaluation
           ));
+          setLastEvaluation(updateResponse.data);
+
           handleCloseModal();
         } else {
           console.log('Failed to update evaluation');
@@ -178,14 +200,16 @@ useEffect(() => {
           date: selectedDate, 
           comment: comment,
           student: parseInt(studentId),
-          evaluation_type: evaluationTypes.id,
+          evaluation_type: Object.keys(evaluation)[0],
+          
         });
         console.log('Create response:', createResponse);
-  
+
         if (createResponse.status === 201) {
           console.log('Evaluation created successfully');
           toast.success('Evaluación realizada de manera correcta');
           setStudentEvaluations(prevEvaluations => [...prevEvaluations, createResponse.data]);
+          setLastEvaluation(createResponse.data);
           handleCloseModal();
         } else {
           console.log('Failed to create evaluation');
@@ -217,9 +241,8 @@ useEffect(() => {
     // Return the grade of the most recent evaluation
     return filteredEvaluations[0].grade;
   };
+ 
   
-  
-
 
   return {
     

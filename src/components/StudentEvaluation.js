@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import StudentCard from './StudentsCard';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,15 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
     width: '100%',
     marginBottom: '3%',
   };
+  useEffect(() => {
+    if (students && lessons && selectedStudent) {
+      const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
+      console.log('selectedStudentLesson id', selectedStudentLesson.id)
+      if (selectedStudentLesson && selectedStudentLesson.id) {
+        handleEvaluationChange(selectedStudentLesson.id)({ target: { value: selectedStudentLesson.id } });
+      }
+    }
+  }, [students, lessons, selectedStudent]);
 
   return (
     <>
@@ -52,19 +61,18 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
               console.log('evaluationTypeIds',evaluationTypeIds)
             }
             let dailyEvaluations;
-            console.log('evaluationType',evaluationType)
             if (evaluationType) {
               dailyEvaluations = evaluationTypes.filter(evaluationType => evaluationType.evaluation_type === 'DIARIO');
 
               if (dailyEvaluations) {
                 const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-                console.log('selected student lesson', selectedStudentLesson)
+                console.log('selected student lesson', selectedStudentLesson.id)
               
                 if (!selectedStudentLesson) {
                   return null;
                 }
-                console.log('selected student lesson',selectedStudentLesson)
-                console.log('lesons ids',lessonsIds)
+               
+              
               
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
                   <select value={grade} onChange={handleGradeChange} className='evaluation-select' key={index}>
@@ -82,13 +90,14 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
               }
               else if ( evaluationTypes.filter(evaluationType => evaluationType.evaluation_type === 'ANNUAL')){
                 const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-                console.log('selected student lesson', selectedStudentLesson)
+                console.log('selected student lesson', selectedStudentLesson.id)
               
                 if (!selectedStudentLesson) {
                   return null;
                 }
-                console.log('selected student lesson',selectedStudentLesson)
+              
                 console.log('lesons ids',lessonsIds)
+                
               
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
                   <select value={grade} onChange={handleGradeChange} className='evaluation-select' key={index}>
@@ -114,6 +123,7 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
         <input type="text" value={comment} onChange={handleCommentChange} style={inputStyle} />
         <label>Fecha:</label>
         <input type="date" value={selectedDate} onChange={handleDateChange} style={inputStyle} />
+        
         </form>
     </DialogContent>
     <DialogActions>

@@ -17,7 +17,6 @@ const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, on
           <p>{kidName}</p>
           <p>{lesson}</p>
           <p>{currentEducationYear}</p>
-          <p>Última evaluación: {evaluation}</p>
         </div>
       </div>
       <div className='buttons-requests'>
