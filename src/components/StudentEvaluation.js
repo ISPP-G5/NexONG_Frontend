@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import StudentCard from './StudentsCard';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-export default function StudentEvaluation({ students, evaluationTypes, grade, handleGradeChange, comment, handleCommentChange, selectedDate, handleDateChange, email, phone, handleSubmit, handleCloseModal, handleCloseInfoModal, selectedStudent, getStudentEvaluation, showEditModal, showInfoModal, handleEvaluationChange, handleEdit, handleInfo, lessons }) {
+export default function StudentEvaluation({ students, evaluationTypes, evaluation, grade, handleGradeChange, comment, handleCommentChange, selectedDate, handleDateChange, email, phone, handleSubmit, handleCloseModal,handleCloseEvaluacionModal2, handleCloseEvaluacionModal1,handleCloseInfoModal, selectedStudent, getStudentEvaluation, showEditModal, showInfoModal, showEvaluacionModal2, showEvaluacionModal1, handleEvaluationChange, handleEdit, handleInfo, handleEvaluacion1, handleEvaluacion2,lessons }) {
   const inputStyle = {
     boxSizing: 'none',
     backgroundColor: 'transparent',
     width: '100%',
     marginBottom: '3%',
   };
+
   useEffect(() => {
     if (students && lessons && selectedStudent) {
       const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
@@ -22,26 +23,27 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
   return (
     <>
       {students && lessons && students.map((student, studentIndex) => {
-       
         const lesson = lessons.find(lesson => lesson.students.includes(student.id));
-        console.log('lesson student',lesson)
         if (!lesson) {
           return null; 
         }
-
+  
         return (
-          <StudentCard
-            key={studentIndex}
-            familyName={student.name}
-            kidName={student.surname}
-            lesson={lesson.name}
-            currentEducationYear={student.current_education_year}
-            evaluation={getStudentEvaluation(student.id)}
-            onEvaluationChange={(event) => handleEvaluationChange(student.id)(event)}
-            onSubmit={handleSubmit}
-            onEdit={() => handleEdit(student.id)}
-            onInfo={() => handleInfo(student.id)}
-          />
+        <StudentCard
+          key={studentIndex}
+          familyName={student.name}
+          kidName={student.surname}
+          lesson={lesson.name}
+          currentEducationYear={student.current_education_year}
+          evaluation={getStudentEvaluation(student.id)}
+          onEvaluationChange={(event) => handleEvaluationChange(student.id)(event)}
+          onSubmit={handleSubmit}
+          onEdit={() => handleEdit(student.id)}
+          onInfo={() => handleInfo(student.id)}
+          onEvaluacion2={() => handleEvaluacion2(student.id)} 
+          onEvaluacion1={() => handleEvaluacion1(student.id)}
+        />
+
         );
       })}
 
@@ -92,7 +94,7 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
                   </select>
                 ) : null;
               }
-              else if ( evaluationTypes.filter(evaluationType => evaluationType.evaluation_type === 'ANNUAL')){
+              else if ( evaluationTypes.filter(evaluationType => evaluationType.evaluation_type === 'ANUAL')){
                 const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
                 console.log('selected student lesson', selectedStudentLesson.id)
               
@@ -142,6 +144,57 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
     </DialogActions>
   </Dialog>
 )}
+{showEvaluacionModal2 && (
+  <Dialog open={showEvaluacionModal2} onClose={handleCloseEvaluacionModal2}>
+    <DialogTitle>Evaluaciones de {selectedStudent && selectedStudent.name}</DialogTitle>
+    <DialogContent>
+      {selectedStudent && getStudentEvaluation(selectedStudent.id).map((evalItem, index) => {
+        // Check if the evaluation type is daily (evaluation_type === 2)
+          return (
+            <div key={index}>
+              <strong>Fecha: {evalItem.date}</strong>
+              <p>Nota: {evalItem.grade}</p>
+              <p>Comentario: {evalItem.comment}</p>
+            </div>
+          );
+        
+        
+      })}
+      
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleCloseEvaluacionModal2} color="primary">
+        Cerrar
+      </Button>
+    </DialogActions>
+  </Dialog>
+)}
+{showEvaluacionModal1 && (
+  <Dialog open={showEvaluacionModal1} onClose={handleCloseEvaluacionModal1}>
+    <DialogTitle>Evaluaciones de {selectedStudent && selectedStudent.name}</DialogTitle>
+    <DialogContent>
+      {selectedStudent && getStudentEvaluation(selectedStudent.id).map((evalItem, index) => {
+        // Check if the evaluation type is daily (evaluation_type === 2)
+        if (evalItem.evaluation_type === 1) {
+          return (
+            <div key={index}>
+              <strong>Fecha: {evalItem.date}</strong>
+              <p>Nota: {evalItem.grade}</p>
+              <p>Comentario: {evalItem.comment}</p>
+            </div>
+          );
+        }
+      })}
+      
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleCloseEvaluacionModal1} color="primary">
+        Cerrar
+      </Button>
+    </DialogActions>
+  </Dialog>
+)}
+
 
 {showInfoModal && (
   <Dialog open={showInfoModal} onClose={handleCloseInfoModal}>

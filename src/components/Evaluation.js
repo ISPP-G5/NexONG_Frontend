@@ -13,6 +13,9 @@ export default function EducatorEvaluationCommon() {
   const [selectedStudent,setSelectedStudent] = useState(null);
   const [showEditModal,setShowEditModal] = useState(false);
   const [showInfoModal,setShowInfoModal] = useState(false);
+  const [showEvaluacionModal2,setShowEvaluacionModal2] = useState(false);
+  const [showEvaluacionModal1,setShowEvaluacionModal1] = useState(false);
+
   const [comment, setComment] = useState("");
   const [grade, setGrade] = useState("");
   const [lesson,setLesson] = useState("");
@@ -49,9 +52,26 @@ export default function EducatorEvaluationCommon() {
   useEffect(() => {
     axios.get(`${API_ENDPOINT}evaluation-type/`)
       .then(response => {
+        console.log('evaluation types',response.data)
         setEvaluationTypes(response.data);
       });
+ 
+  
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
+        setStudentEvaluations(evaluations);
+        console.log('student evaluations',evaluations)
+      } catch (error) {
+        console.error('Error fetching student evaluations:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
 
   useEffect(() => {
     if (educatorId) {
@@ -106,6 +126,17 @@ useEffect(() => {
     setShowInfoModal(true);
   };
 
+  const handleEvaluacion2 = (id) => {
+    const student = students.find(student => student.id === id);
+    setSelectedStudent(student);
+    setShowEvaluacionModal2(true);
+  };
+  const handleEvaluacion1 = (id) => {
+    const student = students.find(student => student.id === id);
+    setSelectedStudent(student);
+    setShowEvaluacionModal1(true);
+  };
+
   const handleCloseModal = () => {
     setShowEditModal(false);
   };
@@ -114,6 +145,12 @@ useEffect(() => {
     setShowInfoModal(false);
   };
 
+  const handleCloseEvaluacionModal2 = () => {
+    setShowEvaluacionModal2(false);
+  };
+  const handleCloseEvaluacionModal1 = () => {
+    setShowEvaluacionModal1(false);
+  };
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
@@ -142,9 +179,10 @@ useEffect(() => {
     
      
       const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
+
       const studentEvaluation = evaluations.find(evaluation => 
         evaluation.student === parseInt(studentId) && 
-        evaluation.evaluation_types === evaluationTypes &&
+        evaluation.evaluation_type === evaluationTypes &&
         evaluation.date === selectedDate
       );
   console.log('grade',grade)
@@ -208,23 +246,35 @@ useEffect(() => {
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
   };
-  const getStudentEvaluation = (studentId, validateDate) => {
-    const filteredEvaluations = studentEvaluations.filter(evaluation => 
-      evaluation.student === parseInt(studentId) && 
-      evaluation.evaluation_types === evaluationTypes &&
-      validateDate(new Date(evaluation.date))
-    );
-    console.log('filtered evaluation',evaluation)
-  
-    if (filteredEvaluations.length === 0) {
-      return 'Sin evaluar';
+  const getStudentEvaluation = (studentId) => {
+    // Ensure evaluationTypes is populated before filtering evaluations
+    if (!evaluationTypes || evaluationTypes.length === 0) {
+      console.log('Evaluation types not loaded yet');
+      return [];
     }
-    
-    filteredEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
   
-    // Return the grade of the most recent evaluation
-    return filteredEvaluations[0].grade;
+    console.log('studentId:', studentId);
+    
+    console.log('before filter:', studentEvaluations);
+    console.log('evaluationTypes:', evaluationTypes[0].evaluation_type, evaluationTypes[1]);
+    const filteredEvaluations = studentEvaluations.filter(evaluation => 
+      evaluation.student === parseInt(studentId)
+    );
+    console.log('Filtered evaluations for student:', filteredEvaluations);
+    
+    if (filteredEvaluations.length === 0) {
+      return ['Sin evaluar'];
+    }
+  
+    filteredEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
+    console.log('Sorted evaluations:', filteredEvaluations);
+  
+    console.log('All evaluations:', filteredEvaluations);
+    return filteredEvaluations;
   };
+  
+  
+  
   
   
 
@@ -239,6 +289,8 @@ useEffect(() => {
     selectedStudent, setSelectedStudent,
     showEditModal, setShowEditModal,
     showInfoModal, setShowInfoModal,
+    showEvaluacionModal2, setShowEvaluacionModal2,
+    showEvaluacionModal1, setShowEvaluacionModal1,
     comment, setComment,
     grade, setGrade,
     selectedDate, setSelectedDate,
@@ -246,7 +298,11 @@ useEffect(() => {
     handleEvaluationChange,
      handleEdit,
      handleInfo,
+     handleEvaluacion2,
+     handleEvaluacion1,
      handleCloseModal,
+     handleCloseEvaluacionModal2,
+     handleCloseEvaluacionModal1,
      handleCloseInfoModal,
      handleCommentChange,
      handleGradeChange,
