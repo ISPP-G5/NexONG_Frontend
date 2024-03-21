@@ -69,7 +69,7 @@ function HomePageSuggestions() {
       style={{width: '80%'}}
       onSubmit={sendForm}>
 
-        {/* <h2>¿En qué podemos mejorar?</h2> */}
+        <h2>¿En qué podemos mejorar?</h2>
 
         <label>Email (opcional)</label>
         <input
