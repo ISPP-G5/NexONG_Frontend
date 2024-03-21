@@ -41,7 +41,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
           onEdit={() => handleEdit(student.id)}
           onInfo={() => handleInfo(student.id)}
           onEvaluacion2={() => handleEvaluacion2(student.id)} 
-          onEvaluacion1={() => handleEvaluacion1(student.id)}
         />
 
         );
@@ -169,31 +168,8 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
     </DialogActions>
   </Dialog>
 )}
-{showEvaluacionModal1 && (
-  <Dialog open={showEvaluacionModal1} onClose={handleCloseEvaluacionModal1}>
-    <DialogTitle>Evaluaciones de {selectedStudent && selectedStudent.name}</DialogTitle>
-    <DialogContent>
-      {selectedStudent && getStudentEvaluation(selectedStudent.id).map((evalItem, index) => {
-        // Check if the evaluation type is daily (evaluation_type === 2)
-        if (evalItem.evaluation_type === 1) {
-          return (
-            <div key={index}>
-              <strong>Fecha: {evalItem.date}</strong>
-              <p>Nota: {evalItem.grade}</p>
-              <p>Comentario: {evalItem.comment}</p>
-            </div>
-          );
-        }
-      })}
-      
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleCloseEvaluacionModal1} color="primary">
-        Cerrar
-      </Button>
-    </DialogActions>
-  </Dialog>
-)}
+
+     
 
 
 {showInfoModal && (

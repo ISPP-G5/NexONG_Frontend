@@ -14,7 +14,6 @@ export default function EducatorEvaluationCommon() {
   const [showEditModal,setShowEditModal] = useState(false);
   const [showInfoModal,setShowInfoModal] = useState(false);
   const [showEvaluacionModal2,setShowEvaluacionModal2] = useState(false);
-  const [showEvaluacionModal1,setShowEvaluacionModal1] = useState(false);
 
   const [comment, setComment] = useState("");
   const [grade, setGrade] = useState("");
@@ -134,7 +133,6 @@ useEffect(() => {
   const handleEvaluacion1 = (id) => {
     const student = students.find(student => student.id === id);
     setSelectedStudent(student);
-    setShowEvaluacionModal1(true);
   };
 
   const handleCloseModal = () => {
@@ -148,9 +146,7 @@ useEffect(() => {
   const handleCloseEvaluacionModal2 = () => {
     setShowEvaluacionModal2(false);
   };
-  const handleCloseEvaluacionModal1 = () => {
-    setShowEvaluacionModal1(false);
-  };
+  
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
@@ -290,7 +286,6 @@ useEffect(() => {
     showEditModal, setShowEditModal,
     showInfoModal, setShowInfoModal,
     showEvaluacionModal2, setShowEvaluacionModal2,
-    showEvaluacionModal1, setShowEvaluacionModal1,
     comment, setComment,
     grade, setGrade,
     selectedDate, setSelectedDate,
@@ -302,7 +297,6 @@ useEffect(() => {
      handleEvaluacion1,
      handleCloseModal,
      handleCloseEvaluacionModal2,
-     handleCloseEvaluacionModal1,
      handleCloseInfoModal,
      handleCommentChange,
      handleGradeChange,

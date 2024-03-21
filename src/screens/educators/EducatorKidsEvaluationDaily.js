@@ -22,10 +22,8 @@ function EducatorKidsEvaluationDaily() {
     handleEdit,
     handleInfo,
     handleEvaluacion2,
-    handleEvaluacion1,
     handleCloseModal,
     handleCloseEvaluacionModal2,
-    handleCloseEvaluacionModal1,
     handleCloseInfoModal,
     handleCommentChange,
     handleGradeChange,
@@ -58,7 +56,6 @@ function EducatorKidsEvaluationDaily() {
         handleSubmit={handleSubmit}
         handleCloseModal={handleCloseModal}
         handleCloseEvaluacionModal2={handleCloseEvaluacionModal2}
-        handleCloseEvaluacionModal1={handleCloseEvaluacionModal1}
         handleCloseInfoModal={handleCloseInfoModal}
         selectedStudent={selectedStudent}
         getStudentEvaluation={getStudentEvaluation}
@@ -70,7 +67,6 @@ function EducatorKidsEvaluationDaily() {
         handleEdit={handleEdit}
         handleInfo={handleInfo} 
         handleEvaluacion2={handleEvaluacion2}
-        handleEvaluacion1={handleEvaluacion1}
         lessons={lesson}
         evaluationTypes={evaluationTypes}
         date ={selectedDate}

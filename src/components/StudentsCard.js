@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, onEdit, onInfo,onEvaluacion2, onEvaluacion1,lesson }) => {
+const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, onEdit, onInfo,onEvaluacion2,lesson }) => {
   useEffect(() => {
     console.log('evaluation prop changed:', evaluation);
   }, [evaluation]);
@@ -19,8 +19,7 @@ const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, on
       </div>
       <div className='buttons-requests'>
         <button className="button-contrast" onClick={onEdit}>Evaluar</button>
-        <button className="button-contrast" onClick={onEvaluacion2}>Evaluaciones2</button>
-        <button className="button-contrast" onClick={onEvaluacion1}>Evaluaciones1</button>
+        <button className="button-contrast" onClick={onEvaluacion2}>Evaluaciones</button>
         <button className="button-contrast" onClick={onInfo}>Contactar</button>
       </div>
     </div>
