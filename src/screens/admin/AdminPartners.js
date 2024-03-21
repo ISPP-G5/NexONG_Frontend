@@ -1,6 +1,9 @@
+import React,{useEffect, useState} from 'react';
 import '../../styles/styles.css';
 import ShowType from '../../components/ShowVolunteersAndEducators';
-
+import axios from 'axios';
+import DownloadIcon from '@mui/icons-material/Download';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 const pantallas = [
   {
@@ -14,12 +17,34 @@ const pantallas = [
     selected: false,
   }
 ];
+ 
 
 const AdminPartners = () => {
+  const [donations,setDonations] = useState ([]);
+  useEffect(() => {
+      axios.get(`${API_ENDPOINT}donation/`)
+        .then(response => {
+            setDonations(response.data)
+          }
+        );
     
-    return (
+  }, []);
+  
+  const handleDownload = () => {
+    window.location.href = 'http://localhost:8000/api/export/pdf/donations';
+  }
+  return (
+    <div>
       <ShowType type = "PARTNER" pantallas={pantallas}></ShowType>
-    );
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <button className="button-create" onClick={handleDownload}>
+        <DownloadIcon />
+        Donaciones
+      </button>
+
+      </div>
+    </div>
+  );
    
 }
 
