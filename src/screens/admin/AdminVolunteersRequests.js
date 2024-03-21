@@ -18,10 +18,10 @@ const pantallas = [
 ];
 
 function AdminVolunteersRequests() {
-  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "PENDING");
+  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "PENDIENTE");
     
   return (
-    <ShowType type = "VOLUNTEER" pantallas={pantallas} añadir={true} voluntariosData={volunteers}></ShowType>
+    <ShowType type = "VOLUNTARIO" pantallas={pantallas} añadir={true} voluntariosData={volunteers}></ShowType>
     
   );
 }

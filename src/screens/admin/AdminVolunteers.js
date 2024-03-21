@@ -20,7 +20,7 @@ const pantallas = [
 ];
 
 function AdminVolunteers() {
-  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACCEPTED");
+  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACEPTADO");
    
 
   return (

@@ -47,7 +47,7 @@ function ShowType({ type,pantallas,añadir,voluntariosAceptados,voluntariosData 
     
 
     const aceptarSolicitud = async (voluntario) => {
-        voluntario[0].status = "ACCEPTED";
+        voluntario[0].status = "ACEPTADO";
         /*const update = await axios.put(`${API_ENDPOINT}volunteer/${voluntario[0].id}/`,{
             academic_formation: voluntario[0].academic_formation,
             motivation: voluntario[0].motivation,
