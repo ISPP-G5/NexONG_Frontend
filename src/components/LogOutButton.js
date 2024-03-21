@@ -10,7 +10,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <button className="button-decline" onClick={handleLogout}>Cerrar sesión</button>
+    <button className="button" onClick={handleLogout}>Cerrar sesión</button>
   );
 };
 

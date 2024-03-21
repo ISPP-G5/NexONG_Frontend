@@ -1,6 +1,5 @@
 import '../styles/styles.css';
 import React from 'react';
-import LogoutButton from './LogOutButton';
 
 
 const profileItems = {
@@ -66,7 +65,6 @@ function MenuProfiles({ profile, selected }) {
                 </td>
             </tr>
             ))}
-            <LogoutButton/>
 
         </tbody>
         </table>
