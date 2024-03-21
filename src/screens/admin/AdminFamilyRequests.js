@@ -1,8 +1,12 @@
 // AdminFamilyRequests.js
 import '../../styles/styles.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import PersonCard from '../../components/PersonCard';
 import Pantallas from '../../components/Pantallas';
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
   {
@@ -17,23 +21,95 @@ const pantallas = [
   }
 ];
 
-const familyItems = [
-  {
-    familyName: "Family Name",
-    kidName: "Kid's Name"
-  },
-  {
-    familyName: "Family Name",
-    kidName: "Kid's Name"
-  }
-];
 
 function AdminFamilyRequests() {
+  
+  const [families, setFamilies] = useState([]);
+  const [kids, setKids] = useState([]);
+  const [persons, setPersons] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}family/`)
+      .then((response) => {
+        console.log('families:', response.data);
+        setFamilies(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching families:', error);
+      });
+    axios
+      .get(`${API_ENDPOINT}student/`)
+      .then((response) => {
+        console.log('students:', response.data);
+        const studentsRequests = response.data.filter(student => student.status === "PENDIENTE");
+        setKids(studentsRequests);
+      })
+      .catch((error) => {
+        console.error('Error fetching students:', error);
+      });
+  }, []);
+  
+  useEffect(() => {
+    if (families.length > 0 && kids.length > 0) {
+      const newPersons = families.map(family => {
+        const kid = kids.find(kid => kid.family === family.id);
+        if (kid) {
+          return {
+            name: family.name,
+            kid_id: kid.id,
+            surname: `${kid.name} ${kid.surname}`,
+            avatar: kid.avatar,
+            enrollment_document: kid.enrollment_document
+          };
+        }
+        return null;
+      }).filter(person => person !== null);
+      setPersons(newPersons);
+    }
+  }, [families, kids]);
+
+  const handleDescargar = async(person) => {
+    // Download the enrollment_document
+    const documento = person.enrollment_document;
+    const nombreArchivo = 'documento.pdf'; // Puedes cambiar el nombre del archivo según lo necesites
+
+    // Crear un objeto Blob a partir de los datos del documento
+    const blob = new Blob([documento], { type: 'application/pdf' });
+
+    // Crear un enlace temporal
+    const enlaceDescarga = document.createElement('a');
+    enlaceDescarga.href = window.URL.createObjectURL(blob);
+    enlaceDescarga.download = nombreArchivo;
+
+    // Hacer clic en el enlace para descargar el archivo
+    enlaceDescarga.click();
+    window.alert("Se descarga vacio porque la api pasa enlaces en vez de archivos");
+  };
+
+  const handleAceptar = async(person) => {
+    
+    window.alert("Usuario no puede ser aceptado, la funcionalidad esta comentada hasta nuevo aviso.")
+  }
+
+  const handleRechazar = async(person) =>{
+      
+    window.alert("Usuario no puede ser rechazado, la funcionalidad esta comentada hasta nuevo aviso.")
+  }
+
   return (
     <LayoutProfiles profile='admin' selected='Familias'>
       <Pantallas pantallas={pantallas} />
-      {familyItems.map((t, index) => (
-          <PersonCard key={index} person={t} añadir={true} />
+      {persons.map((t, index) => (
+          <PersonCard 
+            key={index} 
+            person={t} 
+            añadir={true} 
+            descargar={handleDescargar}
+            aceptar={handleAceptar}
+            rechazar={handleRechazar}
+            trash={false}
+            />
       ))}
     </LayoutProfiles>
   );

@@ -41,7 +41,8 @@ function AdminFamily() {
       .get(`${API_ENDPOINT}student/`)
       .then((response) => {
         console.log('students:', response.data);
-        setKids(response.data);
+        const acceptedStudents = response.data.filter(student => student.status === "ACEPTADO");
+        setKids(acceptedStudents);
       })
       .catch((error) => {
         console.error('Error fetching students:', error);
@@ -70,14 +71,15 @@ function AdminFamily() {
     <LayoutProfiles profile={'admin'} selected={'Familias'}>
 
       <Pantallas pantallas={pantallas}/>
-      {families.map((t, index) => (
+      {families.map((f, index) => (
           <PersonCard 
             key={index} 
-            person={t} 
+            person={f} 
             personType='family'
             kids={kids}
             lessons={lessons}
             evaluations={evaluations}
+            trash={false}
           />
       ))}
 
