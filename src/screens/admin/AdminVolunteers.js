@@ -24,7 +24,7 @@ function AdminVolunteers() {
    
 
   return (
-    <ShowType type = "VOLUNTARIO" pantallas={pantallas} voluntariosData={volunteers} ></ShowType>
+    <ShowType type = "VOLUNTARIO" pantallas={pantallas} voluntariosData={volunteers} voluntariosAceptados={true}></ShowType>
     
   );
 }
