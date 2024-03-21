@@ -1,26 +1,25 @@
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
-function PersonCard({ person, personType, kids, lessons, evaluations, añadir, descargar, aceptar, denegar, voluntariosData }) {
+function PersonCard({ person, personType, kids, lessons, evaluations, añadir, descargar, aceptar, rechazar, voluntariosData, trash = true }) {
   
   const handleDescargarOAceptar = (d) => {
     d ===true?descargar(voluntariosData.filter(v => v.id = person.volunteer)):aceptar(voluntariosData.filter(v => v.id = person.volunteer));
   };
   
-  const handleDenegar = () => {
-    denegar(person.id);
-  };
+
   return (
     <div className='card-info'>
       {personType === 'family' ?
       <div className='family-info'>
-        <p>{person.name}</p>
+        <p><strong>{person.name}</strong></p>
         <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
-      </div>:
+      </div> 
+      :
       <div className='family-request'>
         <img src={person.avatar} alt='placeholder' />
         <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
-          <p>{person.name}</p>
+          {personType === 'family' ? <p><strong>{person.name}</strong></p> : <p>{person.name}</p>}
           <p>{person.edad || person.surname}</p>
         </div>
       </div>
@@ -36,24 +35,23 @@ function PersonCard({ person, personType, kids, lessons, evaluations, añadir, d
               <p>Fecha de nacimiento: {kid.birthdate}</p>
               <p>Curso: {kid.current_education_year}</p>
               <p>Clase: {kidLesson ? kidLesson.name : 'Not enrolled in any class'}</p>
-              <p>Evaluacion: {kidEvaluation ? kidEvaluation.grade : 'No evaluation'}</p>
-              {kid.status === 'EXPIRED' && <p style={{ color: 'red' }}>EXPIRED</p>}
+              <p>Evaluación: {kidEvaluation ? kidEvaluation.grade : 'No evaluacion'}</p>
+              {kid.status === 'CADUCADO' && <p style={{ color: 'red' }}>CADUCADO</p>}
             </div>
           );
         })}
       </div>
       }
-      {añadir === true ?
+      {añadir === true &&
         <div className='buttons-requests'>
-          <button className='button-contrast' onClick={() => handleDescargarOAceptar(true)}>Descargar</button>
+          <button className='button-contrast' onClick={() => descargar(person)}>Descargar</button>
           <div className='buttons-acceptance'>
-            <button className='button-accept' onClick={handleDescargarOAceptar}>Aceptar</button>
-            <button className='button-decline' onClick={handleDenegar}>Denegar</button>
+            <button className='button-accept' onClick={() => aceptar(person)}>Aceptar</button>
+            <button className='button-decline' onClick={() => rechazar(person)}>Rechazar</button>
           </div>
         </div>
-        : 
-          <DeleteIcon className='trash' onClick={handleDenegar} />
-        }
+      }
+      {trash && <DeleteIcon className='trash' onClick={() => rechazar(person)} />}
     </div>
   );
 }
