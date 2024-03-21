@@ -1094,9 +1094,7 @@ tbody tr:nth-child(odd) {
 .attendance-header {
   display: flex;
   justify-content: space-between;
- 
 }
-
 .attendance-options {
   display: flex;
   margin-left: auto;
@@ -1106,16 +1104,9 @@ tbody tr:nth-child(odd) {
   width: 3rem;
   height: 1.2rem;
   border-radius: 25%; 
-  border: 1px solid #000; 
-  background-color: #fff;
   margin-top: 10%; 
   cursor: pointer;
 }
-
-
-
-
-
 
 /* CARD INFO FAMILY */
 
@@ -1189,7 +1180,7 @@ tbody tr:nth-child(odd) {
     margin-left: 0; 
   }
   .card-info-activity {
-    max-width: 70%; /* Adjust width for smaller screens */
+    max-width: 70%; 
     flex-direction: column; 
     justify-content: flex-end;
     align-items: flex-end; 
@@ -1203,20 +1194,20 @@ tbody tr:nth-child(odd) {
   }
 
   .kids-activity {
-    margin-left: 0; /* Remove left margin for smaller screens */
+    margin-left: 0; 
     flex-direction: column;
     width: 100%; 
   }
 
   .attendance-options {
-    margin-right: 5%; /* Reduce right margin for smaller screens */
+    margin-right: 5%;  
     width: 60%; 
   }
 
   .activity-checkbox {
-    width: 2rem; /* Adjust checkbox width for smaller screens */
-    height: 1rem; /* Adjust checkbox height for smaller screens */
-    margin-top: 5%; /* Reduce top margin for smaller screens */
+    width: 2rem;
+    height: 1rem; 
+    margin-top: 5%; 
   }
 }
 

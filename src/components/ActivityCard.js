@@ -2,19 +2,14 @@ import React, { useState } from 'react';
 import '../styles/styles.css';
 
 
-function ActivityCard({ activities, kids, users, exits }) {
+function ActivityCard({ activities, kids, exits }) {
+
   const [attendance, setAttendance] = useState({});
   const attendeeIds = activities.attendees || [];
-
   const attendees = kids.filter(kid => attendeeIds.includes(kid.id));
   const matchingExits = exits.filter(exit => exit.lesson_event === activities.id); 
 
-  const handleAttendanceChange = (kidId, value) => {
-    setAttendance(prevState => ({
-      ...prevState,
-      [kidId]: prevState[kidId] === value ? null : value
-    }));
-  };
+ 
 
   return (
     <div className='card-info-activity'>
