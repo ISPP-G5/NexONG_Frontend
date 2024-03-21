@@ -22,29 +22,13 @@ export default function EducatorEvaluationCommon() {
   const [studentEvaluations, setStudentEvaluations] = useState([]); 
   const [evaluationTypes,setEvaluationTypes] = useState([]);
   const [lastEvaluation, setLastEvaluation] = useState(null);
+
   const handleEvaluationChange = (id) => (event) => {
     setEvaluation((prevEvaluation) => ({
       ...prevEvaluation,
       [id]: event.target.value,
     }));
   };
-  useEffect(() => {
-    if (selectedStudent) {
-      const studentEvaluation = studentEvaluations.find(evaluation => evaluation.student === selectedStudent.id);
-  
-      if (studentEvaluation) {
-        setComment(studentEvaluation.comment);
-        setGrade(studentEvaluation.grade);
-        setLesson(studentEvaluation.lesson);
-        setSelectedDate(new Date(studentEvaluation.date));
-      } else {
-        setComment("");
-        setGrade("");
-        setLesson("");
-        setSelectedDate(null);
-      }
-    }
-  }, [selectedStudent, studentEvaluations]);
  
   useEffect(() => {
     const id = localStorage.getItem('userId');
@@ -158,12 +142,12 @@ useEffect(() => {
     
      
       const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
-
       const studentEvaluation = evaluations.find(evaluation => 
         evaluation.student === parseInt(studentId) && 
         evaluation.evaluation_types === evaluationTypes &&
         evaluation.date === selectedDate
       );
+  console.log('grade',grade)
       if (studentEvaluation) {
         console.log('Updating evaluation with grade:', grade, 'and comment:', comment);
         const updateResponse = await axios.patch(`${API_ENDPOINT}student-evaluation/${studentEvaluation.id}/`, {
@@ -241,8 +225,9 @@ useEffect(() => {
     // Return the grade of the most recent evaluation
     return filteredEvaluations[0].grade;
   };
- 
   
+  
+
 
   return {
     

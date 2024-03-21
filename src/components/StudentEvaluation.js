@@ -12,7 +12,7 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
   useEffect(() => {
     if (students && lessons && selectedStudent) {
       const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-      console.log('selectedStudentLesson id', selectedStudentLesson.id)
+      console.log('selectedStudentLesson id', selectedStudentLesson)
       if (selectedStudentLesson && selectedStudentLesson.id) {
         handleEvaluationChange(selectedStudentLesson.id)({ target: { value: selectedStudentLesson.id } });
       }
@@ -71,21 +71,25 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
                 if (!selectedStudentLesson) {
                   return null;
                 }
+                const defaultGrade = evaluationType.grade_system === 'CERO A UNO' ? 0 : 1;
+
                
               
               
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
-                  <select value={grade} onChange={handleGradeChange} className='evaluation-select' key={index}>
-                  {evaluationType.grade_system === 'CERO A UNO' && 
-                    ['0', '1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
-                  }
-                  {evaluationType.grade_system === 'UNO A CINCO' && 
-                    ['1', '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
-                  }
-                  {evaluationType.grade_system === 'UNO A DIEZ' && 
-                    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
-                  }
-                </select>
+
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                    <option value={0}>0</option>
+                    {evaluationType.grade_system === 'CERO A UNO' && 
+                      ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    }
+                    {evaluationType.grade_system === 'UNO A CINCO' && 
+                      [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    }
+                    {evaluationType.grade_system === 'UNO A DIEZ' && 
+                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    }
+                  </select>
                 ) : null;
               }
               else if ( evaluationTypes.filter(evaluationType => evaluationType.evaluation_type === 'ANNUAL')){
@@ -98,19 +102,21 @@ export default function StudentEvaluation({ students, evaluationTypes, grade, ha
               
                 console.log('lesons ids',lessonsIds)
                 
-              
+                const defaultGrade = evaluationType.grade_system === 'CERO A UNO' ? 0 : 1;
+
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
-                  <select value={grade} onChange={handleGradeChange} className='evaluation-select' key={index}>
-                  {evaluationType.grade_system === 'CERO A UNO' && 
-                    ['0', '1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
-                  }
-                  {evaluationType.grade_system === 'UNO A CINCO' && 
-                    ['1', '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
-                  }
-                  {evaluationType.grade_system === 'UNO A DIEZ' && 
-                    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
-                  }
-                </select>
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                    <option value={0}>0</option>
+                    {evaluationType.grade_system === 'CERO A UNO' && 
+                      ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    }
+                    {evaluationType.grade_system === 'UNO A CINCO' && 
+                      [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    }
+                    {evaluationType.grade_system === 'UNO A DIEZ' && 
+                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    }
+                  </select>
                 ) : null;
               }
 
