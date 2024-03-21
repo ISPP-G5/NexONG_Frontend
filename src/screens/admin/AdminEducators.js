@@ -18,7 +18,7 @@ const pantallas = [
 function AdminEducators() {
   return (
 
-    <ShowType type = "EDUCATOR" pantallas={pantallas}></ShowType>
+    <ShowType type = "EDUCADOR" pantallas={pantallas}></ShowType>
     
   );
 }

@@ -14,14 +14,14 @@ function PersonCard({ person, personType, kids, lessons, evaluations, añadir, d
     <div className='card-info'>
       {personType === 'family' ?
       <div className='family-info'>
-        <p>{person.name}</p>
+        <p>{person.first_name}</p>
         <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
       </div>:
       <div className='family-request'>
         <img src={person.avatar} alt='placeholder' />
         <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
-          <p>{person.name}</p>
-          <p>{person.edad || person.surname}</p>
+          <p>{person.first_name}</p>
+          <p>{person.last_name}</p>
         </div>
       </div>
       }

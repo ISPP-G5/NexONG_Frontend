@@ -18,7 +18,7 @@ const pantallas = [
 const AdminPartners = () => {
     
     return (
-      <ShowType type = "PARTNER" pantallas={pantallas}></ShowType>
+      <ShowType type = "SOCIO" pantallas={pantallas}></ShowType>
     );
    
 }
