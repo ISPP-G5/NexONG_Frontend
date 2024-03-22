@@ -102,8 +102,7 @@ function VolunteerForm() {
         > 
     <ToastContainer autoClose = {5000}  />
 
-      <div className='main' style={{marginLeft:'-150%'}}>
-        <div className='flex-container-register' >
+        <div className='register-container' >
           <div className='h2-register'>
             Formulario de Voluntarios
           </div>
@@ -230,7 +229,7 @@ function VolunteerForm() {
             </form>
           </div>
         </div>
-      </div>
+      
       </LayoutProfiles>
   );
 }
