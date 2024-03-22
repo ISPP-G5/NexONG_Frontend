@@ -137,6 +137,9 @@ function AdminEvents() {
       setOpenAddDialog(true);
       clearLocalFormData();
     };
+    const [recurringEvent, setRecurringEvent] = useState(false);
+    const [recurrenceFrequency, setRecurrenceFrequency] = useState('weekly'); // Default to weekly
+    const [numOccurrences, setNumOccurrences] = useState(1);
 
     const renderTextFieldComponents = () => {
       return (
@@ -149,16 +152,22 @@ function AdminEvents() {
           {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
           {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
           {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
-
+          {/* {renderTextFieldComponent('Recurrence Frequency', recurrenceFrequency, setRecurrenceFrequency)} */}
           <MultiSelect
               label="Alumnos que asisten"
             options={students}
             value={localFormData.attendees}
             onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
           />
+          {recurringEvent && renderTextFieldComponent('Number of Occurrences', numOccurrences, setNumOccurrences, 'number')}
+
+          <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
+            {recurringEvent ? 'Make One-Time Event' : 'Make Recurring Event'}
+          </Button>
         </>
       );
     };
+    
 
     useEffect(() => {
       axios
@@ -214,8 +223,74 @@ function AdminEvents() {
           console.error('Error fetching users:', error);
         });
     }, []);
+    
+    const handleErrorResponse = (error) => {
+      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+        toast.error('Por favor, rellene todos los campos.');
+        return;
+      }
+      if (error.response && error.response.data) {
+        const { data } = error.response;
+        // Update state with backend validation errors
+        if (data && data.detail) {
+          toast.error('Error: ' + data.detail); // Customized Spanish error message
+        } else if (data && data.name) {
+          toast.error('Error: ' + data.name[0]); // Customized Spanish error message
+        } else if (data && data.description) {
+          toast.error('Error: ' + data.description[0]); // Customized Spanish error message
+        } else if (data && data.place) {
+          toast.error('Error: ' + data.place[0]); // Customized Spanish error message
+        } else if (data && data.start_date) {
+          toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
+        } else if (data && data.end_date) {
+          toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
+        } else if (data && data.max_attendees) {
+          toast.error('Error: No pueden haber más asistentes que el máximo establecido'); // Customized Spanish error message
+        } else if (data && data.max_volunteers) {
+          toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
+        } else {
+          toast.error('Ha ocurrido un error al crear el evento.'); // Customized Spanish error message
+        }
+      } else {
+        console.error('Error creating/updating event:', error);
+        toast.error('Ha ocurrido un error al crear o actualizar el evento.');
+      }
+    };
+
+
+    const handleRecurringEvent = () => {
+      const selectedStartDate = moment(localFormData.start_date);
+      
+      for (let i = 0; i < numOccurrences; i++) {
+        const eventData = {
+          ...localFormData,
+          start_date: selectedStartDate.format('YYYY-MM-DDTHH:mm'),
+          end_date: moment(selectedStartDate)
+            .add(moment(localFormData.end_date).diff(moment(localFormData.start_date)), 'milliseconds')
+            .format('YYYY-MM-DDTHH:mm'),
+        };
+    
+        // Send a POST request to create each individual event
+        axios.post(`${API_ENDPOINT}event/`, eventData)
+          .then((response) => {
+            setEvents(prevEvents => [...prevEvents, response.data]);
+            toast.success('Event created successfully');
+            setOpenAddDialog(false);
+
+          })
+          .catch(handleErrorResponse);
+        
+        // Move to the next occurrence based on weekly recurrence
+        selectedStartDate.add(1, 'weeks');
+      }
+ 
+    };
+    
 
     const handleSubmit = () => {
+      if (recurringEvent) {
+        handleRecurringEvent();
+      } else {
       if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
         toast.error('Por favor, rellene todos los campos.');
         return;
@@ -229,37 +304,8 @@ function AdminEvents() {
           setEvents([...events, response.data]);
           setOpenAddDialog(false);
         })
-        .catch((error) => {
-          if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
-            toast.error('Por favor, rellene todos los campos.');
-            return;
-          }
-          if (error.response && error.response.data) {
-            const { data } = error.response;
-            // Update state with backend validation errors
-            if (data && data.detail) {
-              toast.error('Error: ' + data.detail); // Customized Spanish error message
-            } else if (data && data.name) {
-              toast.error('Error: ' + data.name[0]); // Customized Spanish error message
-            } else if (data && data.description) {
-              toast.error('Error: ' + data.description[0]); // Customized Spanish error message
-            } else if (data && data.place) {
-              toast.error('Error: ' + data.place[0]); // Customized Spanish error message
-            } else if (data && data.start_date) {
-              toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
-            } else if (data && data.end_date) {
-              toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
-            } else if (data && data.max_attendees) {
-              toast.error('Error: No pueden haber más asistenes que el máximo establecido'); // Customized Spanish error message
-            } else if (data && data.max_volunteers) {
-              toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
-            } else {
-              toast.error('Ha ocurrido un error al crear el evento.'); // Customized Spanish error message
-            }
-          } else {
-            console.error('Error creating event:', error);
-          }
-        });
+        .catch(handleErrorResponse);
+      }
     };
 
     const handleEventEdit = () => {
