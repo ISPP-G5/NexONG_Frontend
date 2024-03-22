@@ -1052,6 +1052,64 @@ tbody tr:nth-child(odd) {
   justify-content: flex-start;
 }
 
+/* CARD INFO EDUCATOR ACTIVITIES */
+.card-info-activity {
+  background-color: #cdf0fe;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #9ee5ff;
+  padding: 3%;
+  position: relative;
+  width: 80%;
+  margin: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+.activity-info {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  white-space: nowrap;
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kids-activity {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-left: 5%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.kids-activity-info {
+  flex: 1;
+  display: flex;
+  border-top: 0.1rem solid #ccc;
+  flex-direction: column;
+}
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+}
+.attendance-options {
+  display: flex;
+  margin-left: auto;
+  margin-right: 15%;
+}
+.activity-checkbox {
+  width: 3rem;
+  height: 1.2rem;
+  border-radius: 25%; 
+  margin-top: 10%; 
+  cursor: pointer;
+}
+
+/* CARD INFO FAMILY */
+
 .family-info {
     flex: 0.30;
     display: flex;
@@ -1074,7 +1132,7 @@ tbody tr:nth-child(odd) {
 }
 
 .family-request {
-    flex: 0.50;
+    flex: 0.75;
     display: flex;
     flex-direction: row;
 }
@@ -1120,6 +1178,36 @@ tbody tr:nth-child(odd) {
 
   .family-request p {
     margin-left: 0; 
+  }
+  .card-info-activity {
+    max-width: 70%; 
+    flex-direction: column; 
+    justify-content: flex-end;
+    align-items: flex-end; 
+    margin-right: 0;
+  }
+  .activity-info, .attendance-header {
+    width: 100%; 
+    flex-direction: column;
+    border-right: none;
+    margin-left: 10px; 
+  }
+
+  .kids-activity {
+    margin-left: 0; 
+    flex-direction: column;
+    width: 100%; 
+  }
+
+  .attendance-options {
+    margin-right: 5%;  
+    width: 60%; 
+  }
+
+  .activity-checkbox {
+    width: 2rem;
+    height: 1rem; 
+    margin-top: 5%; 
   }
 }
 
