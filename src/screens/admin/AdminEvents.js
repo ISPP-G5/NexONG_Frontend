@@ -333,7 +333,8 @@ function AdminEvents() {
 
     const handleRecurringEvent = () => {
       const selectedStartDate = moment(localFormData.start_date);
-      
+      const promises = [];
+    
       for (let i = 0; i < numOccurrences; i++) {
         const eventData = {
           ...localFormData,
@@ -343,20 +344,44 @@ function AdminEvents() {
             .format('YYYY-MM-DDTHH:mm'),
         };
     
-        // Send a POST request to create each individual event
-        axios.post(`${API_ENDPOINT}event/`, eventData)
-          .then((response) => {
-            setEvents(prevEvents => [...prevEvents, response.data]);
-            toast.success('Event created successfully');
-            setOpenAddDialog(false);
-
-          })
-          .catch(handleErrorResponse);
-        
-        // Move to the next occurrence based on weekly recurrence
+        // Push each axios.post promise into the promises array
+        promises.push(
+          axios.post(`${API_ENDPOINT}event/`, eventData)
+        );
+    
+        // Move to the next occurrence
         selectedStartDate.add(1, 'weeks');
       }
- 
+    
+      // Wait for all promises to resolve
+      Promise.all(promises)
+        .then((responses) => {
+          // Extract the newly created events from the responses
+          const newEvents = responses.map((response) => {
+            const eventData = response.data;
+            return {
+              id: eventData.id,
+              title: eventData.name,
+              description: eventData.description,
+              place: eventData.place,
+              max_volunteers: eventData.max_volunteers,
+              max_attendees: eventData.max_attendees,
+              price: eventData.price,
+              attendees: eventData.attendees,
+              volunteers: eventData.volunteers,
+              start: new Date(eventData.start_date),
+              end: new Date(eventData.end_date),
+            };
+          });
+    
+          // Update the events state with the new events
+          setEvents((prevEvents) => [...prevEvents, ...newEvents]);
+    
+          // Show success message and close the dialog
+          toast.success('Eventos creados con éxito');
+          setOpenAddDialog(false);
+        })
+        .catch(handleErrorResponse);
     };
     
 
@@ -364,22 +389,34 @@ function AdminEvents() {
       if (recurringEvent) {
         handleRecurringEvent();
       } else {
-      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
-        toast.error('Por favor, rellene todos los campos.');
-        return;
-      }
-      axios
-        .post(`${API_ENDPOINT}event/`, localFormData)
-        .then((response) => {
-          console.log('Response of post:', response.data);
-          toast.success('Evento creado con éxito');
-
-          setEvents([...events, response.data]);
-          setOpenAddDialog(false);
-        })
-        .catch(handleErrorResponse);
-      }
-    };
+        if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+          toast.error('Por favor, rellene todos los campos.');
+          return;
+        }
+        axios
+          .post(`${API_ENDPOINT}event/`, localFormData)
+          .then((response) => {
+            console.log('Response of post:', response.data);
+            toast.success('Evento creado con éxito');
+    
+            const newEvent = {
+              id: response.data.id,
+              title: localFormData.name,
+              description: localFormData.description,
+              place: localFormData.place,
+              max_volunteers: localFormData.max_volunteers,
+              max_attendees: localFormData.max_attendees,
+              price: localFormData.price,
+              attendees: localFormData.attendees,
+              volunteers: localFormData.volunteers,
+              start: new Date(localFormData.start_date),
+              end: new Date(localFormData.end_date),
+            };
+    
+            setEvents([...events, newEvent]);
+            setOpenAddDialog(false);
+          })
+        }};
 
     const handleEventEdit = () => {
       if (editEvent) {
