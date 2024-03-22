@@ -113,10 +113,14 @@ function AdminEvents() {
     const [eventDate] = useState('');
     const [eventTime] = useState('');
     const [volunteers, setVolunteers] = useState([]);
+    const [meetings, setMeetings] = useState([]);
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
+    const allEvents = [...events, ...meetings];
+
+
 
     const clearLocalFormData = () => {
       setLocalFormData(initialFormData);
@@ -202,6 +206,23 @@ function AdminEvents() {
         .catch((error) => {
           console.error('Error fetching volunteers:', error);
         });
+        axios
+        .get(`${API_ENDPOINT}meeting/`)
+        .then((response) => {
+          console.log('response asambleas:', response.data);
+          const formattedMeetings = response.data.map((meeting) => ({
+            id: meeting.id,
+            title: meeting.name, // Use name instead of title if that's the meeting name
+            description: meeting.description,
+            start: new Date(meeting.date), // Assuming 'date' is the start date of the meeting
+            end: new Date(meeting.date), // Assuming meetings are single-day events
+            type: 'meeting', // Add a 'type' property to distinguish meetings from events
+          }));
+          setMeetings(formattedMeetings);
+        })
+        .catch((error) => {
+          console.error('Error fetching meetings:', error);
+        });
 
       axios
         .get(`${API_ENDPOINT}student/`)
@@ -223,7 +244,7 @@ function AdminEvents() {
           console.error('Error fetching users:', error);
         });
     }, []);
-    
+
     const handleErrorResponse = (error) => {
       if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
         toast.error('Por favor, rellene todos los campos.');
@@ -428,7 +449,7 @@ function AdminEvents() {
         <div className={classes.calendarContainer}>
           <Calendar
             localizer={localizer}
-            events={events}
+            events={allEvents}
             startAccessor="start"
             endAccessor="end"
             onSelectSlot={handleSelect}
@@ -437,6 +458,9 @@ function AdminEvents() {
             selectable={true}
             step={15}
             timeslots={4}
+            eventPropGetter={(event) => ({
+              className: event.type === 'meeting' ? 'meeting-event' : 'normal-event', // Define CSS classes for meetings and events
+            })}
             className='calendar'
           />
         </div>
