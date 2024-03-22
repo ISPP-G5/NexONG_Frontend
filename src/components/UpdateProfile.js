@@ -55,7 +55,7 @@ const UpdateProfile = ({tipo}) => {
                 is_staff: valoresList.is_staff,
                 is_active: valoresList.is_active,
                 date_joined: valoresList.date_joined,
-                username: name + " " + surname,
+                username: (name + " " + surname),
                 id_number: id_number || valoresList.id_number,
                 phone: phone || valoresList.phone,
                 password: password || valoresList.password,
