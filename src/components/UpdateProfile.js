@@ -18,7 +18,7 @@ const UpdateProfile = ({tipo}) => {
 
     const navigate = useNavigate();
 
-
+    //Traemos los datos del usuario
     useEffect(() => {
 
       axios.get(`${API_ENDPOINT}user/`)
@@ -40,87 +40,56 @@ const UpdateProfile = ({tipo}) => {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [role, setRole] = useState("");
-    const [volunteer, setVolunteer] = useState("");
-    const [family, setFamily] = useState("");
-    const [partner, setPartner] = useState("");
-    const [educator, setEducator] = useState("");
-    const [education_center, setEducation_center] = useState("");
+ 
 
     //Atributos son correctos
-    const [valoresCorrectos, setValoresCorrectos] = useState(false)
     
     const updateAdmin = async () => {
-        //Id necesario para usuarios no administradores
-        setAvatar(valoresList.avatar)
-        setFamily(valoresList.family)
-        setPartner(valoresList.partner)
-        setEducator(valoresList.educator)
-        setEducation_center(valoresList.education_center)
-        setVolunteer(valoresList.volunteer)
+
+        try {
+            const updatedData = { //En el caso de no darle un valor, se coge el original
+                last_login: valoresList.last_login,
+                is_superuser: valoresList.is_superuser,
+                first_name: name || valoresList.first_name,
+                last_name: surname || valoresList.last_name,
+                is_staff: valoresList.is_staff,
+                is_active: valoresList.is_active,
+                date_joined: valoresList.date_joined,
+                username: (name + " " + surname),
+                id_number: id_number || valoresList.id_number,
+                phone: phone || valoresList.phone,
+                password: password || valoresList.password,
+                email: email || valoresList.email,
+                role: valoresList.role,
+                is_enabled: valoresList.is_enabled,
+                family: valoresList.family,
+                partner: valoresList.partner,
+                volunteer: valoresList.volunteer,
+                education_center: valoresList.education_center,
+                educator: valoresList.educator,
+                groups: valoresList.groups,
+                user_permissions: valoresList.user_permissions,
+
+            };
     
-        //Compruebo que se le asigna un valor
-        if(role==="" || !role){
-            setRole(valoresList.role)
-        }
-        if(name==="" || !name){
-            setName(valoresList.name)
-        }
-        if(surname==="" || !surname){
-            setSurname(valoresList.surname)
-        }
-        if(id_number==="" || !id_number){
-            setId_number(valoresList.id_number)
-        }
-        if(phone==="" || !phone){
-            setPhone(valoresList.phone)
-        }
-        if(password==="" || !password){
-            setPassword(valoresList.password)
-        }
-        if(email==="" || !email){
-            setEmail(valoresList.email)
-        }
+            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
     
-        try{
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`,{ //Hago el PUT
-                name: name,
-                surname: surname,
-                id_number: id_number,
-                phone : phone,
-                password: password,
-                email: email,
-                role: role,
-                avatar: avatar,
-                family: family,
-                partner: partner,
-                volunteer: volunteer,
-                education_center: education_center,
-                educator: educator,
-            });
-            const {data} = update;
-            if (data.message){
+            const { data } = update;
+            if (data.message) {
                 window.alert(data.message);
-            }else{
-
-                navigate(`/${tipo}/perfil/`); //Navego al perfil      
-
-            }} catch (error){
-                toast.error("Datos no válidos.");
-
+            } else {
+                navigate(`/${tipo}/perfil`);
             }
-
+        } catch (error) {
+            toast.error("Datos no válidos.");
         }
-        
-   
+    };
 
-   
-  
 
     return (
         <>
             <ToastContainer />
-            <div  className='register-container admin' style={{width: '300px'}}>
+            <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
                 <img src={valoresList.avatar} alt={"imagen"} />
 
                 <div style={{ marginTop: '2%', marginBottom: '2%'}}>
@@ -131,7 +100,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Nombre</p>
                 <input 
-                    value={name}
+                    defaultValue={name} //defaultValue es como value, pero permite el cambio
                     onChange={(e) => setName(e.target.value)}
                     type='text'
                     placeholder='Nombre'
@@ -139,7 +108,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Apellido</p>
                 <input 
-                    value={surname}
+                    defaultValue={surname}
                     onChange={(e) => setSurname(e.target.value)}
                     type='text'
                     placeholder='Primer Apellido'
@@ -147,7 +116,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>DNI/NIE/Pasaporte</p>
                 <input 
-                    value={id_number}
+                    defaultValue={id_number}
                     onChange={(e) => setId_number(e.target.value)}
                     type='text'
                     placeholder='DNI/NIE/Pasaporte'
@@ -155,7 +124,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Número de teléfono</p>
                 <input 
-                    value={phone}
+                    defaultValue={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     type='tel'
                     placeholder='Número de teléfono'
@@ -163,7 +132,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Correo electrónico</p>
                 <input 
-                    value={email}
+                    defaultValue={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type='email'
                     placeholder='ejemplo@gmail.com'
@@ -171,7 +140,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Contraseña</p>
                 <input 
-                    value={password}
+                    defaultValue={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
                     placeholder='Contraseña'
