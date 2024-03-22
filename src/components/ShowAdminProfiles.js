@@ -14,7 +14,7 @@ function ShowType({ data, type, pantallas, kids, request = false, trash = true }
         >
             {pantallas && <Pantallas pantallas={pantallas} />}
 
-            {data.map((p, index) => (
+            {data && data.map((p, index) => (
                 <PersonCard 
                     key={index} 
                     person={p} 

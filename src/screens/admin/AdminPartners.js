@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import '../../styles/styles.css';
-import ShowType from '../../components/ShowVolunteersAndEducators';
+import ShowType from '../../components/ShowAdminProfiles';
 import axios from 'axios';
 import DownloadIcon from '@mui/icons-material/Download';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
@@ -36,7 +36,7 @@ const AdminPartners = () => {
   return (
     <div>
       <ShowType type = "PARTNER" pantallas={pantallas}></ShowType>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end',marginRight: '5%' }}>
       <button className="button-create" onClick={handleDownload}>
         <DownloadIcon />
         Donaciones
