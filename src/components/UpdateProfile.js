@@ -84,13 +84,7 @@ const UpdateProfile = ({tipo}) => {
             toast.error("Datos no válidos.");
         }
     };
-   
 
-    const handleFileChange = (event, setStateFunc) => {
-        const file = event.target.files[0];
-        setStateFunc(file);
-    }
-  
 
     return (
         <>
@@ -103,14 +97,6 @@ const UpdateProfile = ({tipo}) => {
                     <strong>Modificar sólo los datos que requieran cambio</strong>
                     <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
                 </div>
-
-                <p>Avatar</p>
-                <input
-                    defaultValue={avatar}
-                    type='file'
-                    style={{ marginLeft: '10%' }}
-                    onChange={(e) => handleFileChange(e, setAvatar)}
-                ></input>
 
                 <p>Nombre</p>
                 <input 
