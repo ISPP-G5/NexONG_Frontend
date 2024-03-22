@@ -1099,6 +1099,9 @@ tbody tr:nth-child(odd) {
   justify-content: flex-start;
 }
 
+.card-info-event{
+  align-self: center;
+
 /* CARD INFO EDUCATOR ACTIVITIES */
 .card-info-activity {
   background-color: #cdf0fe;
@@ -1106,6 +1109,9 @@ tbody tr:nth-child(odd) {
   box-shadow: 0px 4px 4px #9ee5ff;
   padding: 3%;
   position: relative;
+  margin: 2%;
+  display: flex;
+  align-items: center;
   width: 80%;
   margin: 2%;
   display: flex;
