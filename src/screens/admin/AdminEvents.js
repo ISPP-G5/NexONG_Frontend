@@ -212,7 +212,7 @@ function AdminEvents() {
             value={localFormData.attendees}
             onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
           />
-          {recurringEvent && renderTextFieldComponent('Number of Occurrences', numOccurrences, setNumOccurrences, 'number')}
+          {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
 
           {isNewEvent && ( // Conditionally render the button for new events only
         <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
