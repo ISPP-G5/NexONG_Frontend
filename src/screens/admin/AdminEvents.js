@@ -120,6 +120,7 @@ function AdminEvents() {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
     const allEvents = [...events, ...meetings];
+    const [isNewEvent, setIsNewEvent] = useState(true); 
 
 
 
@@ -213,9 +214,11 @@ function AdminEvents() {
           />
           {recurringEvent && renderTextFieldComponent('Number of Occurrences', numOccurrences, setNumOccurrences, 'number')}
 
-          <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
-            {recurringEvent ? 'Make One-Time Event' : 'Make Recurring Event'}
-          </Button>
+          {isNewEvent && ( // Conditionally render the button for new events only
+        <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
+          {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
+        </Button>
+      )}
         </>
       );
     };
@@ -402,6 +405,8 @@ function AdminEvents() {
               prevEvents.map(event => event.id === updatedEvent.id ? updatedEvent : event)
             );
             setOpenEditDialog(false);
+            setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
+
             toast.success('Evento actualizado correctamente');
           })
           .catch((error) => {
@@ -456,6 +461,8 @@ function AdminEvents() {
           .then(() => {
             setEvents(events.filter((event) => event.id !== eventToDelete.id));
             setOpenEditDialog(false);
+            setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
+
             setConfirmDeleteOpen(false);
             setEventToDelete(null);
             toast.success('Evento eliminado correctamente');
@@ -470,6 +477,7 @@ function AdminEvents() {
 
     const handleEventClick = (event) => {
       // Check if it's a meeting event
+      
       if (event.type === 'meeting') {
         // Display the information without editing
         const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
@@ -484,6 +492,7 @@ function AdminEvents() {
         setMeetingDialog(true); // Open the dialog to display meeting information
       } else {
         // For non-meeting events, proceed with editing
+        setIsNewEvent(false); // Set isNewEvent to false when editing an existing event
         setEditEvent(event);
         const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
         const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
@@ -502,6 +511,8 @@ function AdminEvents() {
           end_date: endDate,
         });
         setOpenEditDialog(true);
+
+
       }
     };
     
@@ -546,7 +557,10 @@ function AdminEvents() {
           </DialogActions>
         </Dialog>
 
-        <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        <Dialog open={openEditDialog} onClose={() => {
+    setOpenEditDialog(false);
+    setIsNewEvent(true); // Set isNewEvent to true when closing the edit dialog
+}}>
           <DialogTitle>Editar Evento</DialogTitle>
           <DialogContent>{renderTextFieldComponents()}</DialogContent>
           <DialogActions>
