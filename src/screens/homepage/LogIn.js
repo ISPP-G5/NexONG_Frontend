@@ -1,6 +1,6 @@
 import '../../styles/styles.css'
 import React, { useEffect, useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import google from '../../logo/google.svg'
 import LayoutHomepage from '../../components/LayoutHomepage';
 import useAdjustMargin from '../../components/useAdjustMargin';
@@ -13,22 +13,22 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 function LogIn() {
     useEffect(() => {
         window.scrollTo(0, 0);
-      }, []);
+    }, []);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [users,setUsers] = useState('');
+    const [users, setUsers] = useState('');
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        axios.get( `${API_ENDPOINT}user/`)
-        .then(response => {
-            console.log(response.data);
-            setUsers(response.data)
-        }, error => {
-            console.error(error);
-        }
-        );
+        axios.get(`${API_ENDPOINT}user/`)
+            .then(response => {
+                console.log(response.data);
+                setUsers(response.data)
+            }, error => {
+                console.error(error);
+            }
+            );
     }, []);
 
     const navigate = useNavigate();
@@ -39,13 +39,13 @@ function LogIn() {
 
         if (user) {
             if (user.volunteer != null) {
-                navigate('/voluntario/perfil');
+                navigate('/voluntario/agenda');
             } else if (user.family != null) {
                 navigate('/familia/perfil');
             } else if (user.partner != null) {
                 navigate('/socio/calendario');
             } else if (user.educator != null) {
-                navigate('/educador/perfil');
+                navigate('/educador');
             } else {
                 navigate(`/admin/voluntarios`);
             }
@@ -58,49 +58,51 @@ function LogIn() {
     const marginTop = useAdjustMargin();
 
     return (
-        <LayoutHomepage 
+        <LayoutHomepage
             intro={false}
             toastcontainer={true}
-        >  
-            <div className='register-container' style={{marginTop}}>
+        >
+            <form onSubmit={handleLogin}> {/* Se envuelve el formulario para enviar con 'enter' */}
+                <div className='register-container' style={{ marginTop }}>
 
-                <h2>Inicie sesión</h2>
-                <label>Correo electrónico</label>
-                <input
-                    type='email'
-                    placeholder='Escriba su correo electrónico'
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                />
+                    <h2>Inicie sesión</h2>
+                    <label>Correo electrónico</label>
+                    <input
+                        type='email'
+                        placeholder='Escriba su correo electrónico'
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
 
-                <label>Contraseña</label>
-                <input
-                    type='password'
-                    placeholder='Escriba su contraseña'
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                />
+                    <label>Contraseña</label>
+                    <input
+                        type='password'
+                        placeholder='Escriba su contraseña'
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
 
-                <button className='register-button' onClick={handleLogin}>
-                    Iniciar sesión
-                </button>
+                    <button className='register-button' type="submit"> {/* Cambiamos onClick por type="submit" */}
+                        Iniciar sesión
+                    </button>
 
-                <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
+                    <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px' }}>o</p>
 
-                <Link to={"https://myaccount.google.com/"} className='google-button'>
-                    <span>Iniciar sesión con Google</span>
-                    <img src={google} alt="Logo"/>
-                </Link>
+                    <Link to={"https://myaccount.google.com/"} className='google-button'>
+                        <span>Iniciar sesión con Google</span>
+                        <img src={google} alt="Logo" />
+                    </Link>
 
-                <p style={{ textAlign: 'center'}}>
-                    ¿No tiene cuenta?&nbsp;
+                    <p style={{ textAlign: 'center' }}>
+                        ¿No tiene cuenta?&nbsp;
                     <Link to="/registrarse" style={{ color: '#6FC0DB' }}>
-                        Regístrese aquí
+                            Regístrese aquí
                     </Link>.
                 </p>
 
-            </div>
+                </div>
+            </form>
         </LayoutHomepage>
     );
-  }
+}
 export default LogIn;

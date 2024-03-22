@@ -220,6 +220,12 @@ select{
   background-color: #cdf0fe;
 }
 
+.row {
+  text-align: right;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
 
 
 
@@ -227,12 +233,11 @@ select{
 
 .header-profiles {
   position: fixed;
+  height: 15%;
   top: 0;
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  grid-template-areas: "logo nav";
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   background-color: #fcfdff;
@@ -240,6 +245,7 @@ select{
   box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
   z-index: 1000;
 }
+
 
 .header-profiles p {
   align-self: center;
@@ -282,6 +288,7 @@ select{
     width: fit-content; 
     margin-right: 20%; 
   }
+
 }
 
 
@@ -1026,11 +1033,51 @@ tbody tr:nth-child(odd) {
   box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
 
+/* LOG OUT BUTTON */
 
+.prof-button {
+  background-color: #fcfdff;
+  font-family: "Poppins", Helvetica;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  justify-content: center;
+  height: 10px;
+  width: 20px;
+  padding: 2% 5% 2% 5%;
+  border: 2px solid #fcfdff;
+  border-radius: 1rem;
+  text-decoration: none;
+  margin-top: 2%;
+  margin-bottom: 4%;
+  margin-right: 5%;
 
+}
 
+.prof-button:hover {
+  cursor: pointer;
+  background-color: #fcfdff;
+}
 
+.logout-button {
+  background-color: #cdf0fe;
+  font-family: "Poppins", Helvetica;
+  font-size: 20px;
+  height: auto; /* Cambiado a auto para que se ajuste al contenido */
+  padding: 10px 20px; /* Ajustar el padding para dar espacio al texto */
+  border: 2px solid #b7ecff;
+  border-radius: 1rem;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-right: 4%;
+  line-height: 1; /* Para centrar verticalmente el texto */
+}
 
+.logout-button:hover {
+  cursor: pointer;
+  background-color: #b7ecff;
+  box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
+}
 
 
 
@@ -1270,6 +1317,7 @@ tbody tr:nth-child(odd) {
   font-size: 15px;
   font-weight: 500;
   padding: 3% 5% 3% 5%;
+  color: #ffffff;
   font-family: "Poppins", Helvetica;
   border: 2px solid #a7e6b3;
 }
@@ -1289,6 +1337,7 @@ tbody tr:nth-child(odd) {
   font-size: 15px;
   font-weight: 500;
   padding: 3% 5% 3% 5%;
+  color: #ffffff;
   font-family: "Poppins", Helvetica;
   border: 2px solid #ff3c32;
 }
@@ -1401,7 +1450,7 @@ tbody tr:nth-child(odd) {
   border-radius: 10px;
   height: auto;
   width: 220px;
-  margin-bottom: 4%;
+  margin-bottom: 7%;
   text-align: justify;
   font-size: 15px;
   font-weight: 500;

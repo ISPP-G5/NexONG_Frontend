@@ -1,6 +1,7 @@
 import '../styles/styles.css';
 import React from 'react';
 
+
 const profileItems = {
     admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Proyectos'],
     educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades', 'Proyectos','Evaluación trimestral','Evaluación anual Proyectos'],
@@ -64,6 +65,7 @@ function MenuProfiles({ profile, selected }) {
                 </td>
             </tr>
             ))}
+
         </tbody>
         </table>
     );
