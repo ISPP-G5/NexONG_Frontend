@@ -101,6 +101,13 @@ const UpdateProfile = ({tipo}) => {
                     <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
                 </div>
 
+                <p>Avatar</p>
+                <input
+                    type='file'
+                    style={{ marginLeft: '10%' }}
+                    onChange={(e) => handleFileChange(e, setAvatar)}
+                ></input>
+
                 <p>Nombre</p>
                 <input 
                     defaultValue={name} //defaultValue es como value, pero permite el cambio
