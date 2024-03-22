@@ -7,6 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import { ToastContainer, toast } from 'react-toastify';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -79,11 +80,14 @@ const VolunteersAttendance = () => {
           })
           .catch(error => {
               console.error('Error al eliminar el voluntario:', error);
+              toast.error('Error al elimninar el voluntario')
+              setDeleteConfirmation({ open: false, event: null })
           });
   };
 
   return (
     <LayoutProfiles profile={'voluntario'} selected={'Asistencia'}>
+      <ToastContainer/>
             {eventsList.map((event) => (
                 <div className='card-info' key={event.id}>
                     <div>
