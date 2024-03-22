@@ -1,8 +1,8 @@
 import '../../styles/styles.css';
 import React, { useState, useEffect } from 'react';
 
-import ShowType from '../../components/ShowVolunteersAndEducators';
-import useFetchData from '../../components/useFetchData';
+import ShowType from '../../components/ShowAdminProfiles';
+import useFetchData, { useFetchUsersByRole } from '../../components/useFetchData'; 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
   
@@ -20,11 +20,30 @@ const pantallas = [
 ];
 
 function AdminVolunteers() {
-  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACCEPTED");
+
+  const userVolunteers = useFetchUsersByRole(API_ENDPOINT, "VOLUNTARIO");
+  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACEPTADO");
+  const [volunteersData, setVolunteersData] = useState([]);
+
+  useEffect(() => {
+    if (userVolunteers.length > 0 && volunteers.length > 0) {
+      const acceptedVolunteers = userVolunteers.filter(userVolunteer => {
+        const volunteerData = volunteers.find(volunteer => volunteer.id === userVolunteer.volunteer);
+        return volunteerData;
+      });
+  
+      setVolunteersData(acceptedVolunteers);
+    }
+  }, [userVolunteers, volunteers]);
    
 
   return (
-    <ShowType type = "VOLUNTEER" pantallas={pantallas} voluntariosData={volunteers} voluntariosAceptados={true}></ShowType>
+    <ShowType 
+      data={volunteersData}
+      type="Voluntarios" 
+      pantallas={pantallas} 
+      request={false}
+    />
     
   );
 }
