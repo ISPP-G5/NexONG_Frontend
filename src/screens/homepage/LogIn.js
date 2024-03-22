@@ -43,7 +43,7 @@ function LogIn() {
             } else if (user.family != null) {
                 navigate('/familia/perfil');
             } else if (user.partner != null) {
-                navigate('/partner/perfil');
+                navigate('/socio/calendario');
             } else if (user.educator != null) {
                 navigate('/educador/perfil');
             } else {

@@ -58,7 +58,7 @@ import VolunteerForm from './volunteers/VolunteerForm';
 
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
-import PartnersActivities from './partners/PartnersActivities';
+import PartnersCalendar from './partners/PartnersCalendar';
 
 
 function App() {
@@ -144,7 +144,7 @@ function App() {
 
             {/* PARTNERS ROUTES */}
             {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
-            <Route path="/socio/actividades" exact={true} element={<PartnersActivities />} />
+            <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
 
             </Routes>
     </Router>

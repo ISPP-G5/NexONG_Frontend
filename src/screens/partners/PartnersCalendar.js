@@ -10,7 +10,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const localizer = momentLocalizer(moment);
 
-const PartnersActivities = () => {
+const PartnersCalendar = () => {
   const [activities, setActivities] = useState([]);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -42,7 +42,7 @@ const PartnersActivities = () => {
   
 
   return (
-    <LayoutProfiles profile={'socios'} selected={'Actividades'}>
+    <LayoutProfiles profile={'socios'} selected={'Calendario'}>
 
       <Calendar
         localizer={localizer}
@@ -60,4 +60,4 @@ const PartnersActivities = () => {
   );
 };
 
-export default PartnersActivities;
+export default PartnersCalendar;
