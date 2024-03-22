@@ -12,8 +12,7 @@ const localizer = momentLocalizer(moment);
 
 const PartnersCalendar = () => {
   const [activities, setActivities] = useState([]);
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [meetings, setMeetings] = useState([]);
 
   useEffect(() => {
     axios.get(`${API_ENDPOINT}event/`)
@@ -38,6 +37,24 @@ const PartnersCalendar = () => {
       .catch(error => {
         console.error(error);
       });
+      axios
+      .get(`${API_ENDPOINT}meeting/`)
+      .then((response) => {
+        console.log('response asambleas:', response.data);
+        const formattedMeetings = response.data.map((meeting) => ({
+          id: meeting.id,
+          title: meeting.name, 
+          description: meeting.description,
+          attendees: meeting.attendees,
+          start: new Date(meeting.time), 
+          end: new Date(meeting.date), 
+          type: 'meeting', 
+        }));
+        setMeetings(formattedMeetings);
+      })
+      .catch((error) => {
+        console.error('Error fetching meetings:', error);
+      });
   }, []);
   
 
@@ -46,15 +63,14 @@ const PartnersCalendar = () => {
 
       <Calendar
         localizer={localizer}
-        events={activities}
+        events={[...activities, ...meetings]}
         startAccessor="start"
         endAccessor="end"
         className='calendar'
-        selectable={true}
-        onSelectEvent={(event) => {
-          setSelectedEvent(event);
-          setShowRegisterForm(true);
-        }}
+        eventPropGetter={(event) => ({
+          className: event.type === 'meeting' ? 'meeting-event' : 'normal-event', // Define CSS classes for meetings and events
+          style: event.type === 'meeting' ? { backgroundColor: 'orange' } : {}, // Set different background colors for meetings and events
+        })}
       />
     </LayoutProfiles>
   );
