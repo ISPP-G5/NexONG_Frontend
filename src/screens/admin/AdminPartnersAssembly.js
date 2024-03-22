@@ -4,6 +4,8 @@ import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
 import Pantallas from '../../components/Pantallas';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const pantallas = [
   {
@@ -17,11 +19,13 @@ const pantallas = [
     selected: true,
   }
 ];
-const datosVoluntarios = (data, voluntariosData) => {
+
+// This function takes the user and partner data and create an array with the matched keys.
+const partnersData = (data, partners) => {
   let Data = [];
 
   for (let item of data) {
-    for (let vol of voluntariosData) {
+    for (let vol of partners) {
       if (item.volunteer === vol.id) {
         Data.push(vol.id);
         break;
@@ -41,11 +45,12 @@ const Asamblea = () => {
   const [fecha, setFecha] = useState('');
   const [hora, setHora] = useState('');
 
+  // partner and user are related, user has a fk of the entity partner
   useEffect(() => {
     axios.get(`${API_ENDPOINT}user/`)
       .then(response => {
-        setUsers(datosVoluntarios(response.data, socios));
-        console.log(datosVoluntarios(response.data, socios));
+        setUsers(partnersData(response.data, socios));
+        console.log(partnersData(response.data, socios));
       })
       .catch(error => {
         console.error(error);
@@ -65,16 +70,20 @@ const Asamblea = () => {
 
 
 
-  const sendForm = async () => {
+  const sendForm = async (e) => {
+    e.preventDefault(); // Prevenir la recarga de la página
     if (!titulo || titulo === '') {
-      window.alert("Se debe de insertar un titulo")
+      toast.error("Se debe de insertar un titulo", {
+        autoClose: 5000
+        })
     } else if (!descripcion || descripcion === '') {
-      window.alert("Se debe de insertar una descripción")
+      toast.error("Se debe de insertar una descripción")
     } else if (!fecha || fecha === '') {
-      window.alert("Se debe de insertar una fecha")
+      toast.error("Se debe de insertar una fecha")
     } else if (!hora || hora === '') {
-      window.alert("Se debe de insertar una hora")
+      toast.error("Se debe de insertar una hora")
     } else {
+      // listaAsistentes uses join to transform de array in a string an then separe the keys
       const listaAsistentes = users.join(",").split(",");
       const update = await axios.post(`${API_ENDPOINT}meeting/`, {
         name: titulo,
@@ -87,9 +96,13 @@ const Asamblea = () => {
       console.log(update);
       const { data } = update;
       if (data.message) {
-        window.alert(data.message);
+        toast.error("Datos no válidos." , {
+          autoClose: 5000
+          });
       } else {
-        window.alert('Asamblea creada con exito');
+        toast.success('Asamblea creada con exito', {
+          autoClose: 5000
+          });
       }
     }
 
@@ -97,6 +110,7 @@ const Asamblea = () => {
 
   return (
     <form onSubmit={sendForm} className='register-container admin'>
+      <ToastContainer autoClose={5000} />
 
       <label>Título</label>
       <input
