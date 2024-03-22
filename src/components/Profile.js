@@ -29,7 +29,7 @@ const Profile = ({usuario}) => {
         <div key={index}>
           <img src={profile.avatar} alt={"imagen"} />
 
-          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.name}</div>
+          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.username}</div>
 
           <p>Email</p>
           <input type='text' value={profile.email} readOnly></input>
