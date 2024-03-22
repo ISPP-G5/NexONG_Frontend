@@ -9,11 +9,9 @@ function HeaderProfiles({ profile, id }) {
             <img className='header-logo' src={logo} alt='logo' />
             <p>Manos Abiertas Con Norte</p>
             
-            <div className="header-content">
-                <Link to={`/${profile}/perfil`} >{profile}</Link>
-                <LogoutButton />
-            </div>
-
+            <Link to={`/${profile}/perfil`} >{profile}</Link>
+            <LogoutButton/>
+                
         </div>
     );
 }

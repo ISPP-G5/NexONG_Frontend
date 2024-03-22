@@ -40,31 +40,36 @@ const UpdateProfile = ({tipo}) => {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [role, setRole] = useState("");
-    const [volunteer, setVolunteer] = useState("");
-    const [family, setFamily] = useState("");
-    const [partner, setPartner] = useState("");
-    const [educator, setEducator] = useState("");
-    const [education_center, setEducation_center] = useState("");
+ 
 
     //Atributos son correctos
     
     const updateAdmin = async () => {
         try {
             const updatedData = { //En el caso de no darle un valor, se coge el original
-                name: name || valoresList.name,
-                surname: surname || valoresList.surname,
+                last_login: valoresList.last_login,
+                is_superuser: valoresList.is_superuser,
+                first_name: name || valoresList.first_name,
+                last_name: surname || valoresList.last_name,
+                is_staff: valoresList.is_staff,
+                is_active: valoresList.is_active,
+                date_joined: valoresList.date_joined,
+                username: name + " " + surname,
                 id_number: id_number || valoresList.id_number,
                 phone: phone || valoresList.phone,
                 password: password || valoresList.password,
                 email: email || valoresList.email,
-                role: role || valoresList.role,
+                role: valoresList.role,
                 avatar: avatar || valoresList.avatar,
-                family: family || valoresList.family,
-                partner: partner || valoresList.partner,
-                volunteer: volunteer || valoresList.volunteer,
-                education_center: education_center || valoresList.education_center,
-                educator: educator || valoresList.educator,
+                is_enabled: valoresList.is_enabled,
+                family: valoresList.family,
+                partner: valoresList.partner,
+                volunteer: valoresList.volunteer,
+                education_center: valoresList.education_center,
+                educator: valoresList.educator,
+                groups: valoresList.groups,
+                user_permissions: valoresList.user_permissions,
+
             };
     
             const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
@@ -87,7 +92,7 @@ const UpdateProfile = ({tipo}) => {
     return (
         <>
             <ToastContainer />
-            <div  className='register-container admin' style={{width: '300px'}}>
+            <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
                 <img src={valoresList.avatar} alt={"imagen"} />
 
                 <div style={{ marginTop: '2%', marginBottom: '2%'}}>

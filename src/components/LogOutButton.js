@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <button className="button" onClick={handleLogout}>Cerrar sesión</button>
+    <button className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
   );
 };
 
