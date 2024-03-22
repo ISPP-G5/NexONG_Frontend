@@ -1,15 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../logo/macn-logo.png';
 import '../styles/styles.css';
+import LogoutButton from './LogOutButton';
 
-function HeaderProfiles({profile, id}){
+function HeaderProfiles({ profile, id }) {
 
-    return (
+    const navigate = useNavigate();
+
+    const move = () => {
+        navigate(`/${profile}/perfil`); // Redireccionar a la página de inicio
+      };
+    
+      return (
         <div className='header-profiles'>
-            <img className='header-logo' src={logo} alt='logo'/>
+            <img className='header-logo' src={logo} alt='logo' />
             <p>Manos Abiertas Con Norte</p>
-            <Link to={`/${profile}/perfil`}>{profile}</Link>        
+            
+                <button className='prof-button' onClick={move}>Perfil</button> 
+                <LogoutButton/>
+                
         </div>
     );
 }
+
 export default HeaderProfiles;

@@ -12,6 +12,8 @@ function EducatorKidsEvaluationDaily() {
     selectedStudent, 
     showEditModal,
     showInfoModal,
+    showEvaluacionModal2,
+    showEvaluacionModal1,
     comment,
     grade,
     selectedDate,
@@ -19,7 +21,9 @@ function EducatorKidsEvaluationDaily() {
     handleEvaluationChange,
     handleEdit,
     handleInfo,
+    handleEvaluacion2,
     handleCloseModal,
+    handleCloseEvaluacionModal2,
     handleCloseInfoModal,
     handleCommentChange,
     handleGradeChange,
@@ -27,10 +31,12 @@ function EducatorKidsEvaluationDaily() {
     handleDateChange,
     getStudentEvaluation,
     phone,
+    lesson,
+    evaluationTypes,
    
   } = EducatorEvaluationCommon();
 
-  
+
 
   
 
@@ -39,7 +45,6 @@ function EducatorKidsEvaluationDaily() {
       <ToastContainer />
       <StudentEvaluation 
         students={students}
-        evaluationType={2}
         grade={grade}
         handleGradeChange={handleGradeChange}
         comment={comment}
@@ -50,14 +55,22 @@ function EducatorKidsEvaluationDaily() {
         phone={phone}
         handleSubmit={handleSubmit}
         handleCloseModal={handleCloseModal}
+        handleCloseEvaluacionModal2={handleCloseEvaluacionModal2}
         handleCloseInfoModal={handleCloseInfoModal}
         selectedStudent={selectedStudent}
         getStudentEvaluation={getStudentEvaluation}
         showEditModal={showEditModal}
         showInfoModal={showInfoModal}
+        showEvaluacionModal2={showEvaluacionModal2}
+        showEvaluacionModal1={showEvaluacionModal1}
         handleEvaluationChange={handleEvaluationChange}
         handleEdit={handleEdit}
         handleInfo={handleInfo} 
+        handleEvaluacion2={handleEvaluacion2}
+        lessons={lesson}
+        evaluationTypes={evaluationTypes}
+        date ={selectedDate}
+
       />
     </LayoutProfiles>
   );

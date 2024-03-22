@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -16,7 +14,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
-  const educator = users.find(user => user.id === lesson.educator);
+  const educator = users.find(user => user.id === lesson.educators);
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
 
   const onDeleteClick = () => {
