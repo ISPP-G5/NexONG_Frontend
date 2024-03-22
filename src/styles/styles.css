@@ -1132,7 +1132,7 @@ tbody tr:nth-child(odd) {
 }
 
 .family-request {
-    flex: 0.50;
+    flex: 0.75;
     display: flex;
     flex-direction: row;
 }
