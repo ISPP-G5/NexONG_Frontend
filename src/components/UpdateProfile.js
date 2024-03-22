@@ -45,6 +45,7 @@ const UpdateProfile = ({tipo}) => {
     //Atributos son correctos
     
     const updateAdmin = async () => {
+
         try {
             const updatedData = { //En el caso de no darle un valor, se coge el original
                 last_login: valoresList.last_login,
@@ -60,7 +61,6 @@ const UpdateProfile = ({tipo}) => {
                 password: password || valoresList.password,
                 email: email || valoresList.email,
                 role: valoresList.role,
-                avatar: avatar || valoresList.avatar,
                 is_enabled: valoresList.is_enabled,
                 family: valoresList.family,
                 partner: valoresList.partner,
@@ -86,7 +86,10 @@ const UpdateProfile = ({tipo}) => {
     };
    
 
-   
+    const handleFileChange = (event, setStateFunc) => {
+        const file = event.target.files[0];
+        setStateFunc(file);
+    }
   
 
     return (
@@ -103,6 +106,7 @@ const UpdateProfile = ({tipo}) => {
 
                 <p>Avatar</p>
                 <input
+                    defaultValue={avatar}
                     type='file'
                     style={{ marginLeft: '10%' }}
                     onChange={(e) => handleFileChange(e, setAvatar)}

@@ -24,7 +24,7 @@ const Profile = ({usuario}) => {
 
   //Mostramos los datos en inputs para censurar la contraseña
   return (
-    <div  className='register-container admin' style={{width: '300px'}}>
+    <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
       {valores.map((profile, index) => (
         <div key={index}>
           <img src={profile.avatar} alt={"imagen"} />
