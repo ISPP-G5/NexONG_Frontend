@@ -108,6 +108,7 @@ function AdminEvents() {
     const [events, setEvents] = useState([]);
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [openMeetingDialog, setMeetingDialog] = useState(false);
     const [editEvent, setEditEvent] = useState(null);
     const [eventTitle] = useState('');
     const [eventDate] = useState('');
@@ -144,6 +145,53 @@ function AdminEvents() {
     const [recurringEvent, setRecurringEvent] = useState(false);
     const [recurrenceFrequency, setRecurrenceFrequency] = useState('weekly'); // Default to weekly
     const [numOccurrences, setNumOccurrences] = useState(1);
+
+    const renderMeetingTextFieldComponents = () => {
+      // Map student IDs to their full names
+      const attendeeFullNames = localFormData.attendees.map((attendeeId) => {
+        const student = students.find((student) => student.id === attendeeId);
+        return student ? `${student.name} ${student.surname}` : '';
+      });
+    
+      return (
+        <>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Nombre de la reunión</label>
+            <TextField
+              value={localFormData.name}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Descripción</label>
+            <TextField
+              value={localFormData.description}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Fecha Inicio</label>
+            <TextField
+              type="datetime-local"
+              value={localFormData.start_date}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Asistentes</label>
+            <TextField
+              value={attendeeFullNames.join(', ')}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+        </>
+      );
+    };
+    
 
     const renderTextFieldComponents = () => {
       return (
@@ -214,7 +262,8 @@ function AdminEvents() {
             id: meeting.id,
             title: meeting.name, // Use name instead of title if that's the meeting name
             description: meeting.description,
-            start: new Date(meeting.date), // Assuming 'date' is the start date of the meeting
+            attendees: meeting.attendees,
+            start: new Date(meeting.time), // Assuming 'date' is the start date of the meeting
             end: new Date(meeting.date), // Assuming meetings are single-day events
             type: 'meeting', // Add a 'type' property to distinguish meetings from events
           }));
@@ -420,25 +469,42 @@ function AdminEvents() {
     
 
     const handleEventClick = (event) => {
-      setEditEvent(event);
-      const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
-      const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
-      const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
-      const endDate = moment(event.end).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
-      setLocalFormData({
-        name: event.title,
-        description: event.description,
-        place: event.place,
-        max_volunteers: event.max_volunteers,
-        max_attendees: event.max_attendees,
-        price: event.price,
-        attendees: attendeesArray,
-        volunteers: volunteersArray,
-        start_date: startDate,
-        end_date: endDate,
-      });
-      setOpenEditDialog(true);
+      // Check if it's a meeting event
+      if (event.type === 'meeting') {
+        // Display the information without editing
+        const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+
+        setLocalFormData({
+          name: event.title,
+          description: event.description,
+          attendees: attendeesArray,
+
+          start_date: moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm'),
+        });
+        setMeetingDialog(true); // Open the dialog to display meeting information
+      } else {
+        // For non-meeting events, proceed with editing
+        setEditEvent(event);
+        const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+        const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
+        const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+        const endDate = moment(event.end).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+        setLocalFormData({
+          name: event.title,
+          description: event.description,
+          place: event.place,
+          max_volunteers: event.max_volunteers,
+          max_attendees: event.max_attendees,
+          price: event.price,
+          attendees: attendeesArray,
+          volunteers: volunteersArray,
+          start_date: startDate,
+          end_date: endDate,
+        });
+        setOpenEditDialog(true);
+      }
     };
+    
     
 
     return (
@@ -447,22 +513,24 @@ function AdminEvents() {
       <ButtonCreate text='Crear evento' handleCreate={handleEventCreate} />
 
         <div className={classes.calendarContainer}>
-          <Calendar
-            localizer={localizer}
-            events={allEvents}
-            startAccessor="start"
-            endAccessor="end"
-            onSelectSlot={handleSelect}
-            onSelectEvent={handleEventClick}
-            views={['month', 'week', 'day']}
-            selectable={true}
-            step={15}
-            timeslots={4}
-            eventPropGetter={(event) => ({
-              className: event.type === 'meeting' ? 'meeting-event' : 'normal-event', // Define CSS classes for meetings and events
-            })}
-            className='calendar'
-          />
+                <Calendar
+          localizer={localizer}
+          events={allEvents}
+          startAccessor="start"
+          endAccessor="end"
+          onSelectSlot={handleSelect}
+          onSelectEvent={handleEventClick}
+          views={['month', 'week', 'day']}
+          selectable={true}
+          step={15}
+          timeslots={4}
+          eventPropGetter={(event) => ({
+            className: event.type === 'meeting' ? 'meeting-event' : 'normal-event', // Define CSS classes for meetings and events
+            style: event.type === 'meeting' ? { backgroundColor: 'orange' } : {}, // Set different background colors for meetings and events
+          })}
+          className='calendar'
+        />
+
         </div>
 
         <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
@@ -493,6 +561,16 @@ function AdminEvents() {
             </Button>
           </DialogActions>
         </Dialog>
+
+        <Dialog open={openMeetingDialog} onClose={() => setMeetingDialog(false)}>
+        <DialogTitle>Ver Reunión</DialogTitle>
+        <DialogContent>{renderMeetingTextFieldComponents()}</DialogContent>
+        <DialogActions>
+          <Button onClick={() => setMeetingDialog(false)} color="primary">
+            Volver
+          </Button>
+        </DialogActions>
+      </Dialog>
 
         <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
           <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
