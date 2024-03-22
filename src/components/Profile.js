@@ -9,6 +9,7 @@ const Profile = ({usuario}) => {
 
   const [valores, setValores] = useState([]);
 
+  //Traemos los datos del usuario que ha iniciado sesión
   useEffect(() => {
 
       axios.get(`${API_ENDPOINT}user/`)
@@ -21,14 +22,14 @@ const Profile = ({usuario}) => {
 
   }, []);
 
-
+  //Mostramos los datos en inputs para censurar la contraseña
   return (
-    <div  className='register-container admin' style={{width: '300px'}}>
+    <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
       {valores.map((profile, index) => (
         <div key={index}>
           <img src={profile.avatar} alt={"imagen"} />
 
-          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.name}</div>
+          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.username}</div>
 
           <p>Email</p>
           <input type='text' value={profile.email} readOnly></input>

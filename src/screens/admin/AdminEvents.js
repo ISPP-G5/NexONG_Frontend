@@ -108,15 +108,21 @@ function AdminEvents() {
     const [events, setEvents] = useState([]);
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [openMeetingDialog, setMeetingDialog] = useState(false);
     const [editEvent, setEditEvent] = useState(null);
     const [eventTitle] = useState('');
     const [eventDate] = useState('');
     const [eventTime] = useState('');
     const [volunteers, setVolunteers] = useState([]);
+    const [meetings, setMeetings] = useState([]);
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
+    const allEvents = [...events, ...meetings];
+    const [isNewEvent, setIsNewEvent] = useState(true); 
+
+
 
     const clearLocalFormData = () => {
       setLocalFormData(initialFormData);
@@ -137,6 +143,56 @@ function AdminEvents() {
       setOpenAddDialog(true);
       clearLocalFormData();
     };
+    const [recurringEvent, setRecurringEvent] = useState(false);
+    const [recurrenceFrequency, setRecurrenceFrequency] = useState('weekly'); // Default to weekly
+    const [numOccurrences, setNumOccurrences] = useState(1);
+
+    const renderMeetingTextFieldComponents = () => {
+      // Map student IDs to their full names
+      const attendeeFullNames = localFormData.attendees.map((attendeeId) => {
+        const student = students.find((student) => student.id === attendeeId);
+        return student ? `${student.name} ${student.surname}` : '';
+      });
+    
+      return (
+        <>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Nombre de la reunión</label>
+            <TextField
+              value={localFormData.name}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Descripción</label>
+            <TextField
+              value={localFormData.description}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Fecha Inicio</label>
+            <TextField
+              type="datetime-local"
+              value={localFormData.start_date}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Asistentes</label>
+            <TextField
+              value={attendeeFullNames.join(', ')}
+              InputProps={{ readOnly: true }}
+              fullWidth
+            />
+          </div>
+        </>
+      );
+    };
+    
 
     const renderTextFieldComponents = () => {
       return (
@@ -149,25 +205,24 @@ function AdminEvents() {
           {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
           {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
           {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
+          {/* {renderTextFieldComponent('Recurrence Frequency', recurrenceFrequency, setRecurrenceFrequency)} */}
           <MultiSelect
-              label="Voluntarios"
-              options={volunteers.map((volunteer) => ({
-                id: volunteer.id,
-                name: users.find((user) => user.id === volunteer.id)?.name
-              }))}
-              value={localFormData.volunteers}
-              onChange={(e) => setLocalFormData({ ...localFormData, volunteers: e.target.value })}
-            />
-
-          <MultiSelect
-            label="Alumnos que asisten"
+              label="Alumnos que asisten"
             options={students}
             value={localFormData.attendees}
             onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
           />
+          {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
+
+          {isNewEvent && ( // Conditionally render the button for new events only
+        <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
+          {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
+        </Button>
+      )}
         </>
       );
     };
+    
 
     useEffect(() => {
       axios
@@ -202,6 +257,24 @@ function AdminEvents() {
         .catch((error) => {
           console.error('Error fetching volunteers:', error);
         });
+        axios
+        .get(`${API_ENDPOINT}meeting/`)
+        .then((response) => {
+          console.log('response asambleas:', response.data);
+          const formattedMeetings = response.data.map((meeting) => ({
+            id: meeting.id,
+            title: meeting.name, // Use name instead of title if that's the meeting name
+            description: meeting.description,
+            attendees: meeting.attendees,
+            start: new Date(meeting.time), // Assuming 'date' is the start date of the meeting
+            end: new Date(meeting.date), // Assuming meetings are single-day events
+            type: 'meeting', // Add a 'type' property to distinguish meetings from events
+          }));
+          setMeetings(formattedMeetings);
+        })
+        .catch((error) => {
+          console.error('Error fetching meetings:', error);
+        });
 
       axios
         .get(`${API_ENDPOINT}student/`)
@@ -224,52 +297,126 @@ function AdminEvents() {
         });
     }, []);
 
-    const handleSubmit = () => {
+    const handleErrorResponse = (error) => {
       if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
         toast.error('Por favor, rellene todos los campos.');
         return;
       }
-      axios
-        .post(`${API_ENDPOINT}event/`, localFormData)
-        .then((response) => {
-          console.log('Response of post:', response.data);
-          toast.success('Evento creado con éxito');
+      if (error.response && error.response.data) {
+        const { data } = error.response;
+        // Update state with backend validation errors
+        if (data && data.detail) {
+          toast.error('Error: ' + data.detail); // Customized Spanish error message
+        } else if (data && data.name) {
+          toast.error('Error: ' + data.name[0]); // Customized Spanish error message
+        } else if (data && data.description) {
+          toast.error('Error: ' + data.description[0]); // Customized Spanish error message
+        } else if (data && data.place) {
+          toast.error('Error: ' + data.place[0]); // Customized Spanish error message
+        } else if (data && data.start_date) {
+          toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
+        } else if (data && data.end_date) {
+          toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
+        } else if (data && data.max_attendees) {
+          toast.error('Error: No pueden haber más asistentes que el máximo establecido'); // Customized Spanish error message
+        } else if (data && data.max_volunteers) {
+          toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
+        } else {
+          toast.error('Ha ocurrido un error al crear el evento.'); // Customized Spanish error message
+        }
+      } else {
+        console.error('Error creating/updating event:', error);
+        toast.error('Ha ocurrido un error al crear o actualizar el evento.');
+      }
+    };
 
-          setEvents([...events, response.data]);
+
+    const handleRecurringEvent = () => {
+      const selectedStartDate = moment(localFormData.start_date);
+      const promises = [];
+    
+      for (let i = 0; i < numOccurrences; i++) {
+        const eventData = {
+          ...localFormData,
+          start_date: selectedStartDate.format('YYYY-MM-DDTHH:mm'),
+          end_date: moment(selectedStartDate)
+            .add(moment(localFormData.end_date).diff(moment(localFormData.start_date)), 'milliseconds')
+            .format('YYYY-MM-DDTHH:mm'),
+        };
+    
+        // Push each axios.post promise into the promises array
+        promises.push(
+          axios.post(`${API_ENDPOINT}event/`, eventData)
+        );
+    
+        // Move to the next occurrence
+        selectedStartDate.add(1, 'weeks');
+      }
+    
+      // Wait for all promises to resolve
+      Promise.all(promises)
+        .then((responses) => {
+          // Extract the newly created events from the responses
+          const newEvents = responses.map((response) => {
+            const eventData = response.data;
+            return {
+              id: eventData.id,
+              title: eventData.name,
+              description: eventData.description,
+              place: eventData.place,
+              max_volunteers: eventData.max_volunteers,
+              max_attendees: eventData.max_attendees,
+              price: eventData.price,
+              attendees: eventData.attendees,
+              volunteers: eventData.volunteers,
+              start: new Date(eventData.start_date),
+              end: new Date(eventData.end_date),
+            };
+          });
+    
+          // Update the events state with the new events
+          setEvents((prevEvents) => [...prevEvents, ...newEvents]);
+    
+          // Show success message and close the dialog
+          toast.success('Eventos creados con éxito');
           setOpenAddDialog(false);
         })
-        .catch((error) => {
-          if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
-            toast.error('Por favor, rellene todos los campos.');
-            return;
-          }
-          if (error.response && error.response.data) {
-            const { data } = error.response;
-            // Update state with backend validation errors
-            if (data && data.detail) {
-              toast.error('Error: ' + data.detail); // Customized Spanish error message
-            } else if (data && data.name) {
-              toast.error('Error: ' + data.name[0]); // Customized Spanish error message
-            } else if (data && data.description) {
-              toast.error('Error: ' + data.description[0]); // Customized Spanish error message
-            } else if (data && data.place) {
-              toast.error('Error: ' + data.place[0]); // Customized Spanish error message
-            } else if (data && data.start_date) {
-              toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
-            } else if (data && data.end_date) {
-              toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
-            } else if (data && data.max_attendees) {
-              toast.error('Error: No pueden haber más asistenes que el máximo establecido'); // Customized Spanish error message
-            } else if (data && data.max_volunteers) {
-              toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
-            } else {
-              toast.error('Ha ocurrido un error al crear el evento.'); // Customized Spanish error message
-            }
-          } else {
-            console.error('Error creating event:', error);
-          }
-        });
+        .catch(handleErrorResponse);
     };
+    
+
+    const handleSubmit = () => {
+      if (recurringEvent) {
+        handleRecurringEvent();
+      } else {
+        if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+          toast.error('Por favor, rellene todos los campos.');
+          return;
+        }
+        axios
+          .post(`${API_ENDPOINT}event/`, localFormData)
+          .then((response) => {
+            console.log('Response of post:', response.data);
+            toast.success('Evento creado con éxito');
+    
+            const newEvent = {
+              id: response.data.id,
+              title: localFormData.name,
+              description: localFormData.description,
+              place: localFormData.place,
+              max_volunteers: localFormData.max_volunteers,
+              max_attendees: localFormData.max_attendees,
+              price: localFormData.price,
+              attendees: localFormData.attendees,
+              volunteers: localFormData.volunteers,
+              start: new Date(localFormData.start_date),
+              end: new Date(localFormData.end_date),
+            };
+    
+            setEvents([...events, newEvent]);
+            setOpenAddDialog(false);
+          })
+        }};
 
     const handleEventEdit = () => {
       if (editEvent) {
@@ -295,6 +442,8 @@ function AdminEvents() {
               prevEvents.map(event => event.id === updatedEvent.id ? updatedEvent : event)
             );
             setOpenEditDialog(false);
+            setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
+
             toast.success('Evento actualizado correctamente');
           })
           .catch((error) => {
@@ -349,6 +498,8 @@ function AdminEvents() {
           .then(() => {
             setEvents(events.filter((event) => event.id !== eventToDelete.id));
             setOpenEditDialog(false);
+            setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
+
             setConfirmDeleteOpen(false);
             setEventToDelete(null);
             toast.success('Evento eliminado correctamente');
@@ -362,23 +513,47 @@ function AdminEvents() {
     
 
     const handleEventClick = (event) => {
-      setEditEvent(event);
-      const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
-      const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
-      setLocalFormData({
-        name: event.title,
-        description: event.description,
-        place: event.place,
-        max_volunteers: event.max_volunteers,
-        max_attendees: event.max_attendees,
-        price: event.price,
-        attendees: attendeesArray,
-        volunteers: volunteersArray,
-        start_date: moment(event.start).format('YYYY-MM-DDTHH:mm'),
-        end_date: moment(event.end).format('YYYY-MM-DDTHH:mm'),
-      });
-      setOpenEditDialog(true);
+      // Check if it's a meeting event
+      
+      if (event.type === 'meeting') {
+        // Display the information without editing
+        const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+
+        setLocalFormData({
+          name: event.title,
+          description: event.description,
+          attendees: attendeesArray,
+
+          start_date: moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm'),
+        });
+        setMeetingDialog(true); // Open the dialog to display meeting information
+      } else {
+        // For non-meeting events, proceed with editing
+        setIsNewEvent(false); // Set isNewEvent to false when editing an existing event
+        setEditEvent(event);
+        const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+        const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
+        const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+        const endDate = moment(event.end).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+        setLocalFormData({
+          name: event.title,
+          description: event.description,
+          place: event.place,
+          max_volunteers: event.max_volunteers,
+          max_attendees: event.max_attendees,
+          price: event.price,
+          attendees: attendeesArray,
+          volunteers: volunteersArray,
+          start_date: startDate,
+          end_date: endDate,
+        });
+        setOpenEditDialog(true);
+
+
+      }
     };
+    
+    
 
     return (
       <LayoutProfiles profile='admin' selected='Eventos'>
@@ -386,19 +561,24 @@ function AdminEvents() {
       <ButtonCreate text='Crear evento' handleCreate={handleEventCreate} />
 
         <div className={classes.calendarContainer}>
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            onSelectSlot={handleSelect}
-            onSelectEvent={handleEventClick}
-            views={['month', 'week', 'day']}
-            selectable={true}
-            step={15}
-            timeslots={4}
-            className='calendar'
-          />
+                <Calendar
+          localizer={localizer}
+          events={allEvents}
+          startAccessor="start"
+          endAccessor="end"
+          onSelectSlot={handleSelect}
+          onSelectEvent={handleEventClick}
+          views={['month', 'week', 'day']}
+          selectable={true}
+          step={15}
+          timeslots={4}
+          eventPropGetter={(event) => ({
+            className: event.type === 'meeting' ? 'meeting-event' : 'normal-event', // Define CSS classes for meetings and events
+            style: event.type === 'meeting' ? { backgroundColor: 'orange' } : {}, // Set different background colors for meetings and events
+          })}
+          className='calendar'
+        />
+
         </div>
 
         <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
@@ -414,7 +594,10 @@ function AdminEvents() {
           </DialogActions>
         </Dialog>
 
-        <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        <Dialog open={openEditDialog} onClose={() => {
+    setOpenEditDialog(false);
+    setIsNewEvent(true); // Set isNewEvent to true when closing the edit dialog
+}}>
           <DialogTitle>Editar Evento</DialogTitle>
           <DialogContent>{renderTextFieldComponents()}</DialogContent>
           <DialogActions>
@@ -429,6 +612,16 @@ function AdminEvents() {
             </Button>
           </DialogActions>
         </Dialog>
+
+        <Dialog open={openMeetingDialog} onClose={() => setMeetingDialog(false)}>
+        <DialogTitle>Ver Reunión</DialogTitle>
+        <DialogContent>{renderMeetingTextFieldComponents()}</DialogContent>
+        <DialogActions>
+          <Button onClick={() => setMeetingDialog(false)} color="primary">
+            Volver
+          </Button>
+        </DialogActions>
+      </Dialog>
 
         <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
           <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
