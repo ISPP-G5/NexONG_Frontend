@@ -56,6 +56,10 @@ import VolunteerProfileUpdate from './volunteers/VolunteerProfileUpdate';
 import VolunteerAgenda from './volunteers/VolunteerAgenda';
 import VolunteerForm from './volunteers/VolunteerForm';
 
+// PARTNERS
+//import PartnerProfile from './partners/PartnerProfile';
+import PartnersActivities from './partners/PartnersActivities';
+
 
 function App() {
   return (
@@ -138,6 +142,9 @@ function App() {
       
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
 
+            {/* PARTNERS ROUTES */}
+            {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
+            <Route path="/socio/actividades" exact={true} element={<PartnersActivities />} />
 
             </Routes>
     </Router>
