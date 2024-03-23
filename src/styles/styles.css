@@ -406,9 +406,12 @@ select{
   background: #cdf0fe; 
   color: black;
   text-decoration: none; 
+  cursor: pointer;
 }
+
 .menu-profiles td.empty:hover {
   background-color: initial;
+  cursor: default;
 }
 
 .selected-menu-profiles {
