@@ -332,10 +332,12 @@ select{
   top: 0;
   left: 0;
   width: 15%;
-  margin-top: 7rem;
+  margin-top: 15vh;
   border-right: 2px solid #9ee5ff; 
   border-spacing: 0;
   border-collapse: collapse;
+  height: calc(100vh - 15vh); /* Subtract the margin-top from the viewport height */
+  overflow-y: auto;
 }
 
 .menu-profiles td {
@@ -364,6 +366,9 @@ select{
   color: black;
   text-decoration: none; 
 }
+.menu-profiles td.empty:hover {
+  background-color: initial;
+}
 
 .selected-menu-profiles {
   background: #cdf0fe; 
@@ -378,7 +383,6 @@ select{
     font-size: 16px;
   }
 }
-
 
 
 
