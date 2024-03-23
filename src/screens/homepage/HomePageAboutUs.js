@@ -24,6 +24,15 @@ function HomePageAboutUs() {
                     <h3>Nuestra misión es proporcionar una vida digna a través de la educación integral.</h3>
                 </div>
             </div>
+            <iframe 
+                title="NexONG Video"
+                width="560" 
+                height="315" 
+                src="https://www.youtube.com/embed/iD0SdTklJvQ" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+            ></iframe>
         </LayoutHomepage>
     );
 }

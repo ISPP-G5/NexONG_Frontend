@@ -133,6 +133,18 @@ select{
   background-color: #f1f1f1;
 }
 
+iframe {
+  align-self: center; 
+  margin: 2%; 
+  display: block;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+  iframe {
+    width: 90%; 
+  }
+}
+
 
 
 
