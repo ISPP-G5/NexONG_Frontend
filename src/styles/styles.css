@@ -166,7 +166,7 @@ select{
   margin-top: 10px;
 }
 
-.header ul {
+.header ul, .header-profiles ul {
   grid-area: nav;
   display: flex;
   justify-content: flex-end;
@@ -176,12 +176,12 @@ select{
   flex-wrap: wrap;
 }
 
-.header li {
+.header li, .header-profiles li {
   position: relative;
   margin: 0 10px;
 }
 
-.header li a {
+.header li a, .header-profiles li p{
   text-decoration: none;
   color: black;
   font-family: "Poppins", Helvetica;
@@ -190,7 +190,7 @@ select{
   display: block;
 }
 
-.header li a:hover {
+.header li a:hover, .header-profiles li p:hover{
   background-color: #b7ecff;
   color: black;
 }
@@ -236,6 +236,7 @@ select{
   height: 15%;
   top: 0;
   width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -255,11 +256,7 @@ select{
   text-align: center;
   margin-right: 3%;
 }
-
-.header-profiles {
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
+/*
 .header-profiles a {
   text-decoration: none;
   color: black;
@@ -278,17 +275,61 @@ select{
   background: #cdf0fe;
   color: black;
 }
+*/
+
+.header-profiles .dropdown {
+  position: relative;
+  display: inline-block;
+  min-width: 100px;
+  z-index: 1;
+}
+
+.header-profiles .dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.header-profiles .dropdown-content a:hover {
+  background-color: #cdf0fe; /* Change this to the color you want */
+}
+
+.header-profiles .dropdown:hover .dropdown-content {
+  display: block;
+}
 
 @media (min-width: 1px) and (max-width: 768px) {
-  .header-profiles p, .header-profiles a {
+  .header-profiles p {
     font-size: 16px; 
   }
 
-  .header-profiles a {
-    width: fit-content; 
-    margin-right: 20%; 
+  .header-logo {
+    width: 60px; 
+    height: 60px;
   }
+}
 
+/* LOGOUT BUTTOM */
+.logout-button {
+  background-color: #cdf0fe;
+  font-family: "Poppins", Helvetica;
+  font-size: 20px;
+  height: auto; /* Cambiado a auto para que se ajuste al contenido */
+  padding: 10px 20px; /* Ajustar el padding para dar espacio al texto */
+  border: 2px solid #b7ecff;
+  border-radius: 1rem;
+  margin: 4%;
+  line-height: 1; /* Para centrar verticalmente el texto */
+}
+
+.logout-button:hover {
+  cursor: pointer;
+  background-color: #b7ecff;
+  box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
 
 
@@ -1063,25 +1104,9 @@ tbody tr:nth-child(odd) {
   background-color: #fcfdff;
 }
 
-.logout-button {
-  background-color: #cdf0fe;
-  font-family: "Poppins", Helvetica;
-  font-size: 20px;
-  height: auto; /* Cambiado a auto para que se ajuste al contenido */
-  padding: 10px 20px; /* Ajustar el padding para dar espacio al texto */
-  border: 2px solid #b7ecff;
-  border-radius: 1rem;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  margin-right: 4%;
-  line-height: 1; /* Para centrar verticalmente el texto */
-}
 
-.logout-button:hover {
-  cursor: pointer;
-  background-color: #b7ecff;
-  box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
-}
+
+
 
 
 
