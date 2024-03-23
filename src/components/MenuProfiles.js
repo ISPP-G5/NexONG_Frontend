@@ -3,7 +3,7 @@ import React from 'react';
 
 
 const profileItems = {
-    admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Proyectos'],
+    admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Proyectos', 'Sugerencias'],
     educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades', 'Proyectos','Evaluación trimestral','Evaluación anual Proyectos'],
     voluntario: ['Agenda', 'Asistencia'],
     familia: ['Niños', 'Evaluación diaria','Evaluación anual','Observaciones','Autorizaciones','Calendario'],
@@ -19,6 +19,7 @@ const profileItems = {
       'Clases': '/admin/clases',
       'Eventos': '/admin/eventos',
       'Proyectos': '/admin/proyectos',
+      'Sugerencias': '/admin/sugerencias',
     },
     educador: {
         'Niños': '/educador/niños/evaluacion/diaria',

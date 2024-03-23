@@ -107,3 +107,21 @@ export function useFetchStudentEvaluation(API_ENDPOINT) {
 
   return evaluations;
 }
+
+export function useFetchSuggestions(API_ENDPOINT) {
+  const[suggestions, setSuggestions] = useState([]);
+
+  useEffect(()=> {
+    axios
+    .get(`${API_ENDPOINT}suggestion/`)
+    .then((response) => {
+      console.log('suggestions:', response.data);
+      setSuggestions(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching suggestions:', error);
+    });
+  }, [API_ENDPOINT]);
+
+  return suggestions;
+}

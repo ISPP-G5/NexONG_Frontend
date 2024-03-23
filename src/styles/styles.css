@@ -1099,8 +1099,26 @@ tbody tr:nth-child(odd) {
   justify-content: flex-start;
 }
 
-.card-info-event{
-  align-self: center;
+/* CARD INFO ADMIN */
+
+.card-info-suggestion {
+  background-color: #cdf0fe;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #9ee5ff;
+  padding: 3%;
+  width: 80%;
+  margin: 2%;
+}
+
+.card-info-suggestion table{
+  border-spacing: 10px;
+}
+
+.card-info-suggestion td {
+  background-color: #cdf0fe;
+  text-align: left;
+  vertical-align: top;
+}
 
 /* CARD INFO EDUCATOR ACTIVITIES */
 .card-info-activity {
@@ -1262,6 +1280,16 @@ tbody tr:nth-child(odd) {
     height: 1rem; 
     margin-top: 5%; 
   }
+
+}
+
+@media (min-width: 1px) and (max-width: 820px) {
+
+  .card-info-suggestion{
+    max-width: 70%;
+    font-size: 12px;
+  }
+
 }
 
 
