@@ -4,12 +4,11 @@ import moment from 'moment';
 import axios from 'axios';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
-
+import { ToastContainer, toast } from 'react-toastify';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
-
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -29,7 +28,7 @@ const VolunteerAgenda = () => {
       .then(response => {
         const userWithUserId = response.data.find(user => user.id === userId);
         if (userWithUserId) {
-            setCurrentUser({
+          setCurrentUser({
             volunteerId: userWithUserId.volunteer
           });
         } else {
@@ -43,61 +42,60 @@ const VolunteerAgenda = () => {
       .then(response => {
         const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
         setActivities(filteredActivities.map(activity => ({
-            title: activity.name,
-            start: new Date(activity.start_date),
-            end: new Date(activity.end_date),
-            id: activity.id,
-            description: activity.description,
-            place: activity.place,
-            max_volunteers: activity.max_volunteers,
-            max_attendees: activity.max_attendees,
-            
-            price: activity.price,
-            attendees: activity.attendees,
-            volunteers: activity.volunteers,
-            url: activity.url
+          title: activity.name,
+          start: new Date(activity.start_date),
+          end: new Date(activity.end_date),
+          id: activity.id,
+          description: activity.description,
+          place: activity.place,
+          max_volunteers: activity.max_volunteers,
+          max_attendees: activity.max_attendees,
+          price: activity.price,
+          attendees: activity.attendees,
+          volunteers: activity.volunteers,
+          url: activity.url
         })));
       })
       .catch(error => {
         console.error(error);
       });
   }, [userId]);
-  
 
   const handleRegister = () => {
     if (!currentUser.volunteerId) {
       console.error('The current volunteer cannot be registered. Volunteer ID not available.');
+      toast.error('El voluntario actual no puede registrarse. Identificación de voluntario no disponible.');
       return;
     }
     if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
-      window.alert('Usted ya pertenece a este evento.');
-      setShowRegisterForm(false); 
+      toast.error('Usted ya pertenece a este evento.');
+      setShowRegisterForm(false);
       return;
     }
     const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
     if (updatedVolunteers.length > selectedEvent.max_volunteers) {
-      window.alert('El número de voluntarios excede el límite máximo permitido.');
+      toast.error('El número de voluntarios excede el límite máximo permitido.');
       return;
     }
-    
-    axios.put(`${API_ENDPOINT}event/${selectedEvent.id}/`, { 
-      id: selectedEvent.id,
-      name: selectedEvent.title,
-      description: selectedEvent.description,
-      place: selectedEvent.place,
-      max_volunteers: selectedEvent.max_volunteers,
-      max_attendees: selectedEvent.max_attendees,
-      start_date: selectedEvent.start,
-      end_date: selectedEvent.end,
-      price: selectedEvent.price,
-      attendees: selectedEvent.attendees,
-      volunteers: updatedVolunteers,
-      url: selectedEvent.url
-    })
+
+    axios.put(`${API_ENDPOINT}event/${selectedEvent.id}/`, {
+        id: selectedEvent.id,
+        name: selectedEvent.title,
+        description: selectedEvent.description,
+        place: selectedEvent.place,
+        max_volunteers: selectedEvent.max_volunteers,
+        max_attendees: selectedEvent.max_attendees,
+        start_date: selectedEvent.start,
+        end_date: selectedEvent.end,
+        price: selectedEvent.price,
+        attendees: selectedEvent.attendees,
+        volunteers: updatedVolunteers,
+        url: selectedEvent.url
+      })
       .then(response => {
         console.log('Registered volunteer for:', selectedEvent);
         setShowRegisterForm(false);
-        window.alert('Se ha unido correctamente')
+        toast.success('Se ha unido correctamente');
         window.location.reload(true);
       })
       .catch(error => {
@@ -105,9 +103,20 @@ const VolunteerAgenda = () => {
       });
   };
 
+  const eventStyleGetter = (event) => {
+    if (event.volunteers && event.volunteers.includes(currentUser.volunteerId)) {
+      return {
+        style: {
+          backgroundColor: 'red'
+        }
+      };
+    }
+    return {};
+  };
+
   return (
     <LayoutProfiles profile={'voluntario'} selected={'Agenda'}>
-
+    <ToastContainer />
       <Calendar
         localizer={localizer}
         events={activities}
@@ -119,6 +128,7 @@ const VolunteerAgenda = () => {
           setSelectedEvent(event);
           setShowRegisterForm(true);
         }}
+        eventPropGetter={eventStyleGetter}
       />
       {showRegisterForm && (
         <Dialog open={showRegisterForm} onClose={() => setShowRegisterForm(false)}>
@@ -138,5 +148,6 @@ const VolunteerAgenda = () => {
 };
 
 export default VolunteerAgenda;
+
 
 
