@@ -10,7 +10,7 @@ const profileItems = {
     socios: ['Calendario', 'Membresía'],
   };
   
-  const profileLinks = {
+const profileLinks = {
     admin: {
       'Voluntarios': '/admin/voluntarios',
       'Educadores': '/admin/educadores',
@@ -52,6 +52,8 @@ const profileItems = {
 function MenuProfiles({ profile, selected }) {
     const items = profileItems[profile];
     const links = profileLinks[profile];
+    const emptyRows = 8 - items.length;
+
     
     return (
         <table className='menu-profiles' >
@@ -60,13 +62,17 @@ function MenuProfiles({ profile, selected }) {
             <tr key={index}>
                 <td 
                 className={item === selected ? 'selected-menu-profiles' : ''}
-                style={item === 'Familias' || (profile === 'educador' && item === 'Niños') || (profile === 'educador' && item === 'Proyectos')? { borderBottom: '2px solid #9ee5ff' } : {}}
+                style={item === 'Familias' || (profile === 'educador' && item === 'Niños') || (profile === 'educador' && item === 'Proyectos')? { borderBottom: '2px solid #9ee5ff' } : profile === 'voluntario' || profile === 'socios' ? { height: '5vh'} : {}}
                 >                    
                 <a href={links[item]}>{item}</a>
                 </td>
             </tr>
             ))}
-
+            {Array(emptyRows).fill().map((_, index) => (
+            <tr key={index + items.length}>
+                <td className='empty'></td>
+            </tr>
+            ))}
         </tbody>
         </table>
     );
