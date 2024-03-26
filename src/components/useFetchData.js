@@ -17,6 +17,24 @@ export default function useFetchData(API_ENDPOINT, status) {
   return data;
 }
 
+export function useFetchUsersByRole(API_ENDPOINT, role) {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}user/`)
+      .then((response) => {
+        console.log('users:', response.data);
+        setUsers(response.data.filter(user => user.role === role));
+      })
+      .catch((error) => {
+        console.error('Error fetching families:', error);
+      });
+  }, [API_ENDPOINT, role]);
+
+  return users;
+}
+
 export function useFetchFamilies(API_ENDPOINT) {
   const [families, setFamilies] = useState([]);
 
@@ -88,4 +106,22 @@ export function useFetchStudentEvaluation(API_ENDPOINT) {
   }, [API_ENDPOINT]);
 
   return evaluations;
+}
+
+export function useFetchSuggestions(API_ENDPOINT) {
+  const[suggestions, setSuggestions] = useState([]);
+
+  useEffect(()=> {
+    axios
+    .get(`${API_ENDPOINT}suggestion/`)
+    .then((response) => {
+      console.log('suggestions:', response.data);
+      setSuggestions(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching suggestions:', error);
+    });
+  }, [API_ENDPOINT]);
+
+  return suggestions;
 }

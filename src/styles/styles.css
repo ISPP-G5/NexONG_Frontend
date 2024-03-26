@@ -166,7 +166,7 @@ select{
   margin-top: 10px;
 }
 
-.header ul {
+.header ul, .header-profiles ul {
   grid-area: nav;
   display: flex;
   justify-content: flex-end;
@@ -176,12 +176,12 @@ select{
   flex-wrap: wrap;
 }
 
-.header li {
+.header li, .header-profiles li {
   position: relative;
   margin: 0 10px;
 }
 
-.header li a {
+.header li a, .header-profiles li p{
   text-decoration: none;
   color: black;
   font-family: "Poppins", Helvetica;
@@ -190,7 +190,7 @@ select{
   display: block;
 }
 
-.header li a:hover {
+.header li a:hover, .header-profiles li p:hover{
   background-color: #b7ecff;
   color: black;
 }
@@ -220,6 +220,12 @@ select{
   background-color: #cdf0fe;
 }
 
+.row {
+  text-align: right;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
 
 
 
@@ -227,12 +233,12 @@ select{
 
 .header-profiles {
   position: fixed;
+  height: 15%;
   top: 0;
   width: 100%;
-  display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  grid-template-areas: "logo nav";
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   background-color: #fcfdff;
@@ -240,6 +246,7 @@ select{
   box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
   z-index: 1000;
 }
+
 
 .header-profiles p {
   align-self: center;
@@ -249,11 +256,7 @@ select{
   text-align: center;
   margin-right: 3%;
 }
-
-.header-profiles {
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
+/*
 .header-profiles a {
   text-decoration: none;
   color: black;
@@ -272,16 +275,61 @@ select{
   background: #cdf0fe;
   color: black;
 }
+*/
+
+.header-profiles .dropdown {
+  position: relative;
+  display: inline-block;
+  min-width: 100px;
+  z-index: 1;
+}
+
+.header-profiles .dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.header-profiles .dropdown-content a:hover {
+  background-color: #cdf0fe; /* Change this to the color you want */
+}
+
+.header-profiles .dropdown:hover .dropdown-content {
+  display: block;
+}
 
 @media (min-width: 1px) and (max-width: 768px) {
-  .header-profiles p, .header-profiles a {
+  .header-profiles p {
     font-size: 16px; 
   }
 
-  .header-profiles a {
-    width: fit-content; 
-    margin-right: 20%; 
+  .header-logo {
+    width: 60px; 
+    height: 60px;
   }
+}
+
+/* LOGOUT BUTTOM */
+.logout-button {
+  background-color: #cdf0fe;
+  font-family: "Poppins", Helvetica;
+  font-size: 20px;
+  height: auto; /* Cambiado a auto para que se ajuste al contenido */
+  padding: 10px 20px; /* Ajustar el padding para dar espacio al texto */
+  border: 2px solid #b7ecff;
+  border-radius: 1rem;
+  margin: 4%;
+  line-height: 1; /* Para centrar verticalmente el texto */
+}
+
+.logout-button:hover {
+  cursor: pointer;
+  background-color: #b7ecff;
+  box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
 
 
@@ -325,10 +373,12 @@ select{
   top: 0;
   left: 0;
   width: 15%;
-  margin-top: 7rem;
+  margin-top: 15vh;
   border-right: 2px solid #9ee5ff; 
   border-spacing: 0;
   border-collapse: collapse;
+  height: calc(100vh - 15vh); /* Subtract the margin-top from the viewport height */
+  overflow-y: auto;
 }
 
 .menu-profiles td {
@@ -356,6 +406,12 @@ select{
   background: #cdf0fe; 
   color: black;
   text-decoration: none; 
+  cursor: pointer;
+}
+
+.menu-profiles td.empty:hover {
+  background-color: initial;
+  cursor: default;
 }
 
 .selected-menu-profiles {
@@ -371,7 +427,6 @@ select{
     font-size: 16px;
   }
 }
-
 
 
 
@@ -478,36 +533,53 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 }
 
 .intro-container.activities::before {
-  background-image: url('../logo/activities.bmp');
+  background-image: url('../logo/backgrounds/Actividades.jpeg');
 }
 
 .intro-container.camps::before {
-  background-image: url('../logo/camps.jpg');
+  background-image: url('../logo/backgrounds/historia.jpeg');
 }
 
 .intro-container.openRoom::before {
-  background-image: url('../logo/open-room.jpg');
+  background-image: url('../logo/backgrounds/Aula\ Abierta.jpeg');
 }
 
 .intro-container.coexistenceRoom::before {
-  background-image: url('../logo/coexistence-room.jpg');
+  background-image: url('../logo/backgrounds/aula\ de\ convivencia\ 6.jpg');
 }
 
 .intro-container.workshop::before {
-  background-image: url('../logo/family-workshops.jpg');
+  background-image: url('../logo/backgrounds/Programa\ Familias\ \(2\).jpeg');
 }
 
 .intro-container.summerClub::before {
-  background-image: url('../logo/summer-club.jpg');
+  background-image: url('../logo/backgrounds/cursoverano.jpg');
 }
 
 .intro-container.globalGoals::before {
-  background-image: url('../logo/global-goals.png');
+  background-image: url('../logo/agenda2030/agenda-header.png');
 }
 
 .intro-container.volunteers::before {
-  background-image: url('../logo/volunteers.bmp');
+  background-image: url('../logo/backgrounds/VOLUNTARIADO\ \(3\).JPG');
 }
+
+.intro-container.history::before {
+  background-image: url('../logo/backgrounds/Vacie.jpg');
+}
+
+.intro-container.colab::before {
+  background-image: url('../logo/backgrounds/colaboradores.jpg');
+}
+
+.intro-container.suggestions::before {
+  background-image: url('../logo/backgrounds/sugerencias.jpg');
+}
+
+.intro-container.asociation::before {
+  background-image: url('../logo/backgrounds/asociacion.jpg');
+}
+
 
 .intro-text {
   background-color: rgba(0,0,0, 40%); 
@@ -1026,7 +1098,31 @@ tbody tr:nth-child(odd) {
   box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24), 0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
 
+/* LOG OUT BUTTON */
 
+.prof-button {
+  background-color: #fcfdff;
+  font-family: "Poppins", Helvetica;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  justify-content: center;
+  height: 10px;
+  width: 20px;
+  padding: 2% 5% 2% 5%;
+  border: 2px solid #fcfdff;
+  border-radius: 1rem;
+  text-decoration: none;
+  margin-top: 2%;
+  margin-bottom: 4%;
+  margin-right: 5%;
+
+}
+
+.prof-button:hover {
+  cursor: pointer;
+  background-color: #fcfdff;
+}
 
 
 
@@ -1052,6 +1148,88 @@ tbody tr:nth-child(odd) {
   justify-content: flex-start;
 }
 
+/* CARD INFO ADMIN */
+
+.card-info-suggestion {
+  background-color: #cdf0fe;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #9ee5ff;
+  padding: 3%;
+  width: 80%;
+  margin: 2%;
+}
+
+.card-info-suggestion table{
+  border-spacing: 10px;
+}
+
+.card-info-suggestion td {
+  background-color: #cdf0fe;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* CARD INFO EDUCATOR ACTIVITIES */
+.card-info-activity {
+  background-color: #cdf0fe;
+  border-radius: 25px;
+  box-shadow: 0px 4px 4px #9ee5ff;
+  padding: 3%;
+  position: relative;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+.activity-info {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  white-space: nowrap;
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kids-activity {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-left: 5%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.kids-activity-info {
+  flex: 1;
+  display: flex;
+  border-top: 0.1rem solid #ccc;
+  flex-direction: column;
+}
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+}
+.attendance-options {
+  display: flex;
+  margin-left: auto;
+  margin-right: 15%;
+}
+.activity-checkbox {
+  width: 3rem;
+  height: 1.2rem;
+  border-radius: 25%; 
+  margin-top: 10%; 
+  cursor: pointer;
+}
+
+/* CARD INFO FAMILY */
+
 .family-info {
     flex: 0.30;
     display: flex;
@@ -1074,7 +1252,7 @@ tbody tr:nth-child(odd) {
 }
 
 .family-request {
-    flex: 0.50;
+    flex: 0.75;
     display: flex;
     flex-direction: row;
 }
@@ -1121,6 +1299,46 @@ tbody tr:nth-child(odd) {
   .family-request p {
     margin-left: 0; 
   }
+  .card-info-activity {
+    max-width: 70%; 
+    flex-direction: column; 
+    justify-content: flex-end;
+    align-items: flex-end; 
+    margin-right: 0;
+  }
+  .activity-info, .attendance-header {
+    width: 100%; 
+    flex-direction: column;
+    border-right: none;
+    margin-left: 10px; 
+  }
+
+  .kids-activity {
+    margin-left: 0; 
+    flex-direction: column;
+    width: 100%; 
+  }
+
+  .attendance-options {
+    margin-right: 5%;  
+    width: 60%; 
+  }
+
+  .activity-checkbox {
+    width: 2rem;
+    height: 1rem; 
+    margin-top: 5%; 
+  }
+
+}
+
+@media (min-width: 1px) and (max-width: 820px) {
+
+  .card-info-suggestion{
+    max-width: 70%;
+    font-size: 12px;
+  }
+
 }
 
 
@@ -1182,6 +1400,7 @@ tbody tr:nth-child(odd) {
   font-size: 15px;
   font-weight: 500;
   padding: 3% 5% 3% 5%;
+  color: #ffffff;
   font-family: "Poppins", Helvetica;
   border: 2px solid #a7e6b3;
 }
@@ -1201,6 +1420,7 @@ tbody tr:nth-child(odd) {
   font-size: 15px;
   font-weight: 500;
   padding: 3% 5% 3% 5%;
+  color: #ffffff;
   font-family: "Poppins", Helvetica;
   border: 2px solid #ff3c32;
 }
@@ -1313,7 +1533,7 @@ tbody tr:nth-child(odd) {
   border-radius: 10px;
   height: auto;
   width: 220px;
-  margin-bottom: 4%;
+  margin-bottom: 7%;
   text-align: justify;
   font-size: 15px;
   font-weight: 500;

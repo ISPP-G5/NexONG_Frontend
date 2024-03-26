@@ -40,6 +40,7 @@ import AdminLessonsCreate from './admin/AdminLessonsCreate';
 import AdminLessonsEdit from './admin/AdminLessonsEdit';
 import AdminProjects from './admin/AdminProjects';
 import AdminProjectsCreate from './admin/AdminProjectsCreate';
+import AdminSuggestions from './admin/AdminSuggestions';
 
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
@@ -54,7 +55,12 @@ import EducatorProjectsEvaluationQuarterly from './educators/EducatorProyectsEva
 import VolunteerProfile from './volunteers/VolunteerProfile';
 import VolunteerProfileUpdate from './volunteers/VolunteerProfileUpdate';
 import VolunteerAgenda from './volunteers/VolunteerAgenda';
+import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
+
+// PARTNERS
+//import PartnerProfile from './partners/PartnerProfile';
+import PartnersCalendar from './partners/PartnersCalendar';
 
 
 function App() {
@@ -105,6 +111,8 @@ function App() {
 
             <Route path="/admin/familias" exact={true} element={<AdminFamily />} />
             <Route path="/admin/familias/solicitudes" exact={true} element={<AdminFamilyRequests />} />
+
+            <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
             
             {/* Routes para colegios aquí */}
 
@@ -135,8 +143,12 @@ function App() {
             {/* VOLUNTEERS ROUTES */}
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
             <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />  
-      
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
+            <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
+
+            {/* PARTNERS ROUTES */}
+            {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
+            <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
 
 
             </Routes>

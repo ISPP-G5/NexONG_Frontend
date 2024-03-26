@@ -56,7 +56,7 @@ function HomePageColaboratorEntities() {
         <LayoutHomepage 
             title="Entidades Colaboradoras"
             description="Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno."
-            image={'ong'}
+            image={'colab'}
         > 
             
             <div className='homepage-container'>
