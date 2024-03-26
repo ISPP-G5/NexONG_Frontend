@@ -533,36 +533,53 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 }
 
 .intro-container.activities::before {
-  background-image: url('../logo/activities.bmp');
+  background-image: url('../logo/backgrounds/Actividades.jpeg');
 }
 
 .intro-container.camps::before {
-  background-image: url('../logo/camps.jpg');
+  background-image: url('../logo/backgrounds/historia.jpeg');
 }
 
 .intro-container.openRoom::before {
-  background-image: url('../logo/open-room.jpg');
+  background-image: url('../logo/backgrounds/Aula\ Abierta.jpeg');
 }
 
 .intro-container.coexistenceRoom::before {
-  background-image: url('../logo/coexistence-room.jpg');
+  background-image: url('../logo/backgrounds/aula\ de\ convivencia\ 6.jpg');
 }
 
 .intro-container.workshop::before {
-  background-image: url('../logo/family-workshops.jpg');
+  background-image: url('../logo/backgrounds/Programa\ Familias\ \(2\).jpeg');
 }
 
 .intro-container.summerClub::before {
-  background-image: url('../logo/summer-club.jpg');
+  background-image: url('../logo/backgrounds/cursoverano.jpg');
 }
 
 .intro-container.globalGoals::before {
-  background-image: url('../logo/global-goals.png');
+  background-image: url('../logo/agenda2030/agenda-header.png');
 }
 
 .intro-container.volunteers::before {
-  background-image: url('../logo/volunteers.bmp');
+  background-image: url('../logo/backgrounds/VOLUNTARIADO\ \(3\).JPG');
 }
+
+.intro-container.history::before {
+  background-image: url('../logo/backgrounds/Vacie.jpg');
+}
+
+.intro-container.colab::before {
+  background-image: url('../logo/backgrounds/colaboradores.jpg');
+}
+
+.intro-container.suggestions::before {
+  background-image: url('../logo/backgrounds/sugerencias.jpg');
+}
+
+.intro-container.asociation::before {
+  background-image: url('../logo/backgrounds/asociacion.jpg');
+}
+
 
 .intro-text {
   background-color: rgba(0,0,0, 40%); 
