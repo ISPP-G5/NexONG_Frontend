@@ -11,7 +11,7 @@ function HomePageAboutUs() {
         <LayoutHomepage 
             title={'NOSOTROS'} 
             description={"Asociación Manos Abiertas con Norte es una entidad sin ánimo de lucro, perteneciente a la Red de Obras Socioeducativas de La Salle, que trabaja en el ámbito de la intervención social en la barriada Polígono Norte y en el asentamiento chabolista de El Vacie, Sevilla."}
-            image={'activities'}
+            image={'ong'}
         > 
             <div className='homepage-container'>
                 <div className='flex-container'>
