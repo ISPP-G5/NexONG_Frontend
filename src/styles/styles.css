@@ -824,8 +824,8 @@ tbody tr:nth-child(odd) {
 
 .image-container {
   margin-top: 2.5%;
-  margin-left: 1%;
-  width: 25%; 
+  margin-left: 0%;
+  width: 30%; 
   margin-bottom: 2%;
 }
 .history-image {
@@ -835,15 +835,6 @@ tbody tr:nth-child(odd) {
 .history-container div p {
   color: #888;
 }
-
-
-
-
-
-
-
-
-
 
 /********************* AGENDA ******************/
 .agenda-structure {
