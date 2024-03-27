@@ -22,54 +22,7 @@ function Register() {
   const[birthdate,setBirthdate] = useState('');
   const[phone,setPhone] = useState('');
 
-  const registerUser = async (email, first_name, surname, idNumber, phone, password) => {
-    try {
-        console.log('Sending POST request to api/auth/users'); 
-
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('first_name', first_name);
-        formData.append('last_name', surname);
-        formData.append('id_number', idNumber);
-        formData.append('phone', phone);
-        formData.append('password', password);
-
-        const response = await axios.post(`${API_ENDPOINT}auth/users/`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        console.log('Received response:', response.data); // Log the response data
-        return response.data;
-    } catch (error) {
-        console.error('Error during user creation:', error.response.data); // Log any errors
-        return null;
-    }
-};
-  const getJWTToken = async (email, password) => {
-    try {
-        // First, create a new user
-        console.log('Sending POST request to api/auth/users/'); // Log the start of the request
-        await axios.post(`${API_ENDPOINT}auth/users/`, {
-            email,
-            password
-        });
-
-        // Then, use the user's credentials to obtain a JWT token
-        console.log('Sending POST request to auth/jwt/create'); // Log the start of the request
-        const response = await axios.post(`${API_ENDPOINT}auth/jwt/create/`, {
-            email,
-            password
-        });
-
-        console.log('Received response:', response.data); // Log the response data
-        return response.data;
-    } catch (error) {
-        console.error('Error during user creation and token generation:', error); // Log any errors
-        return null;
-    }
-};
+ 
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -132,31 +85,12 @@ function Register() {
           recurringFormData.append('password',password);
                    
           try{
-            const user = await registerUser(email, first_name, surname, idNumber, phone, password);
-            console.log('user',user)
-            if (!user) {
-              toast.error('Error during registration');
-              return;
-            }
-        
-            // Get JWT token
-            console.log('email password',email, password);
-            const tokenData = await getJWTToken(email, password);
-            console.log('tokean access',tokenData)
-            if (!tokenData || !tokenData.access) {
-              toast.error('Error during token retrieval');
-              return;
-            }
-        
-            // Store the JWT token somewhere (e.g., localStorage)
-            localStorage.setItem('jwtToken', tokenData.access);
-        
-            const update = await axios.post(`${API_ENDPOINT}user/`,
+            
+            const update = await axios.post(`${API_ENDPOINT}auth/users/`,
             recurringFormData,
             {
                 headers:{
                     'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${tokenData.access}` // Use the JWT token
                 }
             });
             console.log(update);
