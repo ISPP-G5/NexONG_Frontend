@@ -62,7 +62,7 @@ function HomePageAssociation() {
         <LayoutHomepage 
             title={'ASOCIACIÓN'} 
             description="Nuestra identidad está marcada por la educación no formal que consideramos fundamental en nuestra zona de actuación y la implantamos de manera dinámica y abierta con el fin de adaptarnos a las nuevas necesidades que nuestros beneficiarios presentan y que descubrimos a través de los estudios de la zona y la observación directa."
-            image={'activities'}
+            image={'asociation'}
             info={info}
           /> 
     );
