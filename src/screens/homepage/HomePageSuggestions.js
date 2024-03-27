@@ -62,7 +62,7 @@ function HomePageSuggestions() {
   return (
     <LayoutHomepage 
       title="Sugerencias"
-      image={'ong'}
+      image={'suggestions'}
       toastcontainer={true}
     >
       <form className='register-container'
