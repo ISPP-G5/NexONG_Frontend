@@ -798,6 +798,25 @@ tbody tr:nth-child(odd) {
   line-height: 30px;
 }
 
+/********************* HISTORY TEXT ******************/
+
+.history-container {
+  display: flex;
+  align-items: center;
+}
+
+.history-image {
+  margin-top: 2%;
+  margin-right: 0%;
+  margin-left: 7%;
+  margin-bottom: 2%;
+}
+.history-container div p {
+  color: #888;
+}
+
+
+
 
 
 
