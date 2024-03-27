@@ -815,12 +815,26 @@ tbody tr:nth-child(odd) {
   line-height: 30px;
 }
 
+/********************* HISTORY TEXT ******************/
 
+.history-container {
+  display: flex;
+  align-items: center;
+}
 
-
-
-
-
+.image-container {
+  margin-top: 2.5%;
+  margin-left: 0%;
+  width: 30%; 
+  margin-bottom: 2%;
+}
+.history-image {
+  margin-left: 30%;
+  width: 100%;
+}
+.history-container div p {
+  color: #888;
+}
 
 /********************* AGENDA ******************/
 .agenda-structure {
