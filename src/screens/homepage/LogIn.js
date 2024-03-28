@@ -42,17 +42,27 @@ function LogIn() {
                 password: password,
             });
             const { access: accessToken, refresh: refreshToken } = response.data;
-            // Save the tokens in local storage
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-
-            if (user.volunteer != null) {
+    
+            console.log('Logged in, access token:', accessToken);
+    
+            // Get all users
+            const usersResponse = await axios.get(`${API_ENDPOINT}user/`);
+            const users = usersResponse.data;
+    
+            // Find the user that matches the logged-in user's email
+            const user = users.find(user => user.email === email);
+    
+            console.log('User data:', user);
+    
+            if (user.role === 'VOLUNTARIO') {
                 navigate('/voluntario/agenda');
-            } else if (user.family != null) {
+            } else if (user.role === 'FAMILIA') {
                 navigate('/familia/perfil');
-            } else if (user.partner != null) {
+            } else if (user.role === 'SOCIO') {
                 navigate('/socio/calendario');
-            } else if (user.educator != null) {
+            } else if (user.role === 'EDUCADOR') {
                 navigate('/educador');
             } else {
                 navigate(`/admin/voluntarios`);
