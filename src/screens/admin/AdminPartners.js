@@ -22,37 +22,45 @@ const pantallas = [
 
 
 const AdminPartners = () => {
-  const [donations, setDonations] = useState([]);
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}donation/`)
-      .then(response => {
-        setDonations(response.data)
+    const token = localStorage.getItem('accessToken');
+    axios.get('http://127.0.0.1:8000/api/donation/', {
+      headers: {
+          'Authorization': `Bearer ${token}`
       }
-      );
+  })
+  .then(response => {
+      console.log(response.data);
+  })
+  .catch(error => {
+      console.error(error);
+  });
 
   }, []);
 
-  const handleDownload = () => {
-    window.location.href = 'http://localhost:8000/api/export/pdf/donations';
-  }
-  const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO");
+  const handleDownload = (format) => {
+    window.location.href = `http://localhost:8000/api/export/${format}/donations`;
+}
 
-  return (
+const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO");
+
+return (
     <div>
-      <ShowType
-        data={userPartners}
-        type="Socios"
-        pantallas={pantallas}
-      />
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '5%' }}>
-        <button className="button-create" onClick={handleDownload}>
-          <DownloadIcon />
-          Donaciones
-        </button>
-
-      </div>
+        <ShowType
+            data={userPartners}
+            type="Socios"
+            pantallas={pantallas}
+        />
+        <div style={{ position: 'absolute', top: '20%', right: 0, zIndex: 1000 }}>
+            <select className="button-download" onChange={(e) => handleDownload(e.target.value)}>
+                <option value=""> Formato a descargar</option>
+                <option value="pdf">PDF</option>
+                <option value="excel">Excel</option>
+                <option value="csv">CSV</option>
+            </select>
+        </div>
     </div>
-  );
+);
 
 }
 
