@@ -11,20 +11,21 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 
 function LogIn() {
+  
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [users, setUsers] = useState('');
+    const [user,setUser] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
         axios.get(`${API_ENDPOINT}user/`)
             .then(response => {
+                setUser(response.data)
                 console.log(response.data);
-                setUsers(response.data)
             }, error => {
                 console.error(error);
             }
@@ -33,28 +34,47 @@ function LogIn() {
 
     const navigate = useNavigate();
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
-        const user = users.find(user => user.email === email && user.password === password);
-
-        if (user) {
-            if (user.volunteer != null) {
+        try {
+            const response = await axios.post(`${API_ENDPOINT}auth/jwt/create/`, {
+                email: email,
+                password: password,
+            });
+            const { access: accessToken, refresh: refreshToken } = response.data;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+    
+            console.log('Logged in, access token:', accessToken);
+    
+            // Get all users
+            const usersResponse = await axios.get(`${API_ENDPOINT}user/`);
+            const users = usersResponse.data;
+    
+            // Find the user that matches the logged-in user's email
+            const user = users.find(user => user.email === email);
+    
+            console.log('User data:', user);
+    
+            if (user.role === 'VOLUNTARIO') {
                 navigate('/voluntario/agenda');
-            } else if (user.family != null) {
+            } else if (user.role === 'FAMILIA') {
                 navigate('/familia/perfil');
-            } else if (user.partner != null) {
+            } else if (user.role === 'SOCIO') {
                 navigate('/socio/calendario');
-            } else if (user.educator != null) {
+            } else if (user.role === 'EDUCADOR') {
                 navigate('/educador');
             } else {
                 navigate(`/admin/voluntarios`);
             }
+    
             localStorage.setItem('userId', user.id);
-        } else {
+    
+        } catch (error) {
+            console.error('Error during login:', error);
             toast.error('Contraseña o correo incorrecto');
         }
     };
-
     const marginTop = useAdjustMargin();
 
     return (
