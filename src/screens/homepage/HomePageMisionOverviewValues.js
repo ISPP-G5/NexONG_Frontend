@@ -124,6 +124,7 @@ function HomePageMisionOverviewValues() {
             title="MISIÓN, VISIÓN Y VALORES"
             image={'ong'}
             info={info}
+            columnwidth={500}
           />
     );
 }
