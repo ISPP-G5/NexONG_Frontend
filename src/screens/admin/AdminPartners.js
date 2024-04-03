@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import '../../styles/styles.css';
 import ShowType from '../../components/ShowAdminProfiles';
 import axios from 'axios';
-import DownloadIcon from '@mui/icons-material/Download';
 import { useFetchUsersByRole } from '../../components/useFetchData';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
@@ -24,7 +23,7 @@ const pantallas = [
 const AdminPartners = () => {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
-    axios.get('http://127.0.0.1:8000/api/donation/', {
+    axios.get(`${API_ENDPOINT}donation/`, {
       headers: {
           'Authorization': `Bearer ${token}`
       }
