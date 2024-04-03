@@ -57,7 +57,11 @@ function LogIn() {
             console.log('User data:', user);
     
             if (user.role === 'VOLUNTARIO') {
-                navigate('/voluntario/agenda');
+                if (user.volunteer === null) {
+                    navigate('/voluntario/formulario');
+                } else {
+                    navigate('/voluntario/agenda');
+                }
             } else if (user.role === 'FAMILIA') {
                 navigate('/familia/perfil');
             } else if (user.role === 'SOCIO') {
