@@ -150,6 +150,10 @@ function App() {
             {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
 
+            {/* FAMILIES ROUTES */}
+            <Route path="/familia/perfil" exact={true} element={<VolunteerProfile />} />
+
+
 
             </Routes>
     </Router>
