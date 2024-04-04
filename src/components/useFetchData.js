@@ -125,3 +125,75 @@ export function useFetchSuggestions(API_ENDPOINT) {
 
   return suggestions;
 }
+
+export function useFetchMyAuths(API_ENDPOINT, userId) {
+  const [auths, setAuths] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`);
+        if (userResponse.data) {
+          const newUser = {
+            familyId: userResponse.data.family,
+          };
+
+          const studentsResponse = await axios.get(`${API_ENDPOINT}student/`);
+          const myStudents = studentsResponse.data.filter(student => student.family === newUser.familyId);
+          
+
+          const studentIds = myStudents.map(student => student.id);
+
+          const authsResponse = await axios.get(`${API_ENDPOINT}center-exit/`);
+          const myAuths = authsResponse.data.filter(auth => studentIds.includes(auth.student));
+          
+          setAuths(myAuths);
+        } else {
+          console.error('No user found with the provided user ID.');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [API_ENDPOINT, userId]); // Dependencies remain the same
+
+  return auths;
+}
+
+export function useFetchNameStudent(API_ENDPOINT, userAuths) {
+  const[studentNames, setStudentNames] = useState([]);
+  useEffect(()=> {
+    axios
+    .get(`${API_ENDPOINT}student/`)
+    .then((response) => {
+      const mapaEstudiantes = new Map(response.data.map(s => [s.id, s.name+ " " + s.surname]));
+      const nombres = userAuths.map(auth => mapaEstudiantes.get(auth.student)).filter(name => name !== undefined);
+      setStudentNames(nombres);
+    })
+    .catch((error) => {
+      console.error('Error fetching student names:', error);
+    });
+  }, [API_ENDPOINT, userAuths]);
+
+  return studentNames;
+}
+
+export function useFetchNameEvent(API_ENDPOINT, userAuths) {
+  const[eventNames, setEventNames] = useState([]);
+  useEffect(()=> {
+    axios
+    .get(`${API_ENDPOINT}event/`)
+    .then((response) => {
+      const mapaEventos = new Map(response.data.map(e => [e.id, e.name]));
+      const nombres = userAuths.map(auth => mapaEventos.get(auth.lesson_event)).filter(name => name !== undefined);
+      setEventNames(nombres);
+    })
+    .catch((error) => {
+      console.error('Error fetching event names:', error);
+    });
+  }, [API_ENDPOINT, userAuths]);
+
+  return eventNames;
+}

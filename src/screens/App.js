@@ -62,6 +62,10 @@ import VolunteerForm from './volunteers/VolunteerForm';
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
 
+// FAMILIES
+import FamilyProfile from './family/FamilyProfile';
+import FamilyAuths from './family/FamilyAuths';
+
 
 function App() {
   return (
@@ -151,7 +155,8 @@ function App() {
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
 
             {/* FAMILIES ROUTES */}
-            <Route path="/familia/perfil" exact={true} element={<VolunteerProfile />} />
+            <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
+            <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
 
 
 
