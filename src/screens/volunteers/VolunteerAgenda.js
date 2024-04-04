@@ -59,6 +59,28 @@ const VolunteerAgenda = () => {
       .catch(error => {
         console.error(error);
       });
+      axios.get(`${API_ENDPOINT}lesson-event/`)
+      .then(response => {
+        const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
+        setActivities(filteredActivities.map(activity => ({
+          id: activity.id,
+          title: activity.name,
+          description: activity.description,
+          place: activity.place,
+          max_volunteers: activity.max_volunteers,
+          start: new Date(activity.start_date),
+          end: new Date(activity.end_date),          
+          lesson: activity.lesson,
+          price: activity.price,
+          educators: activity.educators,
+          attendees: activity.attendees,
+          volunteers: activity.volunteers,
+          url: activity.url
+        })));
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, [userId]);
 
   const handleRegister = () => {
@@ -67,6 +89,7 @@ const VolunteerAgenda = () => {
       toast.error('El voluntario actual no puede registrarse. Identificación de voluntario no disponible.');
       return;
     }
+    
     if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
       toast.error('Usted ya pertenece a este evento.');
       setShowRegisterForm(false);
