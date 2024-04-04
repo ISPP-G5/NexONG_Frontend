@@ -5,7 +5,7 @@ import HeaderProfiles from '../../components/HeaderProfiles';
 import useAdjustMargin from '../../components/useAdjustMargin';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -15,6 +15,8 @@ function VolunteerForm() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const navigate = useNavigate();
 
   const [address, setAddress] = useState('');
   const [postalCode, setPostalCode] = useState('');
@@ -63,25 +65,33 @@ function VolunteerForm() {
       toast.error('Invalid postal code. It must be exactly 5 digits.');
       return;
     }
-    const volunteerData = {
-      address: address,
-      postal_code: postalCode,
-      birthdate: birthdate,
-      academic_formation: academicFormation,
-      motivation: motivation,
-      scanned_id: scannedId,
-      minor_authorization: isUnder18 ? minorAuthorization : null,
-      scanned_authorizer_id: isUnder18 ? scannedAuthorizerId : null,
-      sexual_offenses_document: sexualOffensesDocument,
-      registry_sheet: registrySheet,
-      enrollment_document: enrollmentDocument,
-      start_date: startDate,
-    };
+    
+    const volunteerData = new FormData();
+    volunteerData.append('address', address);
+    volunteerData.append('postal_code', postalCode);
+    volunteerData.append('birthdate', birthdate);
+    volunteerData.append('academic_formation', academicFormation);
+    volunteerData.append('motivation', motivation);
+    volunteerData.append('scanned_id', scannedId);
+    if (isUnder18) {
+      volunteerData.append('minor_authorization', minorAuthorization);
+      volunteerData.append('scanned_authorizer_id', scannedAuthorizerId);
+    }
+    volunteerData.append('sexual_offenses_document', sexualOffensesDocument);
+    volunteerData.append('registry_sheet', registrySheet);
+    volunteerData.append('enrollment_document', enrollmentDocument);
+    volunteerData.append('start_date', startDate);
+
 
     try {
-      const response = await axios.post(`${API_ENDPOINT}volunteer/`, volunteerData);
+      const response = await axios.post(`${API_ENDPOINT}volunteer/`, volunteerData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       console.log(response.data);
       toast.success('Volunteer created successfully');
+      navigate('/voluntario/espera');
     } catch (error) {
       console.error('Error creating volunteer', error);
       toast.error('Error creating volunteer');

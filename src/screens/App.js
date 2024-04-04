@@ -57,6 +57,7 @@ import VolunteerProfileUpdate from './volunteers/VolunteerProfileUpdate';
 import VolunteerAgenda from './volunteers/VolunteerAgenda';
 import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
+import VolunteerWait from './volunteers/VolunteerWait';
 
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
@@ -143,6 +144,7 @@ function App() {
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
             <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />            
             <Route path="/voluntario/formulario" element={<VolunteerForm />} />
+            <Route path="/voluntario/espera" element={<VolunteerWait />} />
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
             <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
 

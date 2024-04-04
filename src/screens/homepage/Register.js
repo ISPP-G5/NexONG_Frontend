@@ -11,6 +11,7 @@ import  useAdjustMargin from '../../components/useAdjustMargin';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function Register() {
+
   const navigate = useNavigate();
   const[first_name,setFirst_name] = useState('');
   const[surname,setSurname] = useState('');
@@ -36,6 +37,8 @@ function Register() {
     }
     return result === 0;
 }
+  const [isRegistered, setIsRegistered] = useState(false);
+
 
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
@@ -67,60 +70,64 @@ function Register() {
         toast.error("Introduzca una contraseña")
     } else if (!constantTimeComparison(password, confirmPassword)){
         toast.error("Las contraseñas no coinciden")
-    }
-    const userData = new FormData();
-    userData.append('first_name', first_name);
-    userData.append('last_name', surname);
-    userData.append('email', email);
-    userData.append('id_number', idNumber);
-    userData.append('phone', phone);
-    userData.append('password', password);
-    userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
-    
-    try {
-      const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
-      userData,
-      {
-          headers:{
-              'Content-Type': 'multipart/form-data',
-          }
-      });
-      console.log(userUpdate);
+    } else {
+        const userData = new FormData();
+        userData.append('first_name', first_name);
+        userData.append('last_name', surname);
+        userData.append('email', email);
+        userData.append('id_number', idNumber);
+        userData.append('phone', phone);
+        userData.append('password', password);
+        userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
+        
+        try {
+          const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
+          userData,
+          {
+              headers:{
+                  'Content-Type': 'multipart/form-data',
+              }
+          });
+          console.log(userUpdate);
 
-      const { data } = userUpdate;
-      if (data.message){
-          toast.error(data.message);
-      } else {
-        if (isFamilyChecked) {
-          // Create a Familia object
-          const familiaData = new FormData();
-          familiaData.append('name', `Familia ${surname}`);
-          const familiaUpdate = await axios.post(`${API_ENDPOINT}family/`, familiaData, {
-            headers:{
-                'Content-Type': 'multipart/form-data',
-            }
-          });
-  
-          // Update the user with the id of the created Familia
-          const userFamiliaData = new FormData();
-          userFamiliaData.append('familia', familiaUpdate.data.id);
-          await axios.patch(`${API_ENDPOINT}auth/users/${data.id}/`, userFamiliaData, {
-            headers:{
-                'Content-Type': 'multipart/form-data',
-            }
-          });
-  
-          navigate('/familia/perfil');
-        } else if (isVolunteerChecked) {
-          navigate('/voluntario/formulario');
-        } else {
-          navigate('/registrarse');
+          const { data } = userUpdate;
+          if (data.message){
+              toast.error(data.message);
+          } else {
+            if (isFamilyChecked) {
+              // Create a Familia object
+              const familiaData = new FormData();
+              familiaData.append('name', `Familia ${surname}`);
+              const familiaUpdate = await axios.post(`${API_ENDPOINT}family/`, familiaData, {
+                headers:{
+                    'Content-Type': 'multipart/form-data',
+                }
+              });
+      
+              // Update the user with the id of the created Familia
+              const userFamiliaData = new FormData();
+              userFamiliaData.append('familia', familiaUpdate.data.id);
+              await axios.patch(`${API_ENDPOINT}auth/users/${data.id}/`, userFamiliaData, {
+                headers:{
+                    'Content-Type': 'multipart/form-data',
+                }
+              });
+            } 
+            setFirst_name('');
+            setSurname('');
+            setEmail('');
+            setIdNumber('');
+            setPhone('');
+            setPassword('');
+            setConfirmPassword('');
+            setIsFamilyChecked(false);
+            setIsVolunteerChecked(false);
+            setIsRegistered(true);
+            toast.success('Registro correcto. Revise su correo para activar cuenta')
+          }
+        } catch(error){
+          console.error('Error',error);
         }
-  
-        toast.success('Operación realizada correctamente')
-      }
-    } catch(error){
-      console.error('Error',error);
     }
   }  
 
