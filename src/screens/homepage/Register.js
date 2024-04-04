@@ -10,6 +10,12 @@ import  useAdjustMargin from '../../components/useAdjustMargin';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+const config = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+};
+
 function Register() {
 
   const navigate = useNavigate();
@@ -82,12 +88,7 @@ function Register() {
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
-          userData,
-          {
-              headers:{
-                  'Content-Type': 'multipart/form-data',
-              }
-          });
+          userData, config);
           console.log(userUpdate);
 
           const { data } = userUpdate;

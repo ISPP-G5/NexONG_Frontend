@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import HeaderProfiles from '../../components/HeaderProfiles';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const VolunteerWait = () => {
   const [status, setStatus] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -17,7 +17,7 @@ const VolunteerWait = () => {
 
       if (response.data.status === 'ACEPTADO') {
         clearInterval(interval);
-        history.push('/voluntario/perfil');
+        navigate('/voluntario/perfil');
       } else if (response.data.status === 'RECHAZADO') {
         clearInterval(interval);
         // Redirect to a different page if you want

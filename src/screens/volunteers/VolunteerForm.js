@@ -9,6 +9,21 @@ import { useNavigate } from 'react-router-dom';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const token = localStorage.getItem('accessToken');
+
+const config_volunteer = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+    'Authorization': `Bearer ${token}`,
+  }
+};
+
+const config_user = {
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`,
+  }
+};
 
 function VolunteerForm() {
 
@@ -43,19 +58,15 @@ function VolunteerForm() {
 
   const handleDescargar = (file) => {
     // Path to the PDF file
-    const fileUrl = `${process.env.PUBLIC_URL}/docs/${file}.pdf`; // Replace 'path_to_file.pdf' with the actual path to the file
+    const fileUrl = `${process.env.PUBLIC_URL}/docs/${file}.pdf`; 
   
     // Create a temporary link
     const downloadLink = document.createElement('a');
     downloadLink.href = fileUrl;
-    downloadLink.download = `${file}.pdf`; // You can change the file name as needed
+    downloadLink.download = `${file}.pdf`; 
   
     // Click the link to download the file
     downloadLink.click();
-  
-    toast.error("The file is empty because the API provides links instead of files", {
-      autoClose: 5000
-    });
   };
   
   const handleSubmit = async (e) => {
@@ -84,13 +95,19 @@ function VolunteerForm() {
 
 
     try {
-      const response = await axios.post(`${API_ENDPOINT}volunteer/`, volunteerData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post(`${API_ENDPOINT}volunteer/`, 
+      volunteerData, config_volunteer);
       console.log(response.data);
       toast.success('Volunteer created successfully');
+
+      // Get the user's ID 
+      const userId = localStorage.getItem('userId');
+
+      // Make a PATCH request to update the user's volunteer attribute
+      await axios.patch(`${API_ENDPOINT}user/${userId}/`, {
+        volunteer: response.data.id,
+      }, config_user);
+
       navigate('/voluntario/espera');
     } catch (error) {
       console.error('Error creating volunteer', error);
