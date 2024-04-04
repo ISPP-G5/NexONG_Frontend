@@ -29,7 +29,7 @@ function HomePageSuggestions() {
   const sendForm = async(e) => {
     e.preventDefault();
     if(!subject || subject === ''){
-      toast.error("Intdoduzca un asunto");
+      toast.error("Introduzca un asunto");
     }else if(!description || description === ''){
       toast.error("Intdoduzca su sugerencia")
     }else{
@@ -43,7 +43,9 @@ function HomePageSuggestions() {
         formData,
         {
           headers:{
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            'Authenticate': `Bearer ${localStorage.getItem('accessToken')}`,
+
           }
         });
         console.log(update);
@@ -51,6 +53,8 @@ function HomePageSuggestions() {
         if(data.message){
           toast.error(data.message);
         }else{
+          console.log('Operation was successful');
+
           toast.success('Sugerencia enviada con éxito')
         }
       }catch(error){
@@ -88,11 +92,11 @@ function HomePageSuggestions() {
         />
 
         <label>Sugerencia</label>
-        <input
+        <textarea
         value={description}
-        type='text'
         placeholder='¿Qué es lo que quiere decirnos?'
         onChange={(e) => setDescription(e.target.value)}
+        style={{ width: '80%',height:'300px' }}
         />
 
         <button type='submit' className='register-button'>

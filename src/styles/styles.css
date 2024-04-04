@@ -227,13 +227,40 @@ select{
   align-items: stretch;
 }
 
+@media (min-width: 1px) and (max-width: 768px) {
+  .header {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "logo"
+      "nav";
+    padding: 5px;
+    
+  }
+
+  .header-logo {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+  }
+
+  .header ul, .header-profiles ul {
+    justify-content: center;
+    margin-right: 0;
+  }
+
+  .header li a, .header-profiles li p {
+    font-size: 1rem;
+  }
+}
+
+
 
 
 /* PROFILES HEADER */
 
 .header-profiles {
   position: fixed;
-  height: 15%;
+  height: 12%;
   top: 0;
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr;
@@ -301,17 +328,11 @@ select{
 .header-profiles .dropdown:hover .dropdown-content {
   display: block;
 }
-
-@media (min-width: 1px) and (max-width: 768px) {
-  .header-profiles p {
-    font-size: 16px; 
-  }
-
-  .header-logo {
-    width: 60px; 
-    height: 60px;
-  }
+.header-logo {
+  width: 60px; 
+  height: 65px;
 }
+
 
 /* LOGOUT BUTTOM */
 .logout-button {
@@ -1493,7 +1514,26 @@ tbody tr:nth-child(odd) {
 
 
 /********************* ADMIN LESSONS ******************/
-
+.centered-message {
+  position: absolute;
+  top: 50%;
+  left: 85%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+}
+@media (min-width: 1px) and (max-width: 768px) {
+  .centered-message {
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+  }
+}
 
 .lessons-container {
   max-width: 85%;

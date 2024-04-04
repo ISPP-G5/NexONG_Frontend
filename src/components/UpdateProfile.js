@@ -78,10 +78,22 @@ const UpdateProfile = ({tipo}) => {
             if (data.message) {
                 window.alert(data.message);
             } else {
-                navigate(`/${tipo}/perfil`);
+                const toastId = toast.success("Datos actualizados con éxito.", { autoClose: 800 });
+                const checkToast = setInterval(() => {
+                    if (!toast.isActive(toastId)) { 
+                        clearInterval(checkToast); 
+                        navigate(`/${tipo}/perfil`); 
+                    }
+                }, 1000); 
             }
         } catch (error) {
-            toast.error("Datos no válidos.");
+            if (error.response.data.email) {
+                toast.error("Formato del correo incorrecto.");
+            } else if (error.response.data.phone) {
+                toast.error("Formato del telefono incorrecto");
+            } else {
+                toast.error("Datos no válidos.");
+            }
         }
     };
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
@@ -30,6 +29,8 @@ function AdminEducatorsAdd() {
   const [clave, setPassword] = useState("");
   const [fecha, setFecha] = useState("");
   const [correo, setCorreo] = useState("");
+  const phoneFormat = /^(?:(?:\+|00)34)?[6-9]\d{8}$/;
+  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   const createUser = async (e) => {
     e.preventDefault(); // Prevenir la recarga de la página
@@ -52,21 +53,34 @@ function AdminEducatorsAdd() {
       toast.error("Se debe de insertar una identificación")
     } else if (!telefono || telefono === '') {
       toast.error("Se debe de insertar un telefono")
-    } else if (!clave || clave === '') {
+    } else if (!phoneFormat.test(telefono)) {
+      toast.error("Formato de teléfono inválido", { autoClose: 5000 });
+    }
+    else if (!emailFormat.test(correo)) {
+      toast.error('Formato de correo inválido');
+      return;
+    }
+     else if (!clave || clave === '') {
       toast.error("Se debe de insertar una contraseña")
     } else {
+      try {
+        const usersResponse = await axios.get(`${API_ENDPOINT}user/`,{
+        
+        });
+        const users = usersResponse.data;
+        const existingUser = users.find(user => user.email === correo);
+        if (existingUser) {
+          toast.error("El correo electrónico ya está registrado", { autoClose: 5000 });
+          return;
+        }
+      } catch (error) {
+        toast.error("El correo introducido ya esta registrado", { autoClose: 5000 });
+        return;
+      }
       await axios.post(`${API_ENDPOINT}educator/`, {
         birthdate: fecha,
       }).catch(error => {
-        if (error.response && error.response.status === 400) {
-          toast.error("Error en la solicitud: Datos inválidos", {
-            autoClose: 5000
-          });
-        } else {
-          toast.error("Error en la solicitud", {
-            autoClose: 5000
-          });
-        }
+       
       });
     }
 
@@ -93,7 +107,7 @@ function AdminEducatorsAdd() {
           email: correo,
           educator: id,
           avatar: "https://avatars.githubusercontent.com/u/43956",
-        });
+        })
 
         if (update && update.data && update.data.message) {
           toast.error("Datos inválidos", { autoClose: 5000 });
@@ -101,11 +115,7 @@ function AdminEducatorsAdd() {
           toast.success("Usuario creado con éxito.", { autoClose: 5000 });
         }
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          toast.error("Datos inválidos", { autoClose: 5000 });
-        } else {
-          toast.error("Error en la solicitud", { autoClose: 5000 });
-        }
+       
       }
     }
 

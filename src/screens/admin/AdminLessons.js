@@ -100,7 +100,8 @@ const AdminLessons = () => {
       <ButtonCreate text='Crear clase' handleCreate={handleCreateClassClick} />
       <ToastContainer />
       <div className='lessons-container'>
-        {lessons.map((lesson, index) => (
+      {lessons.length > 0 ? (
+        lessons.map((lesson, index) => (
           <Box
             key={index}
             index={index}
@@ -109,7 +110,12 @@ const AdminLessons = () => {
             handleEditClick={handleEditClick}
             users={users}
           />
-        ))}
+        ))
+      ):(
+        <div className="centered-message">
+        <p>No hay ninguna clase creada</p>
+      </div>
+      )}
       </div>
       <Dialog open={lessonToDelete !== null} onClose={() => setLessonToDelete(null)}>
         <DialogTitle>¿Estás seguro que quieres borrar esta clase?</DialogTitle>
