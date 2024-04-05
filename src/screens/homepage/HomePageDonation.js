@@ -69,7 +69,7 @@ function HomePageDonation() {
                 if (data.message) {
                     toast.error(data.message);
                 } else {
-                    toast.success('Operación realizada correctamente. Se le enviará un justificante de pago. (TO DO)')
+                    toast.success('Operación realizada correctamente.')
                 }
             } catch (error) {
                 console.error('Error', error);
@@ -237,6 +237,10 @@ function HomePageDonation() {
 
                             <button type='submit' className='register-button'>
                                 Enviar
+                            </button>
+
+                            <button type='submit' className='register-button'>
+                                Pagar con tarjeta
                             </button>
 
                         </form>
