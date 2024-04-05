@@ -37,15 +37,15 @@ const AdminLessonsCreate = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
+  
     if (type === 'checkbox') {
       setLocalFormData({ ...localFormData, [name]: checked });
     } else if (name === 'educator') {
       setLocalFormData({ ...localFormData, [name]: value });
-    } else {
+    } else if (name === 'students') {
       setLocalFormData({ ...localFormData, [name]: value });
-    }
-
+    } 
+  
     console.log('Updated State:', localFormData);
   };
 
@@ -168,7 +168,7 @@ return (
     >
       {educators.map((educator) => (
         <MenuItem key={educator.id} value={educator.id}>
-          {users.find((user) => user.id === educator.id)?.name} 
+          {users.find((user) => user.id === educator.id)?.first_name + ' ' + users.find((user) => user.id === educator.id)?.last_name} 
 
         </MenuItem>
       ))}
@@ -192,7 +192,7 @@ return (
 
     <label>Fecha de inicio</label>
     <input
-      type="datetime-local"
+      type="date"
       name="start_date"
       value={localFormData.start_date}
       onChange={handleChange}
@@ -200,7 +200,7 @@ return (
 
     <label>Fecha de fin</label>
     <input
-      type="datetime-local"
+      type="date"
       name="end_date"
       value={localFormData.end_date}
       onChange={handleChange}
