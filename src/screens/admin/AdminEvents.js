@@ -286,44 +286,46 @@ function AdminEvents() {
 
 
           </div>
-          {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
-          {isNewEvent && (
-            <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
-              {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
-            </Button>
-          )}
+
         </>
       );
     };
     
 
     const renderTextFieldComponents = () => {
-      return (
-        <>
-          {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
-          {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({ ...localFormData, description: value }))}
-          {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
-          {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value}), 'number')}
-          {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
-          {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
-          {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
-          {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
-          {/* {renderTextFieldComponent('Recurrence Frequency', recurrenceFrequency, setRecurrenceFrequency)} */}
-          <MultiSelect
+      if (isNewEvent) {
+        return (
+          <>
+            {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({...localFormData, name: value }))}
+            {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({...localFormData, description: value }))}
+            {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({...localFormData, place: value }))}
+            {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({...localFormData, price: value}), 'number')}
+            {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({...localFormData, max_volunteers: value }), 'number')}
+            {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({...localFormData, max_attendees: value }), 'number')}
+            {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({...localFormData, start_date: value }), 'datetime-local')}
+            {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({...localFormData, end_date: value }), 'datetime-local')}
+          </>
+        );
+      } else {
+        return (
+          <>
+            {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({...localFormData, name: value }))}
+            {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({...localFormData, description: value }))}
+            {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({...localFormData, place: value }))}
+            {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({...localFormData, price: value}), 'number')}
+            {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({...localFormData, max_volunteers: value }), 'number')}
+            {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({...localFormData, max_attendees: value }), 'number')}
+            {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({...localFormData, start_date: value }), 'datetime-local')}
+            {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({...localFormData, end_date: value }), 'datetime-local')}
+            <MultiSelect
               label="Alumnos que asisten"
-            options={students}
-            value={localFormData.attendees}
-            onChange={(e) => setLocalFormData({ ...localFormData, attendees: e.target.value })}
-          />
-          {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
-
-          {isNewEvent && ( // Conditionally render the button for new events only
-        <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
-          {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
-        </Button>
-      )}
-        </>
-      );
+              options={students}
+              value={localFormData.attendees}
+              readOnly={true}
+            />
+          </>
+        );
+      }
     };
     
 
