@@ -42,7 +42,7 @@ const VolunteerAgenda = () => {
     axios.get(`${API_ENDPOINT}event/`)
       .then(response => {
         const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
-        setActivities(prevActivities => [...prevActivities, ...filteredActivities.map(activity => ({
+        setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...filteredActivities.map(activity => ({
           title: activity.name,
           start: new Date(activity.start_date),
           end: new Date(activity.end_date),
@@ -64,7 +64,7 @@ const VolunteerAgenda = () => {
     axios.get(`${API_ENDPOINT}lesson-event/`)
       .then(response => {
         const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
-        setActivities(prevActivities => [...prevActivities, ...filteredActivities.map(activity => ({
+        setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
           id: activity.id,
           title: activity.name,
           description: activity.description,
