@@ -1,7 +1,7 @@
 import '../../styles/styles.css';
 
-import ShowType from '../../components/ShowAuths';
-import  { useFetchMyAuths, useFetchNameStudent, useFetchNameLessonEvent } from '../../components/useFetchData'; 
+import ShowType from '../../components/ShowLessonEvents';
+import  { useFetchMyLessonEvents, useFetchMyKids } from '../../components/useFetchData'; 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
@@ -9,27 +9,25 @@ const pantallas = [
   {
     pantalla: 'Autorizaciones',
     link: '/familia/autorizaciones',
-    selected: true,
+    selected: false,
   },
   {
     pantalla: 'Pendientes',
     link: '/familia/autorizaciones/pendientes',
-    selected: false,
+    selected: true,
   },
 ];
 
 function FamilyAuths() {
   const userId = parseInt(localStorage.getItem('userId'));
-  const userAuths = useFetchMyAuths(API_ENDPOINT, userId);
-  const nomStudent= useFetchNameStudent(API_ENDPOINT, userAuths);
-  const nomEvent= useFetchNameLessonEvent(API_ENDPOINT, userAuths);
+  const userLesson_Events = useFetchMyLessonEvents(API_ENDPOINT, userId);
+  const myKids = useFetchMyKids(API_ENDPOINT, userId);
   return (
     <ShowType 
-      data={userAuths}
+      data={userLesson_Events}
+      kids={myKids}
       type="Auths" 
       pantallas={pantallas}
-      nomStudent = {nomStudent}
-      nomEvent = {nomEvent}
       request={false}
     />
     

@@ -65,6 +65,7 @@ import PartnersCalendar from './partners/PartnersCalendar';
 // FAMILIES
 import FamilyProfile from './family/FamilyProfile';
 import FamilyAuths from './family/FamilyAuths';
+import FamilyAuthsPending from './family/FamilyAuthsPending';
 
 
 function App() {
@@ -157,6 +158,7 @@ function App() {
             {/* FAMILIES ROUTES */}
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
+            <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
 
 
 

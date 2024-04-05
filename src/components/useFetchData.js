@@ -128,23 +128,35 @@ export function useFetchSuggestions(API_ENDPOINT) {
 
 export function useFetchMyAuths(API_ENDPOINT, userId) {
   const [auths, setAuths] = useState([]);
-
+  const token = localStorage.getItem('accessToken');
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`);
+        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+        });
         if (userResponse.data) {
           const newUser = {
             familyId: userResponse.data.family,
           };
 
-          const studentsResponse = await axios.get(`${API_ENDPOINT}student/`);
+          const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+          });
           const myStudents = studentsResponse.data.filter(student => student.family === newUser.familyId);
           
 
           const studentIds = myStudents.map(student => student.id);
 
-          const authsResponse = await axios.get(`${API_ENDPOINT}center-exit/`);
+          const authsResponse = await axios.get(`${API_ENDPOINT}center-exit/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+          });
           const myAuths = authsResponse.data.filter(auth => studentIds.includes(auth.student));
           
           setAuths(myAuths);
@@ -157,16 +169,22 @@ export function useFetchMyAuths(API_ENDPOINT, userId) {
     };
 
     fetchData();
-  }, [API_ENDPOINT, userId]); // Dependencies remain the same
+  }, [API_ENDPOINT, userId, token]);
 
   return auths;
 }
 
 export function useFetchNameStudent(API_ENDPOINT, userAuths) {
   const[studentNames, setStudentNames] = useState([]);
+  const token = localStorage.getItem('accessToken');
+
   useEffect(()=> {
     axios
-    .get(`${API_ENDPOINT}student/`)
+    .get(`${API_ENDPOINT}student/`, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+    })
     .then((response) => {
       const mapaEstudiantes = new Map(response.data.map(s => [s.id, s.name+ " " + s.surname]));
       const nombres = userAuths.map(auth => mapaEstudiantes.get(auth.student)).filter(name => name !== undefined);
@@ -175,16 +193,22 @@ export function useFetchNameStudent(API_ENDPOINT, userAuths) {
     .catch((error) => {
       console.error('Error fetching student names:', error);
     });
-  }, [API_ENDPOINT, userAuths]);
+  }, [API_ENDPOINT, userAuths, token]);
 
   return studentNames;
 }
 
-export function useFetchNameEvent(API_ENDPOINT, userAuths) {
+export function useFetchNameLessonEvent(API_ENDPOINT, userAuths) {
   const[eventNames, setEventNames] = useState([]);
+  const token = localStorage.getItem('accessToken');
+
   useEffect(()=> {
     axios
-    .get(`${API_ENDPOINT}event/`)
+    .get(`${API_ENDPOINT}lesson-event/`, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+    })
     .then((response) => {
       const mapaEventos = new Map(response.data.map(e => [e.id, e.name]));
       const nombres = userAuths.map(auth => mapaEventos.get(auth.lesson_event)).filter(name => name !== undefined);
@@ -193,7 +217,102 @@ export function useFetchNameEvent(API_ENDPOINT, userAuths) {
     .catch((error) => {
       console.error('Error fetching event names:', error);
     });
-  }, [API_ENDPOINT, userAuths]);
+  }, [API_ENDPOINT, userAuths, token]);
 
   return eventNames;
+}
+
+export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
+  const [myLessonEvents, setMyLessoEvents] = useState([]);
+  const token = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+        });
+        if (userResponse.data) {
+          const familyId = userResponse.data.family;
+
+          const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+          });
+          const myStudents = studentsResponse.data.filter(student => student.family === familyId);
+          
+          const studentIds = myStudents.map(student => student.id);
+
+          const lessonResponse = await axios.get(`${API_ENDPOINT}lesson/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+          });
+          
+          const myLessons = lessonResponse.data.filter(levent => studentIds.some(id => levent.students.includes(id)));
+
+          const myLessonIds = myLessons.map(lesson => lesson.id);
+
+          const lessonEventResponse = await axios.get(`${API_ENDPOINT}lesson-event/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+          });
+          console.log(lessonEventResponse)
+          const myLessonEvents = lessonEventResponse.data.filter(lessonEvent => myLessonIds.includes(lessonEvent.lesson));
+          
+          setMyLessoEvents(myLessonEvents);
+        } else {
+          console.error('No user found with the provided user ID.');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [API_ENDPOINT, userId, token]);
+
+  return myLessonEvents;
+}
+
+export function useFetchMyKids(API_ENDPOINT, userId) {
+  const [myKids, setMyKids] = useState([]);
+  const token = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+        });
+        if (userResponse.data) {
+          const familyId = userResponse.data.family;
+
+          const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+          });
+          const myStudents = studentsResponse.data.filter(student => student.family === familyId);
+          
+        
+          setMyKids(myStudents);
+        } else {
+          console.error('No user found with the provided user ID.');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [API_ENDPOINT, userId, token]);
+
+  return myKids;
 }
