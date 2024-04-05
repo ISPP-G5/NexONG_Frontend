@@ -41,8 +41,11 @@ function AdminEvents() {
     price: '',
     attendees: [],
     volunteers: [],
+    educators: [],
+    lesson: '',
     start_date: '',
     end_date: '',
+
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -231,28 +234,41 @@ function AdminEvents() {
           {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
           {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
           <div style={{ marginBottom: '1rem' }}>
-            <label style={labelStyle}>Lección</label>
-            <Select
-              value={localFormData.lessonId} // Assuming lessonId is the property to hold the selected lesson
-              onChange={(e) => setLocalFormData({ ...localFormData, lessonId: e.target.value })}
-              fullWidth
-            >
-              {lessons.map((lesson) => (
-                <MenuItem key={lesson.id} value={lesson.id}>
-                  {lesson.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
+          <label style={labelStyle}>Lección</label>
+          <Select
+          value={localFormData.lessonId || ''}
+          onChange={(e) => {
+            const selectedLessonId = e.target.value;
+            setLocalFormData({ ...localFormData, lessonId: selectedLessonId });
+          }}
+          fullWidth
+        >
+          {lessons.map((lesson) => (
+            <MenuItem key={lesson.id} value={lesson.id}>
+              {lesson.name}
+            </MenuItem>
+          ))}
+        </Select>
+
+        </div>
+
 
           <div style={{ marginBottom: '1rem' }}>
             <label style={labelStyle}>Educador</label>
             <Select
-          value={localFormData.educatorId} // Assuming educatorId is the property to hold the selected educator
-          onChange={(e) => setLocalFormData({ ...localFormData, educatorId: e.target.value })}
-          fullWidth
-        >
-          {educators.map((educator) => {
+  value={localFormData.educatorId || ''} // Ensure a default value is set
+  onChange={(e) => {
+    const selectedEducatorId = e.target.value;
+    const selectedEducator = educators.find(educator => educator.id === selectedEducatorId);
+    setLocalFormData({ ...localFormData, educatorId: selectedEducatorId });
+    setLocalFormData(prevState => ({ 
+      ...prevState, 
+      educators: selectedEducator ? [selectedEducator] : [] 
+    }));
+  }}
+  fullWidth
+>
+{educators.map((educator) => {
             // Find the user corresponding to the educatorId
             const user = users.find((user) => user.id === educator.id);
             // Display the educator's name if found
@@ -266,7 +282,8 @@ function AdminEvents() {
               return null; // Return null if user not found (handle this case as per your requirement)
             }
           })}
-        </Select>
+</Select>
+
 
           </div>
           {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
@@ -507,13 +524,22 @@ function AdminEvents() {
         })
         .catch(handleErrorResponse);
     };
+    
     const handleLessonEvent = () => {
-      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
-        toast.error('Por favor, rellene todos los campos.');
+      console.log('Educators:', localFormData.educators);
+      console.log('Lesson:', localFormData.lessonId);
+      
+      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price || !localFormData.educators || localFormData.educators.length === 0) {
+        toast.error('Por favor, rellene todos los campos y seleccione al menos un educador.');
         return;
       }
+    
       axios
-        .post(`${API_ENDPOINT}lesson-event/`, localFormData, config)
+        .post(`${API_ENDPOINT}lesson-event/`, { 
+          ...localFormData, 
+          lesson: localFormData.lessonId, // Include lesson ID
+          educators: localFormData.educators.map(educator => educator.id) // Include only the IDs of selected educators
+        }, config)
         .then((response) => {
           console.log('Response of post:', response.data);
           toast.success('Lesson-Event creado con éxito');
@@ -527,8 +553,8 @@ function AdminEvents() {
             max_attendees: localFormData.max_attendees,
             price: localFormData.price,
             volunteers: localFormData.volunteers,
-
-
+            lesson: localFormData.lessonId, // Include lesson ID
+            educators: localFormData.educators.map(educator => educator.id), // Include only the IDs of selected educators
             start: new Date(localFormData.start_date),
             end: new Date(localFormData.end_date),
           };
@@ -536,6 +562,7 @@ function AdminEvents() {
           setLessonEvents([...lessonEvents, newLessonEvent]);
           setOpenAddDialog(false);
         })
+        .catch(handleErrorResponse);
     };
     
 
@@ -763,9 +790,6 @@ function AdminEvents() {
           </DialogActions>
         </Dialog>
         <Dialog open={openAddLessonEventDialog} onClose={() => setOpenAddLessonEventDialog(false)}>
-        setIsLessonEvent(true);
-
-
           <DialogTitle>Añadir Actividad</DialogTitle>
           <DialogContent>{renderLessonEventTextFieldComponents()}</DialogContent>
           <DialogActions>
