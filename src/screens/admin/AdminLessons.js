@@ -61,7 +61,7 @@ const AdminLessons = () => {
           console.error('Error deleting lesson:', error);
         })
         .finally(() => {
-          setLessonToDelete(null); // Reset lessonToDelete state
+          setLessonToDelete(null); 
         });
     }
   };

@@ -13,6 +13,13 @@ import ButtonCreate from '../../components/ButtonCreate';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const token = localStorage.getItem('accessToken');
+
+const config = {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+};
 const labelStyle = {
   width: '80%',
   fontFamily: 'Helvetica',
@@ -106,7 +113,11 @@ function AdminEvents() {
     const [localFormData, setLocalFormData] = useState(initialFormData);
     const classes = useStyles();
     const [events, setEvents] = useState([]);
+    const [lessons, setLessons] = useState([]);
+    const [selectedEducatorId, setSelectedEducatorId] = useState('');
+    const [educators, setEducators] = useState([]);
     const [openAddDialog, setOpenAddDialog] = useState(false);
+    const [openAddLessonEventDialog, setOpenAddLessonEventDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openMeetingDialog, setMeetingDialog] = useState(false);
     const [editEvent, setEditEvent] = useState(null);
@@ -121,7 +132,22 @@ function AdminEvents() {
     const [eventToDelete, setEventToDelete] = useState(null);
     const allEvents = [...events, ...meetings];
     const [isNewEvent, setIsNewEvent] = useState(true); 
+    const [lessonEvents, setLessonEvents] = useState([]);
 
+
+    const [isLessonEvent, setIsLessonEvent] = useState(false);
+    const [openNewDialog, setOpenNewDialog] = useState(false);
+
+    const handleCreateClick = () => {
+      setOpenNewDialog(true);
+    };
+    const handleLessonEventCreate = () => {
+      // Open the lesson-event dialog here
+      setIsLessonEvent(true);
+      setOpenAddLessonEventDialog(true);
+      clearLocalFormData();
+    };
+    
 
 
     const clearLocalFormData = () => {
@@ -143,6 +169,7 @@ function AdminEvents() {
       setOpenAddDialog(true);
       clearLocalFormData();
     };
+    
     const [recurringEvent, setRecurringEvent] = useState(false);
     const [recurrenceFrequency, setRecurrenceFrequency] = useState('weekly'); // Default to weekly
     const [numOccurrences, setNumOccurrences] = useState(1);
@@ -192,6 +219,65 @@ function AdminEvents() {
         </>
       );
     };
+    const renderLessonEventTextFieldComponents = () => {
+      return (
+        <>
+          {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
+          {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({ ...localFormData, description: value }))}
+          {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
+          {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value}), 'number')}
+          {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
+          {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
+          {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
+          {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Lección</label>
+            <Select
+              value={localFormData.lessonId} // Assuming lessonId is the property to hold the selected lesson
+              onChange={(e) => setLocalFormData({ ...localFormData, lessonId: e.target.value })}
+              fullWidth
+            >
+              {lessons.map((lesson) => (
+                <MenuItem key={lesson.id} value={lesson.id}>
+                  {lesson.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Educador</label>
+            <Select
+          value={localFormData.educatorId} // Assuming educatorId is the property to hold the selected educator
+          onChange={(e) => setLocalFormData({ ...localFormData, educatorId: e.target.value })}
+          fullWidth
+        >
+          {educators.map((educator) => {
+            // Find the user corresponding to the educatorId
+            const user = users.find((user) => user.id === educator.id);
+            // Display the educator's name if found
+            if (user) {
+              return (
+                <MenuItem key={user.id} value={user.id}>
+                  {`${user.first_name} ${user.last_name}`}
+                </MenuItem>
+              );
+            } else {
+              return null; // Return null if user not found (handle this case as per your requirement)
+            }
+          })}
+        </Select>
+
+          </div>
+          {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
+          {isNewEvent && (
+            <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
+              {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
+            </Button>
+          )}
+        </>
+      );
+    };
     
 
     const renderTextFieldComponents = () => {
@@ -226,7 +312,7 @@ function AdminEvents() {
 
     useEffect(() => {
       axios
-        .get(`${API_ENDPOINT}event/`)
+        .get(`${API_ENDPOINT}event/`, config)
         .then((response) => {
           console.log('response event:', response.data);
           const formattedEvents = response.data.map((event) => ({
@@ -249,7 +335,7 @@ function AdminEvents() {
         });
 
       axios
-        .get(`${API_ENDPOINT}volunteer/`)
+        .get(`${API_ENDPOINT}volunteer/`, config)
         .then((response) => {
           console.log('response volunteers:', response.data);
           setVolunteers(response.data);
@@ -258,7 +344,7 @@ function AdminEvents() {
           console.error('Error fetching volunteers:', error);
         });
         axios
-        .get(`${API_ENDPOINT}meeting/`)
+        .get(`${API_ENDPOINT}meeting/`, config)
         .then((response) => {
           console.log('response asambleas:', response.data);
           const formattedMeetings = response.data.map((meeting) => ({
@@ -277,7 +363,7 @@ function AdminEvents() {
         });
 
       axios
-        .get(`${API_ENDPOINT}student/`)
+        .get(`${API_ENDPOINT}student/`, config)
         .then((response) => {
           console.log('response students:', response.data);
           setStudents(response.data);
@@ -285,9 +371,47 @@ function AdminEvents() {
         .catch((error) => {
           console.error('Error fetching students:', error);
         });
+      axios
+        .get(`${API_ENDPOINT}lesson/`, config)
+        .then((response) => {
+          setLessons(response.data);
+          console.log('response lessons:', response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching lessons:', error);
+        });
+        axios
+        .get(`${API_ENDPOINT}educator/`, config)
+        .then((response) => {
+          console.log('response educators:', response.data);
+          setEducators(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching educators:', error);
+        });
+      axios
+        .get(`${API_ENDPOINT}user/`, config)
+        .then((response) => {
+          console.log('response users:', response.data);
+          setUsers(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching users:', error);
+        });
+      
+      
+      axios
+        .get(`${API_ENDPOINT}lesson-event/`, config)
+        .then((response) => {
+          setLessonEvents(response.data);
+          console.log('response lesson-events:', response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching lesson-events:', error);
+        });
 
       axios
-        .get(`${API_ENDPOINT}user/`)
+        .get(`${API_ENDPOINT}user/`, )
         .then((response) => {
           console.log('response user:', response.data);
           setUsers(response.data);
@@ -346,7 +470,7 @@ function AdminEvents() {
     
         // Push each axios.post promise into the promises array
         promises.push(
-          axios.post(`${API_ENDPOINT}event/`, eventData)
+          axios.post(`${API_ENDPOINT}event/`, eventData, config)
         );
     
         // Move to the next occurrence
@@ -383,18 +507,50 @@ function AdminEvents() {
         })
         .catch(handleErrorResponse);
     };
+    const handleLessonEvent = () => {
+      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+        toast.error('Por favor, rellene todos los campos.');
+        return;
+      }
+      axios
+        .post(`${API_ENDPOINT}lesson-event/`, localFormData, config)
+        .then((response) => {
+          console.log('Response of post:', response.data);
+          toast.success('Lesson-Event creado con éxito');
+    
+          const newLessonEvent = {
+            id: response.data.id,
+            title: localFormData.name,
+            description: localFormData.description,
+            place: localFormData.place,
+            max_volunteers: localFormData.max_volunteers,
+            max_attendees: localFormData.max_attendees,
+            price: localFormData.price,
+            volunteers: localFormData.volunteers,
+
+
+            start: new Date(localFormData.start_date),
+            end: new Date(localFormData.end_date),
+          };
+    
+          setLessonEvents([...lessonEvents, newLessonEvent]);
+          setOpenAddDialog(false);
+        })
+    };
     
 
     const handleSubmit = () => {
       if (recurringEvent) {
         handleRecurringEvent();
+      } else if (isLessonEvent) {
+        handleLessonEvent();
       } else {
         if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
           toast.error('Por favor, rellene todos los campos.');
           return;
         }
         axios
-          .post(`${API_ENDPOINT}event/`, localFormData)
+          .post(`${API_ENDPOINT}event/`, localFormData, config)
           .then((response) => {
             console.log('Response of post:', response.data);
             toast.success('Evento creado con éxito');
@@ -558,7 +714,7 @@ function AdminEvents() {
     return (
       <LayoutProfiles profile='admin' selected='Eventos'>
       <ToastContainer />
-      <ButtonCreate text='Crear evento' handleCreate={handleEventCreate} />
+      <ButtonCreate text='Crear evento' handleCreate={handleCreateClick} />
 
         <div className={classes.calendarContainer}>
                 <Calendar
@@ -581,9 +737,36 @@ function AdminEvents() {
 
         </div>
 
+              <Dialog open={openNewDialog} onClose={() => setOpenNewDialog(false)}>
+        <DialogActions>
+          <Button onClick={handleEventCreate} color="primary">
+            Evento
+          </Button>
+          <Button onClick={handleLessonEventCreate} color="primary">
+            Lesson Event
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
         <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
           <DialogTitle>Añadir Evento</DialogTitle>
           <DialogContent>{renderTextFieldComponents()}</DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenAddDialog(false)} color="primary">
+              Volver
+            </Button>
+            <Button onClick={handleSubmit} color="primary">
+              Agregar
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={openAddLessonEventDialog} onClose={() => setOpenAddLessonEventDialog(false)}>
+        setIsLessonEvent(true);
+
+
+          <DialogTitle>Añadir Actividad</DialogTitle>
+          <DialogContent>{renderLessonEventTextFieldComponents()}</DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenAddDialog(false)} color="primary">
               Volver
