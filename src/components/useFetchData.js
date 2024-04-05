@@ -132,14 +132,8 @@ export function useFetchMyAuths(API_ENDPOINT, userId) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
-          headers: {
-              'Authorization': `Bearer ${token}`
-          }
-        });
-        if (userResponse.data) {
           const newUser = {
-            familyId: userResponse.data.family,
+            familyId: useFetchMyFamilyId(API_ENDPOINT, userId),
           };
 
           const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
@@ -160,9 +154,6 @@ export function useFetchMyAuths(API_ENDPOINT, userId) {
           const myAuths = authsResponse.data.filter(auth => studentIds.includes(auth.student));
           
           setAuths(myAuths);
-        } else {
-          console.error('No user found with the provided user ID.');
-        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -228,13 +219,7 @@ export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
-          headers: {
-              'Authorization': `Bearer ${token}`
-          }
-        });
-        if (userResponse.data) {
-          const familyId = userResponse.data.family;
+      try {const familyId =  useFetchMyFamilyId(API_ENDPOINT, userId);
 
           const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
             headers: {
@@ -277,9 +262,6 @@ export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
           });
           
           setMyLessoEvents(myLessonEvents);
-        } else {
-          console.error('No user found with the provided user ID.');
-        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -298,14 +280,7 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
-          headers: {
-              'Authorization': `Bearer ${token}`
-          }
-        });
-        if (userResponse.data) {
-          const familyId = userResponse.data.family;
-
+          const familyId =  useFetchMyFamilyId(API_ENDPOINT, userId);
           const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -315,6 +290,33 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
           
         
           setMyKids(myStudents);
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [API_ENDPOINT, userId, token]);
+
+  return myKids;
+}
+
+export function useFetchMyFamilyId(API_ENDPOINT, userId) {
+  const [myFamilyId, setMyFamilyId] = useState([]);
+  const token = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+        });
+        if (userResponse.data) {
+          const familyId = userResponse.data.family;
+          setMyFamilyId(familyId);
         } else {
           console.error('No user found with the provided user ID.');
         }
@@ -326,5 +328,5 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
     fetchData();
   }, [API_ENDPOINT, userId, token]);
 
-  return myKids;
+  return myFamilyId;
 }
