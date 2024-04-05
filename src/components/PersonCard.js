@@ -1,68 +1,87 @@
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const { saveAs } = require('file-saver');
+
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
+  const [volunteers, setVolunteer] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}volunteer/`)
+      .then((response) => {
+        setVolunteer(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching families:', error);
+      });
+  }, []);
+
 
   const handleDescargar = async(person) => {
-    // Download the enrollment_document
-    const documento = person.enrollment_document;
-    const nombreArchivo = 'documento_de_enlistamiento.pdf'; // Puedes cambiar el nombre del archivo según lo necesites
+    const v = volunteers.filter(v => v.id === person.volunteer);
+    const volunteer = v[0]
+    const descargarDocumento = (documento, nombreArchivo) => {
+        const enlaceDescarga = document.createElement('a');
+        enlaceDescarga.href = documento;
+        enlaceDescarga.download = nombreArchivo;
 
-    // Crear un objeto Blob a partir de los datos del documento
-    const blob = new Blob([documento], { type: 'application/pdf' });
+        // Simular un clic en el enlace para descargar el archivo
+        enlaceDescarga.click();
+    };
 
-    // Crear un enlace temporal
-    const enlaceDescarga = document.createElement('a');
-    enlaceDescarga.href = window.URL.createObjectURL(blob);
-    enlaceDescarga.download = nombreArchivo;
+    // Descargar cada documento
+    descargarDocumento(volunteer.enrollment_document, 'documento_de_enlistamiento.pdf');
 
-    // Hacer clic en el enlace para descargar el archivo
-    enlaceDescarga.click();
-    toast.error("Se descarga vacio porque la api pasa enlaces en vez de archivos", {
-      autoClose: 5000
-      });
-  };
-  
+    // Mostrar un mensaje de éxito
+    toast.success("Descarga existosa", {
+        autoClose: 5000
+    });
+}; 
+
+
+
   const handleAceptar = async (person) => {
     console.log(person)
     person.status = "ACEPTADO";
-    
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`,{
-        status: person.status        
+
+    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`, {
+      status: person.status
     });
-    console.log('update',update);
-    const {data} = update;
-    if (data.message){
-        toast.error("Error al actualizar", {
-          autoClose: 5000
-          });
-    }else{
-        toast.success("Usuario actualizado con éxito.", {
-          autoClose: 5000
-          })
+    console.log('update', update);
+    const { data } = update;
+    if (data.message) {
+      toast.error("Error al actualizar", {
+        autoClose: 5000
+      });
+    } else {
+      toast.success("Usuario actualizado con éxito.", {
+        autoClose: 5000
+      })
     }
     window.location.reload();
   }
-  
-  const handleRechazarOEliminar = async(person) =>{
-    if(!person.id || person.id <= 0){
-        toast.error('La id no es valida', {
-          autoClose: 5000
-          })
-    }else{
-      if(personType === 'Familias-solicitudes'){
+
+  const handleRechazarOEliminar = async (person) => {
+    if (!person.id || person.id <= 0) {
+      toast.error('La id no es valida', {
+        autoClose: 5000
+      })
+    } else {
+      if (personType === 'Familias-solicitudes') {
         await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
       }
       else {
         await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
       }
-        toast.success("Persona eliminada correctamente", {
-          autoClose: 5000
-          })
-        window.location.reload(); // Recarga la ventana después de eliminar
+      toast.success("Persona eliminada correctamente", {
+        autoClose: 5000
+      })
+      window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
 
@@ -74,11 +93,11 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           <p>{person.first_name}</p>
           <p><strong>{person.name}</strong></p>
           <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
-        </div> 
+        </div>
         :
         <div className='family-request'>
           <img src={person.avatar} alt='placeholder' />
-          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none' }}>
             {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
           </div>
@@ -102,7 +121,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       }
       {request &&
         <div className='buttons-requests'>
-          <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
+            <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
           <div className='buttons-acceptance'>
             <button className='button-accept' onClick={() => handleAceptar(person)}>Aceptar</button>
             <button className='button-decline' onClick={() => handleRechazarOEliminar(person)}>Rechazar</button>
