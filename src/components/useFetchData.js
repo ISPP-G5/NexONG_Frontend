@@ -110,10 +110,15 @@ export function useFetchStudentEvaluation(API_ENDPOINT) {
 
 export function useFetchSuggestions(API_ENDPOINT) {
   const[suggestions, setSuggestions] = useState([]);
+  const token = localStorage.getItem('accessToken');
 
   useEffect(()=> {
     axios
-    .get(`${API_ENDPOINT}suggestion/`)
+    .get(`${API_ENDPOINT}suggestion/`, {
+    headers: {
+      'Authorization': `Bearer ${token}`, 
+    }
+    })
     .then((response) => {
       console.log('suggestions:', response.data);
       setSuggestions(response.data);
@@ -123,5 +128,5 @@ export function useFetchSuggestions(API_ENDPOINT) {
     });
   }, [API_ENDPOINT]);
 
-  return suggestions;
+  return [suggestions,setSuggestions];
 }

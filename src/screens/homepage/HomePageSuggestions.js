@@ -17,6 +17,7 @@ function HomePageSuggestions() {
   const[subject,setSubject] = useState('');
   const[description,setDescription] = useState('');
   const[date,setDate] = useState('');
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const currentDate = new Date();
@@ -32,7 +33,10 @@ function HomePageSuggestions() {
       toast.error("Introduzca un asunto");
     }else if(!description || description === ''){
       toast.error("Intdoduzca su sugerencia")
-    }else{
+    }else if(description.length > 1000){
+      toast.error("La descripción puede contener hasta 255 carácteres")
+    }
+    else{
       const formData = new FormData();
       formData.append('email',email);
       formData.append('subject',subject);
@@ -42,11 +46,9 @@ function HomePageSuggestions() {
         const update = await axios.post(`${API_ENDPOINT}suggestion/`,
         formData,
         {
-          headers:{
-            'Content-Type': 'multipart/form-data',
-            'Authenticate': `Bearer ${localStorage.getItem('accessToken')}`,
-
-          }
+          headers: {
+            'Authorization': `Bearer ${token}`
+        }
         });
         console.log(update);
         const { data } = update;

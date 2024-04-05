@@ -29,8 +29,9 @@ function AdminEducatorsAdd() {
   const [clave, setPassword] = useState("");
   const [fecha, setFecha] = useState("");
   const [correo, setCorreo] = useState("");
-  const phoneFormat = /^(?:(?:\+|00)34)?[6-9]\d{8}$/;
-  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const letters = /^[A-Za-z]+$/;
+  const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
   const createUser = async (e) => {
     e.preventDefault(); // Prevenir la recarga de la página
@@ -56,8 +57,24 @@ function AdminEducatorsAdd() {
     } else if (!phoneFormat.test(telefono)) {
       toast.error("Formato de teléfono inválido", { autoClose: 5000 });
     }
+    else if (!identificacion.match(spanishIdFormat)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if (nombre.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (apellido.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
     else if (!emailFormat.test(correo)) {
       toast.error('Formato de correo inválido');
+      return;
+    }
+    else if (!nombre.match(letters) || !apellido.match(letters)) {
+      toast.error('Nombre y apellido no puede contener números');
       return;
     }
      else if (!clave || clave === '') {

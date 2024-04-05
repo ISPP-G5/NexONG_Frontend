@@ -21,6 +21,10 @@ function Register() {
   const[address,setAddress] = useState('');
   const[birthdate,setBirthdate] = useState('');
   const[phone,setPhone] = useState('');
+  const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
+  const letters = /^[A-Za-z\sáéíóúÁÉÍÓÚñÑ]+$/;
+  const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
  
 
@@ -68,12 +72,71 @@ function Register() {
           toast.error("Introduzca una fecha de nacimiento")
       } else if(!phone || phone === ''){
         toast.error("Introduzca número de telefono correcto")
+      }else if (!phoneFormat.test(phone)) {
+      toast.error("Formato de teléfono inválido", { autoClose: 5000 });
+    }
+    else if(!first_name.match(letters) || !surname.match(letters)) {
+      toast.error('Nombre y apellido no puede contener números');
+      return;
+    } 
+    
+    else if (!emailFormat.test(email)) {
+      toast.error('Formato de correo inválido');
+      return;
+    }
+    else if (!idNumber.match(spanishIdFormat)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if(!password || password === ''){
+        toast.error("Introduzca una contraseña")
+    }else if (!constantTimeComparison(password, confirmPassword)){
+        toast.error("Las contraseñas no coinciden")
+    }
+    else if (password.length < 8) {
+        toast.error('La contraseña debe tener 8 caracteres mínimo');
+        return;
+    }else if (!/\D/.test(password)) {
+      toast.error('La contraseña no puede ser solo números');
+      return;
+    }else if  (commonPasswords.includes(password)) {
+      toast.error('Contraseña demasiado común');
+      return;
+    }
+    else if (!idNumber.match(idNumber)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if (first_name.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (surname.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (address.length > 255) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+
+  
+    else{
+      try {
+        const usersResponse = await axios.get(`${API_ENDPOINT}user/`,{
+          
+        
+        });
+        const users = usersResponse.data;
+        const existingUser = users.find(user => user.email === email);
+        if (existingUser) {
+          toast.error("El correo electrónico ya está registrado", { autoClose: 5000 });
+          return;
+        }
+      } catch (error) {
+        toast.error("El correo introducido ya esta registrado", { autoClose: 5000 });
+        return;
       }
-      else if(!password || password === ''){
-          toast.error("Introduzca una contraseña")
-      }else if (!constantTimeComparison(password, confirmPassword)){
-          toast.error("Las contraseñas no coinciden")
-      }else{
           const partnerData = new FormData();
           partnerData.append('address',address);
           partnerData.append('birthdate',birthdate);
@@ -91,6 +154,8 @@ function Register() {
             {
                 headers:{
                     'Content-Type': 'multipart/form-data',
+                    
+                    
                 }
             });
             console.log(update);

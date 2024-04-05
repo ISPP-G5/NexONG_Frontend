@@ -15,6 +15,7 @@ const UpdateProfile = ({tipo}) => {
     const [avatar, setAvatar] = useState("");
 
     const [valoresList, setValores] = useState([]);
+    const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
     const navigate = useNavigate();
 
@@ -91,7 +92,12 @@ const UpdateProfile = ({tipo}) => {
                 toast.error("Formato del correo incorrecto.");
             } else if (error.response.data.phone) {
                 toast.error("Formato del telefono incorrecto");
-            } else {
+            }
+            else if (!id.match(spanishIdFormat)) {
+                toast.error('Formato de identificación inválido');
+                return;
+              }
+             else {
                 toast.error("Datos no válidos.");
             }
         }

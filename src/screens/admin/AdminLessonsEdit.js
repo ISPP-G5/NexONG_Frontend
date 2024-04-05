@@ -45,6 +45,14 @@ const AdminLessonsEdit = () => {
       toast.error('Por favor, rellene todos los campos.');
       return;
     }
+    else if (formData.name.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres del permitido');
+      return;
+    }
+    else if (formData.description.length > 1000) {
+      toast.error('Ha introducido mayor número de carácteres del permitido');
+      return;
+    }
   
     axios
       .put(`${API_ENDPOINT}lesson/${lessonId}/`, formData)

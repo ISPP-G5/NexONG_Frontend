@@ -239,18 +239,11 @@ select{
 
   .header-logo {
     width: 50px;
-    height: 50px;
+    height: 40px;
     margin: 0 auto;
   }
 
-  .header ul, .header-profiles ul {
-    justify-content: center;
-    margin-right: 0;
-  }
-
-  .header li a, .header-profiles li p {
-    font-size: 1rem;
-  }
+  
 }
 
 
@@ -283,26 +276,7 @@ select{
   text-align: center;
   margin-right: 3%;
 }
-/*
-.header-profiles a {
-  text-decoration: none;
-  color: black;
-  font-family: "Poppins", Helvetica;
-  font-size:  1.2rem;
-  padding: 10px;
-  display: block;
-  width: 20%;
-  margin-left: auto;
-  margin-right: 10%;
-  text-align: center;
-}
 
-.header-profiles a:hover {
-  cursor: pointer;
-  background: #cdf0fe;
-  color: black;
-}
-*/
 
 .header-profiles .dropdown {
   position: relative;
@@ -332,6 +306,32 @@ select{
   width: 60px; 
   height: 65px;
 }
+@media (min-width: 1px) and (max-width: 768px) {
+  .header-profiles {
+    position: fixed;
+    height: 12%;
+    top: 0;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #fcfdff;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+    z-index: 1000;
+  }
+
+  .header-logo {
+    width: 50px;
+    height: 40px;
+    margin: 0 auto;
+  }
+
+  
+}
+
 
 
 /* LOGOUT BUTTOM */
@@ -1186,12 +1186,17 @@ tbody tr:nth-child(odd) {
 /* CARD INFO ADMIN */
 
 .card-info-suggestion {
+  overflow: auto;
+  
+  word-wrap: break-word;
+  white-space: pre-wrap;
   background-color: #cdf0fe;
   border-radius: 25px;
   box-shadow: 0px 4px 4px #9ee5ff;
   padding: 3%;
   width: 80%;
   margin: 2%;
+  text-align: justify;
 }
 
 .card-info-suggestion table{
@@ -1367,11 +1372,14 @@ tbody tr:nth-child(odd) {
 
 }
 
-@media (min-width: 1px) and (max-width: 820px) {
+@media (min-width: 1px) and (max-width: 768px) {
 
   .card-info-suggestion{
-    max-width: 70%;
+    width: 70%;
     font-size: 12px;
+    align-items: right;
+    overflow: hidden;
+
   }
 
 }
@@ -1632,6 +1640,8 @@ tbody tr:nth-child(odd) {
   margin-right: 0;
   margin-bottom: 5%;
   align-self: center;
+  width: '100%';
+
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
