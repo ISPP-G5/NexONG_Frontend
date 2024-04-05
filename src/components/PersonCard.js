@@ -5,7 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-const { saveAs } = require('file-saver');
 
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
