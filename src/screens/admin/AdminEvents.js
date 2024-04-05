@@ -702,6 +702,7 @@ function AdminEvents() {
           volunteers: volunteersArray,
           start_date: startDate,
           end_date: endDate,
+
         });
         setOpenEditDialog(true);
 
