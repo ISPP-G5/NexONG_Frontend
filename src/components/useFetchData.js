@@ -262,7 +262,20 @@ export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
             }
           });
           console.log(lessonEventResponse)
-          const myLessonEvents = lessonEventResponse.data.filter(lessonEvent => myLessonIds.includes(lessonEvent.lesson));
+          const myLessonEvents = lessonEventResponse.data.filter(lessonEvent => {
+            const isInMyLessonIds = myLessonIds.includes(lessonEvent.lesson);
+            
+            const eventStartDate = new Date(lessonEvent.start_date);
+            const today = new Date();
+            console.log(today)
+            eventStartDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+          
+            // Verifica si enddate no es después de hoy
+            const isAfterOrToday = eventStartDate >= today;
+            
+            return isInMyLessonIds && isAfterOrToday;
+          });
           
           setMyLessoEvents(myLessonEvents);
         } else {
