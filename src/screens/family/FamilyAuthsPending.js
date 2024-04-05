@@ -19,7 +19,7 @@ const pantallas = [
 ];
 
 function FamilyAuths() {
-  const userId = parseInt(localStorage.getItem('userId'));
+  const userId = parseInt(localStorage.getItem('userId'), 10);
   const userLesson_Events = useFetchMyLessonEvents(API_ENDPOINT, userId);
   const myKids = useFetchMyKids(API_ENDPOINT, userId);
   return (

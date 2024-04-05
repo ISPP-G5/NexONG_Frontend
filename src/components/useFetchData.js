@@ -228,8 +228,7 @@ export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+      try {const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
           headers: {
               'Authorization': `Bearer ${token}`
           }

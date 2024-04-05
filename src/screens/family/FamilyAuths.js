@@ -19,7 +19,7 @@ const pantallas = [
 ];
 
 function FamilyAuths() {
-  const userId = parseInt(localStorage.getItem('userId'));
+  const userId = parseInt(localStorage.getItem('userId'), 10);
   const userAuths = useFetchMyAuths(API_ENDPOINT, userId);
   const nomStudent= useFetchNameStudent(API_ENDPOINT, userAuths);
   const nomEvent= useFetchNameLessonEvent(API_ENDPOINT, userAuths);
