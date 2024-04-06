@@ -1,7 +1,7 @@
 import '../../styles/styles.css';
 
 import ShowType from '../../components/ShowAuths';
-import  { useFetchMyAuths, useFetchNameStudent, useFetchNameLessonEvent, useFetchDateLessonEvent} from '../../components/useFetchData'; 
+import  { useFetchMyAuths, useFetchNameStudent, useFetchLessonEventDetails} from '../../components/useFetchData'; 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
@@ -22,8 +22,8 @@ function FamilyAuths() {
   const userId = parseInt(localStorage.getItem('userId'), 10);
   const userAuths = useFetchMyAuths(API_ENDPOINT, userId);
   const nomStudent= useFetchNameStudent(API_ENDPOINT, userAuths);
-  const nomEvent= useFetchNameLessonEvent(API_ENDPOINT, userAuths);
-  const dateEvent = useFetchDateLessonEvent(API_ENDPOINT, userAuths);
+  const { names: nomEvent, dates: dateEvent } = useFetchLessonEventDetails(API_ENDPOINT, userAuths);
+
   return (
     <ShowType 
       data={userAuths}

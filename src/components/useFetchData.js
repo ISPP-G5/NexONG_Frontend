@@ -183,52 +183,29 @@ export function useFetchNameStudent(API_ENDPOINT, userAuths) {
   return studentNames;
 }
 
-export function useFetchNameLessonEvent(API_ENDPOINT, userAuths) {
-  const[eventNames, setEventNames] = useState([]);
+export function useFetchLessonEventDetails(API_ENDPOINT, userAuths) {
+  const [eventDetails, setEventDetails] = useState({ names: [], dates: [] });
   const token = localStorage.getItem('accessToken');
 
-  useEffect(()=> {
-    axios
-    .get(`${API_ENDPOINT}lesson-event/`, {
+  useEffect(() => {
+    axios.get(`${API_ENDPOINT}lesson-event/`, {
       headers: {
-          'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
     })
     .then((response) => {
-      const mapaEventos = new Map(response.data.map(e => [e.id, e.name]));
-      const nombres = userAuths.map(auth => mapaEventos.get(auth.lesson_event)).filter(name => name !== undefined);
-      setEventNames(nombres);
+      const eventMap = new Map(response.data.map(e => [e.id, { name: e.name, start_date: e.start_date }]));
+      const names = userAuths.map(auth => eventMap.get(auth.lesson_event)?.name).filter(name => name !== undefined);
+      const dates = userAuths.map(auth => eventMap.get(auth.lesson_event)?.start_date).filter(start_date => start_date !== undefined);
+      
+      setEventDetails({ names, dates });
     })
     .catch((error) => {
-      console.error('Error fetching event names:', error);
+      console.error('Error fetching lesson event details:', error);
     });
   }, [API_ENDPOINT, userAuths, token]);
 
-  return eventNames;
-}
-
-export function useFetchDateLessonEvent(API_ENDPOINT, userAuths) {
-  const[eventDates, setEventDates] = useState([]);
-  const token = localStorage.getItem('accessToken');
-
-  useEffect(()=> {
-    axios
-    .get(`${API_ENDPOINT}lesson-event/`, {
-      headers: {
-          'Authorization': `Bearer ${token}`
-      }
-    })
-    .then((response) => {
-      const mapaEventos = new Map(response.data.map(e => [e.id, e.start_date]));
-      const fechasComienzo = userAuths.map(auth => mapaEventos.get(auth.lesson_event)).filter(start_date => start_date !== undefined);
-      setEventDates(fechasComienzo);
-    })
-    .catch((error) => {
-      console.error('Error fetching event names:', error);
-    });
-  }, [API_ENDPOINT, userAuths, token]);
-
-  return eventDates;
+  return eventDetails;
 }
 
 export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
