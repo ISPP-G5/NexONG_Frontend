@@ -5,6 +5,13 @@ import LayoutProfiles from '../../components/LayoutProfiles';
 import ActivityCard from '../../components/ActivityCard';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+const token = localStorage.getItem('accessToken');
+
+const config = {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+};
 
 
 function EducatorKidsActivities() {
@@ -16,7 +23,7 @@ function EducatorKidsActivities() {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}student/`)
+      .get(`${API_ENDPOINT}student/`,config)
       .then((response) => {
         console.log('students:', response.data);
         setKids(response.data);
@@ -25,7 +32,7 @@ function EducatorKidsActivities() {
         console.error('Error fetching students:', error);
       });
     axios
-      .get(`${API_ENDPOINT}lesson-event/`)
+      .get(`${API_ENDPOINT}lesson-event/`,config)
       .then((response) => {
         console.log('activities:', response.data);
         setActivities(response.data);
@@ -35,7 +42,7 @@ function EducatorKidsActivities() {
       });
 
     axios
-      .get(`${API_ENDPOINT}center-exit/`)
+      .get(`${API_ENDPOINT}center-exit/`,config)
       .then((response) => {
         console.log('response exits:', response.data);
         setExits(response.data);
