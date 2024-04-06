@@ -1,6 +1,6 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import google from '../../logo/google.svg'
@@ -14,8 +14,6 @@ function HomePageDonation() {
       }, []);
 
     const marginTop = useAdjustMargin();
-
-    const navigate = useNavigate();
 
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -156,7 +154,7 @@ function HomePageDonation() {
                 if (data.message){
                     toast.error(data.message);
                 }else{
-                    navigate('/socio/calendario')
+                    toast.success('Registro correcto. Revise su correo para activar cuenta');
                 }
             }catch(error){
                 console.error('Error',error);
