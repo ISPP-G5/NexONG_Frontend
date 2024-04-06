@@ -1575,6 +1575,38 @@ tbody tr:nth-child(odd) {
     font-size: 12px;
   }
 }
+/* CREATE BUTTON Download*/
+
+.button-download {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 10px;
+  height: auto;
+  width: 220px;
+  margin-bottom: 7%;
+  text-align: justify;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 3% 5%;
+  font-family: "Poppins", Helvetica;
+  border: 2px solid #b7ecff;
+}
+
+.button-download p {
+  font-size: 20px;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+  ..button-download{
+    width: 150px; 
+    margin-bottom: 5%;
+  }
+  ..button-download p {
+    font-size: 12px;
+  }
+}
 
 
 
