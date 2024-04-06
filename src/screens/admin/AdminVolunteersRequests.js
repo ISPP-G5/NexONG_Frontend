@@ -32,8 +32,9 @@ function AdminVolunteersRequests() {
       const acceptedVolunteers = userVolunteers.filter(userVolunteer => {
         const volunteerData = volunteers.find(volunteer => volunteer.id === userVolunteer.volunteer);
         if (volunteerData) {
+          console.log(volunteerData.id);
           return {
-            id: userVolunteer.id,
+            id: volunteerData.id,
             enrollment_document: volunteerData.enrollment_document,
             first_name: userVolunteer.first_name,
             last_name: userVolunteer.last_name

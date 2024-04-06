@@ -3,7 +3,7 @@ import '../styles/styles.css';
 import LogoutButton from './LogOutButton';
 import { Link } from 'react-router-dom';
 
-function HeaderProfiles({ profile, id, showProfile}) {
+function HeaderProfiles({ profile, id, showProfile = true}) {
 
     return (
         <div className='header-profiles'>

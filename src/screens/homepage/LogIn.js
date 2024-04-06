@@ -65,7 +65,14 @@ function LogIn() {
                     if (user.volunteer === null) {
                         navigate('/voluntario/formulario');
                     } else {
-                        navigate('/voluntario/agenda');
+                        const volunteer = await axios.get(`${API_ENDPOINT}volunteer/${user.volunteer}`);
+                        localStorage.setItem('volunteerId', user.volunteer);
+
+                        if (volunteer.status === 'ACEPTADO') {
+                            navigate('/voluntario/agenda');
+                        } else {
+                            navigate('/voluntario/espera');
+                        }
                     }
                 } else if (user.role === 'FAMILIA') {
                     navigate('/familia/perfil');

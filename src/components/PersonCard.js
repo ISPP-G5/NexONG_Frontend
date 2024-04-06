@@ -55,8 +55,10 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     }else{
       if(personType === 'Familias-solicitudes'){
         await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
-      }
-      else {
+      } else if(personType === 'Voluntarios'){
+        console.log(person.id);
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`);
+      } else {
         await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
       }
         toast.success("Persona eliminada correctamente", {
