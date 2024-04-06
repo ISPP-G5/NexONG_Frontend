@@ -30,7 +30,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     console.log(person)
     person.status = "ACEPTADO";
     
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`,{
+    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
         status: person.status        
     });
     console.log('update',update);
