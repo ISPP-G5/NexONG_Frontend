@@ -89,10 +89,15 @@ function HomePageDonation() {
     const[address,setAddress] = useState('');
     const[birthdate,setBirthdate] = useState('');
     const[enrollmentDoc,setEnrollmentDoc] = useState('');
+    const[isAgreed,setIsAgreed] = useState('');
 
     const handleEnrollmentDocChange = (e) => {
         const file = e.target.files[0]
         setEnrollmentDoc(file);
+    }
+
+    const handleIsAgreedChange = () => {
+        setIsAgreed(true);
     }
 
     function constantTimeComparison(str1, str2){
@@ -126,6 +131,8 @@ function HomePageDonation() {
             toast.error("Introduzca una contraseña")
         }else if (!constantTimeComparison(password, confirmPassword)){
             toast.error("Las contraseñas no coinciden")
+        }else if (!isAgreed){
+            toast.error("Para registrarse debe aceptar los términos y condiciones")
         }else{
             const partnerData = new FormData();
             partnerData.append('address',address);
@@ -141,6 +148,7 @@ function HomePageDonation() {
             recurringFormData.append('password',password);
             recurringFormData.append('role',"SOCIO");
             recurringFormData.append('partner',partnerId);
+            recurringFormData.append('is_agreed',isAgreed);
             try{
                 const update = await axios.post(`${API_ENDPOINT}auth/users/`,
                 recurringFormData,
@@ -317,6 +325,14 @@ function HomePageDonation() {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             />
 
+                            <div style={{ marginTop: '4%' }}>
+                            <input
+                                type="checkbox"
+                                name="acccept"
+                                onChange={handleIsAgreedChange}
+                            />
+                            <label>He leído y acepto los términos y condiciones</label>
+                            </div>
 
                             <button className='register-button'>
                                 Crear cuenta
