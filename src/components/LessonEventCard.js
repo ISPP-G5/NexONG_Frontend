@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
@@ -29,12 +29,12 @@ function LessonEventCard({ lessonEvent, kids }) {
   const handleFileUpload = async () => {
     const token = localStorage.getItem('accessToken');
     if (!selectedFile) {
-      alert("Por favor, selecciona un archivo para subir.");
+      toast.error("Por favor, selecciona un archivo para subir.");
       return;
     }
 
     if (!selectedStudentId) {
-      alert("Por favor, selecciona un estudiante antes de subir la autorización.");
+      toast.error("Por favor, selecciona un estudiante antes de subir la autorización.");
       return;
     }
     
@@ -52,10 +52,10 @@ function LessonEventCard({ lessonEvent, kids }) {
         },
       });
       console.log(response.data);
-      alert("Autorización subida con éxito");
+      toast.success("Autorización subida con éxito");
     } catch (error) {
       console.error("Error al subir el archivo:", error);
-      alert(error.response.data.non_field_errors[0]);
+      toast.error(error.response.data.non_field_errors[0]);
     }
   };
 
