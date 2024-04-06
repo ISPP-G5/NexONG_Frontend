@@ -1599,11 +1599,11 @@ tbody tr:nth-child(odd) {
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
-  ..button-download{
+  .button-download{
     width: 150px; 
     margin-bottom: 5%;
   }
-  ..button-download p {
+  .button-download p {
     font-size: 12px;
   }
 }
