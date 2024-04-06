@@ -48,7 +48,10 @@ function LogIn() {
             console.log('Logged in, access token:', accessToken);
     
             // Get all users
-            const usersResponse = await axios.get(`${API_ENDPOINT}user/`);
+            const usersResponse = await axios.get(`${API_ENDPOINT}user/`, {
+                headers: {
+                  'Authorization': `Bearer ${accessToken}`
+                }});
             const users = usersResponse.data;
     
             // Find the user that matches the logged-in user's email

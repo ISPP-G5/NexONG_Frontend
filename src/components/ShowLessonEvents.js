@@ -11,6 +11,7 @@ function ShowType({ data, type, pantallas, kids}) {
             profile={'familia'} 
             selected={type}
         >
+            <h3 className="subtitle-style">En esta sección se encuentran las actividades a las que puede apuntar a sus niños. <br />Si está interesado/a, adjunte un archivo de autorización, seleccione el niño que desea inscribir y confirme su asistencia. </h3>
             {pantallas && <Pantallas pantallas={pantallas} />}
             {data && data.map((lessonEvent, index)=> (
                 <LessonEventCard 

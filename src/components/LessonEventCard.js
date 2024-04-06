@@ -27,6 +27,11 @@ function LessonEventCard({ lessonEvent, kids }) {
       alert("Por favor, selecciona un archivo para subir.");
       return;
     }
+
+    if (!selectedStudentId) {
+      alert("Por favor, selecciona un estudiante antes de subir la autorización.");
+      return;
+    }
     
     const formData = new FormData();
     formData.append('authorization', selectedFile);
@@ -53,27 +58,41 @@ function LessonEventCard({ lessonEvent, kids }) {
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
       
-      <div className='auth-info'>
-        <p>{lessonEvent.name}</p>
-        <p><strong>{lessonEvent.description}</strong></p>
-        <input type="file" onChange={handleFileChange} />
-        <select value={selectedStudentId} onChange={handleStudentChange}>
+      <div className='lessonEvent-info'>
+      <p><strong>Nombre del evento:</strong></p>
+      <p>{lessonEvent.name}</p>
+      <p><strong>Descripción:</strong></p>
+      <p>{lessonEvent.description}</p>
+      <p><strong>Para registrar a un alumno:</strong></p>
+        <p>Añada el fichero de autorización (en PDF)</p>
+        <input type="file" id="file" onChange={handleFileChange} className="file-input" style={{display: 'none'}}
+      />
+      <label htmlFor="file" className="file-upload-button">
+        Selecciona un archivo
+      </label>
+      {selectedFile && <p className="file-input-label">{selectedFile.name}</p>}
+      {!selectedFile && <p className="file-input-label">{""}</p>}
+      <p>Escoja al alumno elegido</p>
+      <select value={selectedStudentId} onChange={handleStudentChange} className="select-style">
           <option value="">Selecciona un estudiante</option>
-          {kids.map(student => (
+          {kids.map((student) => (
             <option key={student.id} value={student.id}>
-              {student.name}
+              {student.name + " " + student.surname}
             </option>
           ))}
-        </select>
-        <div>
-          <input 
-            type="checkbox" 
-            checked={isAuthorized} 
-            onChange={handleCheckboxChange}
-          />
-          <label>Está autorizado a ir?</label>
-        </div>
-        <button onClick={handleFileUpload}>Subir Archivo</button>
+      </select>
+      <div className="checkbox-container">
+        <input 
+          type="checkbox"
+          id="authorizedCheckbox"
+          className="hidden-checkbox"
+          checked={isAuthorized}
+          onChange={handleCheckboxChange}
+        />
+        <label htmlFor="authorizedCheckbox" className="checkbox-label"></label>
+        <span>Confirmar asistencia</span>
+      </div>
+        <button className="button-create" onClick={handleFileUpload}>Mandar autorización</button>
       </div> 
     </div>
   );

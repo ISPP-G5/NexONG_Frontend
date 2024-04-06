@@ -7,12 +7,12 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
   {
-    pantalla: 'Autorizaciones',
+    pantalla: 'Autorizaciones hechas',
     link: '/familia/autorizaciones',
     selected: true,
   },
   {
-    pantalla: 'Pendientes',
+    pantalla: 'Eventos disponibles',
     link: '/familia/autorizaciones/pendientes',
     selected: false,
   },

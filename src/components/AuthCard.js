@@ -22,11 +22,14 @@ function AuthCard({ auth, nomStudent, nomEvent}) {
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
       
-        <div className='auth-info'>
+        <div className='lessonEvent-info'>
+        <p><strong>Nombre del estudiante:</strong></p>
           <p>{nomStudent}</p>
-          <p><strong>{nomEvent}</strong></p>
-          <button className='button-contrast' onClick={() => handleDescargar(auth)}>Autorizacion</button>
-          {auth.is_authorized ? <p>true</p> : <p>false</p>}
+          <p><strong>Nombre del evento:</strong></p>
+          <p>{nomEvent}</p>
+          <p><strong>Descarga la autorización:</strong></p>
+          <button className='button-contrast' onClick={() => handleDescargar(auth)}>Autorización (PDF)</button>
+          <p><strong>¿Ha confirmado su asistencia? {auth.is_authorized ? '✓' : '✗'}</strong></p>
         </div> 
       </div>
   );

@@ -7,12 +7,12 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
   {
-    pantalla: 'Autorizaciones',
+    pantalla: 'Autorizaciones hechas',
     link: '/familia/autorizaciones',
     selected: false,
   },
   {
-    pantalla: 'Pendientes',
+    pantalla: 'Eventos disponibles',
     link: '/familia/autorizaciones/pendientes',
     selected: true,
   },
@@ -23,6 +23,7 @@ function FamilyAuths() {
   const userLesson_Events = useFetchMyLessonEvents(API_ENDPOINT, userId);
   const myKids = useFetchMyKids(API_ENDPOINT, userId);
   return (
+    <>
     <ShowType 
       data={userLesson_Events}
       kids={myKids}
@@ -30,7 +31,7 @@ function FamilyAuths() {
       pantallas={pantallas}
       request={false}
     />
-    
+  </>
   );
 }
 
