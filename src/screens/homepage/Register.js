@@ -1,6 +1,6 @@
 import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
-import {Link,useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import google from '../../logo/google.svg';
 import LayoutHomepage from '../../components/LayoutHomepage';
 import { toast } from 'react-toastify';
@@ -18,7 +18,6 @@ const config = {
 
 function Register() {
 
-  const navigate = useNavigate();
   const[first_name,setFirst_name] = useState('');
   const[surname,setSurname] = useState('');
   const[email,setEmail] = useState('');
@@ -43,8 +42,6 @@ function Register() {
     }
     return result === 0;
 }
-  const [isRegistered, setIsRegistered] = useState(false);
-
 
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
@@ -123,7 +120,6 @@ function Register() {
             setConfirmPassword('');
             setIsFamilyChecked(false);
             setIsVolunteerChecked(false);
-            setIsRegistered(true);
             toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
         } catch(error){
