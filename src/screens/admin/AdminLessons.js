@@ -14,7 +14,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
-  const educator = users.find(user => user.id === lesson.educators);
+  const educator = users.find(user => user.id === lesson.educator); // Corrected 'educator' key
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
 
   const onDeleteClick = () => {
@@ -28,14 +28,16 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
         <p><strong>Inicio:</strong> {lesson.start_date} {lesson.start_time}</p>
         <p><strong>Fin:</strong> {lesson.end_date} {lesson.end_time}</p>
         <p><strong>Capacidad:</strong> {lesson.capacity}</p>
-        <p><strong>Educador Asociado:</strong> {educator ? educator.name : "No se encontró educador"}</p>
         <p><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</p>
         <p><strong>Clase de Mañana:</strong> {morningLessonText}</p>
+        <p><strong>Educador:</strong> {educator ? `${educator.first_name} ${educator.last_name}` : 'No asignado'}</p>
         <EditIcon className="edit-fill" onClick={() => handleEditClick(lesson.id)} />
         <DeleteIcon className="trash" onClick={onDeleteClick} />
     </div>
   );
 };
+
+
 
 const AdminLessons = () => {
   const [lessons, setLessons] = useState([]);

@@ -176,7 +176,7 @@ const AdminLessonsEdit = () => {
         >
           {educators.map((educator) => (
             <MenuItem key={educator.id} value={educator.id}>
-              {users.find((user) => user.id === educator.id)?.name}
+              {users.find((user) => user.id === educator.id)?.first_name + ' ' + users.find((user) => user.id === educator.id)?.last_name}
             </MenuItem>
           ))}
         </Select>
