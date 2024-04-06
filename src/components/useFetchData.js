@@ -129,31 +129,30 @@ export function useFetchSuggestions(API_ENDPOINT) {
 export function useFetchMyAuths(API_ENDPOINT, userId) {
   const [auths, setAuths] = useState([]);
   const token = localStorage.getItem('accessToken');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const newUser = {
-            familyId: useFetchMyFamilyId(API_ENDPOINT, userId),
-          };
-
+        const familyId = await fetchMyFamilyId(API_ENDPOINT, userId);
+        if (familyId !== null) {
           const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`
             }
           });
-          const myStudents = studentsResponse.data.filter(student => student.family === newUser.familyId);
+          const myStudents = studentsResponse.data.filter(student => student.family === familyId);
           
-
           const studentIds = myStudents.map(student => student.id);
 
           const authsResponse = await axios.get(`${API_ENDPOINT}center-exit/`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`
             }
           });
           const myAuths = authsResponse.data.filter(auth => studentIds.includes(auth.student));
           
           setAuths(myAuths);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -214,16 +213,17 @@ export function useFetchNameLessonEvent(API_ENDPOINT, userAuths) {
 }
 
 export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
-  const [myLessonEvents, setMyLessoEvents] = useState([]);
+  const [myLessonEvents, setMyLessonEvents] = useState([]);
   const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const fetchData = async () => {
-      try {const familyId =  useFetchMyFamilyId(API_ENDPOINT, userId);
-
+      try {
+        const familyId = await fetchMyFamilyId(API_ENDPOINT, userId);
+        if (familyId !== null) {
           const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`
             }
           });
           const myStudents = studentsResponse.data.filter(student => student.family === familyId);
@@ -232,7 +232,7 @@ export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
 
           const lessonResponse = await axios.get(`${API_ENDPOINT}lesson/`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`
             }
           });
           
@@ -242,26 +242,24 @@ export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
 
           const lessonEventResponse = await axios.get(`${API_ENDPOINT}lesson-event/`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`
             }
           });
-          console.log(lessonEventResponse)
-          const myLessonEvents = lessonEventResponse.data.filter(lessonEvent => {
+          const myLessonEventsFiltered = lessonEventResponse.data.filter(lessonEvent => {
             const isInMyLessonIds = myLessonIds.includes(lessonEvent.lesson);
             
             const eventStartDate = new Date(lessonEvent.start_date);
             const today = new Date();
-            console.log(today)
             eventStartDate.setHours(0, 0, 0, 0);
             today.setHours(0, 0, 0, 0);
           
-            // Verifica si enddate no es después de hoy
             const isAfterOrToday = eventStartDate >= today;
             
             return isInMyLessonIds && isAfterOrToday;
           });
           
-          setMyLessoEvents(myLessonEvents);
+          setMyLessonEvents(myLessonEventsFiltered);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -280,17 +278,16 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const familyId =  useFetchMyFamilyId(API_ENDPOINT, userId);
+        const familyId = await fetchMyFamilyId(API_ENDPOINT, userId);
+        if (familyId !== null) {
           const studentsResponse = await axios.get(`${API_ENDPOINT}student/`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`
             }
           });
           const myStudents = studentsResponse.data.filter(student => student.family === familyId);
-          
-        
           setMyKids(myStudents);
-        
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -302,31 +299,23 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
   return myKids;
 }
 
-export function useFetchMyFamilyId(API_ENDPOINT, userId) {
-  const [myFamilyId, setMyFamilyId] = useState([]);
+
+export async function fetchMyFamilyId(API_ENDPOINT, userId) {
   const token = localStorage.getItem('accessToken');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
-          headers: {
-              'Authorization': `Bearer ${token}`
-          }
-        });
-        if (userResponse.data) {
-          const familyId = userResponse.data.family;
-          setMyFamilyId(familyId);
-        } else {
-          console.error('No user found with the provided user ID.');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+  try {
+    const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
-    };
-
-    fetchData();
-  }, [API_ENDPOINT, userId, token]);
-
-  return myFamilyId;
+    });
+    if (userResponse.data) {
+      return userResponse.data.family; // Retornar directamente el familyId
+    } else {
+      console.error('No user found with the provided user ID.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
 }
