@@ -111,8 +111,13 @@ function VolunteerForm() {
 
       navigate('/voluntario/espera');
     } catch (error) {
-      console.error('Error creating volunteer', error);
-      toast.error('Error creating volunteer');
+      if (error.response && error.response.data) {
+        // If the error response and data exist, show the error message from the backend
+        toast.error(`Error creating volunteer: ${error.response.data}`);
+      } else {
+        // If the error response or data doesn't exist, show a generic error message
+        toast.error('Error creating volunteer');
+      }
     }
   };
   

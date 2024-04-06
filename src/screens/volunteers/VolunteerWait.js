@@ -24,9 +24,6 @@ const VolunteerWait = () => {
         } else if (response.data.status === 'RECHAZADO') {
             // Show a toast notification
             toast.error('Tu solicitud ha sido rechazada');
-
-            // Navigate to the homepage
-            navigate('/iniciar-sesion');
         }
         };
   
