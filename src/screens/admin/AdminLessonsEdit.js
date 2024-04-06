@@ -41,17 +41,21 @@ const AdminLessonsEdit = () => {
 
   const handleSubmit = (formData) => {
     // Validation
-    if (!formData.name || !formData.description || !formData.capacity || !formData.start_date || !formData.end_date) {
+    if (!Number.isInteger(formData.capacity) || formData.capacity <= 0) {
+      toast.error('La capacidad debe ser un número entero positivo.');
+      return;
+    }
+    if (!formData.name ||!formData.description ||!formData.capacity ||!formData.start_date ||!formData.end_date ||!formData.educator || formData.students.length === 0) {
       toast.error('Por favor, rellene todos los campos.');
       return;
     }
   
     axios
-      .put(`${API_ENDPOINT}lesson/${lessonId}/`, formData)
-      .then((response) => {
+     .put(`${API_ENDPOINT}lesson/${lessonId}/`, formData)
+     .then((response) => {
         toast.success('Clase actualizada exitosamente');
       })
-      .catch((error) => {
+     .catch((error) => {
         handleApiError(error, {
           detail: 'Ha ocurrido un error al actualizar la clase.',
           capacity: 'Error: el número de alumnos no debe superar a la capacidad.',
@@ -98,15 +102,34 @@ const AdminLessonsEdit = () => {
         console.error('Error fetching users:', error);
       });
   }, [lessonData]);
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
-    if (type === 'datetime-local') {
+  
+    if (type === 'date') {
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
+    } else if (name === 'educator') {
+      // For select inputs, no need to convert value to number
+      setFormData((prevData) => ({
+        ...prevData,
+        educator: value,
+      }));
+    } else if (name === 'students') {
+      // For select inputs, no need to convert value to number
+      setFormData((prevData) => ({
+        ...prevData,
+        students: value,
+      }));
+    } else if (name === 'capacity') {
+      // Ensure the capacity is a positive integer or empty string
+      if (value === '' || !isNaN(parseInt(value)) && parseInt(value) > 0) {
+        setFormData((prevData) => ({
+          ...prevData,
+          capacity: value === '' ? value : parseInt(value),
+        }));
+      }
     } else {
       setFormData((prevData) => ({
         ...prevData,
@@ -114,7 +137,6 @@ const AdminLessonsEdit = () => {
       }));
     }
   };
-  
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
