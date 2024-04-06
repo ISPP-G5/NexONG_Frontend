@@ -1,6 +1,6 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import google from '../../logo/google.svg'
@@ -15,6 +15,7 @@ function HomePageDonation() {
 
     const marginTop = useAdjustMargin();
 
+    const navigate = useNavigate();
 
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -51,8 +52,8 @@ function HomePageDonation() {
             toast.error("Adjunte un documento de pago")
         }else{
             const oneTimeFormData = new FormData();
-            oneTimeFormData.append('name',oneTimeName);
-            oneTimeFormData.append('surname',oneTimeSurname);
+            oneTimeFormData.append('first_name',oneTimeName);
+            oneTimeFormData.append('last_name',oneTimeSurname);
             oneTimeFormData.append('email',oneTimeEmail);
             oneTimeFormData.append('proof_of_payment_document',paymentDoc);
             oneTimeFormData.append('date',date);
@@ -135,15 +136,15 @@ function HomePageDonation() {
             const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData);
             const partnerId = partnerResponse.data.id;
             const recurringFormData = new FormData();
-            recurringFormData.append('name',recurringName);
-            recurringFormData.append('surname',recurringSurname);
+            recurringFormData.append('first_name',recurringName);
+            recurringFormData.append('last_name',recurringSurname);
             recurringFormData.append('email',recurringEmail);
             recurringFormData.append('id_number',idNumber);
             recurringFormData.append('password',password);
-            recurringFormData.append('role',"PARTNER");
+            recurringFormData.append('role',"SOCIO");
             recurringFormData.append('partner',partnerId);
             try{
-                const update = await axios.post(`${API_ENDPOINT}user/`,
+                const update = await axios.post(`${API_ENDPOINT}auth/users/`,
                 recurringFormData,
                 {
                     headers:{
@@ -155,7 +156,7 @@ function HomePageDonation() {
                 if (data.message){
                     toast.error(data.message);
                 }else{
-                    toast.success('Operación realizada correctamente. PLACEHOLDER: Enviar a página de donación')
+                    navigate('/socio/calendario')
                 }
             }catch(error){
                 console.error('Error',error);
