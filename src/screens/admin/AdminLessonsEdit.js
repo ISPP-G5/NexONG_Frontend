@@ -198,7 +198,7 @@ const AdminLessonsEdit = () => {
 
         <label>Fecha de inicio</label>
         <input
-          type="datetime-local"
+          type="date"
           name="start_date"
           value={formData.start_date}
           onChange={handleChange}
@@ -206,7 +206,7 @@ const AdminLessonsEdit = () => {
 
         <label>Fecha de fin</label>
         <input
-          type="datetime-local"
+          type="date"
           name="end_date"
           value={formData.end_date}
           onChange={handleChange}

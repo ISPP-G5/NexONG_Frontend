@@ -39,18 +39,32 @@ const AdminLessonsCreate = () => {
     const { name, value, type, checked } = e.target;
   
     if (type === 'checkbox') {
-      setLocalFormData({ ...localFormData, [name]: checked });
-    } else if (name === 'educator') {
-      setLocalFormData({ ...localFormData, [name]: value });
-    } else if (name === 'students') {
-      setLocalFormData({ ...localFormData, [name]: value });
-    } 
+      setLocalFormData({...localFormData, [name]: checked });
+    } else if (name === 'educator' || name === 'students') {
+      // For select inputs, no need to convert value to number
+      setLocalFormData({...localFormData, [name]: value });
+    } else if (name === 'capacity') {
+      // Ensure the capacity is a positive integer
+      const intValue = parseInt(value);
+      if (!isNaN(intValue) && intValue > 0) {
+        setLocalFormData({...localFormData, [name]: intValue });
+      } else {
+        setLocalFormData({...localFormData, [name]: '' }); // Reset to empty string if not a valid integer
+      }
+    } else {
+      setLocalFormData({...localFormData, [name]: value });
+    }
   
     console.log('Updated State:', localFormData);
   };
+  
 
   const handleSubmit = () => {
-    if (!localFormData.name || !localFormData.description || !localFormData.capacity || !localFormData.start_date || !localFormData.end_date) {
+    if (!Number.isInteger(localFormData.capacity) || localFormData.capacity <= 0) {
+      toast.error('La capacidad debe ser un número entero positivo.');
+      return;
+    }
+    if (!localFormData.name || !localFormData.description || !localFormData.capacity || !localFormData.start_date || !localFormData.end_date || !localFormData.educator || localFormData.students.length === 0) {
       toast.error('Por favor, rellene todos los campos.');
       return;
     }
@@ -71,7 +85,7 @@ const AdminLessonsCreate = () => {
           } else if (data && data.start_date) {
             toast.error('Error: la fecha de inicio no puede ser en el pasado.');
           } else if (data && data.end_date) {
-            toast.error('Error: la fecha de fin no puede ser anterior a la de inicio.');
+            toast.error('Error: la fecha de fin no puede ser anterior o igual a la de inicio.');
           } else if (data && data.students) {
             toast.error('Error: hay estudiantes que no pertenecen a este turno'); // Display students error
           } else {
@@ -123,11 +137,11 @@ return (
   <div className="register-container admin">
     <label>Nombre de la clase</label>
     <input
-      type="text"
-      placeholder="Ingrese el nombre"
-      name="name"
-      value={localFormData.name}
-      onChange={handleChange}
+  type="text"
+  placeholder="Ingrese el nombre"
+  name="name"
+  value={localFormData.name}
+  onChange={(e) => handleChange(e, 'name')}
     />
 
     <label>Descripción</label>
