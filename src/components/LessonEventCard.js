@@ -63,6 +63,10 @@ function LessonEventCard({ lessonEvent, kids }) {
       <p>{lessonEvent.name}</p>
       <p><strong>Descripción:</strong></p>
       <p>{lessonEvent.description}</p>
+      <p><strong>Fecha de comienzo:</strong></p>
+      <p>{lessonEvent.start_date}</p>
+      <p><strong>Fecha de fin:</strong></p>
+      <p>{lessonEvent.end_date}</p>
       <p><strong>Para registrar a un alumno:</strong></p>
         <p>Añada el fichero de autorización (en PDF)</p>
         <input type="file" id="file" onChange={handleFileChange} className="file-input" style={{display: 'none'}}

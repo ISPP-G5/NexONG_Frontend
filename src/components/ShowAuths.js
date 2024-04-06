@@ -5,7 +5,7 @@ import LayoutProfiles from './LayoutProfiles';
 import Pantallas from './Pantallas';
 
 
-function ShowType({ data, type, pantallas, nomStudent, nomEvent}) {
+function ShowType({ data, type, pantallas, nomStudent, nomEvent, dateEvent}) {
 
     return (
         <LayoutProfiles 
@@ -20,6 +20,7 @@ function ShowType({ data, type, pantallas, nomStudent, nomEvent}) {
                     auth={auth}
                     nomStudent={nomStudent[index]}
                     nomEvent={nomEvent[index]}
+                    dateEvent={dateEvent[index]}
                     />
             ))}
         </LayoutProfiles>

@@ -207,6 +207,30 @@ export function useFetchNameLessonEvent(API_ENDPOINT, userAuths) {
   return eventNames;
 }
 
+export function useFetchDateLessonEvent(API_ENDPOINT, userAuths) {
+  const[eventDates, setEventDates] = useState([]);
+  const token = localStorage.getItem('accessToken');
+
+  useEffect(()=> {
+    axios
+    .get(`${API_ENDPOINT}lesson-event/`, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+    })
+    .then((response) => {
+      const mapaEventos = new Map(response.data.map(e => [e.id, e.start_date]));
+      const fechasComienzo = userAuths.map(auth => mapaEventos.get(auth.lesson_event)).filter(start_date => start_date !== undefined);
+      setEventDates(fechasComienzo);
+    })
+    .catch((error) => {
+      console.error('Error fetching event names:', error);
+    });
+  }, [API_ENDPOINT, userAuths, token]);
+
+  return eventDates;
+}
+
 export function useFetchMyLessonEvents(API_ENDPOINT, userId) {
   const [myLessonEvents, setMyLessonEvents] = useState([]);
   const token = localStorage.getItem('accessToken');

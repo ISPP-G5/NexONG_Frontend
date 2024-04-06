@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function AuthCard({ auth, nomStudent, nomEvent}) {
+function AuthCard({ auth, nomStudent, nomEvent, dateEvent}) {
 
   const handleDescargar = (auth) => {
     const urlDocumento = auth.authorization;
@@ -27,6 +27,8 @@ function AuthCard({ auth, nomStudent, nomEvent}) {
           <p>{nomStudent}</p>
           <p><strong>Nombre del evento:</strong></p>
           <p>{nomEvent}</p>
+          <p><strong>Fecha del evento:</strong></p>
+          <p>{dateEvent}</p>
           <p><strong>Descarga la autorización:</strong></p>
           <button className='button-contrast' onClick={() => handleDescargar(auth)}>Autorización (PDF)</button>
           <p><strong>¿Ha confirmado su asistencia? {auth.is_authorized ? '✓' : '✗'}</strong></p>
