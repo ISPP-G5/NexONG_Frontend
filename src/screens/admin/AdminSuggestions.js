@@ -26,6 +26,16 @@ const AdminSuggestions = () => {
         // Handle error...
       }
     }
+         
+    const ConfirmToast = ({ closeToast, handleDelete, id }) => (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          ¿Esta seguro que quiere eliminar la sugerencia?
+          <div>
+            <button style={{marginRight:'10px'}} onClick={() => { handleDelete(id); closeToast(); }}>Yes</button>
+            <button onClick={closeToast}>No</button>
+          </div>
+        </div>
+      );
     
     return (
         <LayoutProfiles profile={'admin'} selected={'Sugerencas'}>
@@ -56,9 +66,18 @@ const AdminSuggestions = () => {
                         </tbody>
                     </table>
                     
-                    <DeleteIcon
-                      style={{ position: 'relative', top: '80%', left: '90%' }} 
-                      onClick={() => handleDelete(suggestion.id)} />
+                    <DeleteIcon 
+                    style={{ position: 'relative', top: '80%', left: '90%' }} 
+                    onClick={() => {
+                        toast(<ConfirmToast handleDelete={handleDelete} id={suggestion.id} />, {
+                            autoClose: false,
+                            closeOnClick: false,
+                            draggable: false,
+                            toastId: 'confirmDelete',
+                        });
+                    }}
+                    />
+                <ToastContainer />
 
                 </div>
             ))}
