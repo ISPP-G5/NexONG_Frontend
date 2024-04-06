@@ -171,32 +171,36 @@ function VolunteerForm() {
         />
 
         <label>Fotocopia de su DNI</label>
-        <input 
-          type='file' 
-          onChange={(e) => setScannedId(e.target.files[0])} 
-        />
+        <div className='register-container-files'>
+          <input 
+            type='file' 
+            onChange={(e) => setScannedId(e.target.files[0])} 
+          />
+        </div>
 
         {isUnder18 && (
           <>
             <label>Autorización del padre/madre/tutor/a</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <button className='button-contrast' style={{maxWidth: '10rem'}} onClick={() => handleDescargar('minor_authorization')}>Descargar</button>
+            <div className='register-container-files'>
+              <button className='button-contrast-files' onClick={() => handleDescargar('minor_authorization')}>Descargar</button>
               <input 
                 type='file' 
                 onChange={(e) => setMinorAuthorization(e.target.files[0])}  
               />
             </div>
             <label>Fotocopia de DNI del padre/madre/tutor/a</label>
-            <input 
-              type='file' 
-              onChange={(e) => setScannedAuthorizerId(e.target.files[0])} 
-            />
+            <div className='register-container-files'>
+              <input 
+                type='file' 
+                onChange={(e) => setScannedAuthorizerId(e.target.files[0])} 
+              />
+            </div>
           </>
         )}
         
         <label>Certificado de Antecedentes de Delitos Sexuales</label>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button className='button-contrast' style={{maxWidth: '30%'}} onClick={() => handleDescargar('sexual_offenses_document')}>¿Como solicitar el certificado?</button>
+        <div className='register-container-files'>
+          <button className='button-contrast-files' onClick={() => handleDescargar('sexual_offenses_document')}>¿Como solicitar el certificado?</button>
           <input 
             type='file' 
             onChange={(e) => setSexualOffensesDocument(e.target.files[0])} 
@@ -204,8 +208,8 @@ function VolunteerForm() {
         </div>
 
         <label>Ficha de registro</label>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button className='button-contrast' style={{maxWidth: '30%'}} onClick={() => handleDescargar('registry_sheet')}>Descargar</button>
+        <div className='register-container-files'>
+          <button className='button-contrast-files' onClick={() => handleDescargar('registry_sheet')}>Descargar</button>
           <input 
             type='file' 
             onChange={(e) => setRegistrySheet(e.target.files[0])} 
@@ -213,8 +217,8 @@ function VolunteerForm() {
         </div>
 
         <label>Contrato</label>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button className='button-contrast' style={{maxWidth: '30%'}} onClick={() => handleDescargar('enrollment_document')}>Descargar</button>
+        <div className='register-container-files'>
+          <button className='button-contrast-files' onClick={() => handleDescargar('enrollment_document')}>Descargar</button>
           <input 
             type='file' 
             onChange={(e) => setEnrollmentDocument(e.target.files[0])} 
