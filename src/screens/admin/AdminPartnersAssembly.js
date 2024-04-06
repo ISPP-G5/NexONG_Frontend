@@ -70,6 +70,7 @@ const Asamblea = () => {
       });
   }, []);
 
+  const meetingDate = new Date(fecha);
 
 
 
@@ -88,6 +89,10 @@ const Asamblea = () => {
     }else if (!titulo.match(letters) )  {
       toast.error('La descripción no puede contener números');
 
+    }
+    else if (meetingDate < new Date()) {
+      toast.error('No se puede crear una reunión en el pasado.');
+      return;
     }
     else if (titulo.length > 75) {
       toast.error('Ha introducido mayor número de carácteres que el permitido');
@@ -141,12 +146,13 @@ const Asamblea = () => {
       ></input>
 
       <label>Descripción</label>
-      <input
+      <textarea
         value={descripcion}
         type='text'
         placeholder='Escriba aquí'
         onChange={(e) => setDescripcion(e.target.value)}
-      ></input>
+s
+      ></textarea>
 
       <label>Fecha</label>
       <input

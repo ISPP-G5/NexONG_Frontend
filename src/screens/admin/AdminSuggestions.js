@@ -57,7 +57,7 @@ const AdminSuggestions = () => {
                     </table>
                     
                     <DeleteIcon
-                      style={{ position: 'relative', top: '80%', left: '100%' }} 
+                      style={{ position: 'relative', top: '80%', left: '90%' }} 
                       onClick={() => handleDelete(suggestion.id)} />
 
                 </div>

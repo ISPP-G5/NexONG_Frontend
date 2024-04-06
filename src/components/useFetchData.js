@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
+ const token = localStorage.getItem('accessToken');
 export default function useFetchData(API_ENDPOINT, status) {
   const [data, setData] = useState([]);
 
@@ -110,7 +110,7 @@ export function useFetchStudentEvaluation(API_ENDPOINT) {
 
 export function useFetchSuggestions(API_ENDPOINT) {
   const[suggestions, setSuggestions] = useState([]);
-  const token = localStorage.getItem('accessToken');
+ 
 
   useEffect(()=> {
     axios
