@@ -50,7 +50,7 @@ return (
             type="Socios"
             pantallas={pantallas}
         />
-        <div style={{ position: 'absolute', top: '20%', right: 0, zIndex: 1000 }}>
+        <div style={{ position: 'absolute', top: '20%', right: 0, zIndex: 900 }}>
             <select className="button-download" onChange={(e) => handleDownload(e.target.value)}>
                 <option value=""> Formato a descargar</option>
                 <option value="pdf">PDF</option>
