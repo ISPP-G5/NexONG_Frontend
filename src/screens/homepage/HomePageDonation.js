@@ -157,6 +157,12 @@ function HomePageDonation() {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
+
+                const { access: accessToken, refresh: refreshToken } = update.data;
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+                console.log('Registered, access token:', accessToken);
+
                 console.log(update);
                 const { data } = update;
                 if (data.message){
