@@ -4,6 +4,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 function LessonEventCard({ lessonEvent, kids }) {
+  
+  const dateStartObj = new Date(lessonEvent.start_date);
+  const formattedDateStart = dateStartObj.toLocaleDateString('es-ES') + ' ' + dateStartObj.toLocaleTimeString('es-ES');
+  const dateEndObj = new Date(lessonEvent.end_date);
+  const formattedDateEnd = dateEndObj.toLocaleDateString('es-ES') + ' ' + dateEndObj.toLocaleTimeString('es-ES');
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedStudentId, setSelectedStudentId] = useState('');
   const [isAuthorized, setIsAuthorized] = useState(false); 
@@ -64,9 +69,9 @@ function LessonEventCard({ lessonEvent, kids }) {
       <p><strong>Descripción:</strong></p>
       <p>{lessonEvent.description}</p>
       <p><strong>Fecha de comienzo:</strong></p>
-      <p>{lessonEvent.start_date}</p>
+      <p>{formattedDateStart}</p>
       <p><strong>Fecha de fin:</strong></p>
-      <p>{lessonEvent.end_date}</p>
+      <p>{formattedDateEnd}</p>
       <p><strong>Para registrar a un alumno:</strong></p>
         <p>Añada el fichero de autorización (en PDF)</p>
         <input type="file" id="file" onChange={handleFileChange} className="file-input" style={{display: 'none'}}
