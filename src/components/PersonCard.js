@@ -30,7 +30,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     console.log(person)
     person.status = "ACEPTADO";
     
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`,{
+    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
         status: person.status        
     });
     console.log('update',update);
@@ -47,7 +47,28 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     window.location.reload();
   }
   
-  const handleRechazarOEliminar = async(person) =>{
+  const handleRechazar = async(person) =>{
+    console.log(person)
+    person.status = "RECHAZADO";
+    
+    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
+        status: person.status        
+    });
+    console.log('update',update);
+    const {data} = update;
+    if (data.message){
+        toast.error("Error al actualizar", {
+          autoClose: 5000
+          });
+    }else{
+        toast.success("Usuario actualizado con éxito.", {
+          autoClose: 5000
+          })
+    }
+    window.location.reload();
+  }
+
+  const handleEliminar = async(person) =>{
     if(!person.id || person.id <= 0){
         toast.error('La id no es valida', {
           autoClose: 5000
@@ -55,8 +76,10 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     }else{
       if(personType === 'Familias-solicitudes'){
         await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
-      }
-      else {
+      } else if(personType === 'Voluntarios'){
+        console.log(person.id);
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`);
+      } else {
         await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
       }
         toast.success("Persona eliminada correctamente", {
@@ -105,11 +128,11 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
           <div className='buttons-acceptance'>
             <button className='button-accept' onClick={() => handleAceptar(person)}>Aceptar</button>
-            <button className='button-decline' onClick={() => handleRechazarOEliminar(person)}>Rechazar</button>
+            <button className='button-decline' onClick={() => handleRechazar(person)}>Rechazar</button>
           </div>
         </div>
       }
-      {trash && <DeleteIcon className='trash' onClick={() => handleRechazarOEliminar(person)} />}
+      {trash && <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />}
     </div>
   );
 }

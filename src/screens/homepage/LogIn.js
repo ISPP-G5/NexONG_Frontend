@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Button } from '@material-ui/core';
 import Header from '../../components/Header';
 import { Print } from '@material-ui/icons';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 axios.defaults.withCredentials = true;
@@ -20,19 +21,37 @@ function LogIn() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        getUserData().then(response => {
+        getUserData().then(async response => {
             if (response !== null) {
                 const user = response.data
-                if (user.role === 'VOLUNTARIO') {
-                    navigate('/voluntario/agenda');
-                } else if (user.role === 'FAMILIA') {
-                    navigate('/familia/perfil');
-                } else if (user.role === 'SOCIO') {
-                    navigate('/socio/calendario');
-                } else if (user.role === 'EDUCADOR') {
-                    navigate('/educador');
+                // Check if the user is enabled
+                if (!user.is_enabled) {
+                    toast.error('Revise el correo y active la cuenta');
                 } else {
-                    navigate(`/admin/voluntarios`);
+                    if (user.role === 'VOLUNTARIO') {
+                        if (user.volunteer === null) {
+                            navigate('/voluntario/formulario');
+                        } else {
+                            const volunteer = await axios.get(`${API_ENDPOINT}volunteer/${user.volunteer}`);
+                            localStorage.setItem('volunteerId', user.volunteer);
+
+                            if (volunteer.status === 'ACEPTADO') {
+                                navigate('/voluntario/agenda');
+                            } else {
+                                navigate('/voluntario/espera');
+                            }
+                        }
+                    } else if (user.role === 'FAMILIA') {
+                        navigate('/familia/perfil');
+                    } else if (user.role === 'SOCIO') {
+                        navigate('/socio/calendario');
+                    } else if (user.role === 'EDUCADOR') {
+                        navigate('/educador');
+                    } else {
+                        navigate(`/admin/voluntarios`);
+                    }
+            
+                    localStorage.setItem('userId', user.id);
                 }    
             }    
         });
@@ -116,7 +135,7 @@ function LogIn() {
             const { access: accessToken, refresh: refreshToken } = response.data;
     
             manageLogin(accessToken, refreshToken);
-
+            
         } catch (error) {
             console.error('Error during login:', error);
             toast.error('Contraseña o correo incorrecto');
