@@ -113,6 +113,14 @@ function HomePageDonation() {
         downloadLink.click();
       };
 
+    const calculateAge = (birthdate) => {
+        const birthDate = new Date(birthdate);
+        const today = new Date();
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        return m < 0 || (m === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+    };
+
     function constantTimeComparison(str1, str2){
         if (str1.length !== str2.length){
             return false;
@@ -140,6 +148,8 @@ function HomePageDonation() {
             toast.error("Adjunte un documento de inscripción")
         }else if(!birthdate || birthdate === ''){
             toast.error("Introduzca una fecha de nacimiento")
+        }else if(calculateAge(birthdate) < 18){
+            toast.error("Debe ser mayor de edad para ser socio")
         }else if(!password || password === ''){
             toast.error("Introduzca una contraseña")
         }else if (!constantTimeComparison(password, confirmPassword)){
