@@ -72,11 +72,54 @@ function VolunteerForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!/^\d{5}$/.test(postalCode)) {
-      toast.error('Invalid postal code. It must be exactly 5 digits.');
+    if (!address) {
+      toast.error('Dirección es obligatorio');
       return;
     }
-    
+    if (!/^\d{5}$/.test(postalCode)) {
+      toast.error('Código postal invalido, deben ser 5 digitos');
+      return;
+    }
+    if (!birthdate) {
+      toast.error('Fecha de nacimiento es obligatorio');
+      return;
+    }
+    if (!academicFormation) {
+      toast.error('Formación academica es obligatorio');
+      return;
+    }
+    if (!motivation) {
+      toast.error('Motivación es obligatorio');
+      return;
+    }
+    if (!scannedId) {
+      toast.error('Fotocopia del DNI es obligatorio');
+      return;
+    }
+    if (isUnder18) {
+      if (!minorAuthorization) {
+        toast.error('Autorización del padre/madre/tutor/a es obligatorio');
+        return;
+      }
+  
+      if (!scannedAuthorizerId) {
+        toast.error('Fotocopia de DNI del padre/madre/tutor/a es obligatorio');
+        return;
+      }
+    }
+  if (!sexualOffensesDocument) {
+    toast.error('Certificado de Antecedentes de Delitos Sexuales es obligatorio');
+    return;
+  }
+  if (!registrySheet) {
+    toast.error('Ficha de registro es obligatorio');
+    return;
+  }
+  if (!enrollmentDocument) {
+    toast.error('Contrato es obligatorio');
+    return;
+  }
+
     const volunteerData = new FormData();
     volunteerData.append('address', address);
     volunteerData.append('postal_code', postalCode);

@@ -40,7 +40,7 @@ const VolunteerWait = () => {
         <div className='App'>
             <HeaderProfiles profile={'voluntario'} showProfile={false} />
             <h1 style={{marginTop: '10rem'}}>Estamos revisando su solicitud</h1>
-            <h4>Status: {status}</h4>
+            <h4>Estado: {status}</h4>
         </div>
     );
 };
