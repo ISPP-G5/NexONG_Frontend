@@ -15,31 +15,14 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 axios.defaults.withCredentials = true;
 
 function LogIn() {
-    // const userData = {
-    //     education_center: null,
-    //     educator: null,
-    //     email: "",
-    //     family: null,
-    //     first_name: "",
-    //     id_number: null,
-    //     last_name: "",
-    //     partner: null,
-    //     phone: null,
-    //     role: "",
-    //     volunteer: null
-    // };
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [user, setUser] = useState(userData);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        // setUserData()
         getUserData().then(response => {
-            const user = response.data
-            if (user.email !== "") {
-                console.log("HERE")
+            if (response !== null) {
+                const user = response.data
                 if (user.role === 'VOLUNTARIO') {
                     navigate('/voluntario/agenda');
                 } else if (user.role === 'FAMILIA') {
@@ -52,7 +35,7 @@ function LogIn() {
                     navigate(`/admin/voluntarios`);
                 }    
             }    
-        })
+        });
     }, []);
 
     const getUserData = async () => {
@@ -62,23 +45,11 @@ function LogIn() {
                 'Authorization': `JWT ${accessToken}`,
             }
         });
-        
-        return axiosInstance.get(`${API_ENDPOINT}auth/users/me/`);
-            
-    }
-
-    // This doesnt work for some reason, user is never updated, setUser jsut doesnt work
-    const setUserData = async () => {
-        getUserData().then(response => {
-            const userd = response.data
-            console.log("SETTING DATA WITH: ",userd);
-            // setUser({ ...user, role: userd.role, email: userd.email });
-            // console.log(user);
-        }, error => {
-            console.error("ERROR SETTING DATA");
-            console.error(error);
-        }
-        );
+        try {
+            return await axiosInstance.get(`${API_ENDPOINT}auth/users/me/`);
+        } catch (error) {
+            return null;
+        }            
     }
 
     const navigate = useNavigate();
@@ -89,18 +60,19 @@ function LogIn() {
 
         console.log('Logged in, access token:', access);
 
-        // Set user data
-        // setUserData()
-        const user = getUserData()
-        console.log('User data:', user);
-
-        localStorage.setItem('userId', user.id);
+        getUserData().then(response => {
+            if (response !== null) {
+                const user = response.data
+                console.log('User data:', user);
+                localStorage.setItem('userId', user.id);
+            }
+        });
     }
 
 
     const handleSocialLoginRedirect = async (code, state) => {
         const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) return;
+        if (!accessToken) return;
         
         try {
             const url = `${API_ENDPOINT}` + "auth/o/google-oauth2/?state=" + state + "&code=" + code
@@ -120,6 +92,7 @@ function LogIn() {
 
     if (code && state) {
         // This was a redirect from social login
+        console.log("REDIRECT")
         handleSocialLoginRedirect(code, state)
     }
 
