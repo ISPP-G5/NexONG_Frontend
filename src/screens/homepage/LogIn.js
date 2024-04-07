@@ -7,6 +7,7 @@ import useAdjustMargin from '../../components/useAdjustMargin';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 
@@ -55,21 +56,36 @@ function LogIn() {
             const user = users.find(user => user.email === email);
     
             console.log('User data:', user);
-    
-            if (user.role === 'VOLUNTARIO') {
-                navigate('/voluntario/agenda');
-            } else if (user.role === 'FAMILIA') {
-                navigate('/familia/perfil');
-            } else if (user.role === 'SOCIO') {
-                navigate('/socio/calendario');
-            } else if (user.role === 'EDUCADOR') {
-                navigate('/educador');
+
+            // Check if the user is enabled
+            if (!user.is_enabled) {
+                toast.error('Revise el correo y active la cuenta');
             } else {
-                navigate(`/admin/voluntarios`);
-            }
-    
-            localStorage.setItem('userId', user.id);
-    
+                if (user.role === 'VOLUNTARIO') {
+                    if (user.volunteer === null) {
+                        navigate('/voluntario/formulario');
+                    } else {
+                        const volunteer = await axios.get(`${API_ENDPOINT}volunteer/${user.volunteer}`);
+                        localStorage.setItem('volunteerId', user.volunteer);
+
+                        if (volunteer.status === 'ACEPTADO') {
+                            navigate('/voluntario/agenda');
+                        } else {
+                            navigate('/voluntario/espera');
+                        }
+                    }
+                } else if (user.role === 'FAMILIA') {
+                    navigate('/familia/perfil');
+                } else if (user.role === 'SOCIO') {
+                    navigate('/socio/calendario');
+                } else if (user.role === 'EDUCADOR') {
+                    navigate('/educador');
+                } else {
+                    navigate(`/admin/voluntarios`);
+                }
+        
+                localStorage.setItem('userId', user.id);
+            }    
         } catch (error) {
             console.error('Error during login:', error);
             toast.error('Contraseña o correo incorrecto');
