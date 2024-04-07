@@ -100,6 +100,19 @@ function HomePageDonation() {
         setIsAgreed(true);
     }
 
+    const handleDownload = (file) => {
+        // Path to the PDF file
+        const fileUrl = `${process.env.PUBLIC_URL}/docs/${file}.pdf`; 
+    
+        // Create a temporary link
+        const downloadLink = document.createElement('a');
+        downloadLink.href = fileUrl;
+        downloadLink.download = `${file}.pdf`; 
+    
+        // Click the link to download the file
+        downloadLink.click();
+      };
+
     function constantTimeComparison(str1, str2){
         if (str1.length !== str2.length){
             return false;
@@ -303,10 +316,16 @@ function HomePageDonation() {
                             />
 
                             <label>Documento de inscripción</label>
-                            <input
-                            type='file'
-                            onChange={handleEnrollmentDocChange}
+                            <div className='register-container-files'>
+                                <button className='button-contrast-files'
+                                onClick={() => handleDownload('volunteer_registration')}>
+                                    Descargar
+                                </button>
+                                <input
+                                type='file'
+                                onChange={handleEnrollmentDocChange}
                             />
+                            </div>
 
                             <label>Fecha de nacimiento</label>
                             <input
