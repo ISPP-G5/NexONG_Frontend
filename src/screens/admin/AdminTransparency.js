@@ -104,7 +104,7 @@ const Document = () => {
 
 const AdminTransparency = () => {
     return (
-    <LayoutProfiles profile='admin' selected='Socios'>
+    <LayoutProfiles profile='admin' selected='Documentos'>
         <Document/>
     </LayoutProfiles>
     );
