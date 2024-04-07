@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import '../styles/styles.css'
 import axios from 'axios';
+import avatarImage from '../logo/avatar.png';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -27,7 +28,8 @@ const Profile = ({usuario}) => {
     <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
       {valores.map((profile, index) => (
         <div key={index}>
-          <img src={profile.avatar} alt={"imagen"} />
+          <img src={profile.avatar ? profile.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
+
 
           <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.username}</div>
 

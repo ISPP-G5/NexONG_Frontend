@@ -2,6 +2,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import avatarImage from '../logo/family-avatar.jpg';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
@@ -65,7 +67,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
-
+console.log(person,'person')
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
@@ -77,7 +79,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         </div> 
         :
         <div className='family-request'>
-          <img src={person.avatar} alt='placeholder' />
+<img src={person.avatar && person.avatar !== '' ? person.avatar : avatarImage} alt='placeholder' />
           <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
             {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>

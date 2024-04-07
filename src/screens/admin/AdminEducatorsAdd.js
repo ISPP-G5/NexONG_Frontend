@@ -5,6 +5,8 @@ import axios from 'axios';
 import Pantallas from '../../components/Pantallas';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import avatarImage from '../../logo/teacher.png';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
@@ -123,7 +125,7 @@ function AdminEducatorsAdd() {
           password: clave,
           email: correo,
           educator: id,
-          avatar: "https://avatars.githubusercontent.com/u/43956",
+          avatar: avatarImage,
         })
 
         if (update && update.data && update.data.message) {

@@ -24,7 +24,7 @@ function AdminVolunteers() {
   const userVolunteers = useFetchUsersByRole(API_ENDPOINT, "VOLUNTARIO");
   const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACEPTADO");
   const [volunteersData, setVolunteersData] = useState([]);
-
+console.log(userVolunteers,'userVolunteer')
   useEffect(() => {
     if (userVolunteers.length > 0 && volunteers.length > 0) {
       const acceptedVolunteers = userVolunteers.filter(userVolunteer => {
@@ -36,7 +36,6 @@ function AdminVolunteers() {
     }
   }, [userVolunteers, volunteers]);
    
-
   return (
     <ShowType 
       data={volunteersData}

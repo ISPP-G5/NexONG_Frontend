@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../styles/styles.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import avatarImage from '../logo/avatar.png';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -21,19 +22,19 @@ const UpdateProfile = ({tipo}) => {
 
     //Traemos los datos del usuario
     useEffect(() => {
+        axios.get(`${API_ENDPOINT}user/`)
+          .then(response => {
+            setValores(response.data.find(x => x.id == parseInt(id, 10)));
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }, []);
 
-      axios.get(`${API_ENDPOINT}user/`)
-        .then(response => {
-          setValores(response.data.find(x=>x.id==parseInt(id,10)));
-            console.log("name", name)
-            setAvatar(valoresList.avatar)
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-    }, []);
-
+      useEffect(() => {
+        console.log("prueba", valoresList.avatar);
+        setAvatar(valoresList.avatar);
+      }, [valoresList]);
     //Atributos
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -103,12 +104,12 @@ const UpdateProfile = ({tipo}) => {
         }
     };
 
-
+console.log('valores',valoresList)
     return (
         <>
             <ToastContainer />
             <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
-                <img src={valoresList.avatar} alt={"imagen"} />
+            <img src={valoresList.avatar ? valoresList.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
 
                 <div style={{ marginTop: '2%', marginBottom: '2%'}}>
                     <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
