@@ -53,6 +53,7 @@ import VolunteerProfileUpdate from './volunteers/VolunteerProfileUpdate';
 import VolunteerAgenda from './volunteers/VolunteerAgenda';
 import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
+import VolunteerWait from './volunteers/VolunteerWait';
 
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
@@ -90,8 +91,7 @@ function App() {
                         
             <Route path="/agenda" element={<HomePageAgenda />} />
             <Route path="/donaciones" element={<HomePageDonation />} />
-            <Route path="/voluntariado" element={<HomePageVolunteers />} />            
-            <Route path="/form-voluntariado" element={<VolunteerForm />} />
+            <Route path="/voluntariado" element={<HomePageVolunteers />} />  
             <Route path="/sugerencias" element={<HomePageSuggestions />} />
             
             <Route path="/registrarse" element={<Register />} />
@@ -139,7 +139,9 @@ function App() {
 
             {/* VOLUNTEERS ROUTES */}
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
-            <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />  
+            <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />            
+            <Route path="/voluntario/formulario" element={<VolunteerForm />} />
+            <Route path="/voluntario/espera" element={<VolunteerWait />} />
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
             <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
 
