@@ -45,6 +45,8 @@ function AdminEvents() {
     lesson: '',
     start_date: '',
     end_date: '',
+    date: '',
+    time: '',
 
   };
 
@@ -124,22 +126,19 @@ function AdminEvents() {
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openMeetingDialog, setMeetingDialog] = useState(false);
     const [editEvent, setEditEvent] = useState(null);
-    const [eventTitle] = useState('');
-    const [eventDate] = useState('');
-    const [eventTime] = useState('');
+
     const [volunteers, setVolunteers] = useState([]);
     const [meetings, setMeetings] = useState([]);
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-    const [eventToDelete, setEventToDelete] = useState(null);
-    const allEvents = [...events, ...meetings];
-    const [isNewEvent, setIsNewEvent] = useState(true); 
     const [lessonEvents, setLessonEvents] = useState([]);
-
-
+    const [eventToDelete, setEventToDelete] = useState(null);
+    const [isNewEvent, setIsNewEvent] = useState(true); 
     const [isLessonEvent, setIsLessonEvent] = useState(false);
     const [openNewDialog, setOpenNewDialog] = useState(false);
+    const allEvents = [...events, ...meetings, ...lessonEvents];
+
 
     const handleCreateClick = () => {
       setOpenNewDialog(true);
@@ -172,10 +171,7 @@ function AdminEvents() {
       setOpenAddDialog(true);
       clearLocalFormData();
     };
-    
-    const [recurringEvent, setRecurringEvent] = useState(false);
-    const [recurrenceFrequency, setRecurrenceFrequency] = useState('weekly'); // Default to weekly
-    const [numOccurrences, setNumOccurrences] = useState(1);
+
 
     const renderMeetingTextFieldComponents = () => {
       // Map student IDs to their full names
@@ -183,6 +179,7 @@ function AdminEvents() {
         const student = students.find((student) => student.id === attendeeId);
         return student ? `${student.name} ${student.surname}` : '';
       });
+      console.log('form:', localFormData);
     
       return (
         <>
@@ -200,17 +197,34 @@ function AdminEvents() {
               value={localFormData.description}
               InputProps={{ readOnly: true }}
               fullWidth
+              multiline
             />
           </div>
           <div style={{ marginBottom: '1rem' }}>
-            <label style={labelStyle}>Fecha Inicio</label>
+
+          <label style={labelStyle}>Fecha</label>
+
+          <TextField
+
+            value={localFormData.date}
+
+            InputProps={{ readOnly: true }}
+
+            fullWidth
+
+          />
+
+          </div>
+
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Hora</label>
             <TextField
-              type="datetime-local"
-              value={localFormData.start_date}
+              value={localFormData.time}
               InputProps={{ readOnly: true }}
               fullWidth
             />
           </div>
+
           <div style={{ marginBottom: '1rem' }}>
             <label style={labelStyle}>Asistentes</label>
             <TextField
@@ -290,6 +304,11 @@ function AdminEvents() {
         </>
       );
     };
+
+        
+    const [recurringEvent, setRecurringEvent] = useState(false);
+    const [recurrenceFrequency, setRecurrenceFrequency] = useState('weekly'); // Default to weekly
+    const [numOccurrences, setNumOccurrences] = useState(1);
     
 
     const renderTextFieldComponents = () => {
@@ -362,24 +381,38 @@ function AdminEvents() {
         .catch((error) => {
           console.error('Error fetching volunteers:', error);
         });
-        axios
-        .get(`${API_ENDPOINT}meeting/`, config)
-        .then((response) => {
-          console.log('response asambleas:', response.data);
-          const formattedMeetings = response.data.map((meeting) => ({
-            id: meeting.id,
-            title: meeting.name, // Use name instead of title if that's the meeting name
-            description: meeting.description,
-            attendees: meeting.attendees,
-            start: new Date(meeting.time), // Assuming 'date' is the start date of the meeting
-            end: new Date(meeting.date), // Assuming meetings are single-day events
-            type: 'meeting', // Add a 'type' property to distinguish meetings from events
-          }));
-          setMeetings(formattedMeetings);
-        })
-        .catch((error) => {
-          console.error('Error fetching meetings:', error);
-        });
+axios
+  .get(`${API_ENDPOINT}meeting/`, config)
+  .then((response) => {
+    console.log('response asambleas:', response.data);
+    const formattedMeetings = response.data.map((meeting) => ({
+      id: meeting.id,
+      title: meeting.name,
+      description: meeting.description,
+      time: meeting.time,
+      start: new Date(meeting.date), // Combine date and time
+      attendees: meeting.attendees,
+      url: meeting.url,
+      type: 'meeting',
+      
+    }));
+    console.log('formattedMeetings:', formattedMeetings);
+    
+    // Add a minimum duration to each meeting event (e.g., 1 hour)
+    const formattedMeetingsWithDuration = formattedMeetings.map((meeting) => ({
+      ...meeting,
+      end: new Date(meeting.start.getTime() + (60 * 60 * 1000)), // Add 1 hour to the start time
+      
+    }));
+    
+    setMeetings(formattedMeetingsWithDuration);
+  })
+  .catch((error) => {
+    console.error('Error fetching meetings:', error);
+  });
+
+      
+      
 
       axios
         .get(`${API_ENDPOINT}student/`, config)
@@ -422,8 +455,21 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}lesson-event/`, config)
         .then((response) => {
-          setLessonEvents(response.data);
-          console.log('response lesson-events:', response.data);
+          const formattedLessonEvents = response.data.map((event) => ({
+            id: event.id,
+            title: event.name,
+            description: event.description,
+            place: event.place,
+            max_volunteers: event.max_volunteers,
+            max_attendees: event.max_attendees,
+            price: event.price,
+            attendees: event.attendees,
+            volunteers: event.volunteers,
+            start: new Date(event.start_date),
+            end: new Date(event.end_date),
+          }));
+          
+          setLessonEvents(formattedLessonEvents);
         })
         .catch((error) => {
           console.error('Error fetching lesson-events:', error);
@@ -665,10 +711,6 @@ function AdminEvents() {
           });
       }
     };
-    
-    
-    
-
     const handleEventDelete = () => {
       if (editEvent) {
         setEventToDelete(editEvent);
@@ -708,8 +750,9 @@ function AdminEvents() {
           name: event.title,
           description: event.description,
           attendees: attendeesArray,
+          date: event.start.toISOString().split('T')[0],
+          time: event.time
 
-          start_date: moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm'),
         });
         setMeetingDialog(true); // Open the dialog to display meeting information
       } else {
@@ -747,7 +790,7 @@ function AdminEvents() {
       <ButtonCreate text='Crear evento' handleCreate={handleCreateClick} />
 
         <div className={classes.calendarContainer}>
-                <Calendar
+        <Calendar
           localizer={localizer}
           events={allEvents}
           startAccessor="start"
@@ -756,14 +799,11 @@ function AdminEvents() {
           onSelectEvent={handleEventClick}
           views={['month', 'week', 'day']}
           selectable={true}
-          step={15}
-          timeslots={4}
-          eventPropGetter={(event) => ({
-            className: event.type === 'meeting' ? 'meeting-event' : 'normal-event', // Define CSS classes for meetings and events
-            style: event.type === 'meeting' ? { backgroundColor: 'orange' } : {}, // Set different background colors for meetings and events
-          })}
+          step={60} // Decreased step for finer granularity
+          timeslots={1} // Only one row per hour
           className='calendar'
         />
+
 
         </div>
 
