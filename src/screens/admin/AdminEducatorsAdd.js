@@ -30,6 +30,7 @@ function AdminEducatorsAdd() {
   const [telefono, SetTelefono] = useState("");
   const [clave, setPassword] = useState("");
   const [fecha, setFecha] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [correo, setCorreo] = useState("");
   const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const letters = /^[A-Za-z]+$/;
@@ -189,6 +190,13 @@ function AdminEducatorsAdd() {
           placeholder='dd/mm/yyyy'
           onChange={(e) => setFecha(e.target.value)}
         ></input>
+        <label>Descripción</label> 
+         <textarea value={descripcion}
+          id="description"
+          label="Description"
+          type="text"
+          onChange={(e) => setDescripcion(e.target.value)}
+        ></textarea>
 
         <button onClick={createUser} className='register-button admin' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
           Crear perfil
