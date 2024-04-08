@@ -58,6 +58,28 @@ const VolunteersAttendance = () => {
         .catch(error => {
           console.error(error);
         });
+        axios.get(`${API_ENDPOINT}lesson-event/`)
+        .then(response => {
+          const filteredEvents = response.data.filter(activity => activity.volunteers.includes(currentUser.volunteerId));
+          setEventsList(prevEvents => [...prevEvents, ...filteredEvents.map(activity => ({
+            id: activity.id,
+            name: activity.name,
+            description: activity.description,
+            place: activity.place,
+            max_volunteers: activity.max_volunteers,
+            start_date: new Date(activity.start_date),
+            end_date: new Date(activity.end_date),          
+            lesson: activity.lesson,
+            price: activity.price,
+            educators: activity.educators,
+            attendees: activity.attendees,
+            volunteers: activity.volunteers,
+            url: activity.url
+          }))]);
+        })
+        .catch(error => {
+          console.error(error);
+        } );
     }, [userId,currentUser.volunteerId]);
 
     const handleDeleteConfirmation = (event) => {
@@ -94,6 +116,7 @@ const VolunteersAttendance = () => {
                 <div className='card-info' key={event.id}>
                     <div>
                         <p>Evento: {event.name}</p>
+                        <p>Tipo: {event.lesson ? 'Evento de clase' : 'Evento'}</p>
                         <p>Comienzo: {event.start_date.getDate()}/{event.start_date.getMonth()}/{event.start_date.getFullYear()}, {event.start_date.getHours()}h</p>
                         <p>Final: {event.end_date.getDate()}/{event.end_date.getMonth()}/{event.end_date.getFullYear()}, {event.end_date.getHours()}h</p>
                     </div>
