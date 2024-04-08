@@ -51,11 +51,12 @@ function LogIn() {
             // Get all users
             const usersResponse = await axios.get(`${API_ENDPOINT}user/`);
             const users = usersResponse.data;
-    
+          
             // Find the user that matches the logged-in user's email
             const user = users.find(user => user.email === email);
-    
-            console.log('User data:', user);
+            localStorage.setItem('role',user.role)
+            console.log('User data:', user.role);
+            console.log('locastorage',localStorage)
 
             // Check if the user is enabled
             if (!user.is_enabled) {

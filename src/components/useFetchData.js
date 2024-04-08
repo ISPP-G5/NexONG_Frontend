@@ -5,7 +5,11 @@ export default function useFetchData(API_ENDPOINT, status) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get(API_ENDPOINT)
+    axios.get(API_ENDPOINT,{
+      headers: {
+        'Authorization': `Bearer ${token}`, 
+      }
+    })
       .then(response => {
         setData(response.data.filter(u => u.status === status));
       })
@@ -22,7 +26,11 @@ export function useFetchUsersByRole(API_ENDPOINT, role) {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}user/`)
+      .get(`${API_ENDPOINT}user/`,{
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        }
+      })
       .then((response) => {
         console.log('users:', response.data);
         setUsers(response.data.filter(user => user.role === role));
@@ -40,7 +48,11 @@ export function useFetchFamilies(API_ENDPOINT) {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}family/`)
+      .get(`${API_ENDPOINT}family/`,{
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        }
+      })
       .then((response) => {
         console.log('families:', response.data);
         setFamilies(response.data);
@@ -58,7 +70,11 @@ export function useFetchStudents(API_ENDPOINT, status) {
 
   useEffect(() => {
     axios
-    .get(`${API_ENDPOINT}student/`)
+    .get(`${API_ENDPOINT}student/`,{
+      headers: {
+        'Authorization': `Bearer ${token}`, 
+      }
+    })
     .then((response) => {
       console.log('students:', response.data);
       const acceptedStudents = response.data.filter(student => student.status === status);
@@ -77,7 +93,11 @@ export function useFetchLessons(API_ENDPOINT) {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}lesson/`)
+      .get(`${API_ENDPOINT}lesson/`,{
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        }
+      })
       .then((response) => {
         console.log('lessons:', response.data);
         setLessons(response.data);
@@ -95,7 +115,11 @@ export function useFetchStudentEvaluation(API_ENDPOINT) {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}student-evaluation/`)
+      .get(`${API_ENDPOINT}student-evaluation/`,{
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        }
+      })
       .then((response) => {
         console.log('evaluations:', response.data);
         setEvaluations(response.data);

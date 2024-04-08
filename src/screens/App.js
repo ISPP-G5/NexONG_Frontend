@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route , Routes,useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
-
+import { useEffect } from 'react';
 // HOMEPAGE
 import HomePage from './homepage/HomePage';
 import HomePageAssociation from './homepage/HomePageAssociation';
@@ -59,8 +59,19 @@ import VolunteerWait from './volunteers/VolunteerWait';
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
 
+function RedirectToHome() {
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    navigate('/');
+  }, [navigate]);
+
+  return null;
+}
 function App() {
+  const role = localStorage.getItem('role')
+  
+  console.log('role',role)
   return (
     <Router>
       <Routes>
@@ -93,9 +104,11 @@ function App() {
             <Route path="/iniciar-sesion" element={<LogIn />} />
             
             {/* ADMIN ROUTES */}
+            {role === 'ADMIN' && (
+              <>
             <Route path="/admin/perfil" exact={true} element={<AdminProfile />} />
             <Route path="/admin/perfil/actualizar" exact={true} element={<AdminProfileUpdate />} />
-
+            
             <Route path="/admin/voluntarios" element={<AdminVolunteers />} />
             <Route path="/admin/voluntarios/solicitudes" exact={true} element={<AdminVolunteersRequests />} />
 
@@ -109,17 +122,19 @@ function App() {
             <Route path="/admin/familias/solicitudes" exact={true} element={<AdminFamilyRequests />} />
 
             <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
-            
-            {/* Routes para colegios aquí */}
+           
 
             <Route path="/admin/clases" exact={true} element={<AdminLessons />} />
             <Route path="/admin/clases/crear" exact={true} element={<AdminLessonsCreate />} />
             <Route path="/admin/clases/editar/:lessonId" exact={true} element={<AdminLessonsEdit />} />
 
             <Route path="/admin/eventos" exact={true} element={<AdminEvents />} />
-           
+            </>
+            )}
 
             {/* EDUCATORS ROUTES */}
+            {role === 'EDUCADOR' && (
+              <>
             <Route path="/educador/perfil" exact={true} element={<EducatorProfile />} />
             <Route path="/educador/perfil/actualizar" exact={true} element={<EducatorProfileUpdate />} />
             
@@ -128,25 +143,37 @@ function App() {
             <Route path="/educador/niños/evaluacion/diaria" exact={true} element={<EducatorKidsEvaluationDaily />} />
             <Route path="/educador/niños/evaluacion/anual" exact={true} element={<EducatorKidsEvaluationYearly />} />
             <Route path="/educador/niños/actividades" exact={true} element={<EducatorKidsActivities />} />
-
+              </>
+            )}
             
-
-
             {/* VOLUNTEERS ROUTES */}
+            {role === 'VOLUNTARIO' && (
+              <>
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
             <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />            
             <Route path="/voluntario/formulario" element={<VolunteerForm />} />
             <Route path="/voluntario/espera" element={<VolunteerWait />} />
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
             <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
-
+              </>
+            )}
             {/* PARTNERS ROUTES */}
+            {role === 'SOCIO' && (
+              <>
             {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
-
+              </>
+            )}
             {/* FAMILIES ROUTES */}
+            {role === 'FAMILIA' && (
+              <>
             <Route path="/familia/perfil" exact={true} element={<VolunteerProfile />} />
-
+             </> 
+            )}
+             {/* Redirect unauthorized users to the homepage */}
+          {!['ADMIN', 'EDUCADOR', 'SOCIO', 'VOLUNTARIO','FAMILIA'].includes(role) || (
+            <Route path="*" element={<RedirectToHome />} />
+        )}
 
 
             </Routes>
