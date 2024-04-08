@@ -9,10 +9,8 @@ import {useNavigate} from 'react-router-dom';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
-const UpdateProfile = ({tipo}) => {
+const UpdateProfile = ({tipo,id}) => {
 
-    const id = localStorage.getItem('userId');
-    const [avatar, setAvatar] = useState("");
 
     const [valoresList, setValores] = useState([]);
 
@@ -20,18 +18,25 @@ const UpdateProfile = ({tipo}) => {
 
     //Traemos los datos del usuario
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let response;
+                if (id) {
+                    response = await axios.get(`${API_ENDPOINT}user/${id}/`);
+                    console.log(response.data)
+                    console.log('--------------------------------')
+                } else {
+                    response = await axios.get(`${API_ENDPOINT}auth/users/me/`);
+                }
+                setValores(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData();
+    }, [id]);
 
-      axios.get(`${API_ENDPOINT}user/`)
-        .then(response => {
-          setValores(response.data.find(x=>x.id==parseInt(id,10)));
-            console.log("name", name)
-            setAvatar(valoresList.avatar)
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-    }, []);
 
     //Atributos
     const [name, setName] = useState("");
@@ -72,7 +77,7 @@ const UpdateProfile = ({tipo}) => {
 
             };
     
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
+            const update = await axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData);
     
             const { data } = update;
             if (data.message) {
@@ -138,12 +143,17 @@ const UpdateProfile = ({tipo}) => {
                     placeholder='ejemplo@gmail.com'
                 ></input>
 
-                <p>Contraseña</p>
+
+                <p style={{textAlign:'center'}}>
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                Contraseña (obligatorio)
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                </p>
                 <input 
                     defaultValue={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
-                    placeholder='Contraseña'
+                    placeholder='Contraseña de tu cuenta'
                 ></input>
 
 

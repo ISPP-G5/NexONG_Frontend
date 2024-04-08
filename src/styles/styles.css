@@ -1445,6 +1445,28 @@ tbody tr:nth-child(odd) {
   box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }
 
+.button-edit {
+  background-color: #a7e6b3;
+  border-radius: 10px;
+  height: 40%;
+  width: 40%;
+  text-align: center;
+  margin-left: 100px;
+  margin-bottom: 10%;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 3% 5% 3% 5%;
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  border: 2px solid #a7e6b3;
+}
+
+.button-decline:hover {
+  cursor: pointer;
+  background-color: #ff3c32;
+  box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
+}
+
 
 
 

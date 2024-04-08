@@ -2,11 +2,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
+import AdminEditProfiles from './AdminEditProfiles'
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
 
-  const handleDescargar = async(person) => {
+  const handleDescargar = async (person) => {
     // Download the enrollment_document
     const documento = person.enrollment_document;
     const nombreArchivo = 'documento_de_enlistamiento.pdf'; // Puedes cambiar el nombre del archivo según lo necesites
@@ -23,69 +26,69 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     enlaceDescarga.click();
     toast.error("Se descarga vacio porque la api pasa enlaces en vez de archivos", {
       autoClose: 5000
-      });
+    });
   };
-  
+
   const handleAceptar = async (person) => {
     console.log(person)
     person.status = "ACEPTADO";
-    
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
-        status: person.status        
+
+    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`, {
+      status: person.status
     });
-    console.log('update',update);
-    const {data} = update;
-    if (data.message){
-        toast.error("Error al actualizar", {
-          autoClose: 5000
-          });
-    }else{
-        toast.success("Usuario actualizado con éxito.", {
-          autoClose: 5000
-          })
-    }
-    window.location.reload();
-  }
-  
-  const handleRechazar = async(person) =>{
-    console.log(person)
-    person.status = "RECHAZADO";
-    
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
-        status: person.status        
-    });
-    console.log('update',update);
-    const {data} = update;
-    if (data.message){
-        toast.error("Error al actualizar", {
-          autoClose: 5000
-          });
-    }else{
-        toast.success("Usuario actualizado con éxito.", {
-          autoClose: 5000
-          })
+    console.log('update', update);
+    const { data } = update;
+    if (data.message) {
+      toast.error("Error al actualizar", {
+        autoClose: 5000
+      });
+    } else {
+      toast.success("Usuario actualizado con éxito.", {
+        autoClose: 5000
+      })
     }
     window.location.reload();
   }
 
-  const handleEliminar = async(person) =>{
-    if(!person.id || person.id <= 0){
-        toast.error('La id no es valida', {
-          autoClose: 5000
-          })
-    }else{
-      if(personType === 'Familias-solicitudes'){
+  const handleRechazar = async (person) => {
+    console.log(person)
+    person.status = "RECHAZADO";
+
+    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`, {
+      status: person.status
+    });
+    console.log('update', update);
+    const { data } = update;
+    if (data.message) {
+      toast.error("Error al actualizar", {
+        autoClose: 5000
+      });
+    } else {
+      toast.success("Usuario actualizado con éxito.", {
+        autoClose: 5000
+      })
+    }
+    window.location.reload();
+  }
+
+  const handleEliminar = async (person) => {
+    if (!person.id || person.id <= 0) {
+      toast.error('La id no es valida', {
+        autoClose: 5000
+      })
+    } else {
+      if (personType === 'Familias-solicitudes') {
         await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
-      } else if(personType === 'Voluntarios'){
+      } else if (personType === 'Voluntarios') {
         console.log(person.id);
         await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`);
       } else {
         await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
       }
-        toast.success("Persona eliminada correctamente", {
-          autoClose: 5000
-          })
-        window.location.reload(); // Recarga la ventana después de eliminar
+      toast.success("Persona eliminada correctamente", {
+        autoClose: 5000
+      })
+      window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
 
@@ -97,11 +100,11 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           <p>{person.first_name}</p>
           <p><strong>{person.name}</strong></p>
           <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
-        </div> 
+        </div>
         :
         <div className='family-request'>
           <img src={person.avatar} alt='placeholder' />
-          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none' }}>
             {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
           </div>
@@ -132,7 +135,19 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           </div>
         </div>
       }
-      {trash && <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />}
+      {trash &&
+        <div className='buttons-acceptance'>
+          <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />
+          <button className='button-edit'>
+            <Link to={`/admin/perfil/actualizar/${person.id}`}>
+              Actualizar perfil
+            </Link>
+          </button>
+        </div>
+      }
+
+
+
     </div>
   );
 }
