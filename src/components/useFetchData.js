@@ -125,3 +125,25 @@ export function useFetchSuggestions(API_ENDPOINT) {
 
   return suggestions;
 }
+
+export function UseFetchDocuments(API_ENDPOINT) {
+  const[documents, setDocuments] = useState([]);
+
+  useEffect(()=> {
+    axios
+    .get(`${API_ENDPOINT}home-document/`)
+    .then((response) => {
+      console.log('documents:', response.data);
+      setDocuments(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching documents:', error);
+    });
+  }, [API_ENDPOINT]);
+
+  return documents;
+}
+
+
+
+
