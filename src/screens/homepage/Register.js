@@ -1,6 +1,6 @@
 import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
-import {Link,useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import google from '../../logo/google.svg';
 import LayoutHomepage from '../../components/LayoutHomepage';
 import { toast } from 'react-toastify';
@@ -10,16 +10,20 @@ import  useAdjustMargin from '../../components/useAdjustMargin';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+const config = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+};
+
 function Register() {
-  const navigate = useNavigate();
+
   const[first_name,setFirst_name] = useState('');
   const[surname,setSurname] = useState('');
   const[email,setEmail] = useState('');
   const[idNumber,setIdNumber] = useState('');
   const[password,setPassword] = useState('');
   const[confirmPassword,setConfirmPassword] = useState('');
-  const[address,setAddress] = useState('');
-  const[birthdate,setBirthdate] = useState('');
   const[phone,setPhone] = useState('');
   const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
@@ -31,6 +35,7 @@ function Register() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   function constantTimeComparison(str1, str2){
     if (str1.length !== str2.length){
         return false;
@@ -54,128 +59,78 @@ function Register() {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
     };
-    const marginTop = useAdjustMargin();
+  const marginTop = useAdjustMargin();
 
-    const sendRecurringForm = async(e) => {
-      e.preventDefault();
-      if(!first_name || first_name === ''){
-          toast.error("Introduzca un nombre")
-      }else if(!surname || surname === ''){
-          toast.error("Introduzca apellidos")
-      }else if(!email || email === ''){
-          toast.error("Introduzca un correo electrónico")
-      }else if(!idNumber || idNumber === ''){
-          toast.error("Introduzca un DNI")
-      }else if(!address || address === ''){
-          toast.error("Introduzca una dirección")
-      }else if(!birthdate || birthdate === ''){
-          toast.error("Introduzca una fecha de nacimiento")
-      } else if(!phone || phone === ''){
+  const sendRecurringForm = async(e) => {
+    e.preventDefault();
+    if(!first_name || first_name === ''){
+        toast.error("Introduzca un nombre")
+    } else if(!surname || surname === ''){
+        toast.error("Introduzca apellidos")
+    } else if(!email || email === ''){
+        toast.error("Introduzca un correo electrónico")
+    } else if(!idNumber || idNumber === ''){
+        toast.error("Introduzca un DNI")
+    } else if(!phone || phone === ''){
         toast.error("Introduzca número de telefono correcto")
-      }else if (!phoneFormat.test(phone)) {
-      toast.error("Formato de teléfono inválido", { autoClose: 5000 });
-    }
-    else if(!first_name.match(letters) || !surname.match(letters)) {
-      toast.error('Nombre y apellido no puede contener números');
-      return;
-    } 
-    
-    else if (!emailFormat.test(email)) {
-      toast.error('Formato de correo inválido');
-      return;
-    }
-    else if (!idNumber.match(spanishIdFormat)) {
-      toast.error('Formato de identificación inválido');
-      return;
-    }
-    else if(!password || password === ''){
+    } else if(!password || password === ''){
         toast.error("Introduzca una contraseña")
-    }else if (!constantTimeComparison(password, confirmPassword)){
+    } else if (!constantTimeComparison(password, confirmPassword)){
         toast.error("Las contraseñas no coinciden")
-    }
-    else if (password.length < 8) {
-        toast.error('La contraseña debe tener 8 caracteres mínimo');
-        return;
-    }else if (!/\D/.test(password)) {
-      toast.error('La contraseña no puede ser solo números');
-      return;
-    }else if  (commonPasswords.includes(password)) {
-      toast.error('Contraseña demasiado común');
-      return;
-    }
-    else if (!idNumber.match(idNumber)) {
-      toast.error('Formato de identificación inválido');
-      return;
-    }
-    else if (first_name.length > 75) {
-      toast.error('Ha introducido mayor número de carácteres que el permitido');
-      return;
-    }
-    else if (surname.length > 75) {
-      toast.error('Ha introducido mayor número de carácteres que el permitido');
-      return;
-    }
-    else if (address.length > 255) {
-      toast.error('Ha introducido mayor número de carácteres que el permitido');
-      return;
-    }
-
-  
-    else{
-      try {
-        const usersResponse = await axios.get(`${API_ENDPOINT}user/`,{
-          
+    } else {
+        const userData = new FormData();
+        userData.append('first_name', first_name);
+        userData.append('last_name', surname);
+        userData.append('email', email);
+        userData.append('id_number', idNumber);
+        userData.append('phone', phone);
+        userData.append('password', password);
+        userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
         
-        });
-        const users = usersResponse.data;
-        const existingUser = users.find(user => user.email === email);
-        if (existingUser) {
-          toast.error("El correo electrónico ya está registrado", { autoClose: 5000 });
-          return;
-        }
-      } catch (error) {
-        toast.error("El correo introducido ya esta registrado", { autoClose: 5000 });
-        return;
-      }
-          const partnerData = new FormData();
-          partnerData.append('address',address);
-          partnerData.append('birthdate',birthdate);
-          const recurringFormData = new FormData();
-          recurringFormData.append('name',first_name);
-          recurringFormData.append('surname',surname);
-          recurringFormData.append('email',email);
-          recurringFormData.append('id_number',idNumber);
-          recurringFormData.append('password',password);
-                   
-          try{
-            
-            const update = await axios.post(`${API_ENDPOINT}auth/users/`,
-            recurringFormData,
-            {
+        try {
+          const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
+          userData, config);
+          console.log(userUpdate);
+
+          const { data } = userUpdate;
+          if (data.message){
+              toast.error(data.message);
+          } else {
+            if (isFamilyChecked) {
+              // Create a Familia object
+              const familiaData = new FormData();
+              familiaData.append('name', `Familia ${surname}`);
+              const familiaUpdate = await axios.post(`${API_ENDPOINT}family/`, familiaData, {
                 headers:{
                     'Content-Type': 'multipart/form-data',
-                    
-                    
                 }
-            });
-            console.log(update);
-            const { data } = update;
-            if (data.message){
-                toast.error(data.message);
-            } else {
-                // Redirect based on which checkbox is checked
-                if (isFamilyChecked) {
-                    navigate('/familia/perfil');
-                } else if (isVolunteerChecked) {
-                    navigate('/form-voluntariado');
+              });
+      
+              // Update the user with the id of the created Familia
+              const userFamiliaData = new FormData();
+              userFamiliaData.append('familia', familiaUpdate.data.id);
+              await axios.patch(`${API_ENDPOINT}auth/users/${data.id}/`, userFamiliaData, {
+                headers:{
+                    'Content-Type': 'multipart/form-data',
                 }
-                toast.success('Operación realizada correctamente')
-            }
-          } catch(error){
-            console.error('Error',error);
+              });
+            } 
+            setFirst_name('');
+            setSurname('');
+            setEmail('');
+            setIdNumber('');
+            setPhone('');
+            setPassword('');
+            setConfirmPassword('');
+            setIsFamilyChecked(false);
+            setIsVolunteerChecked(false);
+            toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
-        };
-    }  
+        } catch(error){
+          console.error('Error',error);
+        }
+    }
+  }  
 
   return (
     <LayoutHomepage 
@@ -204,7 +159,7 @@ function Register() {
           <label>Correo electrónico</label>
           <input
           value={email}
-          type='text'
+          type='email'
           placeholder='Escriba su correo electrónico'
           onChange={(e) => setEmail(e.target.value)}
           />
@@ -215,25 +170,12 @@ function Register() {
           placeholder='Escriba su DNI'
           onChange={(e) => setIdNumber(e.target.value)}
           />
-           <label>Télefono</label>
+          <label>Télefono</label>
           <input
           value={phone}
-          type='text'
+          type='tel'
           placeholder='Escriba su télefono'
           onChange={(e) => setPhone(e.target.value)}
-          />
-          <label>Dirección</label>
-          <input
-          value={address}
-          type='text'
-          placeholder='Escriba su dirección'
-          onChange={(e) => setAddress(e.target.value)}
-          />
-          <label>Fecha de nacimiento</label>
-          <input
-          value={birthdate}
-          type='date'
-          onChange={(e) => setBirthdate(e.target.value)}
           />
           <label>Contraseña</label>
           <input
@@ -274,20 +216,24 @@ function Register() {
               <span className="custom-checkbox"></span> Registrarse como voluntario
             </label>
           </div>
+
           <button className='register-button'>
             Crear cuenta
-            </button>
-            <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
-            <Link to={"https://myaccount.google.com/"} className='google-button'>
-              <span>Registrarse con Google</span>
-              <img src={google} alt="Logo"/>
-              </Link>
-              <p style={{ textAlign: 'center', marginBottom: '5%'}}>
-                ¿Ya tiene una cuenta?
-                <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
-                  Inicie sesión aquí
-                </Link>
-              </p>
+          </button>
+
+          <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
+
+          <Link to={"https://myaccount.google.com/"} className='google-button'>
+            <span>Registrarse con Google</span>
+            <img src={google} alt="Logo"/>
+          </Link>
+
+          <p style={{ textAlign: 'center', marginBottom: '5%'}}>
+            ¿Ya tiene una cuenta?
+            <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
+              Inicie sesión aquí
+            </Link>
+          </p>
           </form>
     </LayoutHomepage>
   );

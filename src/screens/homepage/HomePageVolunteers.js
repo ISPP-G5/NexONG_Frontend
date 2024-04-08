@@ -10,12 +10,12 @@ const info = [
     },
     {
       title: '¿Existe un limite de edad?',
-      description: 'No,todo el mundo es bienvenido.Actuamente, nuestros voluntarios parten de los 18 años hasta los 60.',
+      description: 'No, todo el mundo es bienvenido.Actuamente, nuestros voluntarios parten de los 18 años hasta los 60.',
     },
     {
       title: '¿Quieres ser voluntario?',
-      description: 'Si esta interesado en ser voluntario pulse el siguiente botón.',
-      link: '/form-voluntariado',
+      description: 'Si esta interesado en ser voluntario registrese como voluntario en el siguiente enlace',
+      link: '/registrarse',
       button: 'Participa con nosotros',
     },
   ];
