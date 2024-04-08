@@ -23,7 +23,9 @@ function LogIn() {
         window.scrollTo(0, 0);
         getUserData().then(async response => {
             if (response !== null) {
-                const user = response.data
+                console.log("User is logged in");
+                const user = response.data;
+                console.log(user);
                 // Check if the user is enabled
                 if (!user.is_enabled) {
                     toast.error('Revise el correo y active la cuenta');
