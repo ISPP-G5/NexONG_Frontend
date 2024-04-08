@@ -91,7 +91,7 @@ const VolunteersAttendance = () => {
 
   const handleDeleteVolunteer = () => {
       const updatedVolunteers = deleteConfirmation.event.volunteers.filter(volunteer => volunteer !== currentUser.volunteerId);
-      axios.put(`${API_ENDPOINT}event/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers })
+      axios.put(`${API_ENDPOINT}${deleteConfirmation.event.lesson ? 'lesson-event' : 'event'}/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers })
           .then(response => {
               toast.success('Se ha eliminado correctamente');
               setDeleteConfirmation({
