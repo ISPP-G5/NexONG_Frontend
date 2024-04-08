@@ -617,7 +617,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
   position: relative;
   width: auto;
   margin: 2%;
-  flex: 1 0 300px; /* This means that the flex items will grow and shrink, but they won't be smaller than 300px */
+  flex: 1 0 var(--columnwidth); /* This means that the flex items will grow and shrink, but they won't be smaller than he value specified in columnwidth, by default 300px */
 }
 
 .flex-container h2, .flex-container p {
@@ -1575,6 +1575,38 @@ tbody tr:nth-child(odd) {
     font-size: 12px;
   }
 }
+/* CREATE BUTTON Download*/
+
+.button-download {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 10px;
+  height: auto;
+  width: 220px;
+  margin-bottom: 7%;
+  text-align: justify;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 3% 5%;
+  font-family: "Poppins", Helvetica;
+  border: 2px solid #b7ecff;
+}
+
+.button-download p {
+  font-size: 20px;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+  .button-download{
+    width: 150px; 
+    margin-bottom: 5%;
+  }
+  .button-download p {
+    font-size: 12px;
+  }
+}
 
 
 
@@ -1640,3 +1672,52 @@ tbody tr:nth-child(odd) {
 }
 
 
+
+
+
+
+
+/********************* VOLUNTEER FORM ******************/
+
+.register-container-files {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  max-width: 80%; 
+}
+
+.button-contrast-files {
+  background-color: white;
+  border-radius: 10px;
+  height: 30%;
+  width: 30%;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 2%;
+  font-family: "Poppins", Helvetica;
+  border: 2px solid #b7ecff;
+}
+
+.button-contrast-files:hover {
+  cursor: pointer;
+  background-color: #b7ecff;
+  box-shadow: 0 6px 10px 0 #7c7c7c24, 0 7px 25px 0 #7c7c7c24;
+}
+
+
+@media (min-width: 1px) and (max-width: 768px) {
+  .register-container-files {
+    flex-direction: column;
+    width: 80%;
+    margin-top: 1rem;
+  }
+
+  .button-contrast-files {
+    width: 100%;
+  }
+  .register-container-files input {
+    width: 100%;
+  }
+}
