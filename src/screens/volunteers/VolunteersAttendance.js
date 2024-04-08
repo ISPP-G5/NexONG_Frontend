@@ -71,12 +71,14 @@ const VolunteersAttendance = () => {
       const updatedVolunteers = deleteConfirmation.event.volunteers.filter(volunteer => volunteer !== currentUser.volunteerId);
       axios.put(`${API_ENDPOINT}event/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers })
           .then(response => {
-              window.alert('Se ha eliminado correctamente');
+              toast.success('Se ha eliminado correctamente');
               setDeleteConfirmation({
                   open: false,
                   event: null
               });
-              window.location.reload(true);
+              setTimeout(() => {
+                  window.location.reload();
+              }, 1000);
           })
           .catch(error => {
               console.error('Error al eliminar el voluntario:', error);
