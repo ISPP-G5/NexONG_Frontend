@@ -51,48 +51,34 @@ const FamilyForm = () => {
     
             const post = await axios.post(`${API_ENDPOINT}family/`, postFam);
 
-
-
             const { data } = post;
+
+            console.log("datos",data);
+
+            setFamilia(data);
+
             if (data.message) {
                 window.alert(data.message);
-            } else {
             }
         } catch (error) {
             toast.error("Datos no válidos.");
         }
 
-        axios.get(`${API_ENDPOINT}family/`)
-        .then(response => {
-            setFamilia(response.data.filter(x=>x.name==="Familia " + surname1 + " " + surname2));
-        })
-        .catch(error => {
-            console.error(error);
-        });
+
+    };
+
+
+    const updateFam = async () => {
+        
+        console.log("familia",familia);
 
         try {
             const updatedData = { //En el caso de no darle un valor, se coge el original
-                last_login: valoresList.last_login,
-                is_superuser: valoresList.is_superuser,
-                first_name: valoresList.first_name,
-                last_name: valoresList.last_name,
-                is_staff: valoresList.is_staff,
-                is_active: valoresList.is_active,
-                date_joined: valoresList.date_joined,
-                username: valoresList.username,
-                id_number: valoresList.id_number,
-                phone: valoresList.phone,
-                password: password,
+
                 email: valoresList.email,
-                role: valoresList.role,
-                is_enabled: valoresList.is_enabled,
-                family: familia || valoresList.family,
-                partner: valoresList.partner,
-                volunteer: valoresList.volunteer,
-                education_center: valoresList.education_center,
-                educator: valoresList.educator,
-                groups: valoresList.groups,
-                user_permissions: valoresList.user_permissions,
+                password: password,
+                family: familia,
+                is_agreed: 'true',
 
             };
     
@@ -102,11 +88,17 @@ const FamilyForm = () => {
             if (data.message) {
                 window.alert(data.message);
             } else {
-                navigate(`/familia/perfil`);
+                navigate(`/familia/registro/niños`);
             }
         } catch (error) {
             toast.error("Datos no válidos.");
         }
+    };
+
+    const update = () => {
+
+        setTimeout(updatePut,1);
+        setTimeout(updateFam,1);
     };
 
 
@@ -140,7 +132,7 @@ const FamilyForm = () => {
                     placeholder='Contraseña'
                 ></input>
 
-                <button onClick={updatePut} className='register-button admin' >
+                <button onClick={update} className='register-button admin' >
                     Proceder
                 </button>
             </div>
