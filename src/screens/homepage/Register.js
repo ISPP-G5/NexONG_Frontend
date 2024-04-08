@@ -57,6 +57,10 @@ function Register() {
     setIsFamilyChecked(false);
     };
 
+  const handleAgreedChange = () => {
+    setIsAgreedChecked(!isAgreedChecked);
+      };
+
   const marginTop = useAdjustMargin();
 
   const sendRecurringForm = async(e) => {
