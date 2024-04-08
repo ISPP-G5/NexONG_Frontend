@@ -80,8 +80,11 @@ const UpdateProfile = ({tipo,id}) => {
             const { data } = update;
             if (data.message) {
                 window.alert(data.message);
-            }else if(id){
+            }else if(id && valoresList.role !== "EDUCADOR"){
                 navigate(`/admin/${valoresList.role + "S"}`);
+
+            }else if(id && valoresList.role === "EDUCADOR"){
+                navigate(`/admin/${valoresList.role + "ES"}`)
 
             }
              else {
