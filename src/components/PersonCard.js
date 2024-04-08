@@ -139,7 +139,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         <div className='buttons-acceptance'>
           <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />
           <button className='button-edit'>
-            <Link to={`/admin/perfil/actualizar/${person.id}`}>
+            <Link to={`/admin/perfil/actualizar/${person.id}`} style={{color:'black'}}>
               Actualizar perfil
             </Link>
           </button>
