@@ -8,7 +8,6 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const Profile = ({usuario}) => {
 
   const [valores, setValores] = useState([]);
-  const [name, setName] = useState("")
 
   //Traemos los datos del usuario que ha iniciado sesión
   useEffect(() => {
@@ -21,7 +20,6 @@ const Profile = ({usuario}) => {
           console.error(error);
         });
 
-        setTimeout(setName(valores.first_name + " " + valores.last_name),900);
   }, []);
 
 
@@ -31,10 +29,8 @@ const Profile = ({usuario}) => {
     <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
           <img src={valores.avatar} alt={"imagen"} />
 
-          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{valores.username}</div>
-
           <p>Usuario</p>
-          <input type='text' value={name} readOnly></input>
+          <input type='text' value={valores.first_name + " " + valores.last_name} readOnly></input>
 
           <p>Email</p>
           <input type='text' value={valores.email} readOnly></input>

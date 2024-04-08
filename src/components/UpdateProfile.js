@@ -12,7 +12,6 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const UpdateProfile = ({tipo}) => {
 
     const id = localStorage.getItem('userId');
-    const [avatar, setAvatar] = useState("");
 
     const [valoresList, setValores] = useState([]);
 
@@ -21,11 +20,10 @@ const UpdateProfile = ({tipo}) => {
     //Traemos los datos del usuario
     useEffect(() => {
 
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
-          setValores(response.data.find(x=>x.id==parseInt(id,10)));
+          setValores(response.data);
             console.log("name", name)
-            setAvatar(valoresList.avatar)
         })
         .catch(error => {
           console.error(error);
@@ -72,7 +70,7 @@ const UpdateProfile = ({tipo}) => {
 
             };
     
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
+            const update = await axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData);
     
             const { data } = update;
             if (data.message) {
@@ -138,12 +136,17 @@ const UpdateProfile = ({tipo}) => {
                     placeholder='ejemplo@gmail.com'
                 ></input>
 
-                <p>Contraseña</p>
+
+                <p style={{textAlign:'center'}}>
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                Contraseña (obligatorio)
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                </p>
                 <input 
                     defaultValue={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
-                    placeholder='Contraseña'
+                    placeholder='Contraseña de tu cuenta'
                 ></input>
 
 
