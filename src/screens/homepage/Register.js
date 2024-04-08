@@ -45,6 +45,7 @@ function Register() {
 
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
+  const [isAgreedChecked, setIsAgreedChecked] = useState(false);
 
   const handleFamilyChange = () => {
     setIsFamilyChecked(!isFamilyChecked);
@@ -55,6 +56,11 @@ function Register() {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
     };
+
+  const handleAgreedChange = () => {
+    setIsAgreedChecked(!isAgreedChecked);
+      };
+
   const marginTop = useAdjustMargin();
 
   const sendRecurringForm = async(e) => {
@@ -196,7 +202,7 @@ function Register() {
               onChange={handleFamilyChange}
             />
             <label htmlFor="selectCheckboxFamily" className="checkbox-label">
-              <span className="custom-checkbox"></span> Registrarse como familiar
+              <span className="custom-checkbox"></span>      Registrarse como familiar
             </label>
           </div>
 
@@ -209,7 +215,19 @@ function Register() {
               onChange={handleVolunteerChange}
             />
             <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
-              <span className="custom-checkbox"></span> Registrarse como voluntario
+              <span className="custom-checkbox"></span>      Registrarse como voluntario
+            </label>
+          </div>
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              id="selectCheckboxAgreed"
+              className="hidden-checkbox"
+              checked={isAgreedChecked}
+              onChange={handleAgreedChange}
+            />
+            <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
+              <span className="custom-checkbox"></span>      Acepto los términos y condiciones
             </label>
           </div>
 
