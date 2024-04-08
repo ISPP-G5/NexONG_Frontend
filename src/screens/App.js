@@ -60,6 +60,9 @@ import VolunteerWait from './volunteers/VolunteerWait';
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
 
+// FAMILIES
+import FamilyCalendar from './families/FamilyCalendar';
+
 
 function App() {
   return (
@@ -149,7 +152,7 @@ function App() {
 
             {/* FAMILIES ROUTES */}
             <Route path="/familia/perfil" exact={true} element={<VolunteerProfile />} />
-
+            <Route path="/familia/calendario" exact={true} element={<FamilyCalendar />} />
 
 
             </Routes>
