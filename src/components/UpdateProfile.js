@@ -11,8 +11,6 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const UpdateProfile = ({tipo}) => {
 
-    const id = localStorage.getItem('userId');
-
     const [valoresList, setValores] = useState([]);
 
     const navigate = useNavigate();
