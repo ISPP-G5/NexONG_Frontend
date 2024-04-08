@@ -25,6 +25,8 @@ function HomePageDonation() {
     const[oneTimeEmail,setOneTimeEmail] = useState('');
     const[paymentDoc,setPaymentDoc] = useState('');
     const[date,setDate] = useState('');
+    const token = localStorage.getItem('accessToken');
+
     const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     useEffect(() => {
         const currentDate = new Date();
@@ -68,7 +70,9 @@ function HomePageDonation() {
                 oneTimeFormData,
                 {
                     headers:{
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`
+                        
                     }
                 });
                 console.log(update);
@@ -100,7 +104,8 @@ function HomePageDonation() {
     const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
     const letters = /^[A-Za-z\sáéíóúÁÉÍÓÚñÑ]+$/;
     const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
-    
+    const currentDate = new Date();
+
     const handleEnrollmentDocChange = (e) => {
         const file = e.target.files[0]
         setEnrollmentDoc(file);
@@ -141,6 +146,7 @@ function HomePageDonation() {
             toast.error('Formato de correo inválido');
             return;
         }
+        
         else if(recurringName.length>75){
             toast.error("Indica un nombre, no debe superar 75 caráteres")
         }
@@ -169,14 +175,17 @@ function HomePageDonation() {
           toast.error('Contraseña demasiado común');
           return;
         }  
+        else if (birthdate > currentDate){
+            toast.error('No puede seleccionar una fecha en el futuro')
+        }
         else if (address.length > 255){
             toast.error('Se ha superado el número de carácteres permitido')
         }
         else{
             try {
-                const usersResponse = await axios.get(`${API_ENDPOINT}user/`,{
+                const usersResponse = await axios.get(`${API_ENDPOINT}user/`)         
                 
-                });
+                
                 const users = usersResponse.data;
                 const existingUser = users.find(user => user.email === recurringEmail);
                 if (existingUser) {
@@ -191,7 +200,11 @@ function HomePageDonation() {
             partnerData.append('address',address);
             partnerData.append('enrollment_document',enrollmentDoc);
             partnerData.append('birthdate',birthdate);
-            const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData);
+            const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const partnerId = partnerResponse.data.id;
             const recurringFormData = new FormData();
             recurringFormData.append('name',recurringName);
@@ -206,7 +219,9 @@ function HomePageDonation() {
                 recurringFormData,
                 {
                     headers:{
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                       
+                        
                     }
                 });
                 console.log(update);
