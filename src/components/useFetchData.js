@@ -294,7 +294,7 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
 export async function fetchMyFamilyId(API_ENDPOINT, userId) {
   const token = localStorage.getItem('accessToken');
   try {
-    const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+    const userResponse = await axios.get(`${API_ENDPOINT}auth/users/me/`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

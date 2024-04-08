@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const token = localStorage.getItem('accessToken');
-
 const config_volunteer = {
   headers: {
     'Content-Type': 'multipart/form-data',
@@ -148,7 +147,7 @@ function VolunteerForm() {
       const userId = localStorage.getItem('userId');
 
       // Make a PATCH request to update the user's volunteer attribute
-      await axios.patch(`${API_ENDPOINT}user/${userId}/`, {
+      await axios.patch(`${API_ENDPOINT}auth/users/me/`, {
         volunteer: response.data.id,
       }, config_user);
 

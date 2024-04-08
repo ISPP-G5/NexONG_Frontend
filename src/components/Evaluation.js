@@ -46,7 +46,7 @@ export default function EducatorEvaluationCommon() {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
           const user = response.data.find(user => user.id == userId);
           if (user) {
@@ -115,7 +115,7 @@ useEffect(() => {
   useEffect(() => {
     if (selectedStudent) {
       console.log(selectedStudent);
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
           const user = response.data.find(user => user.family == selectedStudent.family);
           if (user) {

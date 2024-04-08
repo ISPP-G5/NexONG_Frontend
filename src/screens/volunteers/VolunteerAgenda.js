@@ -24,7 +24,7 @@ const VolunteerAgenda = () => {
   const userId = parseInt(localStorage.getItem('userId'));
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}user/`)
+    axios.get(`${API_ENDPOINT}auth/users/me/`)
       .then(response => {
         const userWithUserId = response.data.find(user => user.id === userId);
         if (userWithUserId) {

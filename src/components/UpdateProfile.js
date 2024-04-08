@@ -21,7 +21,7 @@ const UpdateProfile = ({tipo}) => {
     //Traemos los datos del usuario
     useEffect(() => {
 
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
           setValores(response.data.find(x=>x.id==parseInt(id,10)));
             console.log("name", name)

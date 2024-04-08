@@ -7,6 +7,7 @@ import useAdjustMargin from '../../components/useAdjustMargin';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Token } from '@mui/icons-material';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -19,19 +20,7 @@ function LogIn() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user,setUser] = useState([]);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        axios.get(`${API_ENDPOINT}user/`)
-            .then(response => {
-                setUser(response.data)
-                console.log(response.data);
-            }, error => {
-                console.error(error);
-            }
-            );
-    }, []);
 
     const navigate = useNavigate();
 
@@ -48,16 +37,13 @@ function LogIn() {
     
             console.log('Logged in, access token:', accessToken);
     
-            // Get all users
-            const usersResponse = await axios.get(`${API_ENDPOINT}user/`, {
+            
+            // Find the user that matches the logged-in user's token
+            const userResponse = await axios.get(`${API_ENDPOINT}auth/users/me/`, {
                 headers: {
                   'Authorization': `Bearer ${accessToken}`
                 }});
-            const users = usersResponse.data;
-    
-            // Find the user that matches the logged-in user's email
-            const user = users.find(user => user.email === email);
-    
+            const user = userResponse.data;
             console.log('User data:', user);
 
             // Check if the user is enabled
@@ -68,7 +54,10 @@ function LogIn() {
                     if (user.volunteer === null) {
                         navigate('/voluntario/formulario');
                     } else {
-                        const volunteer = await axios.get(`${API_ENDPOINT}volunteer/${user.volunteer}`);
+                        const volunteer = await axios.get(`${API_ENDPOINT}volunteer/${user.volunteer}`, {
+                            headers: {
+                              'Authorization': `Bearer ${accessToken}`
+                            }});
                         localStorage.setItem('volunteerId', user.volunteer);
 
                         if (volunteer.status === 'ACEPTADO') {
@@ -78,10 +67,33 @@ function LogIn() {
                         }
                     }
                 } else if (user.role === 'FAMILIA') {
+                    if (user.family === null) {
+                    //Crea un objeto familia
+                    const response = await axios.post(`${API_ENDPOINT}family/`, 
+                    {name: "Familia " + user.last_name}, {
+                        headers: {
+                          'Authorization': `Bearer ${accessToken}`
+                        }});
+                    
+                    localStorage.setItem('familyId', response.data.id);
+                     console.log(response.data);
+                    //El usuario es asignado esa familia
+                    await axios.patch(`${API_ENDPOINT}auth/users/me/`,
+                    {password: password, family: response.data.id}, {
+                        headers: {
+                          'Authorization': `Bearer ${accessToken}`
+                        }});
+                    }
                     navigate('/familia/perfil');
                 } else if (user.role === 'SOCIO') {
+                    //TODO Aqui formulario para socio, una cosa así:
+                    //if (user.socio === null) {
+                    //    navigate('/socio/formulario');}
                     navigate('/socio/calendario');
                 } else if (user.role === 'EDUCADOR') {
+                    //TODO Aqui formulario para educador, una cosa así:
+                    //if (user.educador === null) {
+                    //    navigate('/educador/formulario');}
                     navigate('/educador');
                 } else {
                     navigate(`/admin/voluntarios`);
