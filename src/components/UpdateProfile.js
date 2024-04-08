@@ -8,9 +8,8 @@ import {useNavigate} from 'react-router-dom';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-
 const UpdateProfile = ({tipo,id}) => {
-
+    console.log(id)
 
     const [valoresList, setValores] = useState([]);
 
@@ -23,8 +22,6 @@ const UpdateProfile = ({tipo,id}) => {
                 let response;
                 if (id) {
                     response = await axios.get(`${API_ENDPOINT}user/${id}/`);
-                    console.log(response.data)
-                    console.log('--------------------------------')
                 } else {
                     response = await axios.get(`${API_ENDPOINT}auth/users/me/`);
                 }
@@ -35,7 +32,7 @@ const UpdateProfile = ({tipo,id}) => {
         };
     
         fetchData();
-    }, [id]);
+    }, []);
 
 
     //Atributos
@@ -76,13 +73,18 @@ const UpdateProfile = ({tipo,id}) => {
                 user_permissions: valoresList.user_permissions,
 
             };
+            const updateEndpoint = id ? `${API_ENDPOINT}user/${id}/` : `${API_ENDPOINT}auth/users/me/`;
+            const update = await axios.put(updateEndpoint, updatedData);
     
-            const update = await axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData);
     
             const { data } = update;
             if (data.message) {
                 window.alert(data.message);
-            } else {
+            }else if(id){
+                navigate(`/admin/${valoresList.role + "S"}`);
+
+            }
+             else {
                 navigate(`/${tipo}/perfil`);
             }
         } catch (error) {

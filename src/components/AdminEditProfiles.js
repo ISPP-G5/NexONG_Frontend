@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom'; // Importa el hook useParams
 
 
 const AdminEditProfiles = () => {
-  const { userId } = useParams(); // Extrae la ID de la URL
+  const { id } = useParams(); // Extrae la ID de la URL
 
   return (
     <LayoutProfiles profile={'admin'} >
-      <UpdateProfile tipo={'admin'} id={userId}/>
+      <UpdateProfile tipo={'admin'} id={id}/>
     </LayoutProfiles>
   );
 };
