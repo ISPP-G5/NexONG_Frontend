@@ -23,16 +23,11 @@ const VolunteersAttendance = () => {
     const userId = parseInt(localStorage.getItem('userId'));
 
     useEffect(() => {
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/me/`)
         .then(response => {
-          const userWithUserId = response.data.find(user => user.id === userId);
-          if (userWithUserId) {
               setCurrentUser({
-              volunteerId: userWithUserId.volunteer
+              volunteerId: response.data.volunteer
             });
-          } else {
-            console.error('No user found with the provided user ID.');
-          }
         })
         .catch(error => {
           console.error(error);
