@@ -32,7 +32,7 @@ const FamilyForm = () => {
 
     //Atributos
 
-    const [familia, setFamilia] = useState("");
+    const [familia, setFamilia] = useState("")
     const [password, setPassword] = useState("");
 
     const [surname1, setSurname1] = useState("");
@@ -41,65 +41,58 @@ const FamilyForm = () => {
     //Atributos son correctos
     
     const updatePut = async () => {
-
         try {
             const postFam = { 
-                
                 name: "Familia " + surname1 + " " + surname2,
-
             };
     
             const post = await axios.post(`${API_ENDPOINT}family/`, postFam);
-
             const { data } = post;
-
-            console.log("datos",data);
-
-            setFamilia(data);
-
-            if (data.message) {
-                window.alert(data.message);
-            }
-        } catch (error) {
-            toast.error("Datos no válidos.");
-        }
-
-
-    };
-
-
-    const updateFam = async () => {
-        
-        console.log("familia",familia);
-
-        try {
-            const updatedData = { //En el caso de no darle un valor, se coge el original
-
-                email: valoresList.email,
-                password: password,
-                family: familia,
-                is_agreed: 'true',
-
-            };
     
-            const update = await axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData);
+            console.log("datos", data);
     
-            const { data } = update;
+            const firstKey = Object.values(data)[0];
+            console.log("Primera clave de 'data':", firstKey);
+    
             if (data.message) {
                 window.alert(data.message);
             } else {
-                navigate(`/familia/registro/niños`);
+                axios.get(`${API_ENDPOINT}family/${firstKey}`)
+                    .then(response => {
+                        const familiaData = response.data;
+                        console.log("fam", familiaData.id);
+    
+                        const updatedData = {
+                            email: valoresList.email,
+                            password: password,
+                            family: familiaData.id, // Aquí se pasa el pk de la familia
+                            is_agreed: 'true',
+                        };
+    
+                        axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData)
+                            .then(update => {
+                                const { data: updatedUserData } = update;
+                                if (updatedUserData.message) {
+                                    window.alert(updatedUserData.message);
+                                } else {
+                                    navigate(`/familia/registro/niños`);
+                                }
+                            })
+                            .catch(error => {
+                                toast.error("Error al actualizar los datos del usuario.");
+                            });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        toast.error("Error al obtener detalles de la familia.");
+                    });
             }
         } catch (error) {
             toast.error("Datos no válidos.");
         }
     };
-
-    const update = () => {
-
-        setTimeout(updatePut,1);
-        setTimeout(updateFam,1);
-    };
+    
+    
 
 
     return (
@@ -132,7 +125,7 @@ const FamilyForm = () => {
                     placeholder='Contraseña'
                 ></input>
 
-                <button onClick={update} className='register-button admin' >
+                <button onClick={updatePut} className='register-button admin' >
                     Proceder
                 </button>
             </div>
