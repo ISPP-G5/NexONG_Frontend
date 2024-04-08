@@ -39,6 +39,7 @@ import AdminLessons from './admin/AdminLessons';
 import AdminLessonsCreate from './admin/AdminLessonsCreate';
 import AdminLessonsEdit from './admin/AdminLessonsEdit';
 import AdminSuggestions from './admin/AdminSuggestions';
+import AdminTransparency from './admin/AdminTransparency';
 
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
@@ -58,6 +59,11 @@ import VolunteerWait from './volunteers/VolunteerWait';
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
+
+// FAMILIES
+import FamilyProfile from './family/FamilyProfile';
+import FamilyAuths from './family/FamilyAuths';
+import FamilyAuthsPending from './family/FamilyAuthsPending';
 
 
 function App() {
@@ -109,6 +115,8 @@ function App() {
             <Route path="/admin/familias/solicitudes" exact={true} element={<AdminFamilyRequests />} />
 
             <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
+
+            <Route path="/admin/documentos" exact={true} element={<AdminTransparency />} />
             
             {/* Routes para colegios aquí */}
 
@@ -145,7 +153,9 @@ function App() {
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
 
             {/* FAMILIES ROUTES */}
-            <Route path="/familia/perfil" exact={true} element={<VolunteerProfile />} />
+            <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
+            <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
+            <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
 
 
 
