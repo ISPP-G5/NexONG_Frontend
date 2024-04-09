@@ -138,7 +138,8 @@ const UpdateProfile = ({tipo,id}) => {
                     type='tel'
                     placeholder='Número de teléfono'
                 ></input>
-
+                {id? <></>:
+                <>
                 <p>Correo electrónico</p>
                 <input 
                     defaultValue={email}
@@ -159,8 +160,8 @@ const UpdateProfile = ({tipo,id}) => {
                     type='password'
                     placeholder='Contraseña de tu cuenta'
                 ></input>
-
-
+                </>
+            }
                 <button onClick={updateAdmin} className='register-button admin' >
                     Actualizar perfil
                 </button>

@@ -1,4 +1,5 @@
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -137,12 +138,8 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       }
       {trash &&
         <div className='buttons-acceptance'>
-          <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />
-          <button className='button-edit'>
-            <Link to={`/admin/perfil/actualizar/${person.id}`} style={{color:'black',textDecoration:'none'}}>
-              Actualizar perfil
-            </Link>
-          </button>
+          <DeleteIcon className='trash' style={{marginLeft:'87.5%'}} onClick={() => handleEliminar(person)} />
+          <EditIcon className='edit' style={{marginLeft:'87.5%'}} onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
         </div>
       }
 
