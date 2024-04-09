@@ -13,29 +13,27 @@ const localizer = momentLocalizer(moment);
 const FamilyCalendar = () => {
     const [activities, setActivities] = useState([]);
     const [currentUser, setCurrentUser] = useState({
-        volunteerId: ''
+        familyId: ''
     });
     const userId = parseInt(localStorage.getItem('userId'));
 
     useEffect(() => {
-        axios.get(`${API_ENDPOINT}user/`)
+        axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
-            const userWithUserId = response.data.find(user => user.id === userId);
-            if (userWithUserId) {
             setCurrentUser({
-                volunteerId: userWithUserId.volunteer
+                familyId: response.data.family
             });
-            } else {
-            console.error('No user found with the provided user ID.');
-            }
         })
         .catch(error => {
             console.error(error);
         });
-
+    
         axios.get(`${API_ENDPOINT}event/`)
         .then(response => {
-            const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
+            const filteredActivities = response.data.filter(activity => 
+                moment(activity.start_date).isAfter(moment()) && 
+                activity.attendees.some(attendee => attendee === currentUser.familyId)
+            );
             setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...filteredActivities.map(activity => ({
             title: activity.name,
             start: new Date(activity.start_date),
@@ -54,10 +52,13 @@ const FamilyCalendar = () => {
         .catch(error => {
             console.error(error);
         });
-
+    
         axios.get(`${API_ENDPOINT}lesson-event/`)
         .then(response => {
-            const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
+            const filteredActivities = response.data.filter(activity => 
+                moment(activity.start_date).isAfter(moment()) && 
+                activity.attendees.some(attendee => attendee === currentUser.familyId)
+            );
             setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
             id: activity.id,
             title: activity.name,
@@ -77,7 +78,7 @@ const FamilyCalendar = () => {
         .catch(error => {
             console.error(error);
         });
-    }, [userId]);
+    }, [userId, currentUser.familyId]);
 
     return (
         <LayoutProfiles profile={'familia'} selected={'Calendario'}>
@@ -88,8 +89,9 @@ const FamilyCalendar = () => {
             startAccessor="start"
             endAccessor="end"
             className='calendar'            
-        />
+        />       
         </LayoutProfiles>
+        
     );
 };
 
