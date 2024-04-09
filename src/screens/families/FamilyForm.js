@@ -32,7 +32,6 @@ const FamilyForm = () => {
 
     //Atributos
 
-    const [familia, setFamilia] = useState("")
     const [password, setPassword] = useState("");
 
     const [surname1, setSurname1] = useState("");
