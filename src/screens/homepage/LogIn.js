@@ -174,12 +174,12 @@ function LogIn() {
                         Iniciar sesión
                     </button>
 
-                    <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px' }}>o</p>
+                    {/* <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px' }}>o</p>
 
                     <Button onClick={handleSocialLogin}  className='google-button'>
                         <span>Iniciar sesión con Google</span>
                         <img src={google} alt="Logo" />
-                    </Button>
+                    </Button> */}
 
                     <p style={{ textAlign: 'center' }}>
                         ¿No tiene cuenta?&nbsp;
