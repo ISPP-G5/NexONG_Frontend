@@ -250,6 +250,12 @@ function AdminEvents() {
           {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
           {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
           {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
+          <MultiSelect
+              label="Alumnos que asisten"
+              options={students}
+              value={localFormData.attendees}
+              readOnly={true}
+            />
           <div style={{ marginBottom: '1rem' }}>
           <label style={labelStyle}>Lección</label>
           <Select
@@ -271,39 +277,37 @@ function AdminEvents() {
 
 
           <div style={{ marginBottom: '1rem' }}>
-            <label style={labelStyle}>Educador</label>
-            <Select
-  value={localFormData.educatorId || ''} // Ensure a default value is set
+          <label style={labelStyle}>Educador</label>
+<Select
+  multiple // Enable multiple selections
+  value={localFormData.educatorId || []} // Ensure a default value is set as an array
   onChange={(e) => {
-    const selectedEducatorId = e.target.value;
-    const selectedEducator = educators.find(educator => educator.id === selectedEducatorId);
-    setLocalFormData({ ...localFormData, educatorId: selectedEducatorId });
+    const selectedEducatorIds = e.target.value; // Use target.value to get the array of selected IDs
+    const selectedEducators = educators.filter(educator => selectedEducatorIds.includes(educator.id));
+    setLocalFormData({ ...localFormData, educatorId: selectedEducatorIds });
     setLocalFormData(prevState => ({ 
       ...prevState, 
-      educators: selectedEducator ? [selectedEducator] : [] 
+      educators: selectedEducators 
     }));
   }}
   fullWidth
 >
-{educators.map((educator) => {
-            // Find the user corresponding to the educatorId
-            const user = users.find((user) => user.id === educator.id);
-            // Display the educator's name if found
-            if (user) {
-              return (
-                <MenuItem key={user.id} value={user.id}>
-                  {`${user.first_name} ${user.last_name}`}
-                </MenuItem>
-              );
-            } else {
-              return null; // Return null if user not found (handle this case as per your requirement)
-            }
-          })}
+  {educators.map((educator) => {
+    // Find the user corresponding to the educatorId
+    const user = users.find((user) => user.id === educator.id);
+    // Display the educator's name if found
+    if (user) {
+      return (
+        <MenuItem key={user.id} value={user.id}>
+          {`${user.first_name} ${user.last_name}`}
+        </MenuItem>
+      );
+    } else {
+      return null; // Return null if user not found (handle this case as per your requirement)
+    }
+  })}
 </Select>
-
-
           </div>
-
         </>
       );
     };
@@ -807,7 +811,7 @@ axios
           price: event.price,
           attendees: attendeesArray,
           volunteers: volunteersArray,
-          educatorId: event.educators[0],
+          educatorId: event.educators,
           lessonId: event.lesson,
           start_date: startDate,
           end_date: endDate,
