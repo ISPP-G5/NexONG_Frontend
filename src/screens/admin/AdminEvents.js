@@ -11,6 +11,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import ButtonCreate from '../../components/ButtonCreate';
 import 'react-toastify/dist/ReactToastify.css';
+import { ClassSharp } from '@material-ui/icons';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const token = localStorage.getItem('accessToken');
@@ -42,6 +43,7 @@ function AdminEvents() {
     attendees: [],
     volunteers: [],
     educators: [],
+    educatorId: '',
     lesson: '',
     start_date: '',
     end_date: '',
@@ -124,8 +126,10 @@ function AdminEvents() {
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [openAddLessonEventDialog, setOpenAddLessonEventDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [openEditLessonEventDialog, setOpenEditLessonEventDialog] = useState(false);
     const [openMeetingDialog, setMeetingDialog] = useState(false);
     const [editEvent, setEditEvent] = useState(null);
+    const [editLessonEvent, setEditLessonEvent] = useState(null);
 
     const [volunteers, setVolunteers] = useState([]);
     const [meetings, setMeetings] = useState([]);
@@ -135,6 +139,7 @@ function AdminEvents() {
     const [lessonEvents, setLessonEvents] = useState([]);
     const [eventToDelete, setEventToDelete] = useState(null);
     const [isNewEvent, setIsNewEvent] = useState(true); 
+    const [isNewLessonEvent, setIsNewLessonEvent] = useState(true);
     const [isLessonEvent, setIsLessonEvent] = useState(false);
     const [openNewDialog, setOpenNewDialog] = useState(false);
     const allEvents = [...events, ...meetings, ...lessonEvents];
@@ -179,7 +184,6 @@ function AdminEvents() {
         const student = students.find((student) => student.id === attendeeId);
         return student ? `${student.name} ${student.surname}` : '';
       });
-      console.log('form:', localFormData);
     
       return (
         <>
@@ -244,7 +248,6 @@ function AdminEvents() {
           {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
           {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value}), 'number')}
           {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
-          {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
           {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
           {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
           <div style={{ marginBottom: '1rem' }}>
@@ -460,14 +463,17 @@ axios
             title: event.name,
             description: event.description,
             place: event.place,
+            lesson: event.lesson,
             max_volunteers: event.max_volunteers,
-            max_attendees: event.max_attendees,
             price: event.price,
             attendees: event.attendees,
             volunteers: event.volunteers,
+            educators: event.educators,
             start: new Date(event.start_date),
             end: new Date(event.end_date),
+            type: 'lesson-event',
           }));
+          console.log('formattedLessonEvents:', formattedLessonEvents);
           
           setLessonEvents(formattedLessonEvents);
         })
@@ -577,7 +583,7 @@ axios
       console.log('Educators:', localFormData.educators);
       console.log('Lesson:', localFormData.lessonId);
       
-      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price || !localFormData.educators || localFormData.educators.length === 0) {
+      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price || !localFormData.educators || localFormData.educators.length === 0) {
         toast.error('Por favor, rellene todos los campos y seleccione al menos un educador.');
         return;
       }
@@ -591,14 +597,13 @@ axios
         .then((response) => {
           console.log('Response of post:', response.data);
           toast.success('Lesson-Event creado con éxito');
-    
+  
           const newLessonEvent = {
             id: response.data.id,
             title: localFormData.name,
             description: localFormData.description,
             place: localFormData.place,
             max_volunteers: localFormData.max_volunteers,
-            max_attendees: localFormData.max_attendees,
             price: localFormData.price,
             volunteers: localFormData.volunteers,
             lesson: localFormData.lessonId, // Include lesson ID
@@ -648,22 +653,50 @@ axios
             setOpenAddDialog(false);
           })
         }};
+      
+      const handleLessonEventEdit = () => {
+        if (editLessonEvent) {
+          const updatedLessonEventData = {
+            ...editLessonEvent,
+            name: localFormData.name,
+            description: localFormData.description,
+            place: localFormData.place,
+            max_volunteers: localFormData.max_volunteers,
+            price: localFormData.price,
+            start_date: localFormData.start_date,
+            end_date: localFormData.end_date,
+            lesson: localFormData.lessonId,
+            educators: localFormData.educators.map(educator => educator.id),
+          };
+          axios
+          .put(`${API_ENDPOINT}lesson-event/${editLessonEvent.id}/`, updatedLessonEventData)
+          .then((response) => {
+            const updatedLessonEvent = response.data;
+            setLessonEvents(prevLessonEvents =>
+              prevLessonEvents.map(lessonEvent => lessonEvent.id === updatedLessonEvent.id ? updatedLessonEvent : lessonEvent)
+            );
+            setOpenEditLessonEventDialog(false);
+            setIsNewLessonEvent(true); // Set isNewEvent to false when editing an existing event
 
-    const handleEventEdit = () => {
-      if (editEvent) {
-        const updatedEventData = {
-          ...editEvent,
-          name: localFormData.name,
-          description: localFormData.description,
-          place: localFormData.place,
-          max_volunteers: localFormData.max_volunteers,
-          max_attendees: localFormData.max_attendees,
-          price: localFormData.price,
-          attendees: localFormData.attendees,
-          volunteers: localFormData.volunteers,
-          start_date: localFormData.start_date,
-          end_date: localFormData.end_date,
-        };
+            toast.success('Actividad actualizada correctamente');
+          })
+        }
+      }
+
+      const handleEventEdit = () => {
+        if (editEvent) {
+          const updatedEventData = {
+            ...editEvent,
+            name: localFormData.name,
+            description: localFormData.description,
+            place: localFormData.place,
+            max_volunteers: localFormData.max_volunteers,
+            price: localFormData.price,
+            attendees: localFormData.attendees,
+            volunteers: localFormData.volunteers,
+            start_date: localFormData.start_date,
+            end_date: localFormData.end_date,
+          };
     
         axios
           .put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData)
@@ -754,8 +787,39 @@ axios
           time: event.time
 
         });
-        setMeetingDialog(true); // Open the dialog to display meeting information
-      } else {
+       setMeetingDialog(true); // Open the dialog to display meeting information
+      } else if (event.type === 'lesson-event') {
+        setIsNewLessonEvent(false); // Set isNewEvent to false when editing an existing event
+        setEditLessonEvent(event);
+        const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+        const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
+        const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+        const endDate = moment(event.end).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+                // Find the lesson object by id and get its name
+        
+
+        setLocalFormData({
+          name: event.title,
+          description: event.description,
+          place: event.place,
+          max_volunteers: event.max_volunteers,
+          max_attendees: event.max_attendees,
+          price: event.price,
+          attendees: attendeesArray,
+          volunteers: volunteersArray,
+          educatorId: event.educators[0],
+          lessonId: event.lesson,
+          start_date: startDate,
+          end_date: endDate,
+        });
+        setOpenEditLessonEventDialog(true);
+        console.log('activida d editar:', event);
+      
+      }
+
+      
+      
+      else {
         // For non-meeting events, proceed with editing
         setIsNewEvent(false); // Set isNewEvent to false when editing an existing event
         setEditEvent(event);
@@ -843,11 +907,12 @@ axios
             </Button>
           </DialogActions>
         </Dialog>
+        
 
         <Dialog open={openEditDialog} onClose={() => {
-    setOpenEditDialog(false);
-    setIsNewEvent(true); // Set isNewEvent to true when closing the edit dialog
-}}>
+          setOpenEditDialog(false);
+          setIsNewEvent(true); // Set isNewEvent to true when closing the edit dialog
+          }}>
           <DialogTitle>Editar Evento</DialogTitle>
           <DialogContent>{renderTextFieldComponents()}</DialogContent>
           <DialogActions>
@@ -855,6 +920,25 @@ axios
               Volver
             </Button>
             <Button onClick={handleEventEdit} color="primary">
+              Guardar
+            </Button>
+            <Button onClick={handleEventDelete} color="secondary">
+              Borrar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={openEditLessonEventDialog} onClose={() => {
+          setOpenEditLessonEventDialog(false);
+          setIsNewLessonEvent(true); // Set isNewEvent to true when closing the edit dialog
+          }}>
+          <DialogTitle>Editar Actividad</DialogTitle>
+          <DialogContent>{renderLessonEventTextFieldComponents()}</DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenEditLessonEventDialog(false)} color="primary">
+              Volver
+            </Button>
+            <Button onClick={handleLessonEventEdit} color="primary">
               Guardar
             </Button>
             <Button onClick={handleEventDelete} color="secondary">
