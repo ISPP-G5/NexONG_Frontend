@@ -23,7 +23,7 @@ const VolunteersAttendance = () => {
     const userId = parseInt(localStorage.getItem('userId'));
 
     useEffect(() => {
-      axios.get(`${API_ENDPOINT}auth/me/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
               setCurrentUser({
               volunteerId: response.data.volunteer
