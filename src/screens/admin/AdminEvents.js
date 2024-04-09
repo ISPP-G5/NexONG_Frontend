@@ -859,18 +859,39 @@ axios
 
         <div className={classes.calendarContainer}>
         <Calendar
-          localizer={localizer}
-          events={allEvents}
-          startAccessor="start"
-          endAccessor="end"
-          onSelectSlot={handleSelect}
-          onSelectEvent={handleEventClick}
-          views={['month', 'week', 'day']}
-          selectable={true}
-          step={60} // Decreased step for finer granularity
-          timeslots={1} // Only one row per hour
-          className='calendar'
-        />
+  localizer={localizer}
+  events={allEvents}
+  startAccessor="start"
+  endAccessor="end"
+  onSelectSlot={handleSelect}
+  onSelectEvent={handleEventClick}
+  views={['month', 'week', 'day']}
+  selectable={true}
+  step={60} // Decreased step for finer granularity
+  timeslots={1} // Only one row per hour
+  className='calendar'
+  eventPropGetter={(event, start, end, isSelected) => {
+    let newStyle = {
+      backgroundColor: "lightblue",
+      color: 'black',
+      borderRadius: "15px",
+      border: "none"
+    };
+
+    if (event.type === 'meeting') {
+      newStyle.backgroundColor = "yellow";
+    } else if (event.type === 'lesson-event') {
+      newStyle.backgroundColor = "green";
+    } else if (event.type === 'event') {
+      newStyle.backgroundColor = "red";
+    }
+
+    return {
+      className: "",
+      style: newStyle
+    };
+  }}
+/>
 
 
         </div>
