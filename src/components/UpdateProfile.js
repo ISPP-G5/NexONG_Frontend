@@ -85,8 +85,7 @@ const UpdateProfile = ({tipo,id}) => {
 
             }else if(id && valoresList.role === "EDUCADOR"){
                 navigate(`/admin/${valoresList.role + "ES"}`)
-
-            }
+             }
              else {
                 navigate(`/${tipo}/perfil`);
             }
