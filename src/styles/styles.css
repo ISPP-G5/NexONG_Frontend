@@ -1209,7 +1209,7 @@ tbody tr:nth-child(odd) {
 @media (min-width: 1px) and (max-width: 768px) {
 
   .register-button.admin, .register-button.admin a{
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 

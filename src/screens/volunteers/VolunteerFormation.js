@@ -61,7 +61,7 @@ function VolunteerFormation() {
 
         <button 
             className='register-button' 
-            style={{alignSelf: 'center', width: '20%', marginBottom: '5%'}}
+            style={{alignSelf: 'center', width: '40%', marginBottom: '5%'}}
             onClick={handleButtonClick}
         >
             Finalizar
