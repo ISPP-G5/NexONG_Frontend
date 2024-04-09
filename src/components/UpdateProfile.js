@@ -112,7 +112,7 @@ const UpdateProfile = ({tipo,id}) => {
                     defaultValue={name} //defaultValue es como value, pero permite el cambio
                     onChange={(e) => setName(e.target.value)}
                     type='text'
-                    placeholder='Nombre'
+                    placeholder={valoresList.first_name}
                 ></input>
 
                 <p>Apellido</p>
@@ -120,7 +120,7 @@ const UpdateProfile = ({tipo,id}) => {
                     defaultValue={surname}
                     onChange={(e) => setSurname(e.target.value)}
                     type='text'
-                    placeholder='Primer Apellido'
+                    placeholder={valoresList.last_name}
                 ></input>
 
                 <p>DNI/NIE/Pasaporte</p>
@@ -128,7 +128,7 @@ const UpdateProfile = ({tipo,id}) => {
                     defaultValue={id_number}
                     onChange={(e) => setId_number(e.target.value)}
                     type='text'
-                    placeholder='DNI/NIE/Pasaporte'
+                    placeholder={valoresList.id_number}
                 ></input>
 
                 <p>Número de teléfono</p>
@@ -136,7 +136,7 @@ const UpdateProfile = ({tipo,id}) => {
                     defaultValue={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     type='tel'
-                    placeholder='Número de teléfono'
+                    placeholder={valoresList.phone}
                 ></input>
                 {id? <></>:
                 <>
