@@ -1874,3 +1874,15 @@ tbody tr:nth-child(odd) {
     width: 100%;
   }
 }
+
+
+/********************* VOLUNTEER FORMATION ******************/
+
+.formation-videos {
+  width: 60%; 
+  height: auto; 
+  display: block; 
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px; 
+};
