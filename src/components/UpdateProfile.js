@@ -7,7 +7,11 @@ import {useNavigate} from 'react-router-dom';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-
+const config = {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    }
+  };
 
 const UpdateProfile = ({tipo}) => {
 
@@ -21,18 +25,16 @@ const UpdateProfile = ({tipo}) => {
     //Traemos los datos del usuario
     useEffect(() => {
 
-      axios.get(`${API_ENDPOINT}auth/users/me/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`, config)
         .then(response => {
-          setValores(response.data.find(x=>x.id==parseInt(id,10)));
-            console.log("name", name)
-            setAvatar(valoresList.avatar)
+          setValores(response.data);
         })
         .catch(error => {
           console.error(error);
         });
 
     }, []);
-
+    console.log("asda")
     //Atributos
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");

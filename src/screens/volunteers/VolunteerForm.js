@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import HeaderProfiles from '../../components/HeaderProfiles';
 import useAdjustMargin from '../../components/useAdjustMargin';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -142,7 +142,7 @@ function VolunteerForm() {
       localStorage.setItem('volunteerId', response.data.id);
       console.log(response.data);
       toast.success('Volunteer created successfully');
-
+      
       // Get the user's ID 
       const userId = localStorage.getItem('userId');
 
@@ -155,7 +155,9 @@ function VolunteerForm() {
     } catch (error) {
       if (error.response && error.response.data) {
         // If the error response and data exist, show the error message from the backend
-        toast.error(`Error creating volunteer: ${error.response.data}`);
+        Object.entries(error.response.data).forEach(([key, value]) => {
+          toast.error(`${value}`);
+        });
       } else {
         // If the error response or data doesn't exist, show a generic error message
         toast.error('Error creating volunteer');
@@ -167,7 +169,8 @@ function VolunteerForm() {
 
   return (
     <div className='App'>
-      <HeaderProfiles profile={'voluntario'} showProfile={false} />
+      <ToastContainer />
+      <HeaderProfiles profile={'voluntario'} showProfile={false}  />
       <form className='register-container' style={{marginTop }} onSubmit={handleSubmit}>
         <h2>Formulario de Voluntarios</h2>
         <p>Necesitamos algunos datos y documentos para completar tu solicitud como voluntario</p>

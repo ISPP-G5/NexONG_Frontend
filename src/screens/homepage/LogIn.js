@@ -1,15 +1,11 @@
 import '../../styles/styles.css'
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation, redirect } from 'react-router-dom';
-import google from '../../logo/google.svg'
 import LayoutHomepage from '../../components/LayoutHomepage';
 import useAdjustMargin from '../../components/useAdjustMargin';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button } from '@material-ui/core';
-import Header from '../../components/Header';
-import { Print } from '@material-ui/icons';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
@@ -99,8 +95,7 @@ function LogIn() {
 
             console.log('Logged in, access token:', accessToken);
     
-            
-            // Find the user that matches the logged-in user's token
+            manageLogin(accessToken, refreshToken);            // Find the user that matches the logged-in user's token
             const userResponse = await axios.get(`${API_ENDPOINT}auth/users/me/`, {
                 headers: {
                   'Authorization': `Bearer ${accessToken}`
