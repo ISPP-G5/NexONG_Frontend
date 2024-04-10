@@ -136,8 +136,10 @@ function AdminEvents() {
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+    const [confirmDeleteLessonEventOpen, setConfirmDeleteLessonEventOpen] = useState(false);
     const [lessonEvents, setLessonEvents] = useState([]);
     const [eventToDelete, setEventToDelete] = useState(null);
+    const [lessonEventToDelete, setLessonEventToDelete] = useState(null);
     const [isNewEvent, setIsNewEvent] = useState(true); 
     const [isNewLessonEvent, setIsNewLessonEvent] = useState(true);
     const [isLessonEvent, setIsLessonEvent] = useState(false);
@@ -148,6 +150,7 @@ function AdminEvents() {
     const handleCreateClick = () => {
       setOpenNewDialog(true);
     };
+
     const handleLessonEventCreate = () => {
       // Open the lesson-event dialog here
       setIsLessonEvent(true);
@@ -163,7 +166,7 @@ function AdminEvents() {
 
 
     const handleSelect = ({ start }) => {
-      setOpenAddDialog(true);
+      setOpenNewDialog(true);
       clearLocalFormData();
       const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
       setLocalFormData((prevState) => ({
@@ -256,6 +259,7 @@ function AdminEvents() {
               value={localFormData.attendees}
               readOnly={true}
             />
+
           <div style={{ marginBottom: '1rem' }}>
           <label style={labelStyle}>Lección</label>
           <Select
@@ -330,6 +334,13 @@ function AdminEvents() {
             {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({...localFormData, max_attendees: value }), 'number')}
             {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({...localFormData, start_date: value }), 'datetime-local')}
             {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({...localFormData, end_date: value }), 'datetime-local')}
+            {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
+
+{isNewEvent && ( // Conditionally render the button for new events only
+        <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
+        {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
+      </Button>
+    )}
           </>
         );
       } else {
@@ -343,12 +354,14 @@ function AdminEvents() {
             {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({...localFormData, max_attendees: value }), 'number')}
             {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({...localFormData, start_date: value }), 'datetime-local')}
             {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({...localFormData, end_date: value }), 'datetime-local')}
+            
             <MultiSelect
               label="Alumnos que asisten"
               options={students}
               value={localFormData.attendees}
               readOnly={true}
             />
+
           </>
         );
       }
@@ -670,11 +683,14 @@ axios
             start_date: localFormData.start_date,
             end_date: localFormData.end_date,
             lesson: localFormData.lessonId,
-            educators: localFormData.educators.map(educator => educator.id),
+            educators: localFormData.educatorId,
           };
+          console.log('updatedLessonEventData:', updatedLessonEventData);
           axios
           .put(`${API_ENDPOINT}lesson-event/${editLessonEvent.id}/`, updatedLessonEventData)
+          
           .then((response) => {
+            console.log('Response of put:', response.data);
             const updatedLessonEvent = response.data;
             setLessonEvents(prevLessonEvents =>
               prevLessonEvents.map(lessonEvent => lessonEvent.id === updatedLessonEvent.id ? updatedLessonEvent : lessonEvent)
@@ -685,7 +701,33 @@ axios
             toast.success('Actividad actualizada correctamente');
           })
         }
+        
       }
+      const handleLessonEventDelete = () => {
+        if (editLessonEvent) {
+          setLessonEventToDelete(editLessonEvent);
+          setConfirmDeleteLessonEventOpen(true);
+        };
+      }
+      const handleConfirmDeleteLessonEvent = () => {
+        if (lessonEventToDelete) {
+          axios
+            .delete(`${API_ENDPOINT}lesson-event/${lessonEventToDelete.id}/`)
+            .then(() => {
+              setLessonEvents(lessonEvents.filter((lessonEvent) => lessonEvent.id !== lessonEventToDelete.id));
+              setOpenEditLessonEventDialog(false);
+              setIsNewLessonEvent(true); // Set isNewEvent to false when editing an existing event
+              toast.success('Actividad eliminada correctamente');
+              setConfirmDeleteLessonEventOpen(false);
+              setLessonEventToDelete(null);
+            })
+            .catch((error) => {
+              console.error('Error deleting lesson-event:', error);
+              toast.error('Ha ocurrido un error al eliminar el evento.');
+            });
+        }
+      };
+          
 
       const handleEventEdit = () => {
         if (editEvent) {
@@ -774,6 +816,7 @@ axios
           });
       }
     };
+
     
 
     const handleEventClick = (event) => {
@@ -799,6 +842,7 @@ axios
         const volunteersArray = Array.isArray(event.volunteers) ? event.volunteers : [event.volunteers];
         const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
         const endDate = moment(event.end).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+        const educatorsArray = Array.isArray(event.educators) ? event.educators : [event.educators];
                 // Find the lesson object by id and get its name
         
 
@@ -813,6 +857,7 @@ axios
           volunteers: volunteersArray,
           educatorId: event.educators,
           lessonId: event.lesson,
+          educators: educatorsArray,
           start_date: startDate,
           end_date: endDate,
         });
@@ -966,8 +1011,19 @@ axios
             <Button onClick={handleLessonEventEdit} color="primary">
               Guardar
             </Button>
-            <Button onClick={handleEventDelete} color="secondary">
+            <Button onClick={handleLessonEventDelete} color="secondary">
               Borrar
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={confirmDeleteLessonEventOpen} onClose={() => setConfirmDeleteOpen(false)}>
+          <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
+          <DialogActions>
+            <Button onClick={() => setConfirmDeleteLessonEventOpen(false)} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmDeleteLessonEvent} color="secondary">
+              Confirmar
             </Button>
           </DialogActions>
         </Dialog>
