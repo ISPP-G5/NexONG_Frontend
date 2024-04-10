@@ -151,11 +151,17 @@ function AdminEvents() {
       setOpenNewDialog(true);
     };
 
-    const handleLessonEventCreate = () => {
+    const handleLessonEventCreate = ({ start }) => {
       // Open the lesson-event dialog here
       setIsLessonEvent(true);
       setOpenAddLessonEventDialog(true);
       clearLocalFormData();
+      const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
+      setLocalFormData((prevState) => ({
+        ...prevState,
+        start_date: selectedDate,
+        end_date: selectedDate,
+      }));
     };
     
 
@@ -172,12 +178,19 @@ function AdminEvents() {
       setLocalFormData((prevState) => ({
         ...prevState,
         start_date: selectedDate,
+        end_date: selectedDate,
       }));
     };
 
-    const handleEventCreate = () => {
+    const handleEventCreate = ({ start }) => {
       setOpenAddDialog(true);
       clearLocalFormData();
+      const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
+      setLocalFormData((prevState) => ({
+        ...prevState,
+        start_date: selectedDate,
+        end_date: selectedDate,
+      }));
     };
 
 
