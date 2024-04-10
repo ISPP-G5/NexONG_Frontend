@@ -24,40 +24,39 @@ const AdminLessonsCreate = () => {
   });
   const [educators, setEducators] = useState([]);
   const [students, setStudents] = useState([]);
-  const [lessons, setLessons] = useState([]);
+  const [studentsFiltered, setStudentsFiltered] = useState([]); // Define studentsFiltered state
   const [users, setUsers] = useState([]);
-  
 
   const navigate = useNavigate();
   const handleClassClick = () => {
-
     navigate('/admin/clases');
-  
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-  
+
     if (type === 'checkbox') {
-      setLocalFormData({...localFormData, [name]: checked });
+      setLocalFormData({ ...localFormData, [name]: checked, students: []});
+
+      // Update studentsFiltered based on the checked state of the checkbox
+      const filteredStudents = checked ? students.filter(student => student.is_morning_student) : students.filter(student => !student.is_morning_student);
+      setStudentsFiltered(filteredStudents);
     } else if (name === 'educator' || name === 'students') {
       // For select inputs, no need to convert value to number
-      setLocalFormData({...localFormData, [name]: value });
+      setLocalFormData({ ...localFormData, [name]: value });
     } else if (name === 'capacity') {
       // Ensure the capacity is a positive integer
       const intValue = parseInt(value);
       if (!isNaN(intValue) && intValue > 0) {
-        setLocalFormData({...localFormData, [name]: intValue });
+        setLocalFormData({ ...localFormData, [name]: intValue });
       } else {
-        setLocalFormData({...localFormData, [name]: '' }); // Reset to empty string if not a valid integer
+        setLocalFormData({ ...localFormData, [name]: '' }); // Reset to empty string if not a valid integer
       }
     } else {
-      setLocalFormData({...localFormData, [name]: value });
+      setLocalFormData({ ...localFormData, [name]: value });
     }
-  
-    console.log('Updated State:', localFormData);
+    console.log('localFormData:', localFormData);
   };
-  
 
   const handleSubmit = () => {
     if (!Number.isInteger(localFormData.capacity) || localFormData.capacity <= 0) {
@@ -112,122 +111,120 @@ const AdminLessonsCreate = () => {
       .then((response) => {
         console.log('response students:', response.data);
         setStudents(response.data);
+        const studentsFiltered = response.data.filter(student => student.is_morning_student === false); // Initialize studentsFiltered state
+        setStudentsFiltered(studentsFiltered);
+        
       })
       .catch((error) => {
         console.error('Error fetching educators:', error);
       });
     axios
-    .get(`${API_ENDPOINT}user/`)
-    .then((response) => {
-      console.log('response user:', response.data);
-      setUsers(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching users:', error);
-    });
+      .get(`${API_ENDPOINT}user/`)
+      .then((response) => {
+        console.log('response user:', response.data);
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching users:', error);
+      });
   }, []);
 
+  return (
+    <LayoutProfiles profile={'admin'} selected={'Clases'}>
+      <button className='button' onClick={handleClassClick} style={{ alignSelf: 'start', marginLeft: '15%' }}>
+        Volver
+      </button>
+      <ToastContainer />
+      <div className="register-container admin">
+        <label>Nombre de la clase</label>
+        <input
+          type="text"
+          placeholder="Ingrese el nombre"
+          name="name"
+          value={localFormData.name}
+          onChange={(e) => handleChange(e, 'name')}
+        />
 
-return (
-  <LayoutProfiles profile={'admin'} selected={'Clases'}>
-  <button className='button' onClick={handleClassClick} style={{ alignSelf: 'start', marginLeft: '15%' }}>
-    Volver
-  </button>
-  <ToastContainer />
-  <div className="register-container admin">
-    <label>Nombre de la clase</label>
-    <input
-  type="text"
-  placeholder="Ingrese el nombre"
-  name="name"
-  value={localFormData.name}
-  onChange={(e) => handleChange(e, 'name')}
-    />
+        <label>Descripción</label>
+        <input
+          type="text"
+          placeholder="Ingrese descripción"
+          name="description"
+          value={localFormData.description}
+          onChange={handleChange}
+        />
 
-    <label>Descripción</label>
-    <input
-      type="text"
-      placeholder="Ingrese descripción"
-      name="description"
-      value={localFormData.description}
-      onChange={handleChange}
-    />
+        <label>Capacidad</label>
+        <input
+          type="number"
+          placeholder="Ingrese la capacidad"
+          name="capacity"
+          value={localFormData.capacity}
+          onChange={handleChange}
+          min="1"
+        />
 
-    <label>Capacidad</label>
-    <input
-      type="number"
-      placeholder="Ingrese la capacidad"
-      name="capacity"
-      value={localFormData.capacity}
-      onChange={handleChange}
-      min = "1"
-    />
-    
-    <div style={{ marginTop: '4%' }}>
-      <input
-        type="checkbox"
-        name="is_morning_lesson"
-        checked={localFormData.is_morning_lesson}
-        onChange={handleChange}
-      />
-      <label>¿Es una clase por la mañana?</label>
-    </div>
+        <div style={{ marginTop: '4%' }}>
+          <input
+            type="checkbox"
+            name="is_morning_lesson"
+            checked={localFormData.is_morning_lesson}
+            onChange={handleChange}
+          />
+          <label>¿Es una clase por la mañana?</label>
+        </div>
 
-    <label>Seleccione al educador/a</label>
-    <Select
-      name="educator"
-      value={localFormData.educator.id}
-      onChange={handleChange}
-      style={{ width: '70%' }} 
-    >
-      {educators.map((educator) => (
-        <MenuItem key={educator.id} value={educator.id}>
-          {users.find((user) => user.id === educator.id)?.first_name + ' ' + users.find((user) => user.id === educator.id)?.last_name} 
+        <label>Seleccione al educador/a</label>
+        <Select
+          name="educator"
+          value={localFormData.educator.id}
+          onChange={handleChange}
+          style={{ width: '70%' }}
+        >
+          {educators.map((educator) => (
+            <MenuItem key={educator.id} value={educator.id}>
+              {users.find((user) => user.id === educator.id)?.first_name + ' ' + users.find((user) => user.id === educator.id)?.last_name}
+            </MenuItem>
+          ))}
+        </Select>
 
-        </MenuItem>
-      ))}
-    </Select>
+        <label>Seleccione a los estudiantes</label>
+        <Select
+          name="students"
+          multiple
+          value={localFormData.students}
+          onChange={handleChange}
+          style={{ width: '70%' }}
+        >
+          {studentsFiltered.map((student) => (
+            <MenuItem key={student.id} value={student.id}>
+              {student.name}
+            </MenuItem>
+          ))}
+        </Select>
 
-    <label>Seleccione a los estudiantes</label>
-      <Select
-        name="students"
-        multiple
-        value={localFormData.students}
-        onChange={handleChange}
-        style={{ width: '70%' }} 
-      >
-        {students.map((student) => (
-          <MenuItem key={student.id} value={student.id}>
-            {student.name}
-          </MenuItem>
-        ))}
-      </Select>
+        <label>Fecha de inicio</label>
+        <input
+          type="date"
+          name="start_date"
+          value={localFormData.start_date}
+          onChange={handleChange}
+        />
 
+        <label>Fecha de fin</label>
+        <input
+          type="date"
+          name="end_date"
+          value={localFormData.end_date}
+          onChange={handleChange}
+        />
 
-    <label>Fecha de inicio</label>
-    <input
-      type="date"
-      name="start_date"
-      value={localFormData.start_date}
-      onChange={handleChange}
-    />
-
-    <label>Fecha de fin</label>
-    <input
-      type="date"
-      name="end_date"
-      value={localFormData.end_date}
-      onChange={handleChange}
-    />
-
-    <button className="register-button" onClick={handleSubmit}>
-      Crear
-    </button>
-  </div>
-  </LayoutProfiles>
-);
+        <button className="register-button" onClick={handleSubmit}>
+          Crear
+        </button>
+      </div>
+    </LayoutProfiles>
+  );
 };
-
-
 
 export default AdminLessonsCreate;
