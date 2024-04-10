@@ -41,6 +41,7 @@ import AdminLessonsEdit from './admin/AdminLessonsEdit';
 import AdminProjects from './admin/AdminProjects';
 import AdminProjectsCreate from './admin/AdminProjectsCreate';
 import AdminSuggestions from './admin/AdminSuggestions';
+import AdminScheduleCreate from './admin/AdminScheduleCreate';
 
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
@@ -113,6 +114,8 @@ function App() {
             <Route path="/admin/familias/solicitudes" exact={true} element={<AdminFamilyRequests />} />
 
             <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
+
+            <Route path="/admin/horarios/crear" exact={true} element={<AdminScheduleCreate />} />
             
             {/* Routes para colegios aquí */}
 

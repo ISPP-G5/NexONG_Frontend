@@ -12,9 +12,23 @@ import ButtonCreate from '../../components/ButtonCreate';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+const ButtonCreateSchedule = ({ text, handleCreate }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    handleCreate();
+    navigate('/admin/horarios/crear');
+  };
+
+  return (
+    <button className="button" onClick={handleClick} style={{ alignSelf: 'start', marginLeft: '15%' }}>
+      {text}
+    </button>
+  );
+};
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
-  const educator = users.find(user => user.id === lesson.educator); // Corrected 'educator' key
+  const educator = users.find(user => user.id === lesson.educator);
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
 
   const onDeleteClick = () => {
@@ -36,8 +50,6 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
     </div>
   );
 };
-
-
 
 const AdminLessons = () => {
   const [lessons, setLessons] = useState([]);
@@ -76,6 +88,10 @@ const AdminLessons = () => {
     navigate('/admin/clases/crear');
   };
 
+  const handleCreateScheduleClick = () => {
+    navigate('/admin/horarios/crear');
+  };
+
   useEffect(() => {
     axios
       .get(`${API_ENDPOINT}lesson/`)
@@ -99,7 +115,10 @@ const AdminLessons = () => {
 
   return (
     <LayoutProfiles profile={'admin'} selected={'Clases'}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2%' }}>
       <ButtonCreate text='Crear clase' handleCreate={handleCreateClassClick} />
+      <ButtonCreate text='Crear horario' handleCreate={handleCreateScheduleClick} />
+    </div>
       <ToastContainer />
       <div className='lessons-container'>
         {lessons.map((lesson, index) => (

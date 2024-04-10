@@ -5,7 +5,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 const ButtonCreate = ({ text, handleCreate }) => {
     
     return (
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' , marginLeft: '20px'}}>
             <button className="button-create" onClick={handleCreate}>
                 <AddCircleIcon className='add-circle' />
                 <p>{text}</p>
