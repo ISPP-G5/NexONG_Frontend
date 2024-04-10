@@ -46,10 +46,6 @@ function LogIn() {
             const user = userResponse.data;
             console.log('User data:', user);
 
-            // Check if the user is enabled
-            if (!user.is_enabled) {
-                toast.error('Revise el correo y active la cuenta');
-            } else {
                 if (user.role === 'VOLUNTARIO') {
                     if (user.volunteer === null) {
                         navigate('/voluntario/formulario');
@@ -99,13 +95,13 @@ function LogIn() {
                     navigate(`/admin/voluntarios`);
                 }
         
-                localStorage.setItem('userId', user.id);
-            }    
-        } catch (error) {
-            console.error('Error during login:', error);
-            toast.error('Contraseña o correo incorrecto');
-        }
-    };
+                localStorage.setItem('userId', user.id);  
+            } catch(error){
+                Object.entries(error.response.data).forEach(([key, value]) => {
+                  toast.error(`${value}`);
+                });
+              }
+        }  
     const marginTop = useAdjustMargin();
 
     return (
