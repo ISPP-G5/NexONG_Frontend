@@ -28,7 +28,7 @@ export function useFetchUsersByRole(API_ENDPOINT, role) {
         setUsers(response.data.filter(user => user.role === role));
       })
       .catch((error) => {
-        console.error(`Error fetching ${role}:`, error);
+        console.error('Error fetching:', error);
       });
   }, [API_ENDPOINT, role]);
 
