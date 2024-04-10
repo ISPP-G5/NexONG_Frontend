@@ -6,28 +6,27 @@ import useAdjustMargin from '../../components/useAdjustMargin';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import useToken from '../../components/useToken';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-const accessToken = localStorage.getItem('accessToken');
-console.log(accessToken)
-const config_volunteer = {
-  headers: {
-    'Content-Type': 'multipart/form-data',
-    'Authorization': `Bearer ${accessToken}`,
-  }
-};
-
-const config_user = {
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${accessToken}`,
-  }
-};
 
 function VolunteerForm() {
-
+  const [token, updateToken] = useToken();
+  const config_volunteer = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${token}`,
+    }
+  };
+  
+  const config_user = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
