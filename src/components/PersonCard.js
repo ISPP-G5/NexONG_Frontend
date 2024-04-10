@@ -27,85 +27,110 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   };
   
   const handleAceptar = async (person) => {
-    console.log(person)
-    person.status = "ACEPTADO";
-    
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
-        status: person.status        
-    });
-    console.log('update',update);
-    const {data} = update;
-    if (data.message){
-        toast.error("Error al actualizar", {
+    if(!person.id || person.id <= 0){
+      toast.error('Error al actualizar', {
+        autoClose: 5000
+      })
+    } else{
+      if(personType === 'Voluntarios'){
+        await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`,{
+          status: "ACEPTADO"        
+        });
+      } else if(personType === 'Familias'){
+        await axios.patch(`${API_ENDPOINT}student/${person.id}/`,{
+          status: "ACEPTADO"        
+        });
+      } else {
+        toast.error('El usuario no tiene el rol adecuado', {
           autoClose: 5000
-          });
-    }else{
-        toast.success("Usuario actualizado con éxito.", {
-          autoClose: 5000
-          })
+        })
+      }
+      toast.success("Persona rechazada correctamente", {
+        autoClose: 5000
+      })
+      window.location.reload(); // Recarga la ventana después de eliminar
     }
-    window.location.reload();
   }
   
   const handleRechazar = async(person) =>{
-    console.log(person)
-    person.status = "RECHAZADO";
-    
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
-        status: person.status        
-    });
-    console.log('update',update);
-    const {data} = update;
-    if (data.message){
-        toast.error("Error al actualizar", {
+    if(!person.id || person.id <= 0){
+      toast.error('Error al actualizar', {
+        autoClose: 5000
+      })
+    } else{
+      if(personType === 'Voluntarios'){
+        await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`,{
+          status: "RECHAZADO"        
+        });
+      } else if(personType === 'Familias'){
+        await axios.patch(`${API_ENDPOINT}student/${person.id}/`,{
+          status: "RECHAZADO"        
+        });
+      } else {
+        toast.error('El usuario no tiene el rol adecuado', {
           autoClose: 5000
-          });
-    }else{
-        toast.success("Usuario actualizado con éxito.", {
-          autoClose: 5000
-          })
+        })
+      }
+      toast.success("Persona rechazada correctamente", {
+        autoClose: 5000
+      })
+      window.location.reload(); // Recarga la ventana después de eliminar
     }
-    window.location.reload();
   }
 
   const handleEliminar = async(person) =>{
     if(!person.id || person.id <= 0){
-        toast.error('La id no es valida', {
-          autoClose: 5000
-          })
+      toast.error('Error al eliminar', {
+        autoClose: 5000
+      })
     }else{
-      if(personType === 'Familias-solicitudes'){
-        await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
-      } else if(personType === 'Voluntarios'){
-        console.log(person.id);
-        await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`);
+      if(personType === 'Voluntarios'){
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`);
+      } else if(personType === 'Socios'){
+        await axios.delete(`${API_ENDPOINT}partner/${person.partner}/`);
+      } else if(personType === 'Educadores'){
+        await axios.delete(`${API_ENDPOINT}educator/${person.educator}/`);
       } else {
-        await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
-      }
-        toast.success("Persona eliminada correctamente", {
+        toast.error('El usuario no tiene el rol adecuado', {
           autoClose: 5000
-          })
-        window.location.reload(); // Recarga la ventana después de eliminar
+        })
+      }
+      toast.success("Persona eliminada correctamente", {
+        autoClose: 5000
+      })
+      window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
 
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
-      {personType === 'Familias' ?
-        <div className='family-info'>
-          <p>{person.first_name}</p>
-          <p><strong>{person.name}</strong></p>
-          <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
-        </div> 
-        :
+      { (request || personType !== 'Familias') &&
         <div className='family-request'>
           <img src={person.avatar} alt='placeholder' />
           <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
-            {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
+            {personType === 'Familias' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
           </div>
         </div>
+      }
+      {request &&
+        <div className='buttons-requests'>
+          <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
+          <div className='buttons-acceptance'>
+            <button className='button-accept' onClick={() => handleAceptar(person)}>Aceptar</button>
+            <button className='button-decline' onClick={() => handleRechazar(person)}>Rechazar</button>
+          </div>
+        </div>
+      }
+      {trash && <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />}
+
+      {/* This is used for admin families screen */}
+      {personType === 'Familias' && !request && 
+        <div className='family-info'>
+          <p><strong>{person.name}</strong></p>
+          <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
+        </div> 
       }
       {kids &&
         <div className='kids-info'>
@@ -123,16 +148,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           })}
         </div>
       }
-      {request &&
-        <div className='buttons-requests'>
-          <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
-          <div className='buttons-acceptance'>
-            <button className='button-accept' onClick={() => handleAceptar(person)}>Aceptar</button>
-            <button className='button-decline' onClick={() => handleRechazar(person)}>Rechazar</button>
-          </div>
-        </div>
-      }
-      {trash && <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />}
     </div>
   );
 }

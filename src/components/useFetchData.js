@@ -22,13 +22,13 @@ export function useFetchUsersByRole(API_ENDPOINT, role) {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}user/`)
+      .get(`${API_ENDPOINT}user/`) // This should be changed to auth/users when the new population is done
       .then((response) => {
         console.log('users:', response.data);
         setUsers(response.data.filter(user => user.role === role));
       })
       .catch((error) => {
-        console.error('Error fetching families:', error);
+        console.error(`Error fetching ${role}:`, error);
       });
   }, [API_ENDPOINT, role]);
 

@@ -29,20 +29,23 @@ function AdminFamilyRequests() {
   
   useEffect(() => {
     if (families.length > 0 && kids.length > 0) {
-      const newPersons = families.map(family => {
-        const kid = kids.find(kid => kid.family === family.id);
-        if (kid) {
-          return {
-            id: kid.id,
-            first_name: family.name,
-            last_name: `${kid.name} ${kid.surname}`,
-            avatar: kid.avatar,
-            enrollment_document: kid.enrollment_document
-          };
-        }
-        return null;
-      }).filter(person => person !== null);
-      setPersons(newPersons);
+      const newPersons = kids.map(async (kid) => {
+        const family = families.find(family => kid.family === family.id);
+        return {
+          id: kid.id,
+          first_name: family.name,
+          last_name: `${kid.name} ${kid.surname}`,
+          avatar: kid.avatar,
+          enrollment_document: kid.enrollment_document
+        };
+      })
+      Promise.all(newPersons)
+      .then(result => {
+        setPersons(result);
+      })
+      .catch(error => {
+        console.error(error);
+      });
     }
   }, [families, kids]);
 
@@ -50,7 +53,7 @@ function AdminFamilyRequests() {
   return (
     <ShowType 
       data={persons}
-      type = "Familias-solicitudes" 
+      type = "Familias" 
       pantallas={pantallas} 
       request={true} 
       trash={false}
