@@ -3,38 +3,40 @@ import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from "react-router-dom";
-import AdminEditProfiles from './AdminEditProfiles'
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
 
-  const handleDescargar = async (person) => {
-    // Download the enrollment_document
-    const documento = person.enrollment_document;
-    const nombreArchivo = 'documento_de_enlistamiento.pdf'; // Puedes cambiar el nombre del archivo según lo necesites
+  const handleDescargar = async(person) => {
+    const descargarDocumento = (documento, nombreArchivo) => {
+        const enlaceDescarga = document.createElement('a');
+        enlaceDescarga.href = documento;
+        enlaceDescarga.download = nombreArchivo;
 
-    // Crear un objeto Blob a partir de los datos del documento
-    const blob = new Blob([documento], { type: 'application/pdf' });
+        // Simular un clic en el enlace para descargar el archivo
+        enlaceDescarga.click();
+    };
 
-    // Crear un enlace temporal
-    const enlaceDescarga = document.createElement('a');
-    enlaceDescarga.href = window.URL.createObjectURL(blob);
-    enlaceDescarga.download = nombreArchivo;
+    // Descargar cada documento
+    descargarDocumento(`${API_ENDPOINT}export/files/volunteers?name=${person.first_name}&surname=${person.last_name}`, 'documentos_voluntario.zip');
 
-    // Hacer clic en el enlace para descargar el archivo
-    enlaceDescarga.click();
-    toast.error("Se descarga vacio porque la api pasa enlaces en vez de archivos", {
-      autoClose: 5000
+    // Mostrar un mensaje de éxito
+    toast.success("Descarga existosa", {
+        autoClose: 5000
     });
-  };
+}; 
 
   const handleAceptar = async (person) => {
-    console.log(person)
     person.status = "ACEPTADO";
+    let url;
+    if (person.volunteer) {
+      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
+    } else if (person.id) {
+      url = `${API_ENDPOINT}student/${person.id}/`;
+    }
 
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`, {
+    const update = await axios.patch(url, {
       status: person.status
     });
     console.log('update', update);
@@ -49,13 +51,18 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       })
     }
     window.location.reload();
-  }
+}
 
   const handleRechazar = async (person) => {
-    console.log(person)
+    let url;
     person.status = "RECHAZADO";
+    if (person.volunteer) {
+      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
+    } else if (person.id) {
+      url = `${API_ENDPOINT}student/${person.id}/`;
+    }
 
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`, {
+    const update = await axios.patch(url, {
       status: person.status
     });
     console.log('update', update);
@@ -82,7 +89,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
       } else if (personType === 'Voluntarios') {
         console.log(person.id);
-        await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`);
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`);
       } else {
         await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
       }
