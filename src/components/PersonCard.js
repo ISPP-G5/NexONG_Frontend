@@ -1,7 +1,14 @@
-import DeleteIcon from '@material-ui/icons/Delete';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
@@ -102,6 +109,13 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     }
   }
 
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const handleConfirmDelete = () => {
+    handleEliminar(person);
+    setConfirmDeleteOpen(false);
+  };
+
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
@@ -123,7 +137,18 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           </div>
         </div>
       }
-      {trash && <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />}
+      {trash && <DeleteIcon className='trash' onClick={() => setConfirmDeleteOpen(true)} />}
+      <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+        <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete} color="secondary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* This is used for admin families screen */}
       {personType === 'Familias' && !request && 
