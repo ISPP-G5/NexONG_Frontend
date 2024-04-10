@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-const token = localStorage.getItem('accessToken');
+
 
 const VolunteerWait = () => {
     const [status, setStatus] = useState('');
@@ -14,6 +14,8 @@ const VolunteerWait = () => {
 
     useEffect(() => {
         // Function to fetch status
+        const token = localStorage.getItem('accessToken');
+        console.log(token)
         const fetchStatus = async () => {
         const volunteerId = localStorage.getItem('volunteerId');
         const response = await axios.get(`${API_ENDPOINT}volunteer/${volunteerId}/`, {

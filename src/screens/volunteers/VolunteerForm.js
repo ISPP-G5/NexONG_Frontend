@@ -9,18 +9,20 @@ import { useNavigate } from 'react-router-dom';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-const token = localStorage.getItem('accessToken');
+
+const accessToken = localStorage.getItem('accessToken');
+console.log(accessToken)
 const config_volunteer = {
   headers: {
     'Content-Type': 'multipart/form-data',
-    'Authorization': `Bearer ${token}`,
+    'Authorization': `Bearer ${accessToken}`,
   }
 };
 
 const config_user = {
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
+    'Authorization': `Bearer ${accessToken}`,
   }
 };
 
