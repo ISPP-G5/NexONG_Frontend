@@ -8,22 +8,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
-  const [volunteers, setVolunteer] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`${API_ENDPOINT}volunteer/`)
-      .then((response) => {
-        setVolunteer(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching families:', error);
-      });
-  }, []);
-
-
   const handleDescargar = async(person) => {
-    const v = volunteers.filter(v => v.id === person.volunteer);
-    const volunteer = v[0]
     const descargarDocumento = (documento, nombreArchivo) => {
         const enlaceDescarga = document.createElement('a');
         enlaceDescarga.href = documento;
