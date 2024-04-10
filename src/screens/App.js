@@ -38,9 +38,8 @@ import AdminEvents from './admin/AdminEvents';
 import AdminLessons from './admin/AdminLessons';
 import AdminLessonsCreate from './admin/AdminLessonsCreate';
 import AdminLessonsEdit from './admin/AdminLessonsEdit';
-import AdminProjects from './admin/AdminProjects';
-import AdminProjectsCreate from './admin/AdminProjectsCreate';
 import AdminSuggestions from './admin/AdminSuggestions';
+import AdminTransparency from './admin/AdminTransparency';
 
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
@@ -48,8 +47,6 @@ import EducatorProfileUpdate from './educators/EducatorProfileUpdate';
 import EducatorKidsEvaluationDaily from './educators/EducatorKidsEvaluationDaily';
 import EducatorKidsEvaluationYearly from './educators/EducatorKidsEvaluationYearly';
 import EducatorKidsActivities from './educators/EducatorKidsActivities';
-import EducatorProjectsEvaluationYearly from './educators/EducatorProyectsEvaluationYearly';
-import EducatorProjectsEvaluationQuarterly from './educators/EducatorProyectsEvaluationQuarterly';
 
 // VOLUNTEERS
 import VolunteerProfile from './volunteers/VolunteerProfile';
@@ -57,10 +54,16 @@ import VolunteerProfileUpdate from './volunteers/VolunteerProfileUpdate';
 import VolunteerAgenda from './volunteers/VolunteerAgenda';
 import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
+import VolunteerWait from './volunteers/VolunteerWait';
 
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
+
+// FAMILIES
+import FamilyProfile from './family/FamilyProfile';
+import FamilyAuths from './family/FamilyAuths';
+import FamilyAuthsPending from './family/FamilyAuthsPending';
 
 
 function App() {
@@ -89,8 +92,7 @@ function App() {
                         
             <Route path="/agenda" element={<HomePageAgenda />} />
             <Route path="/donaciones" element={<HomePageDonation />} />
-            <Route path="/voluntariado" element={<HomePageVolunteers />} />            
-            <Route path="/form-voluntariado" element={<VolunteerForm />} />
+            <Route path="/voluntariado" element={<HomePageVolunteers />} />  
             <Route path="/sugerencias" element={<HomePageSuggestions />} />
             
             <Route path="/registrarse" element={<Register />} />
@@ -113,6 +115,8 @@ function App() {
             <Route path="/admin/familias/solicitudes" exact={true} element={<AdminFamilyRequests />} />
 
             <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
+
+            <Route path="/admin/documentos" exact={true} element={<AdminTransparency />} />
             
             {/* Routes para colegios aquí */}
 
@@ -121,9 +125,7 @@ function App() {
             <Route path="/admin/clases/editar/:lessonId" exact={true} element={<AdminLessonsEdit />} />
 
             <Route path="/admin/eventos" exact={true} element={<AdminEvents />} />
-            <Route path="/admin/proyectos" exact={true} element={<AdminProjects />} />
-            <Route path="/admin/proyectos/crear" exact={true} element={<AdminProjectsCreate />} />
-
+           
 
             {/* EDUCATORS ROUTES */}
             <Route path="/educador/perfil" exact={true} element={<EducatorProfile />} />
@@ -135,14 +137,14 @@ function App() {
             <Route path="/educador/niños/evaluacion/anual" exact={true} element={<EducatorKidsEvaluationYearly />} />
             <Route path="/educador/niños/actividades" exact={true} element={<EducatorKidsActivities />} />
 
-            <Route path="/educador/proyectos" exact={true} element={<EducatorProjectsEvaluationYearly />} />
-            <Route path="/educador/proyectos/evaluacion/trimestral" exact={true} element={<EducatorProjectsEvaluationQuarterly />} />
-            <Route path="/educador/proyectos/evaluacion/anual" exact={true} element={<EducatorProjectsEvaluationYearly />} />
+            
 
 
             {/* VOLUNTEERS ROUTES */}
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
-            <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />  
+            <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />            
+            <Route path="/voluntario/formulario" element={<VolunteerForm />} />
+            <Route path="/voluntario/espera" element={<VolunteerWait />} />
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
             <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
 
@@ -151,7 +153,9 @@ function App() {
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
 
             {/* FAMILIES ROUTES */}
-            <Route path="/familia/perfil" exact={true} element={<VolunteerProfile />} />
+            <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
+            <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
+            <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
 
 
 
