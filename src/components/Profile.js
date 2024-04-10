@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../styles/styles.css'
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const Profile = ({usuario}) => {
 
   const [valores, setValores] = useState([]);
+  const navigate = useNavigate();
 
   //Traemos los datos del usuario que ha iniciado sesión
   useEffect(() => {
@@ -22,10 +29,48 @@ const Profile = ({usuario}) => {
 
   }, []);
 
-  //Mostramos los datos en inputs para censurar la contraseña
+  
+  const handleEliminar = async(profile) =>{
+    if(!profile.id || profile.id <= 0){
+      toast.error('Error al eliminar', {
+        autoClose: 5000
+      })
+    }else{
+      if(profile.role === 'VOLUNTARIO'){
+        await axios.delete(`${API_ENDPOINT}volunteer/${profile.volunteer}/`);
+      } else if(profile.role === 'SOCIO'){
+        await axios.delete(`${API_ENDPOINT}partner/${profile.partner}/`);
+      } else if(profile.role === 'EDUCADOR'){
+        await axios.delete(`${API_ENDPOINT}educator/${profile.educator}/`);
+      } else if(profile.role === 'FAMILIA'){
+        await axios.delete(`${API_ENDPOINT}family/${profile.family}/`);
+      } else {
+        toast.error('El usuario no puede ser borrado', {
+          autoClose: 5000
+        })
+        window.location.reload(); // Recarga la ventana después de eliminar
+      }
+      toast.success("Persona eliminada correctamente", {
+        autoClose: 5000
+      })
+      navigate('/');
+    }
+  }
+
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const handleConfirmDelete = (profile) => {
+    handleEliminar(profile);
+    setConfirmDeleteOpen(false);
+  };
+
+
   return (
     <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
-      {valores.map((profile, index) => (
+      <ToastContainer />
+      {valores.map((profile, index) => {
+          console.log(profile);
+          return (
         <div key={index}>
           <img src={profile.avatar} alt={"imagen"} />
 
@@ -40,13 +85,30 @@ const Profile = ({usuario}) => {
           <p>Contraseña</p>
           <input type='password' value={profile.password} readOnly></input>
 
+          {profile.role !== "ADMIN" &&
+          <button className='button-decline' style={{marginTop: '5%'}} onClick={() => setConfirmDeleteOpen(true)}>
+              Borrar cuenta y datos
+          </button>
+          }
+          <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+            <DialogTitle>¿Estás seguro que quieres borrar tu cuenta y datos de nuestra ONG?</DialogTitle>
+            <DialogActions>
+              <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+                Cancelar
+              </Button>
+              <Button onClick={() => handleConfirmDelete(profile)} color="secondary">
+                Confirmar
+              </Button>
+            </DialogActions>
+          </Dialog>
+
           <button className='register-button admin' >
             <Link to={`/${usuario}/perfil/actualizar`}>
               Actualizar perfil
             </Link>
           </button>
         </div>
-      ))}
+      )})}
     </div>
 
   );
