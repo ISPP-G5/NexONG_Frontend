@@ -142,9 +142,6 @@ function VolunteerForm() {
       localStorage.setItem('volunteerId', response.data.id);
       console.log(response.data);
       toast.success('Volunteer created successfully');
-      
-      // Get the user's ID 
-      const userId = localStorage.getItem('userId');
 
       // Make a PATCH request to update the user's volunteer attribute
       await axios.patch(`${API_ENDPOINT}auth/users/me/`, {
