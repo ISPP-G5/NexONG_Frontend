@@ -107,32 +107,36 @@ const VolunteersAttendance = () => {
   return (
     <LayoutProfiles profile={'voluntario'} selected={'Asistencia'}>
       <ToastContainer/>
-            {eventsList.map((event) => (
-                <div className='card-info' key={event.id}>
-                    <div>
-                        <p>Evento: {event.name}</p>
-                        <p>Tipo: {event.lesson ? 'Evento de clase' : 'Evento'}</p>
-                        <p>Comienzo: {event.start_date.getDate()}/{event.start_date.getMonth()}/{event.start_date.getFullYear()}, {event.start_date.getHours()}h</p>
-                        <p>Final: {event.end_date.getDate()}/{event.end_date.getMonth()}/{event.end_date.getFullYear()}, {event.end_date.getHours()}h</p>
-                    </div>
-                    <div className='edit-delete-icons'>
-                        <DeleteIcon className='trash' onClick={() => handleDeleteConfirmation(event)} />
-                    </div>
-                </div>
-            ))}
-
-            <Dialog open={deleteConfirmation.open} onClose={() => setDeleteConfirmation({ open: false, event: null })}>
-                <DialogTitle>¿Quieres eliminar tu participación en este evento?</DialogTitle>
-                <DialogActions>
-                    <Button onClick={handleDeleteVolunteer} color="primary">
-                        Sí
-                    </Button>
-                    <Button onClick={() => setDeleteConfirmation({ open: false, event: null })} color="secondary">
-                        No
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </LayoutProfiles>
+      {eventsList.length === 0 ? (
+          <h3>No asistes aún a ningún evento.</h3>
+      ) : (
+        eventsList.map((event) => (
+          <div className='card-info' key={event.id}>
+            <div>
+              <p>Evento: {event.name}</p>
+              <p>Tipo: {event.lesson ? 'Evento de clase' : 'Evento'}</p>
+              <p>Comienzo: {event.start_date.getDate()}/{event.start_date.getMonth()}/{event.start_date.getFullYear()}, {event.start_date.getHours()}h</p>
+              <p>Final: {event.end_date.getDate()}/{event.end_date.getMonth()}/{event.end_date.getFullYear()}, {event.end_date.getHours()}h</p>
+            </div>
+            <div className='edit-delete-icons'>
+              <DeleteIcon className='trash' onClick={() => handleDeleteConfirmation(event)} />
+            </div>
+          </div>
+        ))
+      )}
+  
+      <Dialog open={deleteConfirmation.open} onClose={() => setDeleteConfirmation({ open: false, event: null })}>
+        <DialogTitle>¿Quieres eliminar tu participación en este evento?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleDeleteVolunteer} color="primary">
+            Sí
+          </Button>
+          <Button onClick={() => setDeleteConfirmation({ open: false, event: null })} color="secondary">
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </LayoutProfiles>
   );
 }
 
