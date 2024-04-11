@@ -3,30 +3,30 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import HeaderProfiles from '../../components/HeaderProfiles';
 import useAdjustMargin from '../../components/useAdjustMargin';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import useToken from '../../components/useToken';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-const token = localStorage.getItem('accessToken');
 
-const config_volunteer = {
-  headers: {
-    'Content-Type': 'multipart/form-data',
-    'Authorization': `Bearer ${token}`,
-  }
-};
-
-const config_user = {
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
-  }
-};
 
 function VolunteerForm() {
-
+  const [token, updateToken] = useToken();
+  const config_volunteer = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${token}`,
+    }
+  };
+  
+  const config_user = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -144,11 +144,8 @@ function VolunteerForm() {
       console.log(response.data);
       toast.success('Volunteer created successfully');
 
-      // Get the user's ID 
-      const userId = localStorage.getItem('userId');
-
       // Make a PATCH request to update the user's volunteer attribute
-      await axios.patch(`${API_ENDPOINT}user/${userId}/`, {
+      await axios.patch(`${API_ENDPOINT}auth/users/me/`, {
         volunteer: response.data.id,
       }, config_user);
 
@@ -156,7 +153,9 @@ function VolunteerForm() {
     } catch (error) {
       if (error.response && error.response.data) {
         // If the error response and data exist, show the error message from the backend
-        toast.error(`Error creating volunteer: ${error.response.data}`);
+        Object.entries(error.response.data).forEach(([key, value]) => {
+          toast.error(`${value}`);
+        });
       } else {
         // If the error response or data doesn't exist, show a generic error message
         toast.error('Error creating volunteer');
@@ -168,7 +167,8 @@ function VolunteerForm() {
 
   return (
     <div className='App'>
-      <HeaderProfiles profile={'voluntario'} showProfile={false} />
+      <ToastContainer />
+      <HeaderProfiles profile={'voluntario'} showProfile={false}  />
       <form className='register-container' style={{marginTop }} onSubmit={handleSubmit}>
         <h2>Formulario de Voluntarios</h2>
         <p>Necesitamos algunos datos y documentos para completar tu solicitud como voluntario</p>

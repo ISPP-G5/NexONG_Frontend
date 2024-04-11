@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/styles.css';
 import { useFetchSuggestions } from '../../components/useFetchData';
 import LayoutProfiles from '../../components/LayoutProfiles';
+import useToken from '../../components/useToken';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,7 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 const AdminSuggestions = () => {
-    const [suggestions, setSuggestions] = useFetchSuggestions(API_ENDPOINT);
+    const [token, updateToken] = useToken();
+    const [suggestions, setSuggestions] = useFetchSuggestions(API_ENDPOINT, token);
     
     async function handleDelete(id) {
       try {

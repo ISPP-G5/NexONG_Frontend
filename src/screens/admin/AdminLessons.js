@@ -9,6 +9,7 @@ import axios from 'axios';
 import '../../styles/styles.css';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 import ButtonCreate from '../../components/ButtonCreate';
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -38,6 +39,12 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
 };
 
 const AdminLessons = () => {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const [lessons, setLessons] = useState([]);
   const [users, setUsers] = useState([]);
   const [lessonToDelete, setLessonToDelete] = useState(null);
@@ -51,7 +58,7 @@ const AdminLessons = () => {
   const handleDeleteConfirmation = () => {
     if (lessonToDelete) {
       axios
-        .delete(`${API_ENDPOINT}lesson/${lessonToDelete}/`)
+        .delete(`${API_ENDPOINT}lesson/${lessonToDelete}/`, config)
         .then((response) => {
           console.log('Lesson deleted successfully');
           toast.success('Clase eliminada con éxito');
@@ -83,7 +90,7 @@ const AdminLessons = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}lesson/`)
+      .get(`${API_ENDPOINT}lesson/`, config)
       .then((response) => {
         console.log('response:', response.data);
         setLessons(response.data);
@@ -92,7 +99,7 @@ const AdminLessons = () => {
         console.error('Error fetching lessons:', error);
       });
     axios
-      .get(`${API_ENDPOINT}user/`)
+      .get(`${API_ENDPOINT}user/`, config)
       .then((response) => {
         console.log('response user:', response.data);
         setUsers(response.data);
