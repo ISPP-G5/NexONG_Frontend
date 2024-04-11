@@ -33,6 +33,16 @@ const AdminScheduleCreate = () => {
   };
 
   const handleSubmit = () => {
+    // Check if any field is empty
+    if (!localFormData.lesson || !localFormData.weekday || !localFormData.start_time || !localFormData.end_time) {
+      toast.error('Por favor, completa todos los campos');
+      return;
+    }
+    if (localFormData.start_time >= localFormData.end_time) {
+      toast.error('La hora de fin debe ser posterior a la hora de inicio');
+      return;
+    }
+
     axios
       .post(`${API_ENDPOINT}schedule/`, localFormData)
       .then((response) => {

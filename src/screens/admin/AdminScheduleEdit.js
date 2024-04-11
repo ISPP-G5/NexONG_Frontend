@@ -66,16 +66,28 @@ const handleChange = (e) => {
 
 
 const handleSubmit = (formData) => {
+    // Check if any field is empty
+    if (!formData.lesson || !formData.weekday || !formData.start_time || !formData.end_time) {
+        toast.error('Por favor, completa todos los campos');
+        return;
+    }
+
+    // Check if end time is after start time
+    if (formData.start_time >= formData.end_time) {
+        toast.error('La hora de fin debe ser posterior a la hora de inicio');
+        return;
+    }
+
     axios
-    .put(`${API_ENDPOINT}schedule/${scheduleId}/`, formData)
-    .then((response) => {
-        console.log('Response of put of schedule:', response.data);
-        toast.success('Horario actualizado con éxito');
-    })
-    .catch((error) => {
-        console.error('Error updating schedule:', error);
-        toast.error('Error al actualizar el horario.');
-    });
+        .put(`${API_ENDPOINT}schedule/${scheduleId}/`, formData)
+        .then((response) => {
+            console.log('Response of put of schedule:', response.data);
+            toast.success('Horario actualizado con éxito');
+        })
+        .catch((error) => {
+            console.error('Error updating schedule:', error);
+            toast.error('Error al actualizar el horario.');
+        });
 };
 
 
@@ -132,7 +144,7 @@ return (
         />
 
         <button className="register-button" onClick={() => handleSubmit(formData)}>
-        Actualizar
+        Guardar
         </button>
     </div>
     </LayoutProfiles>

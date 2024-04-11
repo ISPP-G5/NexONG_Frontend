@@ -9,23 +9,10 @@ import axios from 'axios';
 import '../../styles/styles.css';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 import ButtonCreate from '../../components/ButtonCreate';
+import ButtonView from '../../components/ButtonView';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-const ButtonCreateSchedule = ({ text, handleCreate }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    handleCreate();
-    navigate('/admin/horarios/crear');
-  };
-
-  return (
-    <button className="button" onClick={handleClick} style={{ alignSelf: 'start', marginLeft: '15%' }}>
-      {text}
-    </button>
-  );
-};
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
   const educator = users.find(user => user.id === lesson.educator);
@@ -91,6 +78,9 @@ const AdminLessons = () => {
   const handleCreateScheduleClick = () => {
     navigate('/admin/horarios/crear');
   };
+  const handleScheduleClick = () => {
+    navigate('/admin/horarios');
+  }
 
   useEffect(() => {
     axios
@@ -116,8 +106,10 @@ const AdminLessons = () => {
   return (
     <LayoutProfiles profile={'admin'} selected={'Clases'}>
     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2%' }}>
-      <ButtonCreate text='Crear clase' handleCreate={handleCreateClassClick} />
-      <ButtonCreate text='Crear horario' handleCreate={handleCreateScheduleClick} />
+      <ButtonView text='Ver Horarios' handleCreate={handleScheduleClick} />
+      <ButtonCreate text='Crear Clase' handleCreate={handleCreateClassClick} />
+      <ButtonCreate text='Crear Horario' handleCreate={handleCreateScheduleClick} />
+
     </div>
       <ToastContainer />
       <div className='lessons-container'>

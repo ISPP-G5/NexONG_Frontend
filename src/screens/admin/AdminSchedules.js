@@ -55,6 +55,9 @@ const AdminSchedules = () => {
 
   return (
     <LayoutProfiles profile={'admin'} selected={'Horarios'}>
+            <button className='button' onClick={() => navigate('/admin/clases')} style={{ alignSelf: 'start', marginLeft: '15%' }}>
+        Volver
+      </button>
       <div className="card-info-suggestion table">
         <h2>Lista de Horarios</h2>
         <table>
