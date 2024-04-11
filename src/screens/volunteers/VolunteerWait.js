@@ -20,7 +20,7 @@ const VolunteerWait = () => {
         setStatus(response.data.status);
     
         if (response.data.status === 'ACEPTADO') {
-            navigate('/voluntario/perfil');
+            navigate('/voluntario/formacion');
         } else if (response.data.status === 'RECHAZADO') {
             // Show a toast notification
             toast.error('Tu solicitud ha sido rechazada');

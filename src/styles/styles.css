@@ -1209,7 +1209,7 @@ tbody tr:nth-child(odd) {
 @media (min-width: 1px) and (max-width: 768px) {
 
   .register-button.admin, .register-button.admin a{
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -1896,3 +1896,15 @@ tbody tr:nth-child(odd) {
     width: 100%;
   }
 }
+
+
+/********************* VOLUNTEER FORMATION ******************/
+
+.formation-videos {
+  width: 60%; 
+  height: auto; 
+  display: block; 
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px; 
+};
