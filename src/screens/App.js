@@ -22,7 +22,7 @@ import HomePageVolunteers from './homepage/HomePageVolunteers';
 import HomePageSuggestions from './homepage/HomePageSuggestions';
 import Register from './homepage/Register';
 import LogIn from './homepage/LogIn';
-
+import HomePageLaSalle from './homepage/HomePageLaSalle';
 // ADMIN
 import AdminProfile from './admin/AdminProfile';
 import AdminProfileUpdate from './admin/AdminProfileUpdate';
@@ -39,6 +39,7 @@ import AdminLessons from './admin/AdminLessons';
 import AdminLessonsCreate from './admin/AdminLessonsCreate';
 import AdminLessonsEdit from './admin/AdminLessonsEdit';
 import AdminSuggestions from './admin/AdminSuggestions';
+import AdminTransparency from './admin/AdminTransparency';
 
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
@@ -54,10 +55,16 @@ import VolunteerAgenda from './volunteers/VolunteerAgenda';
 import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
 import VolunteerWait from './volunteers/VolunteerWait';
+import VolunteerFormation from './volunteers/VolunteerFormation';
 
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
+
+// FAMILIES
+import FamilyProfile from './family/FamilyProfile';
+import FamilyAuths from './family/FamilyAuths';
+import FamilyAuthsPending from './family/FamilyAuthsPending';
 
 function RedirectToHome() {
   const navigate = useNavigate();
@@ -83,7 +90,8 @@ function App() {
             <Route path="/asociacion/historia" element={<HomePageHistory />} />
             <Route path="/asociacion/donde-estamos" exact={true} element={<HomePageWhereWeAre />} />
             <Route path="/asociacion/mision-vision-valores" element={<HomePageMisionOverviewValues />} />
-            {/* Falta la salle */}
+            <Route path="/asociacion/la-salle" element={<HomePageLaSalle />} />
+
             {/* Falta organizacion */}
             <Route path="/asociacion/transparencia" exact={true} element={<HomePageTransparency />} />
             <Route path="/asociacion/entidades-colaboradoras" exact={true} element={<HomePageColaboratorEntities />} />
@@ -122,7 +130,10 @@ function App() {
             <Route path="/admin/familias/solicitudes" exact={true} element={<AdminFamilyRequests />} />
 
             <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
-           
+
+            <Route path="/admin/documentos" exact={true} element={<AdminTransparency />} />
+            
+            {/* Routes para colegios aquí */}
 
             <Route path="/admin/clases" exact={true} element={<AdminLessons />} />
             <Route path="/admin/clases/crear" exact={true} element={<AdminLessonsCreate />} />
@@ -152,6 +163,7 @@ function App() {
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
             <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />            
             <Route path="/voluntario/formulario" element={<VolunteerForm />} />
+            <Route path="/voluntario/formacion" element={<VolunteerFormation />} />
             <Route path="/voluntario/espera" element={<VolunteerWait />} />
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
             <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
@@ -167,13 +179,15 @@ function App() {
             {/* FAMILIES ROUTES */}
             {role === 'FAMILIA' && (
               <>
-            <Route path="/familia/perfil" exact={true} element={<VolunteerProfile />} />
+            <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
              </> 
             )}
              {/* Redirect unauthorized users to the homepage */}
           {!['ADMIN', 'EDUCADOR', 'SOCIO', 'VOLUNTARIO','FAMILIA'].includes(role) || (
             <Route path="*" element={<RedirectToHome />} />
-        )}
+      )}            <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
+            <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
+
 
 
             </Routes>
