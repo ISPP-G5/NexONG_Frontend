@@ -9,6 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {DialogActions ,makeStyles }from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -31,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const VolunteerAgenda = () => {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const [activities, setActivities] = useState([]);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -42,9 +49,9 @@ const VolunteerAgenda = () => {
   const userId = parseInt(localStorage.getItem('userId'));
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}auth/users/me/`)
+    axios.get(`${API_ENDPOINT}auth/users/me/`, config)
       .then(response => {
-        const userWithUserId = response.data.find(user => user.id === userId);
+        const userWithUserId = response.data;
         if (userWithUserId) {
           setCurrentUser({
             volunteerId: userWithUserId.volunteer
@@ -57,7 +64,7 @@ const VolunteerAgenda = () => {
         console.error(error);
       });
 
-    axios.get(`${API_ENDPOINT}event/`)
+    axios.get(`${API_ENDPOINT}event/`, config)
       .then(response => {
         const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
         setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...filteredActivities.map(activity => ({
@@ -79,7 +86,7 @@ const VolunteerAgenda = () => {
         console.error(error);
       });
 
-    axios.get(`${API_ENDPOINT}lesson-event/`)
+    axios.get(`${API_ENDPOINT}lesson-event/`, config)
       .then(response => {
         const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
         setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
@@ -134,7 +141,7 @@ const VolunteerAgenda = () => {
         attendees: selectedEvent.attendees,
         volunteers: updatedVolunteers,
         url: selectedEvent.url
-      })
+      }, config)
       .then(response => {
         console.log('Registered volunteer for:', selectedEvent);
         setShowRegisterForm(false);

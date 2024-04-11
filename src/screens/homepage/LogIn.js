@@ -6,6 +6,7 @@ import useAdjustMargin from '../../components/useAdjustMargin';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useToken from '../../components/useToken';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
@@ -15,6 +16,7 @@ axios.defaults.withCredentials = true;
 function LogIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [token, updateToken] = useToken();
 
     const getUserData = async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -35,7 +37,6 @@ function LogIn() {
     const manageLogin = async (access, refresh) => { 
         localStorage.setItem('accessToken', access);
         localStorage.setItem('refreshToken', refresh);
-
         console.log('Logged in, access token:', access);
 
         getUserData().then(response => {
@@ -94,7 +95,8 @@ function LogIn() {
             const { access: accessToken, refresh: refreshToken } = response.data;
 
             console.log('Logged in, access token:', accessToken);
-    
+            updateToken(accessToken);
+
             manageLogin(accessToken, refreshToken);            // Find the user that matches the logged-in user's token
             const userResponse = await axios.get(`${API_ENDPOINT}auth/users/me/`, {
                 headers: {
@@ -120,6 +122,7 @@ function LogIn() {
                         }
                     }
                 } else if (user.role === 'FAMILIA') {
+                    localStorage.setItem('role', 'FAMILIA')
                     if (user.family === null) {
                     //Crea un objeto familia
                     const response = await axios.post(`${API_ENDPOINT}family/`, 
@@ -139,16 +142,20 @@ function LogIn() {
                     }
                     navigate('/familia/perfil');
                 } else if (user.role === 'SOCIO') {
+                    localStorage.setItem('role', 'SOCIO')
                     //TODO Aqui formulario para socio, una cosa así:
                     //if (user.socio === null) {
                     //    navigate('/socio/formulario');}
                     navigate('/socio/calendario');
+                    
                 } else if (user.role === 'EDUCADOR') {
+                    localStorage.setItem('role', 'EDUCADOR')
                     //TODO Aqui formulario para educador, una cosa así:
                     //if (user.educador === null) {
                     //    navigate('/educador/formulario');}
-                    navigate('/educador');
-                } else {
+                    navigate('/educador/perfil');
+                } else if (user.role === 'ADMIN'){
+                    localStorage.setItem('role', 'ADMIN')
                     navigate(`/admin/voluntarios`);
                 }
         

@@ -5,6 +5,7 @@ import axios from 'axios';
 import Pantallas from '../../components/Pantallas';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useToken from '../../components/useToken';
 import avatarImage from '../../logo/teacher.png';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -23,6 +24,7 @@ const pantallas = [
 ];
 
 function AdminEducatorsAdd() {
+  const [token, updateToken] = useToken();
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -83,29 +85,28 @@ function AdminEducatorsAdd() {
      else if (!clave || clave === '') {
       toast.error("Se debe de insertar una contraseña")
     } else {
-      try {
-        const usersResponse = await axios.get(`${API_ENDPOINT}user/`,{
-        
-        });
-        const users = usersResponse.data;
-        const existingUser = users.find(user => user.email === correo);
-        if (existingUser) {
-          toast.error("El correo electrónico ya está registrado", { autoClose: 5000 });
-          return;
+      await axios.post(`${API_ENDPOINT}educator/`,
+        {birthdate: fecha,
+      },{headers: {
+        'Authorization': `Bearer ${token}`
+      }}).catch(error => {
+        if (error.response && error.response.status === 400) {
+          toast.error("Error en la solicitud: Datos inválidos", {
+            autoClose: 5000
+          });
+        } else {
+          toast.error("Error en la solicitud", {
+            autoClose: 5000
+          });
         }
-      } catch (error) {
-        toast.error("El correo introducido ya esta registrado", { autoClose: 5000 });
-        return;
-      }
-      await axios.post(`${API_ENDPOINT}educator/`, {
-        birthdate: fecha,
-      }).catch(error => {
-       
       });
     }
 
     //como la entidad de arriba es la ultima que se crea en la base de datos accedemos a esta posción y sacamos la id
-    axios.get(`${API_ENDPOINT}educator/`)
+    axios.get(`${API_ENDPOINT}educator/`, {headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
       .then(response => {
         setId(response.data[response.data.length - 1].id);
       })
@@ -117,7 +118,8 @@ function AdminEducatorsAdd() {
 
     if (id) {
       try {
-        const update = await axios.post(`${API_ENDPOINT}auth/users/`, {
+        const update = await axios.post(`${API_ENDPOINT}auth/users/`
+      ,{
           first_name: nombre,
           last_name: apellido,
           id_number: identificacion,
@@ -127,15 +129,25 @@ function AdminEducatorsAdd() {
           email: correo,
           educator: id,
           avatar: avatarImage,
-        })
+        }, {headers: {
+          'Authorization': `Bearer ${token}`
+        }});
 
         if (update && update.data && update.data.message) {
-          toast.error("Datos inválidos", { autoClose: 5000 });
+          Object.entries(update.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         } else {
           toast.success("Usuario creado con éxito.", { autoClose: 5000 });
         }
       } catch (error) {
-       
+        if (error.response && error.response.status === 400) {
+          Object.entries(error.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
+        } else {
+          toast.error("Error en la solicitud", { autoClose: 5000 });
+        }
       }
     }
 

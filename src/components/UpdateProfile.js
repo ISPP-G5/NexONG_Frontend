@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import avatarImage from '../logo/avatar.png';
 
 
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const config = {
     headers: {
@@ -14,10 +15,10 @@ const config = {
     }
   };
 
-const UpdateProfile = ({tipo}) => {
+const UpdateProfile = ({tipo,id}) => {
 
-    const id = localStorage.getItem('userId');
     const [avatar, setAvatar] = useState("");
+
 
     const [valoresList, setValores] = useState([]);
     const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
@@ -26,17 +27,29 @@ const UpdateProfile = ({tipo}) => {
 
     //Traemos los datos del usuario
     useEffect(() => {
-
-      axios.get(`${API_ENDPOINT}auth/users/me/`, config)
-        .then(response => {
-          setValores(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
+        const fetchData = async () => {
+            try {
+                let response;
+                if (id) {
+                    response = await axios.get(`${API_ENDPOINT}user/${id}/`, config);
+                } else {
+                    response = await axios.get(`${API_ENDPOINT}auth/users/me/`, config);
+                }
+                setValores(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData();
     }, []);
-    console.log("asda")
+
+    useEffect(() => {
+        console.log("prueba", valoresList.avatar);
+        setAvatar(valoresList.avatar);
+      }, [valoresList]);
+
+
     //Atributos
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -75,21 +88,31 @@ const UpdateProfile = ({tipo}) => {
                 user_permissions: valoresList.user_permissions,
 
             };
+            const updateEndpoint = id ? `${API_ENDPOINT}user/${id}/` : `${API_ENDPOINT}auth/users/me/`;
+            const update = await axios.put(updateEndpoint, updatedData, config);
     
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
     
             const { data } = update;
             if (data.message) {
                 window.alert(data.message);
-            } else {
-                const toastId = toast.success("Datos actualizados con éxito.", { autoClose: 800 });
-                const checkToast = setInterval(() => {
-                    if (!toast.isActive(toastId)) { 
-                        clearInterval(checkToast); 
-                        navigate(`/${tipo}/perfil`); 
-                    }
-                }, 1000); 
+            if(id && valoresList.role !== "EDUCADOR"){
+                navigate(`/admin/${valoresList.role + "S"}`);
+
+            }else if(id && valoresList.role === "EDUCADOR"){
+                navigate(`/admin/${valoresList.role + "ES"}`)
+             }
+             else {
+                navigate(`/${tipo}/perfil`);
             }
+        }else {
+            const toastId = toast.success("Datos actualizados con éxito.", { autoClose: 800 });
+            const checkToast = setInterval(() => {
+                if (!toast.isActive(toastId)) { 
+                    clearInterval(checkToast); 
+                    navigate(`/${tipo}/perfil`); 
+                }
+            }, 1000); 
+        }
         } catch (error) {
             if (error.response.data.email) {
                 toast.error("Formato del correo incorrecto.");
@@ -106,7 +129,7 @@ const UpdateProfile = ({tipo}) => {
         }
     };
 
-console.log('valores',valoresList)
+
     return (
         <>
             <ToastContainer />
@@ -124,7 +147,7 @@ console.log('valores',valoresList)
                     defaultValue={name} //defaultValue es como value, pero permite el cambio
                     onChange={(e) => setName(e.target.value)}
                     type='text'
-                    placeholder='Nombre'
+                    placeholder={valoresList.first_name}
                 ></input>
 
                 <p>Apellido</p>
@@ -132,7 +155,7 @@ console.log('valores',valoresList)
                     defaultValue={surname}
                     onChange={(e) => setSurname(e.target.value)}
                     type='text'
-                    placeholder='Primer Apellido'
+                    placeholder={valoresList.last_name}
                 ></input>
 
                 <p>DNI/NIE/Pasaporte</p>
@@ -140,7 +163,7 @@ console.log('valores',valoresList)
                     defaultValue={id_number}
                     onChange={(e) => setId_number(e.target.value)}
                     type='text'
-                    placeholder='DNI/NIE/Pasaporte'
+                    placeholder={valoresList.id_number}
                 ></input>
 
                 <p>Número de teléfono</p>
@@ -148,9 +171,10 @@ console.log('valores',valoresList)
                     defaultValue={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     type='tel'
-                    placeholder='Número de teléfono'
+                    placeholder={valoresList.phone}
                 ></input>
-
+                {id? <></>:
+                <>
                 <p>Correo electrónico</p>
                 <input 
                     defaultValue={email}
@@ -159,15 +183,20 @@ console.log('valores',valoresList)
                     placeholder='ejemplo@gmail.com'
                 ></input>
 
-                <p>Contraseña</p>
+
+                <p style={{textAlign:'center'}}>
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                Contraseña (obligatorio)
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                </p>
                 <input 
                     defaultValue={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
-                    placeholder='Contraseña'
+                    placeholder='Contraseña de tu cuenta'
                 ></input>
-
-
+                </>
+            }
                 <button onClick={updateAdmin} className='register-button admin' >
                     Actualizar perfil
                 </button>
