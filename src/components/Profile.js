@@ -56,31 +56,32 @@ const Profile = ({usuario}) => {
 
   //Mostramos los datos en inputs para censurar la contraseña
   return (
-    <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
+    <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
       {valores.map((profile, index) => (
         <div key={index}>
           <img src={profile.avatar ? profile.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
-
-
-          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{valores.username}</div>
-
+  
+          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.username}</div>
+  
           <p>Email</p>
-          <input type='text' value={valores.email} readOnly></input>
-
+          <input type='text' value={profile.email} readOnly></input>
+  
           <p>Teléfono</p>
-          <input type='text' value={valores.phone} readOnly></input>
-
+          <input type='text' value={profile.phone} readOnly></input>
+  
           <p>Contraseña</p>
-          <input type='password' value={valores.password} readOnly></input>
-
+          <input type='password' value={profile.password} readOnly></input>
+  
           <button className='register-button admin' >
             <Link to={`/${usuario}/perfil/actualizar`}>
               Actualizar perfil
             </Link>
           </button>
+        </div>
+      ))}
     </div>
-
   );
-};
+} 
 
-export default Profile;
+  
+  export default Profile;
