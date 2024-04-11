@@ -149,7 +149,7 @@ function LogIn() {
                     //TODO Aqui formulario para educador, una cosa así:
                     //if (user.educador === null) {
                     //    navigate('/educador/formulario');}
-                    navigate('/educador');
+                    navigate('/educador/perfil');
                 } else {
                     navigate(`/admin/voluntarios`);
                 }

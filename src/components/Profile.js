@@ -7,14 +7,13 @@ import useToken from './useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const Profile = ({ usuario }) => {
-  const [token] = useToken(); 
+  const [token, updateToken] = useToken(); 
 
   const config = {
     headers: {
       'Authorization': `Bearer ${token}`,
     }
   };
-
   const [valores, setValores] = useState([]);
 
   useEffect(() => {
