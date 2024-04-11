@@ -7,6 +7,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import  useAdjustMargin from '../../components/useAdjustMargin';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -46,6 +49,7 @@ function Register() {
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
   const [isAgreedChecked, setIsAgreedChecked] = useState(false);
+ const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleFamilyChange = () => {
     setIsFamilyChecked(!isFamilyChecked);
@@ -56,6 +60,14 @@ function Register() {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
     };
+    const handleDialogOpen = () => {
+      setDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+    };
+    
 
   const handleAgreedChange = () => {
     setIsAgreedChecked(!isAgreedChecked);
@@ -205,17 +217,33 @@ function Register() {
             </label>
           </div>
           <div className="checkbox-group">
-            <input
-              type="checkbox"
-              id="selectCheckboxAgreed"
-              className="hidden-checkbox"
-              checked={isAgreedChecked}
-              onChange={handleAgreedChange}
-            />
-            <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Acepto los términos y condiciones
-            </label>
-          </div>
+            <div >
+              <input
+                type="checkbox"
+                id="selectCheckboxAgreed"
+                className="hidden-checkbox"
+                checked={isAgreedChecked}
+                onChange={handleAgreedChange}
+              />
+              <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
+                <span className="custom-checkbox"></span>
+                Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              </label>
+            </div>
+            <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+              <DialogTitle>Términos y Condiciones</DialogTitle>
+              <DialogContent>
+              <p><strong>Términos y Condiciones de Uso.</strong> Por favor, lea estos términos y condiciones de uso (T&C) detenidamente antes de utilizar nuestro servicio.</p>
+              <p><strong>Aceptación de Términos:</strong> Al acceder y utilizar nuestro servicio, usted acepta estar sujeto a estos T&C y a todas las leyes y regulaciones aplicables. Si no está de acuerdo con alguno de estos términos, no utilice el servicio.</p>
+              <p><strong>Uso del Servicio:</strong> Usted acepta utilizar el servicio únicamente con fines legales y de acuerdo con estos T&C. Se prohíbe el uso del servicio para actividades ilegales o no autorizadas.</p>
+              <p><strong>Propiedad Intelectual:</strong> Todo el contenido y los derechos de propiedad intelectual asociados con el servicio son propiedad de NexOng o de sus licenciantes. Usted acepta no copiar, modificar, distribuir, transmitir, mostrar, vender o explotar de otra manera dicho contenido sin el consentimiento previo por escrito de NexOng.</p>
+              <p><strong>Privacidad:</strong> El uso del servicio está sujeto a nuestra política de privacidad, que describe cómo recopilamos, usamos y compartimos sus datos personales. Al utilizar el servicio, usted acepta estar sujeto a nuestra política de privacidad.</p>
+              <p><strong>Limitación de Responsabilidad:</strong> En la máxima medida permitida por la ley, NexOng no será responsable ante usted por daños directos, indirectos, incidentales, especiales, consecuentes o punitivos que surjan de su uso del servicio.</p>
+              <p><strong>Modificaciones de los Términos:</strong> Nos reservamos el derecho de modificar estos T&C en cualquier momento. Cualquier cambio entrará en vigencia inmediatamente después de su publicación en el sitio web. Se le recomiendaS revisar periódicamente estos T&C para estar al tanto de cualquier cambio.</p>
+              <p><strong>Jurisdicción y Ley Aplicable:</strong> Estos T&C se regirán e interpretarán de acuerdo con las leyes del [país/estado/provincia], sin tener en cuenta sus conflictos de principios legales.Al utilizar nuestro servicio, usted acepta cumplir con estos T&C. Si tiene alguna pregunta sobre estos términos, por favor contáctenos.</p>
+              <p><strong>NexOng Fecha de última actualización: </strong> 2024-04-07</p>
+              </DialogContent>
+            </Dialog>
+        </div>
 
           <button className='register-button'>
             Crear cuenta
