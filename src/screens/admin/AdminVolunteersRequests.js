@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/styles.css';
 import ShowType from '../../components/ShowAdminProfiles';
 import useFetchData, { useFetchUsersByRole } from '../../components/useFetchData'; 
-
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -20,9 +20,9 @@ const pantallas = [
 ];
 
 function AdminVolunteersRequests() {
-
-  const userVolunteers = useFetchUsersByRole(API_ENDPOINT, "VOLUNTARIO");
-  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "PENDIENTE");
+  const [token, updateToken] = useToken();
+  const userVolunteers = useFetchUsersByRole(API_ENDPOINT, "VOLUNTARIO", token);
+  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "PENDIENTE", token);
   const [volunteersData, setVolunteersData] = useState([]);
 
   useEffect(() => {
@@ -35,7 +35,8 @@ function AdminVolunteersRequests() {
             id: volunteerData.id,
             enrollment_document: volunteerData.enrollment_document,
             first_name: userVolunteer.first_name,
-            last_name: userVolunteer.last_name
+            last_name: userVolunteer.last_name,
+            volunteer: userVolunteer.volunteer
           };
         }
   
@@ -54,9 +55,8 @@ function AdminVolunteersRequests() {
       pantallas={pantallas} 
       request={true} 
       trash={false}
+      message="No hay solicitudes pendientes."
     />
-    
   );
 }
-
 export default AdminVolunteersRequests;

@@ -3,7 +3,7 @@ import '../../styles/styles.css';
 import React, { useState, useEffect } from 'react';
 import ShowType from '../../components/ShowAdminProfiles';
 import { useFetchFamilies, useFetchStudents } from '../../components/useFetchData';
-
+import useToken from '../../components/useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
@@ -21,9 +21,9 @@ const pantallas = [
 
 
 function AdminFamilyRequests() {
-  
-  const families = useFetchFamilies(API_ENDPOINT);
-  const kids = useFetchStudents(API_ENDPOINT, 'PENDIENTE');
+  const [token, updateToken] = useToken();
+  const families = useFetchFamilies(API_ENDPOINT, token);
+  const kids = useFetchStudents(API_ENDPOINT, 'PENDIENTE', token);
   const [persons, setPersons] = useState([]);
 
   
@@ -54,6 +54,7 @@ function AdminFamilyRequests() {
       pantallas={pantallas} 
       request={true} 
       trash={false}
+      message={'No hay solicitudes pendientes'}
     />
   );
 }
