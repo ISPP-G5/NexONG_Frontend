@@ -136,11 +136,6 @@ function Register() {
         userData.append('password', password);
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
         userData.append('is_agreed', isAgreedChecked);
-<<<<<<< HEAD
-        userData.append('is_enabled', false);
-
-=======
->>>>>>> develop
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 

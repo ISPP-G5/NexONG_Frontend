@@ -9,14 +9,14 @@ import avatarImage from '../logo/avatar.png';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-
+const config = {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    }
+  };
 
 const UpdateProfile = ({tipo,id}) => {
-    const config = {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      };
+
     const [avatar, setAvatar] = useState("");
 
 
@@ -27,16 +27,29 @@ const UpdateProfile = ({tipo,id}) => {
 
     //Traemos los datos del usuario
     useEffect(() => {
-
-      axios.get(`${API_ENDPOINT}auth/users/me/`, config)
-        .then(response => {
-          setValores(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
+        const fetchData = async () => {
+            try {
+                let response;
+                if (id) {
+                    response = await axios.get(`${API_ENDPOINT}user/${id}/`, config);
+                } else {
+                    response = await axios.get(`${API_ENDPOINT}auth/users/me/`, config);
+                }
+                setValores(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData();
     }, []);
+
+    useEffect(() => {
+        console.log("prueba", valoresList.avatar);
+        setAvatar(valoresList.avatar);
+      }, [valoresList]);
+
+
     //Atributos
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -77,7 +90,8 @@ const UpdateProfile = ({tipo,id}) => {
             };
             const updateEndpoint = id ? `${API_ENDPOINT}user/${id}/` : `${API_ENDPOINT}auth/users/me/`;
             const update = await axios.put(updateEndpoint, updatedData, config);
-        
+    
+    
             const { data } = update;
             if (data.message) {
                 window.alert(data.message);

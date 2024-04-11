@@ -1,118 +1,117 @@
-import React from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import DeleteIcon from '@material-ui/icons/Delete';
-import useToken from './useToken';
-import { ToastContainer, toast } from 'react-toastify';
 import avatarEducator from '../logo/family-avatar.jpg';
 import avatarVolunteer from '../logo/volunteer-avatar.png';
 import avatarFamily from '../logo/family-avatar.jpg';
 import avatarPartner from  '../logo/partner-avatar.png'
-
+import useToken from './useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
-  
-
-  const handleDescargar = async(person) => {
-    const documento = person.enrollment_document;
-    const nombreArchivo = 'documento_de_enlistamiento.pdf';
-
-    const blob = new Blob([documento], { type: 'application/pdf' });
-
-    const enlaceDescarga = document.createElement('a');
-    enlaceDescarga.href = window.URL.createObjectURL(blob);
-    enlaceDescarga.download = nombreArchivo;
-
-    enlaceDescarga.click();
-    toast.error("Se descarga vacio porque la api pasa enlaces en vez de archivos", {
-      autoClose: 5000
-      });
-  };
-  
-  const handleAceptar = async (person) => {
-    person.status = "ACEPTADO";
-    const token = localStorage.getItem("accessToken");
-    console.log(token)
-
-  const authConfig = {
+  const [token, updateToken] = useToken();
+  const config = {
     headers: {
       'Authorization': `Bearer ${token}`,
     }
   };
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
-        status: person.status        
-    }, authConfig);
-    console.log('update',update);
-    const {data} = update;
-    if (data.message){
-        toast.error("Error al actualizar", {
-          autoClose: 5000
-          });
-    }else{
-        toast.success("Usuario actualizado con éxito.", {
-          autoClose: 5000
-          })
+
+  const handleDescargar = async(person) => {
+    const descargarDocumento = (documento, nombreArchivo) => {
+        const enlaceDescarga = document.createElement('a');
+        enlaceDescarga.href = documento;
+        enlaceDescarga.download = nombreArchivo;
+
+        // Simular un clic en el enlace para descargar el archivo
+        enlaceDescarga.click();
+    };
+
+    // Descargar cada documento
+    if(person.volunteer){
+    descargarDocumento(`${API_ENDPOINT}export/files/volunteers?name=${person.first_name}&surname=${person.last_name}`, 'documentos_voluntario.zip');
+  } else if (person.id) {
+    descargarDocumento(person.enrollment_document, 'documentos_student.pdf');
+  }
+    // Mostrar un mensaje de éxito
+    toast.success("Descarga existosa", {
+        autoClose: 5000
+    });
+}; 
+
+  const handleAceptar = async (person) => {
+  
+    person.status = "ACEPTADO";
+    let url;
+    if (person.volunteer) {
+      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
+    } else if (person.id) {
+      url = `${API_ENDPOINT}student/${person.id}/`;
+    }
+
+    const update = await axios.patch(url, {
+      status: person.status
+    }, config);
+    console.log('update', update);
+    const { data } = update;
+    if (data.message) {
+      toast.error("Error al actualizar", {
+        autoClose: 5000
+      });
+    } else {
+      toast.success("Usuario actualizado con éxito.", {
+        autoClose: 5000
+      })
     }
     window.location.reload();
 }
 
   const handleRechazar = async (person) => {
-    let url;
+   let url;
     person.status = "RECHAZADO";
-    const token = localStorage.getItem("accessToken");
-    console.log(token)
-
-  const authConfig = {
-    headers: {
-      'Authorization': `Bearer ${token}`,
+    if (person.volunteer) {
+      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
+    } else if (person.id) {
+      url = `${API_ENDPOINT}student/${person.id}/`;
     }
-  };
-    
-    const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
-        status: person.status        
-    }, authConfig);
-    console.log('update',update);
-    const {data} = update;
-    if (data.message){
-        toast.error("Error al actualizar", {
-          autoClose: 5000
-          });
-    }else{
-        toast.success("Usuario actualizado con éxito.", {
-          autoClose: 5000
-          })
+
+    const update = await axios.patch(url, {
+      status: person.status
+    }, config);
+    console.log('update', update);
+    const { data } = update;
+    if (data.message) {
+      toast.error("Error al actualizar", {
+        autoClose: 5000
+      });
+    } else {
+      toast.success("Usuario actualizado con éxito.", {
+        autoClose: 5000
+      })
     }
     window.location.reload();
   }
 
-  const handleEliminar = async(person) =>{
-    const token = localStorage.getItem("accessToken");
-    console.log(token)
-
-  const authConfig = {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    }
-  };
-    if(!person.id || person.id <= 0){
-        toast.error('La id no es valida', {
-          autoClose: 5000
-          })
-    }else{
-      if(personType === 'Familias-solicitudes'){
-        await axios.delete(`${API_ENDPOINT}student/${person.id}/`, authConfig);
-      } else if(personType === 'Voluntarios'){
+  const handleEliminar = async (person) => {
+   
+    if (!person.id || person.id <= 0) {
+      toast.error('La id no es valida', {
+        autoClose: 5000
+      })
+    } else {
+      if (personType === 'Familias-solicitudes') {
+        await axios.delete(`${API_ENDPOINT}student/${person.id}/`, config);
+      } else if (personType === 'Voluntarios') {
         console.log(person.id);
-        await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`, authConfig);
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`, config);
       } else {
-        await axios.delete(`${API_ENDPOINT}user/${person.id}/`, authConfig);
+        await axios.delete(`${API_ENDPOINT}user/${person.id}/`, config);
       }
-        toast.success("Persona eliminada correctamente", {
-          autoClose: 5000
-          })
-        window.location.reload();
+      toast.success("Persona eliminada correctamente", {
+        autoClose: 5000
+      })
+      window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
   const roleAvatarMap = {

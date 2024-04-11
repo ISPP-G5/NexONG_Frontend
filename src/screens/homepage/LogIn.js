@@ -122,6 +122,7 @@ function LogIn() {
                         }
                     }
                 } else if (user.role === 'FAMILIA') {
+                    localStorage.setItem('role', 'FAMILIA')
                     if (user.family === null) {
                     //Crea un objeto familia
                     const response = await axios.post(`${API_ENDPOINT}family/`, 
@@ -141,16 +142,20 @@ function LogIn() {
                     }
                     navigate('/familia/perfil');
                 } else if (user.role === 'SOCIO') {
+                    localStorage.setItem('role', 'SOCIO')
                     //TODO Aqui formulario para socio, una cosa así:
                     //if (user.socio === null) {
                     //    navigate('/socio/formulario');}
                     navigate('/socio/calendario');
+                    
                 } else if (user.role === 'EDUCADOR') {
+                    localStorage.setItem('role', 'EDUCADOR')
                     //TODO Aqui formulario para educador, una cosa así:
                     //if (user.educador === null) {
                     //    navigate('/educador/formulario');}
                     navigate('/educador/perfil');
-                } else {
+                } else if (user.role === 'ADMIN'){
+                    localStorage.setItem('role', 'ADMIN')
                     navigate(`/admin/voluntarios`);
                 }
         
