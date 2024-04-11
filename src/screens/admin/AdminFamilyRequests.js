@@ -54,6 +54,7 @@ function AdminFamilyRequests() {
       pantallas={pantallas} 
       request={true} 
       trash={false}
+      message={'No hay solicitudes pendientes'}
     />
   );
 }
