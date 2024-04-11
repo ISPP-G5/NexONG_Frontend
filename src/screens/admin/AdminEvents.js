@@ -255,7 +255,7 @@ function AdminEvents() {
     const renderLessonEventTextFieldComponents = () => {
       return (
         <>
-          {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
+          {renderTextFieldComponent('Nombre de la actividad', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
           {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({ ...localFormData, description: value }))}
           {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
           {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value}), 'number')}
