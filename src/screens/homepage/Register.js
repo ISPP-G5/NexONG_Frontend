@@ -10,6 +10,7 @@ import  useAdjustMargin from '../../components/useAdjustMargin';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogTitle';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -28,6 +29,8 @@ function Register() {
   const[password,setPassword] = useState('');
   const[confirmPassword,setConfirmPassword] = useState('');
   const[phone,setPhone] = useState('');
+  const [termsText, setTermsText] = useState(null);
+
 
  
 
@@ -74,6 +77,21 @@ function Register() {
       };
 
   const marginTop = useAdjustMargin();
+  const fetchTerms = async () => {
+    try {
+      const response = await axios.get(`${API_ENDPOINT}terms/`);
+      const terms = response.data;
+      console.log('terms',terms)
+      setTermsText(terms[0].text);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchTerms();
+  }, []);
+  console.log('terms',termsText)
 
   const sendRecurringForm = async(e) => {
     e.preventDefault();
@@ -131,6 +149,30 @@ function Register() {
         }
     }
   }  
+  const TermsAndConditions = ({ termsText }) => {
+    console.log('termsText:', termsText); // Log the original termsText
+
+    const termsArray = termsText.split(/\.(?=\w)/);
+    console.log('termsArray:', termsArray); // Log the array of terms
+
+    const formattedTerms = termsArray.map((term, index) => {
+      const colonIndex = term.indexOf(':');
+      const title = term.substring(0, colonIndex + 1);
+      const content = term.substring(colonIndex + 1);
+      console.log('term:', term); // Log each term
+      console.log('title:', title); // Log the title of each term
+      console.log('content:', content); // Log the content of each term
+  
+  
+      return (
+        <div key={index} style={{textAlign:'justify'}}>
+          <strong>{index === 0 ? <span>Términos y Condiciones de Uso.</span> : title}</strong>
+          {content}
+        </div>
+      );
+    });
+    return <> {formattedTerms}</>
+  }
 
   return (
     <LayoutHomepage 
@@ -232,15 +274,7 @@ function Register() {
             <Dialog open={isDialogOpen} onClose={handleDialogClose}>
               <DialogTitle>Términos y Condiciones</DialogTitle>
               <DialogContent>
-              <p><strong>Términos y Condiciones de Uso.</strong> Por favor, lea estos términos y condiciones de uso (T&C) detenidamente antes de utilizar nuestro servicio.</p>
-              <p><strong>Aceptación de Términos:</strong> Al acceder y utilizar nuestro servicio, usted acepta estar sujeto a estos T&C y a todas las leyes y regulaciones aplicables. Si no está de acuerdo con alguno de estos términos, no utilice el servicio.</p>
-              <p><strong>Uso del Servicio:</strong> Usted acepta utilizar el servicio únicamente con fines legales y de acuerdo con estos T&C. Se prohíbe el uso del servicio para actividades ilegales o no autorizadas.</p>
-              <p><strong>Propiedad Intelectual:</strong> Todo el contenido y los derechos de propiedad intelectual asociados con el servicio son propiedad de NexOng o de sus licenciantes. Usted acepta no copiar, modificar, distribuir, transmitir, mostrar, vender o explotar de otra manera dicho contenido sin el consentimiento previo por escrito de NexOng.</p>
-              <p><strong>Privacidad:</strong> El uso del servicio está sujeto a nuestra política de privacidad, que describe cómo recopilamos, usamos y compartimos sus datos personales. Al utilizar el servicio, usted acepta estar sujeto a nuestra política de privacidad.</p>
-              <p><strong>Limitación de Responsabilidad:</strong> En la máxima medida permitida por la ley, NexOng no será responsable ante usted por daños directos, indirectos, incidentales, especiales, consecuentes o punitivos que surjan de su uso del servicio.</p>
-              <p><strong>Modificaciones de los Términos:</strong> Nos reservamos el derecho de modificar estos T&C en cualquier momento. Cualquier cambio entrará en vigencia inmediatamente después de su publicación en el sitio web. Se le recomiendaS revisar periódicamente estos T&C para estar al tanto de cualquier cambio.</p>
-              <p><strong>Jurisdicción y Ley Aplicable:</strong> Estos T&C se regirán e interpretarán de acuerdo con las leyes del [país/estado/provincia], sin tener en cuenta sus conflictos de principios legales.Al utilizar nuestro servicio, usted acepta cumplir con estos T&C. Si tiene alguna pregunta sobre estos términos, por favor contáctenos.</p>
-              <p><strong>NexOng Fecha de última actualización: </strong> 2024-04-07</p>
+                <TermsAndConditions termsText={termsText} />
               </DialogContent>
             </Dialog>
         </div>
