@@ -22,7 +22,7 @@ import HomePageVolunteers from './homepage/HomePageVolunteers';
 import HomePageSuggestions from './homepage/HomePageSuggestions';
 import Register from './homepage/Register';
 import LogIn from './homepage/LogIn';
-
+import HomePageLaSalle from './homepage/HomePageLaSalle';
 // ADMIN
 import AdminProfile from './admin/AdminProfile';
 import AdminProfileUpdate from './admin/AdminProfileUpdate';
@@ -79,7 +79,8 @@ function App() {
             <Route path="/asociacion/historia" element={<HomePageHistory />} />
             <Route path="/asociacion/donde-estamos" exact={true} element={<HomePageWhereWeAre />} />
             <Route path="/asociacion/mision-vision-valores" element={<HomePageMisionOverviewValues />} />
-            {/* Falta la salle */}
+            <Route path="/asociacion/la-salle" element={<HomePageLaSalle />} />
+
             {/* Falta organizacion */}
             <Route path="/asociacion/transparencia" exact={true} element={<HomePageTransparency />} />
             <Route path="/asociacion/entidades-colaboradoras" exact={true} element={<HomePageColaboratorEntities />} />
