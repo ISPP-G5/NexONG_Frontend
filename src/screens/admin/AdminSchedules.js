@@ -63,25 +63,26 @@ const AdminSchedules = () => {
         <table style={{ borderSpacing: '10px' }}>
           <thead>
             <tr>
-              <th>Clase</th>
-              <th>Fecha de inicio de la Clase</th>
-              <th>Fecha de fin de la Clase</th>
-              <th>Día de la semana</th>
-              <th>Hora de inicio</th>
-              <th>Hora de fin</th>
-              <th>Editar</th>
-              <th>Eliminar</th>
+            <th style={{ wordWrap: 'break-word', width: '15%' }}>Clase</th>
+            <th style={{ overflowWrap: 'break-word', width: '15%' }}>Fecha de inicio de la Clase</th>
+            <th style={{ overflowWrap: 'break-word', width: '15%' }}>Fecha de fin de la Clase</th>
+            <th style={{ overflowWrap: 'break-word', width: '15%' }}>Día de la semana</th>
+            <th style={{ overflowWrap: 'break-word', width: '15%' }}>Hora de inicio</th>
+            <th style={{ overflowWrap: 'break-word', width: '15%' }}>Hora de fin</th>
+            <th style={{ overflowWrap: 'break-word', width: '15%' }}>Editar</th>
+            <th style={{ overflowWrap: 'break-word', width: '15%' }}>Eliminar</th>
+
             </tr>
           </thead>
           <tbody>
             {schedules.map((schedule) => (
               <tr key={schedule.id}>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.lessonData.name}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.lessonData.start_date}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.lessonData.end_date}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.weekday}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.start_time}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.end_time}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top', wordWrap: 'break-word' }}>{schedule.lessonData.name}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top',wordWrap: 'break-word' }}>{schedule.lessonData.start_date}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top',wordWrap: 'break-word' }}>{schedule.lessonData.end_date}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top',wordWrap: 'break-word' }}>{schedule.weekday}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' ,wordWrap: 'break-word'}}>{schedule.start_time}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top',wordWrap: 'break-word' }}>{schedule.end_time}</td>
                 <td>
                   <EditIcon onClick={() => handleEditSchedule(schedule.id)} />
                 </td>
