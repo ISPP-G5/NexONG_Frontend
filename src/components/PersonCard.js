@@ -1,25 +1,25 @@
-import DeleteIcon from '@material-ui/icons/Delete';
+import React from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import useToken from './useToken';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
+  
 
   const handleDescargar = async(person) => {
-    // Download the enrollment_document
     const documento = person.enrollment_document;
-    const nombreArchivo = 'documento_de_enlistamiento.pdf'; // Puedes cambiar el nombre del archivo según lo necesites
+    const nombreArchivo = 'documento_de_enlistamiento.pdf';
 
-    // Crear un objeto Blob a partir de los datos del documento
     const blob = new Blob([documento], { type: 'application/pdf' });
 
-    // Crear un enlace temporal
     const enlaceDescarga = document.createElement('a');
     enlaceDescarga.href = window.URL.createObjectURL(blob);
     enlaceDescarga.download = nombreArchivo;
 
-    // Hacer clic en el enlace para descargar el archivo
     enlaceDescarga.click();
     toast.error("Se descarga vacio porque la api pasa enlaces en vez de archivos", {
       autoClose: 5000
@@ -29,10 +29,17 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   const handleAceptar = async (person) => {
     console.log(person)
     person.status = "ACEPTADO";
-    
+    const token = localStorage.getItem("accessToken");
+    console.log(token)
+
+  const authConfig = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
     const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
         status: person.status        
-    });
+    }, authConfig);
     console.log('update',update);
     const {data} = update;
     if (data.message){
@@ -50,10 +57,18 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   const handleRechazar = async(person) =>{
     console.log(person)
     person.status = "RECHAZADO";
+    const token = localStorage.getItem("accessToken");
+    console.log(token)
+
+  const authConfig = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
     
     const update = await axios.patch(`${API_ENDPOINT}volunteer/${person.id}/`,{
         status: person.status        
-    });
+    }, authConfig);
     console.log('update',update);
     const {data} = update;
     if (data.message){
@@ -69,23 +84,31 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   }
 
   const handleEliminar = async(person) =>{
+    const token = localStorage.getItem("accessToken");
+    console.log(token)
+
+  const authConfig = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
     if(!person.id || person.id <= 0){
         toast.error('La id no es valida', {
           autoClose: 5000
           })
     }else{
       if(personType === 'Familias-solicitudes'){
-        await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
+        await axios.delete(`${API_ENDPOINT}student/${person.id}/`, authConfig);
       } else if(personType === 'Voluntarios'){
         console.log(person.id);
-        await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`);
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.id}/`, authConfig);
       } else {
-        await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
+        await axios.delete(`${API_ENDPOINT}user/${person.id}/`, authConfig);
       }
         toast.success("Persona eliminada correctamente", {
           autoClose: 5000
           })
-        window.location.reload(); // Recarga la ventana después de eliminar
+        window.location.reload();
     }
   }
 

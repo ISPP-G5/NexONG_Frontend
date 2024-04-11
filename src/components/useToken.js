@@ -1,24 +1,18 @@
-// useToken.js
 import { useState, useEffect } from 'react';
 
 const useToken = () => {
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    // Fetch the token from localStorage when the hook is used
-    const storedToken = localStorage.getItem('accessToken');
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
-
-  // Function to update the token
-  const updateToken = (newToken) => {
-    localStorage.setItem('accessToken', newToken);
-    setToken(newToken);
+  const getToken = () => {
+    return localStorage.getItem('accessToken');
   };
 
-  return [token, updateToken];
+  const [token, setToken] = useState(getToken());
+
+  const saveToken = (token) => {
+    localStorage.setItem('accessToken', token);
+    setToken(token);
+  };
+
+  return [token, saveToken];
 };
 
 export default useToken;

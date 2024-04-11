@@ -6,6 +6,7 @@ import axios from 'axios';
 import Pantallas from '../../components/Pantallas';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useToken from '../../components/useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
@@ -22,6 +23,7 @@ const pantallas = [
 ];
 
 function AdminEducatorsAdd() {
+  const [token, updateToken] = useToken();
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -55,9 +57,11 @@ function AdminEducatorsAdd() {
     } else if (!clave || clave === '') {
       toast.error("Se debe de insertar una contraseña")
     } else {
-      await axios.post(`${API_ENDPOINT}educator/`, {
-        birthdate: fecha,
-      }).catch(error => {
+      await axios.post(`${API_ENDPOINT}educator/`,
+        {birthdate: fecha,
+      },{headers: {
+        'Authorization': `Bearer ${token}`
+      }}).catch(error => {
         if (error.response && error.response.status === 400) {
           toast.error("Error en la solicitud: Datos inválidos", {
             autoClose: 5000
@@ -71,7 +75,10 @@ function AdminEducatorsAdd() {
     }
 
     //como la entidad de arriba es la ultima que se crea en la base de datos accedemos a esta posción y sacamos la id
-    axios.get(`${API_ENDPOINT}educator/`)
+    axios.get(`${API_ENDPOINT}educator/`, {headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
       .then(response => {
         setId(response.data[response.data.length - 1].id);
       })
@@ -83,7 +90,8 @@ function AdminEducatorsAdd() {
 
     if (id) {
       try {
-        const update = await axios.post(`${API_ENDPOINT}auth/users/`, {
+        const update = await axios.post(`${API_ENDPOINT}auth/users/`
+      ,{
           first_name: nombre,
           last_name: apellido,
           id_number: identificacion,
@@ -93,16 +101,22 @@ function AdminEducatorsAdd() {
           email: correo,
           educator: id,
           avatar: "https://avatars.githubusercontent.com/u/43956",
-        });
+        }, {headers: {
+          'Authorization': `Bearer ${token}`
+        }});
 
         if (update && update.data && update.data.message) {
-          toast.error("Datos inválidos", { autoClose: 5000 });
+          Object.entries(update.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         } else {
           toast.success("Usuario creado con éxito.", { autoClose: 5000 });
         }
       } catch (error) {
         if (error.response && error.response.status === 400) {
-          toast.error("Datos inválidos", { autoClose: 5000 });
+          Object.entries(error.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         } else {
           toast.error("Error en la solicitud", { autoClose: 5000 });
         }

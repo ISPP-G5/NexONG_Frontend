@@ -74,7 +74,7 @@ const UpdateProfile = ({tipo}) => {
 
             };
     
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
+            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData, config);
     
             const { data } = update;
             if (data.message) {

@@ -6,7 +6,7 @@ import axios from 'axios';
 import Pantallas from '../../components/Pantallas';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import useToken from '../../components/useToken';
 const pantallas = [
   {
     pantalla: 'Nuestros socios',
@@ -22,6 +22,7 @@ const pantallas = [
 
 // This function takes the user and partner data and create an array with the matched keys.
 const partnersData = (data, partners) => {
+ 
   let Data = [];
 
   for (let item of data) {
@@ -38,6 +39,12 @@ const partnersData = (data, partners) => {
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 const Asamblea = () => {
+  const [token, updateToken] = useToken();
+  const config = {
+  headers: {
+    'Authorization': `Bearer ${token}`,
+  }
+};
   const [socios, setSocios] = useState([]);
   const [users, setUsers] = useState([]);
   const [titulo, setTitulo] = useState('');
@@ -47,7 +54,7 @@ const Asamblea = () => {
 
   // partner and user are related, user has a fk of the entity partner
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}user/`)
+    axios.get(`${API_ENDPOINT}user/`, config)
       .then(response => {
         setUsers(partnersData(response.data, socios));
         console.log(partnersData(response.data, socios));
@@ -58,7 +65,7 @@ const Asamblea = () => {
   }, [socios]);
   
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}partner/`)
+    axios.get(`${API_ENDPOINT}partner/`, config)
       .then(response => {
         setSocios(response.data);
       })
@@ -92,7 +99,7 @@ const Asamblea = () => {
         time: hora,
         attendees: listaAsistentes,
 
-      });
+      }, config);
       console.log(update);
       const { data } = update;
       if (data.message) {

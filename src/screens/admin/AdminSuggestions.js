@@ -2,12 +2,13 @@ import React from 'react';
 import '../../styles/styles.css';
 import { useFetchSuggestions } from '../../components/useFetchData';
 import LayoutProfiles from '../../components/LayoutProfiles';
-
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 const AdminSuggestions = () => {
-    const suggestions = useFetchSuggestions(API_ENDPOINT);
+    const [token, updateToken] = useToken();
+    const suggestions = useFetchSuggestions(API_ENDPOINT, token);
     return (
         <LayoutProfiles profile={'admin'} selected={'Sugerencas'}>
             {suggestions.map((suggestion, index) => (

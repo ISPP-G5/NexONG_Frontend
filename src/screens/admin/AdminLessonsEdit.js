@@ -9,11 +9,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '../../styles/styles.css';
-
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminLessonsEdit = () => {
+  const [token, updateToken] = useToken();
+    const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const { lessonId } = useParams();
   const navigate = useNavigate();
 
@@ -30,7 +36,7 @@ const AdminLessonsEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}lesson/${lessonId}/`)
+      .get(`${API_ENDPOINT}lesson/${lessonId}/`, config)
       .then((response) => {
         setLessonData(response.data);
       })
@@ -47,7 +53,7 @@ const AdminLessonsEdit = () => {
     }
   
     axios
-      .put(`${API_ENDPOINT}lesson/${lessonId}/`, formData)
+      .put(`${API_ENDPOINT}lesson/${lessonId}/`, formData, config)
       .then((response) => {
         toast.success('Clase actualizada exitosamente');
       })
@@ -72,7 +78,7 @@ const AdminLessonsEdit = () => {
     setFormData(lessonData);
 
     axios
-      .get(`${API_ENDPOINT}educator/`)
+      .get(`${API_ENDPOINT}educator/`, config)
       .then((response) => {
         setEducators(response.data);
       })
@@ -81,7 +87,7 @@ const AdminLessonsEdit = () => {
       });
 
     axios
-      .get(`${API_ENDPOINT}student/`)
+      .get(`${API_ENDPOINT}student/`, config)
       .then((response) => {
         setStudents(response.data);
       })
@@ -90,7 +96,7 @@ const AdminLessonsEdit = () => {
       });
 
     axios
-      .get(`${API_ENDPOINT}user/`)
+      .get(`${API_ENDPOINT}user/`, config)
       .then((response) => {
         setUsers(response.data);
       })
