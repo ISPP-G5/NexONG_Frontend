@@ -71,10 +71,13 @@ function AdminEvents() {
   }));
 
   const MultiSelect = ({ label, options, value, onChange }) => {
-
+    if (value.length === 0) {
+      return null;
+    }
+  
     return (
       <div style={{ marginBottom: '1rem' }}>
-        <a style={labelStyle}>{label}</a>
+        <label style={labelStyle}>{label}</label>
         <Select multiple value={value} onChange={onChange} fullWidth>
           {options.map((option) => (
             <MenuItem key={option.id} value={option.id}>
@@ -85,7 +88,6 @@ function AdminEvents() {
       </div>
     );
   };
-
   const renderTextFieldComponent = (label, value, onChangeHandler, type = 'text') => {
     const inputStyle = {
       boxSizing: 'none',
@@ -147,21 +149,20 @@ function AdminEvents() {
     const allEvents = [...events, ...meetings, ...lessonEvents];
 
 
-    const handleCreateClick = () => {
-      setOpenNewDialog(true);
-    };
-
-    const handleLessonEventCreate = ({ start }) => {
-      // Open the lesson-event dialog here
-      setIsLessonEvent(true);
-      setOpenAddLessonEventDialog(true);
+    const handleCreateClick = ({ start }) => {
       clearLocalFormData();
       const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
       setLocalFormData((prevState) => ({
         ...prevState,
         start_date: selectedDate,
-        end_date: selectedDate,
+        end_date: selectedDate
       }));
+      setOpenNewDialog(true);
+    };
+
+    const handleLessonEventCreate = ({  }) => {
+      // Open the lesson-event dialog here
+      setOpenAddLessonEventDialog(true);
     };
     
 
@@ -172,25 +173,20 @@ function AdminEvents() {
 
 
     const handleSelect = ({ start }) => {
-      setOpenNewDialog(true);
       clearLocalFormData();
       const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
       setLocalFormData((prevState) => ({
         ...prevState,
         start_date: selectedDate,
-        end_date: selectedDate,
+        end_date: selectedDate
       }));
+      setOpenNewDialog(true);
+
     };
 
-    const handleEventCreate = ({ start }) => {
+    const handleEventCreate = ( {start} ) => {
       setOpenAddDialog(true);
-      clearLocalFormData();
-      const selectedDate = moment(start).format('YYYY-MM-DDTHH:mm');
-      setLocalFormData((prevState) => ({
-        ...prevState,
-        start_date: selectedDate,
-        end_date: selectedDate,
-      }));
+  
     };
 
 
@@ -271,6 +267,7 @@ function AdminEvents() {
               options={students}
               value={localFormData.attendees}
               readOnly={true}
+              placeholder="Seleccione los alumnos que asisten"
             />
 
           <div style={{ marginBottom: '1rem' }}>
@@ -613,10 +610,24 @@ axios
       console.log('Educators:', localFormData.educators);
       console.log('Lesson:', localFormData.lessonId);
       
-      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price || !localFormData.educators || localFormData.educators.length === 0) {
+      if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_volunteers || !localFormData.price || !localFormData.educators || localFormData.educators.length === 0) {
         toast.error('Por favor, rellene todos los campos y seleccione al menos un educador.');
         return;
       }
+      if (localFormData.end_date < localFormData.start_date) {
+        toast.error('La fecha final no puede ser anterior a la fecha inicial.');
+        return;
+      }
+
+      if (localFormData.max_volunteers <1) {
+        toast.error('Los voluntarios no pueden ser menos de 1.');
+        return;
+      }
+      if (localFormData.price < 0) {
+        toast.error('El precio debe ser 0€ o más.');
+        return;
+      }
+      
     
       axios
         .post(`${API_ENDPOINT}lesson-event/`, { 
@@ -645,7 +656,25 @@ axios
           setLessonEvents([...lessonEvents, newLessonEvent]);
           setOpenAddDialog(false);
         })
-        .catch(handleErrorResponse);
+        .catch((error) => {
+          if (error.response && error.response.data) {
+            const { data } = error.response;
+            // Update state with backend validation errors
+            if (data && data.detail) {
+              toast.error(data.detail);
+            } else if (data && data.start_date) {
+              toast.error('Error: la fecha de inicio no puede ser en el pasado.');
+            } else if (data && data.end_date) {
+              toast.error('Error: la fecha de fin no puede ser anterior o igual a la de inicio.');
+            }  else {
+              toast.error('Ha ocurrido un error al crear la actividad.');
+            }
+          } else {
+            console.error('Error creando actividad:', error);
+          }
+        }
+      );
+
     };
     
 
@@ -655,10 +684,36 @@ axios
       } else if (isLessonEvent) {
         handleLessonEvent();
       } else {
+        if ( localFormData.end_date < localFormData.start_date) {
+          toast.error('La fecha final no puede ser anterior a la fecha inicial.');
+          return;
+        } 
+        if (localFormData.start_date < new Date()) {
+          // Start date is in the past
+          toast.error('La fecha de inicio no puede ser en el pasado.');
+          return;
+        }
+        if (localFormData.price < 0) {
+          toast.error('El precio debe ser 0€ o más.');
+          return;
+        }
+        if (localFormData.max_volunteers <1) {
+          toast.error('Los voluntarios no pueden ser menos de 1.');
+          return;
+        }
+        if (localFormData.max_attendees < 1) {
+          toast.error('Los asistentes no pueden ser menos de 1.');
+          return;
+        }
+        
+
         if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
           toast.error('Por favor, rellene todos los campos.');
           return;
         }
+        
+        
+
         axios
           .post(`${API_ENDPOINT}event/`, localFormData, config)
           .then((response) => {
@@ -682,7 +737,26 @@ axios
             setEvents([...events, newEvent]);
             setOpenAddDialog(false);
           })
+          .catch((error) => {
+            if (error.response && error.response.data) {
+              const { data } = error.response;
+              // Update state with backend validation errors
+              if (data && data.detail) {
+                toast.error(data.detail);
+              } else if (data && data.start_date) {
+                toast.error('Error: la fecha de inicio no puede ser en el pasado.');
+              } else if (data && data.end_date) {
+                toast.error('Error: la fecha de fin no puede ser anterior o igual a la de inicio.');
+              }  else {
+                toast.error('Ha ocurrido un error al crear la clase.');
+              }
+            } else {
+              console.error('Error creating event:', error);
+            }
+          });
+            
         }};
+
       
       const handleLessonEventEdit = () => {
         if (editLessonEvent) {
@@ -713,6 +787,30 @@ axios
 
             toast.success('Actividad actualizada correctamente');
           })
+          .catch((error) => {
+            if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date  || !localFormData.max_volunteers || !localFormData.price) {
+              toast.error('Por favor, rellene todos los campos.');
+              return;
+            }
+            
+            if (error.response && error.response.data) {
+              const { data } = error.response;
+              if (data && data.detail) {
+                toast.error('Error: ' + data.detail); // General error message
+              } else if (data && data.name) {
+                toast.error('Error: ' + data.name[0]); // Error message for name field
+              } else if (data && data.description) {
+                toast.error('Error: ' + data.description[0]); // Error message for description field
+              } else if (data && data.place) {
+                toast.error('Error: ' + data.place[0]); // Error message for place field
+              } else if (data && data.start_date) {
+                toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
+              } 
+            } else {
+              console.error('Error updating event:', error);
+              toast.error('Ha ocurrido un error al actualizar el evento.');
+            }
+          });
         }
         
       }
@@ -916,40 +1014,40 @@ axios
       <ButtonCreate text='Crear evento' handleCreate={handleCreateClick} />
 
         <div className={classes.calendarContainer}>
-        <Calendar
-  localizer={localizer}
-  events={allEvents}
-  startAccessor="start"
-  endAccessor="end"
-  onSelectSlot={handleSelect}
-  onSelectEvent={handleEventClick}
-  views={['month', 'week', 'day']}
-  selectable={true}
-  step={60} // Decreased step for finer granularity
-  timeslots={1} // Only one row per hour
-  className='calendar'
-  eventPropGetter={(event, start, end, isSelected) => {
-    let newStyle = {
-      backgroundColor: "lightblue",
-      color: 'black',
-      borderRadius: "15px",
-      border: "none"
-    };
+            <Calendar
+      localizer={localizer}
+      events={allEvents}
+      startAccessor="start"
+      endAccessor="end"
+      onSelectSlot={handleCreateClick}
+      onSelectEvent={handleEventClick}
+      views={['month', 'week', 'day']}
+      selectable={true}
+      step={60} // Decreased step for finer granularity
+      timeslots={1} // Only one row per hour
+      className='calendar'
+      eventPropGetter={(event, start, end, isSelected) => {
+        let newStyle = {
+          backgroundColor: "lightblue",
+          color: 'black',
+          borderRadius: "15px",
+          border: "none"
+        };
 
-    if (event.type === 'meeting') {
-      newStyle.backgroundColor = "yellow";
-    } else if (event.type === 'lesson-event') {
-      newStyle.backgroundColor = "green";
-    } else if (event.type === 'event') {
-      newStyle.backgroundColor = "red";
-    }
+        if (event.type === 'meeting') {
+          newStyle.backgroundColor = "yellow";
+        } else if (event.type === 'lesson-event') {
+          newStyle.backgroundColor = "green";
+        } else if (event.type === 'event') {
+          newStyle.backgroundColor = "red";
+        }
 
-    return {
-      className: "",
-      style: newStyle
-    };
-  }}
-/>
+        return {
+          className: "",
+          style: newStyle
+        };
+      }}
+    />
 
 
         </div>
@@ -960,7 +1058,7 @@ axios
             Evento
           </Button>
           <Button onClick={handleLessonEventCreate} color="primary">
-            Lesson Event
+            Actividad
           </Button>
         </DialogActions>
       </Dialog>
@@ -982,7 +1080,7 @@ axios
           <DialogTitle>Añadir Actividad</DialogTitle>
           <DialogContent>{renderLessonEventTextFieldComponents()}</DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenAddDialog(false)} color="primary">
+            <Button onClick={() => setOpenAddLessonEventDialog(false)} color="primary">
               Volver
             </Button>
             <Button onClick={handleSubmit} color="primary">
