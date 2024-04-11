@@ -19,8 +19,11 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     };
 
     // Descargar cada documento
+    if(person.volunteer){
     descargarDocumento(`${API_ENDPOINT}export/files/volunteers?name=${person.first_name}&surname=${person.last_name}`, 'documentos_voluntario.zip');
-
+  } else if (person.id) {
+    descargarDocumento(person.enrollment_document, 'documentos_student.pdf');
+  }
     // Mostrar un mensaje de éxito
     toast.success("Descarga existosa", {
         autoClose: 5000
