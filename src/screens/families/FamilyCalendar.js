@@ -12,6 +12,9 @@ const localizer = momentLocalizer(moment);
 
 const FamilyCalendar = () => {
     const [activities, setActivities] = useState([]);
+    const [studentFamily, setStudentFamily] = useState({
+        studentsId: []
+    });
     const [currentUser, setCurrentUser] = useState({
         familyId: ''
     });
@@ -27,12 +30,23 @@ const FamilyCalendar = () => {
         .catch(error => {
             console.error(error);
         });
+
+        axios.get(`${API_ENDPOINT}student/`)
+        .then(response => {
+            const filteredStudent = response.data.filter(student => student.family === currentUser.familyId);
+            setStudentFamily({
+                studentsId: filteredStudent.id
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
     
         axios.get(`${API_ENDPOINT}event/`)
         .then(response => {
             const filteredActivities = response.data.filter(activity => 
                 moment(activity.start_date).isAfter(moment()) && 
-                activity.attendees.some(attendee => attendee === currentUser.familyId)
+                activity.attendees.some(attendee => attendee === studentFamily.studentsId)
             );
             setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...filteredActivities.map(activity => ({
             title: activity.name,
@@ -57,7 +71,7 @@ const FamilyCalendar = () => {
         .then(response => {
             const filteredActivities = response.data.filter(activity => 
                 moment(activity.start_date).isAfter(moment()) && 
-                activity.attendees.some(attendee => attendee === currentUser.familyId)
+                activity.attendees.some(attendee => attendee === studentFamily.studentsId)
             );
             setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
             id: activity.id,
