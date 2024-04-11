@@ -28,6 +28,9 @@ const AdminLessonsEdit = () => {
     end_date: '',
   });
 
+  // Define studentsFiltered state
+  const [studentsFiltered, setStudentsFiltered] = useState([]);
+
   useEffect(() => {
     axios
       .get(`${API_ENDPOINT}lesson/${lessonId}/`)
@@ -88,6 +91,10 @@ const AdminLessonsEdit = () => {
       .get(`${API_ENDPOINT}student/`)
       .then((response) => {
         setStudents(response.data);
+        // Filter students based on the is_morning_student value
+        const filteredStudents = lessonData.is_morning_lesson ? response.data.filter(student => student.is_morning_student) : response.data.filter(student => !student.is_morning_student);
+        setStudentsFiltered(filteredStudents);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error('Error fetching students:', error);
@@ -130,6 +137,15 @@ const AdminLessonsEdit = () => {
           capacity: value === '' ? value : parseInt(value),
         }));
       }
+    } else if (name === 'is_morning_lesson') {
+      // Reset students and filter based on morning lesson
+      const filteredStudents = checked ? students.filter(student => student.is_morning_student) : students.filter(student => !student.is_morning_student);
+      setFormData(prevData => ({
+        ...prevData,
+        students: [],
+        is_morning_lesson: checked,
+      }));
+      setStudentsFiltered(filteredStudents);
     } else {
       setFormData((prevData) => ({
         ...prevData,
@@ -137,6 +153,7 @@ const AdminLessonsEdit = () => {
       }));
     }
   };
+  
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -211,10 +228,10 @@ const AdminLessonsEdit = () => {
           onChange={handleChange}
           style={{ width: '70%' }} 
         >
-          {students.map((student) => (
-            <MenuItem key={student.id} value={student.id}>
-              {student.name}
-            </MenuItem>
+          {studentsFiltered.map((student) => (
+          <MenuItem key={student.id} value={student.id}>
+          {student.surname ? `${student.name} ${student.surname}` : student.name}
+        </MenuItem>
           ))}
         </Select>
 

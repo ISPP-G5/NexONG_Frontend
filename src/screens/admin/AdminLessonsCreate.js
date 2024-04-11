@@ -197,9 +197,9 @@ const AdminLessonsCreate = () => {
           style={{ width: '70%' }}
         >
           {studentsFiltered.map((student) => (
-            <MenuItem key={student.id} value={student.id}>
-              {student.name}
-            </MenuItem>
+    <MenuItem key={student.id} value={student.id}>
+    {student.surname ? `${student.name} ${student.surname}` : student.name}
+  </MenuItem>
           ))}
         </Select>
 
