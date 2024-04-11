@@ -411,7 +411,6 @@ function AdminEvents() {
 
       axios
         .get(`${API_ENDPOINT}volunteer/`, config)
-        .get(`${API_ENDPOINT}volunteer/`, config)
         .then((response) => {
           console.log('response volunteers:', response.data);
           setVolunteers(response.data);
@@ -1045,7 +1044,7 @@ axios
         if (event.type === 'meeting') {
           newStyle.backgroundColor = "yellow";
         } else if (event.type === 'lesson-event') {
-          newStyle.backgroundColor = "green";
+          newStyle.backgroundColor = "pink";
         } else if (event.type === 'event') {
           newStyle.backgroundColor = "red";
         }
@@ -1060,15 +1059,22 @@ axios
 
         </div>
 
-              <Dialog open={openNewDialog} onClose={() => setOpenNewDialog(false)}>
-        <DialogActions>
-          <Button onClick={handleEventCreate} color="primary">
-            Evento
-          </Button>
-          <Button onClick={handleLessonEventCreate} color="primary">
-            Actividad
-          </Button>
-        </DialogActions>
+              <Dialog 
+        open={openNewDialog} 
+        onClick={() => setOpenNewDialog(false)}
+        maxWidth = 'lg'  // set maxWidth to large
+        width = '20%'
+      >
+        <div style={{ height: '30vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <DialogActions style={{ justifyContent: 'center', textAlign: 'center' }}>
+            <Button onClick={handleEventCreate} color="primary" style={{ fontSize: '30px' }}>
+              Crear Evento
+            </Button>
+            <Button onClick={handleLessonEventCreate} color="primary" style={{ fontSize: '30px' }}>
+              Crear Actividad
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
 
 

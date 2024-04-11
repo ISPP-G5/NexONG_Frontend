@@ -55,12 +55,12 @@ const AdminSchedules = () => {
 
   return (
     <LayoutProfiles profile={'admin'} selected={'Horarios'}>
-            <button className='button' onClick={() => navigate('/admin/clases')} style={{ alignSelf: 'start', marginLeft: '15%' }}>
+      <button className='button' onClick={() => navigate('/admin/clases')} style={{ alignSelf: 'start', marginLeft: '15%' }}>
         Volver
       </button>
       <div className="card-info-suggestion table">
         <h2>Lista de Horarios</h2>
-        <table>
+        <table style={{ borderSpacing: '10px' }}>
           <thead>
             <tr>
               <th>Clase</th>
@@ -76,12 +76,12 @@ const AdminSchedules = () => {
           <tbody>
             {schedules.map((schedule) => (
               <tr key={schedule.id}>
-                <td>{schedule.lessonData.name}</td>
-                <td>{schedule.lessonData.start_date}</td>
-                <td>{schedule.lessonData.end_date}</td>
-                <td>{schedule.weekday}</td>
-                <td>{schedule.start_time}</td>
-                <td>{schedule.end_time}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.lessonData.name}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.lessonData.start_date}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.lessonData.end_date}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.weekday}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.start_time}</td>
+                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top' }}>{schedule.end_time}</td>
                 <td>
                   <EditIcon onClick={() => handleEditSchedule(schedule.id)} />
                 </td>
@@ -95,6 +95,7 @@ const AdminSchedules = () => {
       </div>
     </LayoutProfiles>
   );
+  
 };
 
 export default AdminSchedules;
