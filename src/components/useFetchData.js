@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function useFetchData(API_ENDPOINT, status) {
+export default function useFetchData(API_ENDPOINT, status, token) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get(API_ENDPOINT)
+    axios.get(API_ENDPOINT, {headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
       .then(response => {
         setData(response.data.filter(u => u.status === status));
       })
@@ -17,30 +20,37 @@ export default function useFetchData(API_ENDPOINT, status) {
   return data;
 }
 
-export function useFetchUsersByRole(API_ENDPOINT, role) {
+export function useFetchUsersByRole(API_ENDPOINT, role, token) {
   const [users, setUsers] = useState([]);
+
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}user/`) // This should be changed to auth/users when the new population is done
+      .get(`${API_ENDPOINT}user/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then((response) => {
         console.log('users:', response.data);
         setUsers(response.data.filter(user => user.role === role));
       })
       .catch((error) => {
-        console.error('Error fetching:', error);
+        console.error('Error fetching users:', error);
       });
   }, [API_ENDPOINT, role]);
 
   return users;
 }
 
-export function useFetchFamilies(API_ENDPOINT) {
+export function useFetchFamilies(API_ENDPOINT, token) {
   const [families, setFamilies] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}family/`)
+      .get(`${API_ENDPOINT}family/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then((response) => {
         console.log('families:', response.data);
         setFamilies(response.data);
@@ -53,12 +63,15 @@ export function useFetchFamilies(API_ENDPOINT) {
   return families;
 }
 
-export function useFetchStudents(API_ENDPOINT, status) {
+export function useFetchStudents(API_ENDPOINT, status, token) {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
     axios
-    .get(`${API_ENDPOINT}student/`)
+    .get(`${API_ENDPOINT}student/`, {headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
     .then((response) => {
       console.log('students:', response.data);
       const acceptedStudents = response.data.filter(student => student.status === status);
@@ -72,12 +85,15 @@ export function useFetchStudents(API_ENDPOINT, status) {
   return students;
 }
 
-export function useFetchLessons(API_ENDPOINT) {
+export function useFetchLessons(API_ENDPOINT, token) {
   const [lessons, setLessons] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}lesson/`)
+      .get(`${API_ENDPOINT}lesson/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then((response) => {
         console.log('lessons:', response.data);
         setLessons(response.data);
@@ -90,12 +106,15 @@ export function useFetchLessons(API_ENDPOINT) {
   return lessons;
 }
 
-export function useFetchStudentEvaluation(API_ENDPOINT) {
+export function useFetchStudentEvaluation(API_ENDPOINT, token) {
   const [evaluations, setEvaluations] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}student-evaluation/`)
+      .get(`${API_ENDPOINT}student-evaluation/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then((response) => {
         console.log('evaluations:', response.data);
         setEvaluations(response.data);
@@ -108,12 +127,16 @@ export function useFetchStudentEvaluation(API_ENDPOINT) {
   return evaluations;
 }
 
-export function useFetchSuggestions(API_ENDPOINT) {
+export function useFetchSuggestions(API_ENDPOINT, token) {
   const[suggestions, setSuggestions] = useState([]);
+ 
 
   useEffect(()=> {
     axios
-    .get(`${API_ENDPOINT}suggestion/`)
+    .get(`${API_ENDPOINT}suggestion/`, {headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
     .then((response) => {
       console.log('suggestions:', response.data);
       setSuggestions(response.data);
@@ -123,7 +146,7 @@ export function useFetchSuggestions(API_ENDPOINT) {
     });
   }, [API_ENDPOINT]);
 
-  return suggestions;
+  return [suggestions,setSuggestions];
 }
 
 
@@ -294,7 +317,7 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
 export async function fetchMyFamilyId(API_ENDPOINT, userId) {
   const token = localStorage.getItem('accessToken');
   try {
-    const userResponse = await axios.get(`${API_ENDPOINT}user/${userId}`, {
+    const userResponse = await axios.get(`${API_ENDPOINT}auth/users/me/`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -329,12 +352,15 @@ async function fetchMyStudents(API_ENDPOINT, userId, token) {
   }
 }
 
-export function UseFetchDocuments(API_ENDPOINT) {
+export function UseFetchDocuments(API_ENDPOINT, token) {
   const[documents, setDocuments] = useState([]);
 
   useEffect(()=> {
     axios
-    .get(`${API_ENDPOINT}home-document/`)
+    .get(`${API_ENDPOINT}home-document/`, {headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
     .then((response) => {
       console.log('documents:', response.data);
       setDocuments(response.data);

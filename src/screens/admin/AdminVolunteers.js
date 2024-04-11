@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 
 import ShowType from '../../components/ShowAdminProfiles';
 import useFetchData, { useFetchUsersByRole } from '../../components/useFetchData'; 
+import useToken from '../../components/useToken';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
   
@@ -20,11 +22,11 @@ const pantallas = [
 ];
 
 function AdminVolunteers() {
-
-  const userVolunteers = useFetchUsersByRole(API_ENDPOINT, "VOLUNTARIO");
-  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACEPTADO");
+  const [token, updateToken] = useToken();
+  const userVolunteers = useFetchUsersByRole(API_ENDPOINT, "VOLUNTARIO", token);
+  const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACEPTADO", token);
   const [volunteersData, setVolunteersData] = useState([]);
-
+console.log(userVolunteers,'userVolunteer')
   useEffect(() => {
     if (userVolunteers.length > 0 && volunteers.length > 0) {
       const acceptedVolunteers = userVolunteers.filter(userVolunteer => {
@@ -34,9 +36,8 @@ function AdminVolunteers() {
   
       setVolunteersData(acceptedVolunteers);
     }
-  }, [userVolunteers, volunteers]);
+  }, [userVolunteers, volunteers, token]);
    
-
   return (
     <ShowType 
       data={volunteersData}

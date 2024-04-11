@@ -25,6 +25,11 @@ function Register() {
   const[password,setPassword] = useState('');
   const[confirmPassword,setConfirmPassword] = useState('');
   const[phone,setPhone] = useState('');
+  const phoneFormat = /^[6-9]\d{8}$/; 
+   const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
+  const letters = /^[A-Za-z\sáéíóúÁÉÍÓÚñÑ]+$/;
+  const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
  
 
@@ -74,12 +79,54 @@ function Register() {
     } else if(!idNumber || idNumber === ''){
         toast.error("Introduzca un DNI")
     } else if(!phone || phone === ''){
-        toast.error("Introduzca número de telefono correcto")
+        toast.error("Introduzca un número de teléfono correcto")
     } else if(!password || password === ''){
         toast.error("Introduzca una contraseña")
     } else if (!constantTimeComparison(password, confirmPassword)){
         toast.error("Las contraseñas no coinciden")
-    } else {
+      }
+      else if(!first_name.match(letters) || !first_name.match(letters)) {
+          toast.error('Nombre y apellido no puede contener números');
+          return;
+      } 
+      else if (!isFamilyChecked && !isVolunteerChecked) {
+        toast.error("Debe elegir una de las opciones: familia o voluntario");
+      }
+      else if (!phoneFormat.test(phone)) {
+        toast.error('Formato de teléfono incorrecto');
+        return;
+       }
+     else if (!emailFormat.test(email)) {
+      toast.error('Formato de correo inválido');
+      return;
+     }
+      else if(first_name.length>75){
+        toast.error("Indica un nombre, no debe superar 75 caráteres")
+    }
+    else if (!idNumber.match(spanishIdFormat)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if (password.length < 8) {
+      toast.error('La contraseña debe tener 8 caracteres mínimo');
+      return;
+  }else if (!/\D/.test(password)) {
+    toast.error('La contraseña no puede ser solo números');
+    return;
+  }else if  (commonPasswords.includes(password)) {
+    toast.error('Contraseña demasiado común');
+    return;
+  }  
+  
+    else if(surname.length>75){
+        toast.error("Indica un nombre, no debe superar 75 caráteres")
+    }
+   else if (!isAgreedChecked){
+    toast.error("Acepte los términos y condiciones")
+    }
+
+    
+    else {
         const userData = new FormData();
         userData.append('first_name', first_name);
         userData.append('last_name', surname);
@@ -88,6 +135,7 @@ function Register() {
         userData.append('phone', phone);
         userData.append('password', password);
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
+        userData.append('is_agreed', isAgreedChecked);
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
@@ -97,26 +145,7 @@ function Register() {
           const { data } = userUpdate;
           if (data.message){
               toast.error(data.message);
-          } else {
-            if (isFamilyChecked) {
-              // Create a Familia object
-              const familiaData = new FormData();
-              familiaData.append('name', `Familia ${surname}`);
-              const familiaUpdate = await axios.post(`${API_ENDPOINT}family/`, familiaData, {
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                }
-              });
-      
-              // Update the user with the id of the created Familia
-              const userFamiliaData = new FormData();
-              userFamiliaData.append('familia', familiaUpdate.data.id);
-              await axios.patch(`${API_ENDPOINT}auth/users/${data.id}/`, userFamiliaData, {
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                }
-              });
-            } 
+          }else{
             setFirst_name('');
             setSurname('');
             setEmail('');
@@ -129,7 +158,9 @@ function Register() {
             toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
         } catch(error){
-          console.error('Error',error);
+          Object.entries(error.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         }
     }
   }  

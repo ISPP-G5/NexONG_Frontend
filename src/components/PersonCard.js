@@ -3,85 +3,97 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 
+import avatarEducator from '../logo/family-avatar.jpg';
+import avatarVolunteer from '../logo/volunteer-avatar.png';
+import avatarFamily from '../logo/family-avatar.jpg';
+import avatarPartner from  '../logo/partner-avatar.png'
+import useToken from './useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
 
   const handleDescargar = async(person) => {
-    // Download the enrollment_document
-    const documento = person.enrollment_document;
-    const nombreArchivo = 'documento_de_enlistamiento.pdf'; // Puedes cambiar el nombre del archivo según lo necesites
+    const descargarDocumento = (documento, nombreArchivo) => {
+        const enlaceDescarga = document.createElement('a');
+        enlaceDescarga.href = documento;
+        enlaceDescarga.download = nombreArchivo;
 
-    // Crear un objeto Blob a partir de los datos del documento
-    const blob = new Blob([documento], { type: 'application/pdf' });
+        // Simular un clic en el enlace para descargar el archivo
+        enlaceDescarga.click();
+    };
 
-    // Crear un enlace temporal
-    const enlaceDescarga = document.createElement('a');
-    enlaceDescarga.href = window.URL.createObjectURL(blob);
-    enlaceDescarga.download = nombreArchivo;
-
-    // Hacer clic en el enlace para descargar el archivo
-    enlaceDescarga.click();
-    toast.error("Se descarga vacio porque la api pasa enlaces en vez de archivos", {
-      autoClose: 5000
-      });
-  };
-  
-  const handleAceptar = async (person) => {
-    if(!person.id || person.id <= 0){
-      toast.error('Error al actualizar', {
-        autoClose: 5000
-      })
-    } else{
-      if(personType === 'Voluntarios'){
-        await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`,{
-          status: "ACEPTADO"        
-        });
-      } else if(personType === 'Familias'){
-        await axios.patch(`${API_ENDPOINT}student/${person.id}/`,{
-          status: "ACEPTADO"        
-        });
-      } else {
-        toast.error('El usuario no tiene el rol adecuado', {
-          autoClose: 5000
-        })
-      }
-      toast.success("Persona rechazada correctamente", {
-        autoClose: 5000
-      })
-      window.location.reload(); // Recarga la ventana después de eliminar
-    }
+    // Descargar cada documento
+    if(person.volunteer){
+    descargarDocumento(`${API_ENDPOINT}export/files/volunteers?name=${person.first_name}&surname=${person.last_name}`, 'documentos_voluntario.zip');
+  } else if (person.id) {
+    descargarDocumento(person.enrollment_document, 'documentos_student.pdf');
   }
+    // Mostrar un mensaje de éxito
+    toast.success("Descarga existosa", {
+        autoClose: 5000
+    });
+}; 
+
+  const handleAceptar = async (person) => {
+    person.status = "ACEPTADO";
+    let url;
+    if (person.volunteer) {
+      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
+    } else if (person.id) {
+      url = `${API_ENDPOINT}student/${person.id}/`;
+    }
+
+    const update = await axios.patch(url, {
+      status: person.status
+    }, config);
+    const { data } = update;
+    if (data.message) {
+      toast.error("Error al actualizar", {
+        autoClose: 5000
+      });
+    } else {
+      toast.success("Usuario actualizado con éxito.", {
+        autoClose: 5000
+      })
+    }
+    window.location.reload();
+}
   
-  const handleRechazar = async(person) =>{
-    if(!person.id || person.id <= 0){
-      toast.error('Error al actualizar', {
+  
+  const handleRechazar = async (person) => {
+   let url;
+    person.status = "RECHAZADO";
+    if (person.volunteer) {
+      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
+    } else if (person.id) {
+      url = `${API_ENDPOINT}student/${person.id}/`;
+    }
+
+    const update = await axios.patch(url, {
+      status: person.status
+    }, config);
+    const { data } = update;
+    if (data.message) {
+      toast.error("Error al actualizar", {
+        autoClose: 5000
+      });
+    } else {
+      toast.success("Usuario actualizado con éxito.", {
         autoClose: 5000
       })
-    } else{
-      if(personType === 'Voluntarios'){
-        await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`,{
-          status: "RECHAZADO"        
-        });
-      } else if(personType === 'Familias'){
-        await axios.patch(`${API_ENDPOINT}student/${person.id}/`,{
-          status: "RECHAZADO"        
-        });
-      } else {
-        toast.error('El usuario no tiene el rol adecuado', {
-          autoClose: 5000
-        })
-      }
-      toast.success("Persona rechazada correctamente", {
-        autoClose: 5000
-      })
-      window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
 
@@ -108,7 +120,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
-
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   const handleConfirmDelete = () => {
@@ -116,12 +127,19 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     setConfirmDeleteOpen(false);
   };
 
+  const roleAvatarMap = {
+    'EDUCADOR': avatarEducator,
+    'VOLUNTARIO': avatarVolunteer,
+    'FAMILIA': avatarFamily,
+    'SOCIO': avatarPartner,
+  };
+
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
       { (request || personType !== 'Familias') &&
         <div className='family-request'>
-          <img src={person.avatar} alt='placeholder' />
+          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />
           <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
             {personType === 'Familias' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
@@ -137,7 +155,12 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           </div>
         </div>
       }
-      {trash && <DeleteIcon className='trash' onClick={() => setConfirmDeleteOpen(true)} />}
+      {trash &&
+        <div className='buttons-acceptance'>
+          <DeleteIcon className='trash' style={{marginLeft:'87.5%'}} onClick={() => setConfirmDeleteOpen(true)} />
+          <EditIcon className='edit' style={{marginLeft:'87.5%'}} onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
+        </div>
+      }
       <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
         <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
         <DialogActions>

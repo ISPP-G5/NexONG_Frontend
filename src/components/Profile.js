@@ -8,24 +8,31 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import useToken from './useToken'; 
+import avatarImage from '../logo/avatar.png';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-const Profile = ({usuario}) => {
+const Profile = ({ usuario }) => {
+  const [token, updateToken] = useToken(); 
 
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const [valores, setValores] = useState([]);
   const navigate = useNavigate();
 
-  //Traemos los datos del usuario que ha iniciado sesión
   useEffect(() => {
-
-      axios.get(`${API_ENDPOINT}user/`)
-        .then(response => {
-          setValores(response.data.filter(x=>x.id===parseInt(localStorage.getItem('userId'),10)));
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    axios.get(`${API_ENDPOINT}auth/users/me/`, config)
+      .then(response => {
+        setValores(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [token]); 
 
   }, []);
 
@@ -66,24 +73,19 @@ const Profile = ({usuario}) => {
 
 
   return (
-    <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
-      <ToastContainer />
-      {valores.map((profile, index) => {
-          console.log(profile);
-          return (
-        <div key={index}>
-          <img src={profile.avatar} alt={"imagen"} />
+    <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
+          <img src={valores.avatar} alt="imagen" />
 
-          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.username}</div>
+          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{valores.username}</div>
 
           <p>Email</p>
-          <input type='text' value={profile.email} readOnly></input>
+          <input type='text' value={valores.email || ''} readOnly />
 
           <p>Teléfono</p>
-          <input type='text' value={profile.phone} readOnly></input>
+          <input type='text' value={valores.phone || ''} readOnly />
 
           <p>Contraseña</p>
-          <input type='password' value={profile.password} readOnly></input>
+          <input type='password' value="********" readOnly />
 
           {profile.role !== "ADMIN" &&
           <button className='button-decline' style={{marginTop: '5%'}} onClick={() => setConfirmDeleteOpen(true)}>
@@ -107,10 +109,7 @@ const Profile = ({usuario}) => {
               Actualizar perfil
             </Link>
           </button>
-        </div>
-      )})}
     </div>
-
   );
 };
 
