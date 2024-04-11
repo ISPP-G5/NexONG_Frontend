@@ -1,4 +1,3 @@
-// AdminScheduleEdit.js
 import React, { useState, useEffect } from 'react';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import Select from '@material-ui/core/Select';
@@ -7,27 +6,26 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ScheduleInput from '../../components/ScheduleInput';
-
+import ScheduleSelect from '../../components/ScheduleSelect';
 import '../../styles/styles.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminScheduleEdit = () => {
-  const { scheduleId } = useParams();
-  const navigate = useNavigate();
+const { scheduleId } = useParams();
+const navigate = useNavigate();
 
-  const [scheduleData, setScheduleData] = useState({
+const [scheduleData, setScheduleData] = useState({
     lesson: '',
     weekday: '',
     start_time: '',
     end_time: '',
-  });
-  const [formData, setFormData] = useState(scheduleData);
+});
+const [formData, setFormData] = useState(scheduleData);
 
-  const [lessons, setLessons] = useState([]);
-  const [weekdays, setWeekdays] = useState(['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES']); // Hardcoded list of weekdays
-  useEffect(() => {
+const [lessons, setLessons] = useState([]);
+const [weekdays, setWeekdays] = useState(['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES']); // Hardcoded list of weekdays
+useEffect(() => {
     axios
       .get(`${API_ENDPOINT}schedule/${scheduleId}/`)
       .then((response) => {
@@ -39,115 +37,109 @@ const AdminScheduleEdit = () => {
       });
   }, [scheduleId]);
 
-  useEffect(() => {
+useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_ENDPOINT}lesson/`);
-        console.log('response lessons:', response.data);
-        setLessons(response.data);
-        setFormData(scheduleData);
-      } catch (error) {
-        console.error('Error fetching lessons:', error);
-      }
+        try {
+            const response = await axios.get(`${API_ENDPOINT}lesson/`);
+            console.log('response lessons:', response.data);
+            setLessons(response.data);
+            setFormData(scheduleData);
+        } catch (error) {
+            console.error('Error fetching lessons:', error);
+        }
     };
 
     fetchData();
-  }, [scheduleData]);
+}, [scheduleData]);
 
-  const handleScheduleClick = () => {
+
+const handleScheduleClick = () => {
     navigate('/admin/horarios');
-  };
+};
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
+    setFormData(prevData => ({
+        ...prevData,
+        [name]: value
     }));
-  };
+};
 
-  const handleSubmit = (formData) => {
+
+const handleSubmit = (formData) => {
     // Check if any field is empty
     if (!formData.lesson || !formData.weekday || !formData.start_time || !formData.end_time) {
-      toast.error('Por favor, completa todos los campos');
-      return;
+        toast.error('Por favor, completa todos los campos');
+        return;
     }
 
     // Check if end time is after start time
     if (formData.start_time >= formData.end_time) {
-      toast.error('La hora de fin debe ser posterior a la hora de inicio');
-      return;
+        toast.error('La hora de fin debe ser posterior a la hora de inicio');
+        return;
     }
 
     axios
-      .put(`${API_ENDPOINT}schedule/${scheduleId}/`, formData)
-      .then((response) => {
-        console.log('Response of put of schedule:', response.data);
-        toast.success('Horario actualizado con éxito');
-      })
-      .catch((error) => {
-        console.error('Error updating schedule:', error);
-        toast.error('Error al actualizar el horario.');
-      });
-  };
+        .put(`${API_ENDPOINT}schedule/${scheduleId}/`, formData)
+        .then((response) => {
+            console.log('Response of put of schedule:', response.data);
+            toast.success('Horario actualizado con éxito');
+        })
+        .catch((error) => {
+            console.error('Error updating schedule:', error);
+            toast.error('Error al actualizar el horario.');
+        });
+};
 
-  return (
+
+
+return (
     <LayoutProfiles profile={'admin'} selected={'Horarios'}>
-      <button className='button' onClick={handleScheduleClick} style={{ alignSelf: 'start', marginLeft: '15%' }}>
+    <button className='button' onClick={handleScheduleClick} style={{ alignSelf: 'start', marginLeft: '15%' }}>
         Volver
-      </button>
-      <ToastContainer />
-      <div className="register-container admin">
-      <label>Seleccione la clase</label>
-        <Select
-        name="lesson"
-        value={formData.lesson}
-        onChange={handleChange}
-        style={{ width: '70%' }} 
-        >
-        {lessons.map((lesson) => (
-            <MenuItem key={lesson.id} value={lesson.id}>
-            {lesson.name}
-            </MenuItem>
-        ))}
-        </Select>
+    </button>
+    <ToastContainer />
+    <div className="register-container admin">
+    <ScheduleSelect
+  label="Seleccione la clase"
+  name="lesson"
+  value={formData.lesson}
+  handleChange={handleChange}
+  style={{ width: '70%' }}
+  options={lessons}
+/>
 
-        <label>Día de la semana</label>
-        <Select
-        name="weekday"
-        value={formData.weekday}
-        onChange={handleChange}
-        style={{ width: '70%' }}
-        >
-        {weekdays.map((weekday, index) => (
-            <MenuItem key={index} value={weekday}>
-            {weekday}
-            </MenuItem>
-        ))}
-        </Select>
+<ScheduleSelect
+  label="Día de la semana"
+  name="weekday"
+  value={formData.weekday}
+  handleChange={handleChange}
+  style={{ width: '70%' }}
+  options={weekdays}
+/>
 
-        <ScheduleInput
-          label="Hora de inicio"
-          name="start_time"
-          type="time"
-          value={formData.start_time}
-          onChange={handleChange}
+        <label>Hora de inicio</label>
+        <input
+        type="time"
+        name="start_time"
+        value={formData.start_time}
+        onChange={handleChange}
         />
 
-        <ScheduleInput
-          label="Hora de fin"
-          name="end_time"
-          type="time"
-          value={formData.end_time}
-          onChange={handleChange}
+        <label>Hora de fin</label>
+        <input
+        type="time"
+        name="end_time"
+        value={formData.end_time}
+        onChange={handleChange}
         />
 
         <button className="register-button" onClick={() => handleSubmit(formData)}>
-          Guardar
+        Guardar
         </button>
-      </div>
+    </div>
     </LayoutProfiles>
-  );
+);
 };
 
 export default AdminScheduleEdit;
