@@ -32,6 +32,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 
   const handleAceptar = async (person) => {
     person.status = "ACEPTADO";
+    console.log(person)
     let url;
     if (person.volunteer) {
       url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
