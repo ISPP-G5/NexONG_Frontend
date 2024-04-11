@@ -152,7 +152,7 @@ export function useFetchSuggestions(API_ENDPOINT) {
     });
   }, [API_ENDPOINT]);
 
-  return suggestions;
+  return [suggestions,setSuggestions];
 }
 
 

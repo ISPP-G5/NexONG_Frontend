@@ -121,11 +121,12 @@ function Register() {
     else if(surname.length>75){
         toast.error("Indica un nombre, no debe superar 75 caráteres")
     }
+   else if (!isAgreedChecked){
+    toast.error("Acepte los términos y condiciones")
+    }
 
-     else {
-    } else if (!isAgreedChecked){
-        toast.error("Acepte los términos y condiciones")
-    } else {
+    
+    else {
         const userData = new FormData();
         userData.append('first_name', first_name);
         userData.append('last_name', surname);

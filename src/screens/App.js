@@ -180,13 +180,14 @@ function App() {
             {role === 'FAMILIA' && (
               <>
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
+            <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
+            <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
              </> 
             )}
              {/* Redirect unauthorized users to the homepage */}
           {!['ADMIN', 'EDUCADOR', 'SOCIO', 'VOLUNTARIO','FAMILIA'].includes(role) || (
             <Route path="*" element={<RedirectToHome />} />
-      )}            <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
-            <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
+      )}           
 
 
 
