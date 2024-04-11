@@ -4,15 +4,33 @@ import moment from 'moment';
 import axios from 'axios';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
+import {makeStyles }from '@material-ui/core';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const localizer = momentLocalizer(moment);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(4),
+  },
 
+  calendarContainer: {
+    flex: 1,
+    position: 'relative',
+    minHeight: '20rem',
+    marginTop: '2rem',
+    overflow: 'hidden',
+    width: '90%',
+  },
+}));
 const PartnersCalendar = () => {
   const [activities, setActivities] = useState([]);
   const [meetings, setMeetings] = useState([]);
+  const classes = useStyles();
 
   useEffect(() => {
     axios.get(`${API_ENDPOINT}event/`)
@@ -60,6 +78,7 @@ const PartnersCalendar = () => {
 
   return (
     <LayoutProfiles profile={'socios'} selected={'Calendario'}>
+        <div className={classes.calendarContainer}>
 
       <Calendar
         localizer={localizer}
@@ -72,7 +91,9 @@ const PartnersCalendar = () => {
           style: event.type === 'meeting' ? { backgroundColor: 'orange' } : {}, // Set different background colors for meetings and events
         })}
       />
+       </div>
     </LayoutProfiles>
+   
   );
 };
 
