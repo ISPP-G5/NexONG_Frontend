@@ -109,8 +109,6 @@ function Register() {
         toast.error("Introduzca una contraseña")
     } else if (!constantTimeComparison(password, confirmPassword)){
         toast.error("Las contraseñas no coinciden")
-    } else if (!isAgreedChecked){
-        toast.error("Acepte los términos y condiciones")
     } else {
         const userData = new FormData();
         userData.append('first_name', first_name);
@@ -121,11 +119,8 @@ function Register() {
         userData.append('password', password);
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
         userData.append('is_agreed', isAgreedChecked);
-<<<<<<< HEAD
         userData.append('is_enabled', false);
 
-=======
->>>>>>> develop
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
