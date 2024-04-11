@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route , Routes,useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // HOMEPAGE
 import HomePage from './homepage/HomePage';
 import HomePageAssociation from './homepage/HomePageAssociation';
@@ -78,7 +78,7 @@ function RedirectToHome() {
   return null;
 }
 function App() {
-  const role = localStorage.getItem('role')
+  const [role, setRole] = useState(localStorage.getItem('role'));
   
   console.log('role',role)
   return (

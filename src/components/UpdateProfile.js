@@ -9,6 +9,11 @@ import avatarImage from '../logo/avatar.png';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const config = {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    }
+  };
 
 const UpdateProfile = ({tipo,id}) => {
 
@@ -26,9 +31,9 @@ const UpdateProfile = ({tipo,id}) => {
             try {
                 let response;
                 if (id) {
-                    response = await axios.get(`${API_ENDPOINT}user/${id}/`);
+                    response = await axios.get(`${API_ENDPOINT}user/${id}/`, config);
                 } else {
-                    response = await axios.get(`${API_ENDPOINT}auth/users/me/`);
+                    response = await axios.get(`${API_ENDPOINT}auth/users/me/`, config);
                 }
                 setValores(response.data);
             } catch (error) {
@@ -84,7 +89,7 @@ const UpdateProfile = ({tipo,id}) => {
 
             };
             const updateEndpoint = id ? `${API_ENDPOINT}user/${id}/` : `${API_ENDPOINT}auth/users/me/`;
-            const update = await axios.put(updateEndpoint, updatedData);
+            const update = await axios.put(updateEndpoint, updatedData, config);
     
     
             const { data } = update;
