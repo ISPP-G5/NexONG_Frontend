@@ -9,7 +9,6 @@ import axios from 'axios';
 import '../../styles/styles.css';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 import ButtonCreate from '../../components/ButtonCreate';
-import ButtonView from '../../components/ButtonView';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -106,9 +105,9 @@ const AdminLessons = () => {
   return (
     <LayoutProfiles profile={'admin'} selected={'Clases'}>
     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2%' }}>
-      <ButtonView text='Ver Horarios' handleCreate={handleScheduleClick} />
-      <ButtonCreate text='Crear Clase' handleCreate={handleCreateClassClick} />
-      <ButtonCreate text='Crear Horario' handleCreate={handleCreateScheduleClick} />
+      <ButtonCreate text='Ver Horarios' handleCreate={handleScheduleClick} withIcon={false} />
+      <ButtonCreate text='Crear Clase' handleCreate={handleCreateClassClick} withIcon={true} />
+      <ButtonCreate text='Crear Horario' handleCreate={handleCreateScheduleClick} withIcon={true} />
 
     </div>
       <ToastContainer />

@@ -38,17 +38,18 @@ useEffect(() => {
   }, [scheduleId]);
 
 useEffect(() => {
-    setFormData(scheduleData);
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${API_ENDPOINT}lesson/`);
+            console.log('response lessons:', response.data);
+            setLessons(response.data);
+            setFormData(scheduleData);
+        } catch (error) {
+            console.error('Error fetching lessons:', error);
+        }
+    };
 
-    axios
-    .get(`${API_ENDPOINT}lesson/`)
-    .then((response) => {
-        console.log('response lessons:', response.data);
-        setLessons(response.data);
-    })
-    .catch((error) => {
-        console.error('Error fetching lessons:', error);
-    });
+    fetchData();
 }, [scheduleData]);
 
 
