@@ -4,8 +4,7 @@ import PersonCard from './PersonCard';
 import LayoutProfiles from './LayoutProfiles';
 import Pantallas from './Pantallas';
 
-
-function ShowType({ data, type, pantallas, kids, request = false, trash = true }) {
+function ShowType({ data, type, pantallas, kids, request = false, trash = true, message }) {
      
     return (
         <LayoutProfiles 
@@ -14,16 +13,22 @@ function ShowType({ data, type, pantallas, kids, request = false, trash = true }
         >
             {pantallas && <Pantallas pantallas={pantallas} />}
 
-            {data && data.map((p, index) => (
-                <PersonCard 
-                    key={index} 
-                    person={p} 
-                    personType={type}
-                    kids={kids}
-                    request={request} 
-                    trash={trash}
+            {data.length > 0 ? (
+                data.map((p, index) => (
+                    <PersonCard 
+                        key={index} 
+                        person={p} 
+                        personType={type}
+                        kids={kids}
+                        request={request} 
+                        trash={trash}
                     />
-            ))}
+                ))
+            ) : (
+                <div className= "centered-message">
+                <p>{message}</p>
+                </div>
+            )}
         </LayoutProfiles>
     );
 }

@@ -55,9 +55,8 @@ function AdminVolunteersRequests() {
       pantallas={pantallas} 
       request={true} 
       trash={false}
+      message="No hay solicitudes pendientes."
     />
-    
   );
 }
-
 export default AdminVolunteersRequests;

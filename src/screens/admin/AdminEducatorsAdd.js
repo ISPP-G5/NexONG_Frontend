@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
 import Pantallas from '../../components/Pantallas';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import avatarImage from '../../logo/teacher.png';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
@@ -29,7 +30,11 @@ function AdminEducatorsAdd() {
   const [telefono, SetTelefono] = useState("");
   const [clave, setPassword] = useState("");
   const [fecha, setFecha] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [correo, setCorreo] = useState("");
+  const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const letters = /^[A-Za-z]+$/;
+  const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
   const createUser = async (e) => {
     e.preventDefault(); // Prevenir la recarga de la página
@@ -52,21 +57,50 @@ function AdminEducatorsAdd() {
       toast.error("Se debe de insertar una identificación")
     } else if (!telefono || telefono === '') {
       toast.error("Se debe de insertar un telefono")
-    } else if (!clave || clave === '') {
+    } else if (!phoneFormat.test(telefono)) {
+      toast.error("Formato de teléfono inválido", { autoClose: 5000 });
+    }
+    else if (!identificacion.match(spanishIdFormat)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if (nombre.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (apellido.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (!emailFormat.test(correo)) {
+      toast.error('Formato de correo inválido');
+      return;
+    }
+    else if (!nombre.match(letters) || !apellido.match(letters)) {
+      toast.error('Nombre y apellido no puede contener números');
+      return;
+    }
+     else if (!clave || clave === '') {
       toast.error("Se debe de insertar una contraseña")
     } else {
+      try {
+        const usersResponse = await axios.get(`${API_ENDPOINT}user/`,{
+        
+        });
+        const users = usersResponse.data;
+        const existingUser = users.find(user => user.email === correo);
+        if (existingUser) {
+          toast.error("El correo electrónico ya está registrado", { autoClose: 5000 });
+          return;
+        }
+      } catch (error) {
+        toast.error("El correo introducido ya esta registrado", { autoClose: 5000 });
+        return;
+      }
       await axios.post(`${API_ENDPOINT}educator/`, {
         birthdate: fecha,
       }).catch(error => {
-        if (error.response && error.response.status === 400) {
-          toast.error("Error en la solicitud: Datos inválidos", {
-            autoClose: 5000
-          });
-        } else {
-          toast.error("Error en la solicitud", {
-            autoClose: 5000
-          });
-        }
+       
       });
     }
 
@@ -92,8 +126,8 @@ function AdminEducatorsAdd() {
           password: clave,
           email: correo,
           educator: id,
-          avatar: "https://avatars.githubusercontent.com/u/43956",
-        });
+          avatar: avatarImage,
+        })
 
         if (update && update.data && update.data.message) {
           toast.error("Datos inválidos", { autoClose: 5000 });
@@ -101,11 +135,7 @@ function AdminEducatorsAdd() {
           toast.success("Usuario creado con éxito.", { autoClose: 5000 });
         }
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          toast.error("Datos inválidos", { autoClose: 5000 });
-        } else {
-          toast.error("Error en la solicitud", { autoClose: 5000 });
-        }
+       
       }
     }
 
@@ -160,6 +190,13 @@ function AdminEducatorsAdd() {
           placeholder='dd/mm/yyyy'
           onChange={(e) => setFecha(e.target.value)}
         ></input>
+        <label>Descripción</label> 
+         <textarea value={descripcion}
+          id="description"
+          label="Description"
+          type="text"
+          onChange={(e) => setDescripcion(e.target.value)}
+        ></textarea>
 
         <button onClick={createUser} className='register-button admin' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
           Crear perfil
