@@ -14,6 +14,31 @@ const Profile = ({usuario}) => {
 
   const [valores, setValores] = useState([]);
 
+  // POSIBLE IMPLEMENTACION CUANDO NO HAGA FALTA EL MODHEADER 
+  
+  // useEffect(() => {
+  //   axios.get(`${API_ENDPOINT}auth/users/me`)
+  //     .then(response => {
+  //       if (response.data.role === 'VOLUNTARIO') {
+  //         axios.get(`${API_ENDPOINT}volunteer/${response.data.volunteer}`)
+  //           .then(volunteerResponse => {
+  //             setValores({
+  //               ...response.data,
+  //               ...volunteerResponse.data
+  //             });
+  //           })
+  //           .catch(error => {
+  //             console.error(error);
+  //           });
+  //       } else {
+  //         setValores(response.data);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, []);
+
   //Traemos los datos del usuario que ha iniciado sesión
   useEffect(() => {
 

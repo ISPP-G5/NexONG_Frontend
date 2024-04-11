@@ -22,7 +22,7 @@ import HomePageVolunteers from './homepage/HomePageVolunteers';
 import HomePageSuggestions from './homepage/HomePageSuggestions';
 import Register from './homepage/Register';
 import LogIn from './homepage/LogIn';
-
+import HomePageLaSalle from './homepage/HomePageLaSalle';
 // ADMIN
 import AdminProfile from './admin/AdminProfile';
 import AdminProfileUpdate from './admin/AdminProfileUpdate';
@@ -55,6 +55,7 @@ import VolunteerAgenda from './volunteers/VolunteerAgenda';
 import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
 import VolunteerWait from './volunteers/VolunteerWait';
+import VolunteerFormation from './volunteers/VolunteerFormation';
 
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
@@ -78,7 +79,8 @@ function App() {
             <Route path="/asociacion/historia" element={<HomePageHistory />} />
             <Route path="/asociacion/donde-estamos" exact={true} element={<HomePageWhereWeAre />} />
             <Route path="/asociacion/mision-vision-valores" element={<HomePageMisionOverviewValues />} />
-            {/* Falta la salle */}
+            <Route path="/asociacion/la-salle" element={<HomePageLaSalle />} />
+
             {/* Falta organizacion */}
             <Route path="/asociacion/transparencia" exact={true} element={<HomePageTransparency />} />
             <Route path="/asociacion/entidades-colaboradoras" exact={true} element={<HomePageColaboratorEntities />} />
@@ -144,6 +146,7 @@ function App() {
             <Route path="/voluntario/perfil" exact={true} element={<VolunteerProfile />} />
             <Route path="/voluntario/perfil/actualizar" exact={true} element={<VolunteerProfileUpdate />} />            
             <Route path="/voluntario/formulario" element={<VolunteerForm />} />
+            <Route path="/voluntario/formacion" element={<VolunteerFormation />} />
             <Route path="/voluntario/espera" element={<VolunteerWait />} />
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
             <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
