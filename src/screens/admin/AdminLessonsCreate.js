@@ -74,12 +74,22 @@ const AdminLessonsCreate = () => {
             toast.error('Error: la fecha de fin no puede ser anterior a la de inicio.');
           } else if (data && data.students) {
             toast.error('Error: hay estudiantes que no pertenecen a este turno'); // Display students error
-          } else {
+          } else if (data && data.students) {
+            toast.error('Error: hay estudiantes que no pertenecen a este turno'); // Display students error
+          }
+        }
+        else if (localFormData.name.length > 75) {
+          toast.error('Ha introducido mayor número de carácteres del permitido');
+          return;
+        }
+        else if (localFormData.description.length > 1000) {
+          toast.error('Ha introducido mayor número de carácteres del permitido');
+          return;
+        }
+        else {
             toast.error('Ha ocurrido un error al crear la clase.');
           }
-        } else {
-          console.error('Error creating lesson:', error);
-        }
+       
       });
   };
 

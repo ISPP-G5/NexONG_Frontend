@@ -25,7 +25,9 @@ function HomePageDonation() {
     const[oneTimeEmail,setOneTimeEmail] = useState('');
     const[paymentDoc,setPaymentDoc] = useState('');
     const[date,setDate] = useState('');
+    const token = localStorage.getItem('accessToken');
 
+    const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     useEffect(() => {
         const currentDate = new Date();
         const formattedDate = currentDate.getFullYear() + '-' + (
@@ -49,7 +51,14 @@ function HomePageDonation() {
             toast.error("Introduzca un correo electrónico")
         }else if(!paymentDoc){
             toast.error("Adjunte un documento de pago")
-        }else{
+        }
+        else if(oneTimeName.length>75){
+        toast.error("Indica un nombre, no debe superar 75 caráteres")
+         }
+         else if(oneTimeSurname.length>75){
+            toast.error("Indica un nombre, no debe superar 75 caráteres")
+        }
+        else{
             const oneTimeFormData = new FormData();
             oneTimeFormData.append('name',oneTimeName);
             oneTimeFormData.append('surname',oneTimeSurname);
@@ -61,7 +70,9 @@ function HomePageDonation() {
                 oneTimeFormData,
                 {
                     headers:{
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`
+                        
                     }
                 });
                 console.log(update);
@@ -69,7 +80,7 @@ function HomePageDonation() {
                 if (data.message) {
                     toast.error(data.message);
                 } else {
-                    toast.success('Operación realizada correctamente. Se le enviará un justificante de pago. (TO DO)')
+                    toast.success('Operación realizada correctamente.')
                 }
             } catch (error) {
                 console.error('Error', error);
@@ -90,6 +101,10 @@ function HomePageDonation() {
     const[address,setAddress] = useState('');
     const[birthdate,setBirthdate] = useState('');
     const[enrollmentDoc,setEnrollmentDoc] = useState('');
+    const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
+    const letters = /^[A-Za-z\sáéíóúÁÉÍÓÚñÑ]+$/;
+    const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
+    const currentDate = new Date();
 
     const handleEnrollmentDocChange = (e) => {
         const file = e.target.files[0]
@@ -116,7 +131,7 @@ function HomePageDonation() {
         }else if(!recurringEmail || recurringEmail === ''){
             toast.error("Introduzca un correo electrónico")
         }else if(!idNumber || idNumber === ''){
-            toast.error("Introduzca un DNI")
+            toast.error("Introduzca su DNI")
         }else if(!address || address === ''){
             toast.error("Introduzca una dirección")
         }else if(!enrollmentDoc || enrollmentDoc === ''){
@@ -127,12 +142,69 @@ function HomePageDonation() {
             toast.error("Introduzca una contraseña")
         }else if (!constantTimeComparison(password, confirmPassword)){
             toast.error("Las contraseñas no coinciden")
-        }else{
+        }else if (!emailFormat.test(recurringEmail)) {
+            toast.error('Formato de correo inválido');
+            return;
+        }
+        
+        else if(recurringName.length>75){
+            toast.error("Indica un nombre, no debe superar 75 caráteres")
+        }
+        else if(recurringSurname.length>75){
+            toast.error("Indica un nombre, no debe superar 75 caráteres")
+        }
+         else if(recurringSurname.length>75){
+            toast.error("Indica un nombre, no debe superar 75 caráteres")
+        }
+        else if(!recurringName.match(letters) || !recurringSurname.match(letters)) {
+            toast.error('Nombre y apellido no puede contener números');
+            return;
+        }
+        else if (!idNumber.match(spanishIdFormat)) {
+            toast.error('Formato de identificación inválido');
+            return;
+          }
+          
+        else if (password.length < 8) {
+            toast.error('La contraseña debe tener 8 caracteres mínimo');
+            return;
+        }else if (!/\D/.test(password)) {
+          toast.error('La contraseña no puede ser solo números');
+          return;
+        }else if  (commonPasswords.includes(password)) {
+          toast.error('Contraseña demasiado común');
+          return;
+        }  
+        else if (birthdate > currentDate){
+            toast.error('No puede seleccionar una fecha en el futuro')
+        }
+        else if (address.length > 255){
+            toast.error('Se ha superado el número de carácteres permitido')
+        }
+        else{
+            try {
+                const usersResponse = await axios.get(`${API_ENDPOINT}user/`)         
+                
+                
+                const users = usersResponse.data;
+                const existingUser = users.find(user => user.email === recurringEmail);
+                if (existingUser) {
+                  toast.error("El correo electrónico ya está registrado", { autoClose: 5000 });
+                  return;
+                }
+              } catch (error) {
+                toast.error("El correo introducido ya esta registrado", { autoClose: 5000 });
+                return;
+              }
             const partnerData = new FormData();
             partnerData.append('address',address);
             partnerData.append('enrollment_document',enrollmentDoc);
             partnerData.append('birthdate',birthdate);
-            const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData);
+            const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const partnerId = partnerResponse.data.id;
             const recurringFormData = new FormData();
             recurringFormData.append('name',recurringName);
@@ -147,7 +219,9 @@ function HomePageDonation() {
                 recurringFormData,
                 {
                     headers:{
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                       
+                        
                     }
                 });
                 console.log(update);
