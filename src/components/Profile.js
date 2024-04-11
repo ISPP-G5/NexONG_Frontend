@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import '../styles/styles.css'
 import axios from 'axios';
+import avatarImage from '../logo/avatar.png';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const config = {
@@ -56,7 +57,10 @@ const Profile = ({usuario}) => {
   //Mostramos los datos en inputs para censurar la contraseña
   return (
     <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
-          <img src={valores.avatar} alt={"imagen"} />
+      {valores.map((profile, index) => (
+        <div key={index}>
+          <img src={profile.avatar ? profile.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
+
 
           <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{valores.username}</div>
 

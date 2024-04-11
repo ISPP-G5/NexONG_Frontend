@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../styles/styles.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import avatarImage from '../logo/avatar.png';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -19,6 +20,7 @@ const UpdateProfile = ({tipo}) => {
     const [avatar, setAvatar] = useState("");
 
     const [valoresList, setValores] = useState([]);
+    const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
     const navigate = useNavigate();
 
@@ -80,19 +82,36 @@ const UpdateProfile = ({tipo}) => {
             if (data.message) {
                 window.alert(data.message);
             } else {
-                navigate(`/${tipo}/perfil`);
+                const toastId = toast.success("Datos actualizados con éxito.", { autoClose: 800 });
+                const checkToast = setInterval(() => {
+                    if (!toast.isActive(toastId)) { 
+                        clearInterval(checkToast); 
+                        navigate(`/${tipo}/perfil`); 
+                    }
+                }, 1000); 
             }
         } catch (error) {
-            toast.error("Datos no válidos.");
+            if (error.response.data.email) {
+                toast.error("Formato del correo incorrecto.");
+            } else if (error.response.data.phone) {
+                toast.error("Formato del telefono incorrecto");
+            }
+            else if (!id.match(spanishIdFormat)) {
+                toast.error('Formato de identificación inválido');
+                return;
+              }
+             else {
+                toast.error("Datos no válidos.");
+            }
         }
     };
 
-
+console.log('valores',valoresList)
     return (
         <>
             <ToastContainer />
             <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
-                <img src={valoresList.avatar} alt={"imagen"} />
+            <img src={valoresList.avatar ? valoresList.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
 
                 <div style={{ marginTop: '2%', marginBottom: '2%'}}>
                     <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />

@@ -2,6 +2,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import avatarEducator from '../logo/family-avatar.jpg';
+import avatarVolunteer from '../logo/volunteer-avatar.png';
+import avatarFamily from '../logo/family-avatar.jpg';
+import avatarPartner from  '../logo/partner-avatar.png'
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
@@ -88,7 +93,15 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         window.location.reload(); // Recarga la ventana después de eliminar
     }
   }
-
+  const roleAvatarMap = {
+    'EDUCADOR': avatarEducator,
+    'VOLUNTARIO': avatarVolunteer,
+    'FAMILIA': avatarFamily,
+    'SOCIO': avatarPartner,
+  };
+  console.log('person.avatar:', person.avatar);
+  console.log('person.role:', person.role);
+  console.log('roleAvatarMap[person.role]:', roleAvatarMap[person.role]);
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
@@ -100,8 +113,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         </div> 
         :
         <div className='family-request'>
-          <img src={person.avatar} alt='placeholder' />
-          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+<img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
             {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
           </div>

@@ -38,7 +38,7 @@ function AdminEvents() {
     end_date: '',
   };
 
-  const useStyles = makeStyles((theme) => ({
+   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
       flexDirection: 'column',
