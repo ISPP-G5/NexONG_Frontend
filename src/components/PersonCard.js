@@ -48,77 +48,62 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 }; 
 
   const handleAceptar = async (person) => {
-    person.status = "ACEPTADO";
-    let url;
-    if (person.volunteer) {
-      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
-    } else if (person.id) {
-      url = `${API_ENDPOINT}student/${person.id}/`;
-    }
-
-    const update = await axios.patch(url, {
-      status: person.status
-    }, config);
-    const { data } = update;
-    if (data.message) {
-      toast.error("Error al actualizar", {
-        autoClose: 5000
-      });
+    if(personType === 'Voluntarios'){
+      await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`, 
+        {status: "ACEPTADO"}, 
+        config);
+    } else if(personType === 'Familias'){
+      await axios.patch(`${API_ENDPOINT}student/${person.id}/`, 
+        {status: "ACEPTADO"}, 
+        config);
     } else {
-      toast.success("Usuario actualizado con éxito.", {
+      toast.error('Error al eliminar', {
         autoClose: 5000
       })
     }
-    window.location.reload();
+    toast.success("Persona rechazada correctamente", {
+      autoClose: 5000
+    })
+    window.location.reload(); 
 }
   
   
   const handleRechazar = async (person) => {
-   let url;
-    person.status = "RECHAZADO";
-    if (person.volunteer) {
-      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
-    } else if (person.id) {
-      url = `${API_ENDPOINT}student/${person.id}/`;
-    }
-
-    const update = await axios.patch(url, {
-      status: person.status
-    }, config);
-    const { data } = update;
-    if (data.message) {
-      toast.error("Error al actualizar", {
-        autoClose: 5000
-      });
+    if(personType === 'Voluntarios'){
+      await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`, 
+        {status: "RECHAZADO"}, 
+        config);
+    } else if(personType === 'Familias'){
+      await axios.patch(`${API_ENDPOINT}student/${person.id}/`, 
+        {status: "RECHAZADO"}, 
+        config);
     } else {
-      toast.success("Usuario actualizado con éxito.", {
-        autoClose: 5000
-      })
-    }
-  }
-
-  const handleEliminar = async(person) =>{
-    if(!person.id || person.id <= 0){
       toast.error('Error al eliminar', {
         autoClose: 5000
       })
-    }else{
+    }
+    toast.success("Persona rechazada correctamente", {
+      autoClose: 5000
+    })
+    window.location.reload(); 
+  }
+
+  const handleEliminar = async(person) =>{
       if(personType === 'Voluntarios'){
-        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`);
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`, config);
       } else if(personType === 'Socios'){
-        await axios.delete(`${API_ENDPOINT}partner/${person.partner}/`);
+        await axios.delete(`${API_ENDPOINT}partner/${person.partner}/`, config);
       } else if(personType === 'Educadores'){
-        await axios.delete(`${API_ENDPOINT}educator/${person.educator}/`);
+        await axios.delete(`${API_ENDPOINT}educator/${person.educator}/`, config);
       } else {
-        toast.error('El usuario no tiene el rol adecuado', {
+        toast.error('Error al eliminar', {
           autoClose: 5000
         })
       }
       toast.success("Persona eliminada correctamente", {
         autoClose: 5000
       })
-      window.location.reload(); // Recarga la ventana después de eliminar
-    }
+      window.location.reload(); 
   }
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 

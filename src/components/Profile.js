@@ -21,6 +21,7 @@ const Profile = ({ usuario }) => {
       'Authorization': `Bearer ${token}`,
     }
   };
+
   const [valores, setValores] = useState([]);
   const navigate = useNavigate();
 
@@ -34,8 +35,6 @@ const Profile = ({ usuario }) => {
       });
   }, [token]); 
 
-  }, []);
-
   
   const handleEliminar = async(profile) =>{
     if(!profile.id || profile.id <= 0){
@@ -44,13 +43,13 @@ const Profile = ({ usuario }) => {
       })
     }else{
       if(profile.role === 'VOLUNTARIO'){
-        await axios.delete(`${API_ENDPOINT}volunteer/${profile.volunteer}/`);
+        await axios.delete(`${API_ENDPOINT}volunteer/${profile.volunteer}/`, config);
       } else if(profile.role === 'SOCIO'){
-        await axios.delete(`${API_ENDPOINT}partner/${profile.partner}/`);
+        await axios.delete(`${API_ENDPOINT}partner/${profile.partner}/`, config);
       } else if(profile.role === 'EDUCADOR'){
-        await axios.delete(`${API_ENDPOINT}educator/${profile.educator}/`);
+        await axios.delete(`${API_ENDPOINT}educator/${profile.educator}/`, config);
       } else if(profile.role === 'FAMILIA'){
-        await axios.delete(`${API_ENDPOINT}family/${profile.family}/`);
+        await axios.delete(`${API_ENDPOINT}family/${profile.family}/`, config);
       } else {
         toast.error('El usuario no puede ser borrado', {
           autoClose: 5000
@@ -74,7 +73,8 @@ const Profile = ({ usuario }) => {
 
   return (
     <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
-          <img src={valores.avatar} alt="imagen" />
+          <ToastContainer />
+          <img src={valores.avatar && valores.avatar !== '' ? valores.avatar : avatarImage} alt="imagen" />
 
           <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{valores.username}</div>
 
@@ -87,7 +87,7 @@ const Profile = ({ usuario }) => {
           <p>Contraseña</p>
           <input type='password' value="********" readOnly />
 
-          {profile.role !== "ADMIN" &&
+          {valores.role !== "ADMIN" &&
           <button className='button-decline' style={{marginTop: '5%'}} onClick={() => setConfirmDeleteOpen(true)}>
               Borrar cuenta y datos
           </button>
@@ -98,7 +98,7 @@ const Profile = ({ usuario }) => {
               <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
                 Cancelar
               </Button>
-              <Button onClick={() => handleConfirmDelete(profile)} color="secondary">
+              <Button onClick={() => handleConfirmDelete(valores)} color="secondary">
                 Confirmar
               </Button>
             </DialogActions>
@@ -111,6 +111,6 @@ const Profile = ({ usuario }) => {
           </button>
     </div>
   );
-};
+}
 
 export default Profile;

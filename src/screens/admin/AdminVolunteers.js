@@ -26,7 +26,7 @@ function AdminVolunteers() {
   const userVolunteers = useFetchUsersByRole(API_ENDPOINT, "VOLUNTARIO", token);
   const volunteers = useFetchData(`${API_ENDPOINT}volunteer/`, "ACEPTADO", token);
   const [volunteersData, setVolunteersData] = useState([]);
-console.log(userVolunteers,'userVolunteer')
+  
   useEffect(() => {
     if (userVolunteers.length > 0 && volunteers.length > 0) {
       const acceptedVolunteers = userVolunteers.filter(userVolunteer => {
