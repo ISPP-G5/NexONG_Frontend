@@ -4,6 +4,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useToken from './useToken';
+import { ToastContainer, toast } from 'react-toastify';
+import avatarEducator from '../logo/family-avatar.jpg';
+import avatarVolunteer from '../logo/volunteer-avatar.png';
+import avatarFamily from '../logo/family-avatar.jpg';
+import avatarPartner from  '../logo/partner-avatar.png'
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -27,7 +32,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   };
   
   const handleAceptar = async (person) => {
-    console.log(person)
     person.status = "ACEPTADO";
     const token = localStorage.getItem("accessToken");
     console.log(token)
@@ -52,10 +56,10 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           })
     }
     window.location.reload();
-  }
-  
-  const handleRechazar = async(person) =>{
-    console.log(person)
+}
+
+  const handleRechazar = async (person) => {
+    let url;
     person.status = "RECHAZADO";
     const token = localStorage.getItem("accessToken");
     console.log(token)
@@ -111,7 +115,15 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         window.location.reload();
     }
   }
-
+  const roleAvatarMap = {
+    'EDUCADOR': avatarEducator,
+    'VOLUNTARIO': avatarVolunteer,
+    'FAMILIA': avatarFamily,
+    'SOCIO': avatarPartner,
+  };
+  console.log('person.avatar:', person.avatar);
+  console.log('person.role:', person.role);
+  console.log('roleAvatarMap[person.role]:', roleAvatarMap[person.role]);
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
@@ -120,11 +132,10 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           <p>{person.first_name}</p>
           <p><strong>{person.name}</strong></p>
           <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
-        </div> 
+        </div>
         :
         <div className='family-request'>
-          <img src={person.avatar} alt='placeholder' />
-          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+<img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
             {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
           </div>
@@ -155,7 +166,15 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           </div>
         </div>
       }
-      {trash && <DeleteIcon className='trash' onClick={() => handleEliminar(person)} />}
+      {trash &&
+        <div className='buttons-acceptance'>
+          <DeleteIcon className='trash' style={{marginLeft:'87.5%'}} onClick={() => handleEliminar(person)} />
+          <EditIcon className='edit' style={{marginLeft:'87.5%'}} onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
+        </div>
+      }
+
+
+
     </div>
   );
 }

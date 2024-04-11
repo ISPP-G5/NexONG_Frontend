@@ -35,7 +35,8 @@ function AdminVolunteersRequests() {
             id: volunteerData.id,
             enrollment_document: volunteerData.enrollment_document,
             first_name: userVolunteer.first_name,
-            last_name: userVolunteer.last_name
+            last_name: userVolunteer.last_name,
+            volunteer: userVolunteer.volunteer
           };
         }
   
@@ -54,9 +55,8 @@ function AdminVolunteersRequests() {
       pantallas={pantallas} 
       request={true} 
       trash={false}
+      message="No hay solicitudes pendientes."
     />
-    
   );
 }
-
 export default AdminVolunteersRequests;

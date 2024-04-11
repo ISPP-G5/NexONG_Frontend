@@ -19,6 +19,8 @@ const pantallas = [
     selected: true,
   }
 ];
+const token = localStorage.getItem('accessToken');
+
 
 // This function takes the user and partner data and create an array with the matched keys.
 const partnersData = (data, partners) => {
@@ -51,6 +53,7 @@ const Asamblea = () => {
   const [descripcion, setDescripcion] = useState('');
   const [fecha, setFecha] = useState('');
   const [hora, setHora] = useState('');
+  const letters = /^[A-Za-z]+$/;
 
   // partner and user are related, user has a fk of the entity partner
   useEffect(() => {
@@ -74,6 +77,7 @@ const Asamblea = () => {
       });
   }, []);
 
+  const meetingDate = new Date(fecha);
 
 
 
@@ -89,10 +93,27 @@ const Asamblea = () => {
       toast.error("Se debe de insertar una fecha")
     } else if (!hora || hora === '') {
       toast.error("Se debe de insertar una hora")
-    } else {
+    }else if (!titulo.match(letters) )  {
+      toast.error('La descripción no puede contener números');
+
+    }
+    else if (meetingDate < new Date()) {
+      toast.error('No se puede crear una reunión en el pasado.');
+      return;
+    }
+    else if (titulo.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (descripcion.length > 1000) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+     else {
       // listaAsistentes uses join to transform de array in a string an then separe the keys
       const listaAsistentes = users.join(",").split(",");
-      const update = await axios.post(`${API_ENDPOINT}meeting/`, {
+      const update = await axios.post(`${API_ENDPOINT}meeting/`,
+       {
         name: titulo,
         description: descripcion,
         date: fecha,
@@ -128,12 +149,13 @@ const Asamblea = () => {
       ></input>
 
       <label>Descripción</label>
-      <input
+      <textarea
         value={descripcion}
         type='text'
         placeholder='Escriba aquí'
         onChange={(e) => setDescripcion(e.target.value)}
-      ></input>
+s
+      ></textarea>
 
       <label>Fecha</label>
       <input
@@ -148,11 +170,12 @@ const Asamblea = () => {
       <label>Hora</label>
       <input
         value={hora}
-        id="datetime-local"
+        id="time"
         label="Next appointment"
-        type="datetime-local"
-        placeholder='dd/mm/yyyy'
+        type="time"
         onChange={(e) => setHora(e.target.value)}
+        style={{ fontSize: '18px', padding: '10px' }} // Inline styles
+
       ></input>
       <button type='submit' className='register-button admin'>Convocar asamblea</button>
     </form>

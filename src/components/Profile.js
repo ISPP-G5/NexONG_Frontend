@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import '../styles/styles.css';
 import axios from 'axios';
 import useToken from './useToken'; 
+import avatarImage from '../logo/avatar.png';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
