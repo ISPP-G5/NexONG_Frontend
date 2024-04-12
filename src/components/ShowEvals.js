@@ -5,7 +5,7 @@ import LayoutProfiles from './LayoutProfiles';
 import Pantallas from './Pantallas';
 
 
-function ShowType({ data, type, pantallas, gradeTypes, student}) {
+function ShowType({ data, type, pantallas, evalType, student, lessons}) {
     return (
         <LayoutProfiles 
             profile={'familia'} 
@@ -17,8 +17,9 @@ function ShowType({ data, type, pantallas, gradeTypes, student}) {
                 <EvalCard 
                     key={index}
                     evaluat={evaluat}
-                    gradeTypes={gradeTypes[index]}
+                    evalType={evalType[index]}
                     student = {student}
+                    lessons = {lessons[index]}
                     />
             ))}
         </LayoutProfiles>

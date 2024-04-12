@@ -316,59 +316,71 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
 export function useFetchStudentDailyEval(API_ENDPOINT, token, selectedStudent, tipoEval) {
   const [dailyEvals, setDailyEvals] = useState([]);
   const [gradeTypes, setGradeTypes] = useState([]);
+  const [lessons, setLessons] = useState([]);
 
   useEffect(() => {
     if (!selectedStudent) {
       setDailyEvals([]);
       setGradeTypes([]);
+      setLessons([]);
       return;
     }
 
     const fetchData = async () => {
       try {
-        const url = `${API_ENDPOINT}student-evaluation/`; 
-        const response = await axios.get(url, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        // Obtener evaluaciones del estudiante
+        const evalsUrl = `${API_ENDPOINT}student-evaluation/`;
+        const evalsResponse = await axios.get(evalsUrl, {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (response.status === 200 && response.data) {
-          const dailyEvalList = [];
-          const gradeTypesList = [];
 
-          for (const evalObj of response.data) {
-            if (evalObj.student === selectedStudent.id) {
-              const evalTypeUrl = `${API_ENDPOINT}evaluation-type/${evalObj.evaluation_type}`;
-              const evalTypeResponse = await axios.get(evalTypeUrl, {
-                headers: {
-                  'Authorization': `Bearer ${token}`
-                }
-              });
+        const lessonsUrl = `${API_ENDPOINT}lesson/`;
+        const lessonsResponse = await axios.get(lessonsUrl, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
 
-              if (evalTypeResponse.status === 200 && evalTypeResponse.data && evalTypeResponse.data.evaluation_type === tipoEval) {
-                dailyEvalList.push(evalObj);
-                gradeTypesList.push(evalTypeResponse.data.grade_system); 
+        const dailyEvalList = [];
+        const gradeTypesList = [];
+        const lessonList = [];
+
+
+        for (const evalObj of evalsResponse.data) {
+          if (evalObj.student === selectedStudent.id) {
+
+            const evalTypeUrl = `${API_ENDPOINT}evaluation-type/${evalObj.evaluation_type}`;
+            const evalTypeResponse = await axios.get(evalTypeUrl, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (evalTypeResponse.status === 200 && evalTypeResponse.data.evaluation_type === tipoEval) {
+              dailyEvalList.push(evalObj);
+              gradeTypesList.push(evalTypeResponse.data);
+
+              const foundLesson = lessonsResponse.data.find(lesson => lesson.id === evalTypeResponse.data.lesson);
+              if (foundLesson) {
+                lessonList.push(foundLesson);
               }
             }
           }
-
-          setDailyEvals(dailyEvalList);
-          setGradeTypes(gradeTypesList);
         }
+        setDailyEvals(dailyEvalList);
+        setGradeTypes(gradeTypesList);
+        setLessons(lessonList);
       } catch (error) {
         console.error('Error fetching daily evaluations:', error);
         setDailyEvals([]);
         setGradeTypes([]);
+        setLessons([]);
       }
     };
 
     fetchData();
-  }, [API_ENDPOINT, token, selectedStudent]);
+  }, [API_ENDPOINT, token, selectedStudent, tipoEval]); 
 
-  // Devolvemos un objeto con dos propiedades
-  return { userDailyEval: dailyEvals, gradeTypes };
+  return { userDailyEval: dailyEvals, gradeTypes, lessons };
 }
+
 
 export async function fetchMyFamilyId(API_ENDPOINT, userId) {
   const token = localStorage.getItem('accessToken');

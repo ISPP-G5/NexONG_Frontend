@@ -13,10 +13,11 @@ function FamilyDailyEval() {
   const [selectedScreenIndex, setSelectedScreenIndex] = useState(studentIndex ? parseInt(studentIndex, 10) : 0);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const userStudents = useFetchMyKids(API_ENDPOINT, userId);
-  const { userDailyEval, gradeTypes } = useFetchStudentDailyEval(API_ENDPOINT, token, selectedStudent, 'DIARIO');
+  const { userDailyEval, gradeTypes, lessons } = useFetchStudentDailyEval(API_ENDPOINT, token, selectedStudent, 'DIARIO');
   const [pantallas, setPantallas] = useState([]);
-  console.log("gradeTypes",gradeTypes)
   console.log("evals",userDailyEval)
+  console.log("evalsTipo",gradeTypes)
+
   useEffect(() => {
     if (userStudents && userStudents.length > 0) {
       const screens = userStudents.map((student, index) => ({
@@ -41,7 +42,8 @@ function FamilyDailyEval() {
         data={userDailyEval}
         student = {userStudents[selectedScreenIndex]}
         pantallas={pantallas}
-        gradeTypes={gradeTypes}
+        evalType={gradeTypes}
+        lessons = {lessons}
         request={false}
         type = "Evaluación diaria"
       />
