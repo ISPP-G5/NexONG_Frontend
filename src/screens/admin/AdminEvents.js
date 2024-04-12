@@ -275,7 +275,6 @@ function AdminEvents() {
               options={students}
               value={localFormData.attendees}
               readOnly={true}
-              placeholder="Seleccione los alumnos que asisten"
             />
 
           <div style={{ marginBottom: '1rem' }}>
@@ -689,8 +688,14 @@ axios
               toast.error('Error: la fecha de inicio no puede ser en el pasado.');
             } else if (data && data.end_date) {
               toast.error('Error: la fecha de fin no puede ser anterior o igual a la de inicio.');
-            }  else {
-              toast.error('Ha ocurrido un error al crear la actividad.');
+
+            } 
+            const startDate = new Date(localFormData.start_date);
+            const endDate = new Date(localFormData.end_date);
+            const diffInMinutes = (endDate - startDate) / (1000 * 60);
+            if (diffInMinutes < 15) {
+              toast.error('El evento debe durar al menos 15 minutos.');
+              return;
             }
           } else {
             console.error('Error creando actividad:', error);
@@ -716,6 +721,15 @@ axios
           toast.error('La fecha de inicio no puede ser en el pasado.');
           return;
         }
+        const startDate = new Date(localFormData.start_date);
+        const endDate = new Date(localFormData.end_date);
+        const diffInMinutes = (endDate - startDate) / (1000 * 60);
+        if (diffInMinutes < 15) {
+          toast.error('El evento debe durar al menos 15 minutos.');
+          return;
+        }
+
+        
         if (localFormData.price < 0) {
           toast.error('El precio debe ser 0€ o más.');
           return;
@@ -797,7 +811,7 @@ axios
           };
           console.log('updatedLessonEventData:', updatedLessonEventData);
           axios
-          .put(`${API_ENDPOINT}lesson-event/${editLessonEvent.id}/`, updatedLessonEventData)
+          .put(`${API_ENDPOINT}lesson-event/${editLessonEvent.id}/`, updatedLessonEventData, config)
           
           .then((response) => {
             console.log('Response of put:', response.data);
@@ -805,10 +819,18 @@ axios
             setLessonEvents(prevLessonEvents =>
               prevLessonEvents.map(lessonEvent => lessonEvent.id === updatedLessonEvent.id ? updatedLessonEvent : lessonEvent)
             );
+
+            const startDate = new Date(localFormData.start_date);
+              const endDate = new Date(localFormData.end_date);
+              const diffInMinutes = (endDate - startDate) / (1000 * 60);
+              if (diffInMinutes < 15) {
+                toast.error('La actividad debe durar al menos 15 minutos.');
+                return;
+              }
             setOpenEditLessonEventDialog(false);
             setIsNewLessonEvent(true); // Set isNewEvent to false when editing an existing event
 
-            toast.success('Actividad actualizada correctamente');
+            toast.success('Actividad actualizada correctamente, por favor refresca la página');
           })
           .catch((error) => {
             if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date  || !localFormData.max_volunteers || !localFormData.price) {
@@ -828,7 +850,10 @@ axios
                 toast.error('Error: ' + data.place[0]); // Error message for place field
               } else if (data && data.start_date) {
                 toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
-              } 
+              } else if (data && data.end_date) {
+                toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
+              }
+              
             } else {
               console.error('Error updating event:', error);
               toast.error('Ha ocurrido un error al actualizar el evento.');
@@ -846,7 +871,7 @@ axios
       const handleConfirmDeleteLessonEvent = () => {
         if (lessonEventToDelete) {
           axios
-            .delete(`${API_ENDPOINT}lesson-event/${lessonEventToDelete.id}/`)
+            .delete(`${API_ENDPOINT}lesson-event/${lessonEventToDelete.id}/`, config)
             .then(() => {
               setLessonEvents(lessonEvents.filter((lessonEvent) => lessonEvent.id !== lessonEventToDelete.id));
               setOpenEditLessonEventDialog(false);
@@ -865,6 +890,12 @@ axios
 
       const handleEventEdit = async () => {
         if (editEvent) {
+          // Subtract an hour from the start and end dates
+          const startDate = new Date(localFormData.start_date);
+          startDate.setHours(startDate.getHours() +1);
+          const endDate = new Date(localFormData.end_date);
+          endDate.setHours(endDate.getHours() +1);
+      
           const updatedEventData = {
             ...editEvent,
             name: localFormData.name,
@@ -874,8 +905,8 @@ axios
             price: localFormData.price,
             attendees: localFormData.attendees,
             volunteers: localFormData.volunteers,
-            start_date: localFormData.start_date,
-            end_date: localFormData.end_date,
+            start_date: startDate.toISOString(),
+            end_date: endDate.toISOString(),
           };
     
           try {
@@ -886,10 +917,18 @@ axios
                 String(event.id) === String(updatedEvent.id) ? updatedEvent : event
               )
             );
+            const startDate = new Date(localFormData.start_date);
+            const endDate = new Date(localFormData.end_date);
+            const diffInMinutes = (endDate - startDate) / (1000 * 60);
+            if (diffInMinutes < 15) {
+              toast.error('El evento debe durar al menos 15 minutos.');
+              return;
+            }
+            
             setOpenEditDialog(false);
             setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
       
-            toast.success('Evento actualizado correctamente');
+            toast.success('Evento actualizado correctamente, por favor refresca la página');
           } catch(error) {
             if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
               toast.error('Por favor, rellene todos los campos.');
@@ -910,7 +949,8 @@ axios
                 toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
               } else if (data && data.end_date) {
                 toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
-              } else if (data && data.max_attendees) {
+              } 
+              else if (data && data.max_attendees) {
                 toast.error('Error: No pueden haber más asistenes que el máximo establecido'); // Customized Spanish error message
               } else if (data && data.max_volunteers) {
                 toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
