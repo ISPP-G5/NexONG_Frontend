@@ -336,8 +336,8 @@ function AdminEvents() {
 
         
     const [recurringEvent, setRecurringEvent] = useState(false);
-    const [recurrenceFrequency, setRecurrenceFrequency] = useState('weekly'); // Default to weekly
-    const [numOccurrences, setNumOccurrences] = useState(1);
+    const [numOccurrences, setNumOccurrences] = useState(2);
+    const [frequency, setFrequency] = useState('weeks');
     
 
     const renderTextFieldComponents = () => {
@@ -352,9 +352,17 @@ function AdminEvents() {
             {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({...localFormData, max_attendees: value }), 'number')}
             {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({...localFormData, start_date: value }), 'datetime-local')}
             {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({...localFormData, end_date: value }), 'datetime-local')}
-            {recurringEvent && renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
 
-{isNewEvent && ( // Conditionally render the button for new events only
+            {recurringEvent && (
+          <>
+            {renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
+            <Button variant="outlined" color={frequency === 'days' ? 'primary' : 'default'} onClick={() => setFrequency('days')}>Diario</Button>
+            <Button variant="outlined" color={frequency === 'weeks' ? 'primary' : 'default'} onClick={() => setFrequency('weeks')}>Semanal</Button>
+          </>
+        )}
+
+
+      {isNewEvent && ( // Conditionally render the button for new events only
         <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
         {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
       </Button>
@@ -564,6 +572,12 @@ axios
     const handleRecurringEvent = () => {
       const selectedStartDate = moment(localFormData.start_date);
       const promises = [];
+      if (numOccurrences < 2) {
+        toast.error('El número de ocurrencias debe ser 2 o más.');
+        return;
+      }
+
+      
     
       for (let i = 0; i < numOccurrences; i++) {
         const eventData = {
@@ -580,7 +594,7 @@ axios
         );
     
         // Move to the next occurrence
-        selectedStartDate.add(1, 'weeks');
+        selectedStartDate.add(1, frequency); // Use the frequency state variable here
       }
     
       // Wait for all promises to resolve
