@@ -15,7 +15,7 @@ const Profile = ({ usuario }) => {
       'Authorization': `Bearer ${token}`,
     }
   };
-  const [valores, setValores] = useState([]);
+  const [profile, setValores] = useState([]);
 
   useEffect(() => {
     axios.get(`${API_ENDPOINT}auth/users/me/`, config)
@@ -27,12 +27,10 @@ const Profile = ({ usuario }) => {
       });
   }, [token]); 
 
-  console.log("valores", valores);
+  console.log("profile", profile);
 
   return (
     <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
-      {valores.map((profile, index) => (
-        <div key={index}>
           <img src={profile.avatar ? profile.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
   
           <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.username}</div>
@@ -52,8 +50,6 @@ const Profile = ({ usuario }) => {
             </Link>
           </button>
         </div>
-      ))}
-    </div>
   );
 } 
 

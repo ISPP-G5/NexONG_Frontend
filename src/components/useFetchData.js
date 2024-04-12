@@ -313,6 +313,62 @@ export function useFetchMyKids(API_ENDPOINT, userId) {
   return myKids;
 }
 
+export function useFetchStudentDailyEval(API_ENDPOINT, token, selectedStudent, tipoEval) {
+  const [dailyEvals, setDailyEvals] = useState([]);
+  const [gradeTypes, setGradeTypes] = useState([]);
+
+  useEffect(() => {
+    if (!selectedStudent) {
+      setDailyEvals([]);
+      setGradeTypes([]);
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        const url = `${API_ENDPOINT}student-evaluation/`; 
+        const response = await axios.get(url, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.status === 200 && response.data) {
+          const dailyEvalList = [];
+          const gradeTypesList = [];
+
+          for (const evalObj of response.data) {
+            if (evalObj.student === selectedStudent.id) {
+              const evalTypeUrl = `${API_ENDPOINT}evaluation-type/${evalObj.evaluation_type}`;
+              const evalTypeResponse = await axios.get(evalTypeUrl, {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
+
+              if (evalTypeResponse.status === 200 && evalTypeResponse.data && evalTypeResponse.data.evaluation_type === tipoEval) {
+                dailyEvalList.push(evalObj);
+                gradeTypesList.push(evalTypeResponse.data.grade_system); 
+              }
+            }
+          }
+
+          setDailyEvals(dailyEvalList);
+          setGradeTypes(gradeTypesList);
+        }
+      } catch (error) {
+        console.error('Error fetching daily evaluations:', error);
+        setDailyEvals([]);
+        setGradeTypes([]);
+      }
+    };
+
+    fetchData();
+  }, [API_ENDPOINT, token, selectedStudent]);
+
+  // Devolvemos un objeto con dos propiedades
+  return { userDailyEval: dailyEvals, gradeTypes };
+}
 
 export async function fetchMyFamilyId(API_ENDPOINT, userId) {
   const token = localStorage.getItem('accessToken');
