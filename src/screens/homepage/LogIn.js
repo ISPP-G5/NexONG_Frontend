@@ -106,6 +106,7 @@ function LogIn() {
             console.log('User data:', user);
 
                 if (user.role === 'VOLUNTARIO') {
+                    localStorage.setItem('role', 'VOLUNTARIO')
                     if (user.volunteer === null) {
                         navigate('/voluntario/formulario');
                     } else {
@@ -143,10 +144,21 @@ function LogIn() {
                     navigate('/familia/perfil');
                 } else if (user.role === 'SOCIO') {
                     localStorage.setItem('role', 'SOCIO')
+                    if (user.partner === null) {
+                        navigate('/socio/formulario');
+                    } else {
+                        const partner = await axios.get(`${API_ENDPOINT}partner/${user.partner}`, {
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`
+                            }});
+                        localStorage.setItem('partnerId', user.partner);
+                        navigate('/socio/calendario')
+                    }
+                    // localStorage.setItem('role', 'SOCIO')
                     //TODO Aqui formulario para socio, una cosa así:
                     //if (user.socio === null) {
                     //    navigate('/socio/formulario');}
-                    navigate('/socio/calendario');
+                    // navigate('/socio/calendario');
                     
                 } else if (user.role === 'EDUCADOR') {
                     localStorage.setItem('role', 'EDUCADOR')
