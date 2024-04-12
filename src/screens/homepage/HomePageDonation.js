@@ -1,13 +1,11 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import google from '../../logo/google.svg'
 import axios from 'axios';
-import LayoutHomepage from '../../components/LayoutHomepageForms';
+import LayoutHomepage from '../../components/LayoutHomepage';
 import useAdjustMargin from '../../components/useAdjustMargin';
-import HomepageContainer from '../../components/HomepageContainer';
 
 function HomePageDonation() {
     useEffect(() => {
