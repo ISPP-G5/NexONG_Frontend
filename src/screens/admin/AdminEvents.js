@@ -170,6 +170,7 @@ function AdminEvents() {
     const handleLessonEventCreate = ({  }) => {
       // Open the lesson-event dialog here
       setOpenAddLessonEventDialog(true);
+      setIsLessonEvent(true);
     };
     
 
@@ -627,7 +628,7 @@ axios
       }
 
       if (localFormData.max_volunteers <1) {
-        toast.error('Los voluntarios no pueden ser menos de 1.');
+        toast.error('Los máximos voluntarios no pueden ser menos de 1.');
         return;
       }
       if (localFormData.price < 0) {
@@ -661,6 +662,7 @@ axios
           };
     
           setLessonEvents([...lessonEvents, newLessonEvent]);
+          setIsLessonEvent(false);
           setOpenAddDialog(false);
         })
         .catch((error) => {
@@ -709,7 +711,7 @@ axios
           return;
         }
         if (localFormData.max_attendees < 1) {
-          toast.error('Los asistentes no pueden ser menos de 1.');
+          toast.error('Los máximos asistentes no pueden ser menos de 1.');
           return;
         }
         
@@ -847,7 +849,7 @@ axios
       };
           
 
-      const handleEventEdit = () => {
+      const handleEventEdit = async () => {
         if (editEvent) {
           const updatedEventData = {
             ...editEvent,
@@ -862,19 +864,19 @@ axios
             end_date: localFormData.end_date,
           };
     
-        axios
-          .put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData, config)
-          .then((response) => {
+          try {
+            const response = await axios.put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData, config);
             const updatedEvent = response.data;
             setEvents(prevEvents =>
-              prevEvents.map(event => event.id === updatedEvent.id ? updatedEvent : event)
+              prevEvents.map(event => 
+                String(event.id) === String(updatedEvent.id) ? updatedEvent : event
+              )
             );
             setOpenEditDialog(false);
             setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
-
+      
             toast.success('Evento actualizado correctamente');
-          })
-          .catch((error) => {
+          } catch(error) {
             if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
               toast.error('Por favor, rellene todos los campos.');
               return;
@@ -905,7 +907,7 @@ axios
               console.error('Error updating event:', error);
               toast.error('Ha ocurrido un error al actualizar el evento.');
             }
-          });
+          };
       }
     };
     const handleEventDelete = () => {
