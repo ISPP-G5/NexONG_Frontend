@@ -1,12 +1,13 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import google from '../../logo/google.svg'
 import axios from 'axios';
-import LayoutHomepage from '../../components/LayoutHomepage';
+import LayoutHomepage from '../../components/LayoutHomepageForms';
 import useAdjustMargin from '../../components/useAdjustMargin';
+import HomepageContainer from '../../components/HomepageContainer';
 
 function HomePageDonation() {
     useEffect(() => {
@@ -15,9 +16,9 @@ function HomePageDonation() {
 
     const marginTop = useAdjustMargin();
 
-    const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+    const navigate = useNavigate();
 
-    // ONE-TIME DONATIONS //////////////////////////////////////////
+    const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
     const[oneTimeName,setOneTimeName] = useState('');
     const[oneTimeSurname,setOneTimeSurname] = useState('');
@@ -38,6 +39,10 @@ function HomePageDonation() {
     const handlePaymentDocChange = (e) => {
         const file = e.target.files[0];
         setPaymentDoc(file);
+    }
+
+    const handleClick = (e) => {
+        navigate('/registrarse');
     }
 
     const sendOneTimeForm = async (e) => {
@@ -87,387 +92,85 @@ function HomePageDonation() {
         }
     }
 
-    ////////////////////////////////////////////////////////////////
-
-    // RECURRING DONATIONS /////////////////////////////////////////
-
-    const[recurringName,setRecurringName] = useState('');
-    const[recurringSurname,setRecurringSurname] = useState('');
-    const[recurringEmail,setRecurringEmail] = useState('');
-    const[idNumber,setIdNumber] = useState('');
-    const[password,setPassword] = useState('');
-    const[confirmPassword,setConfirmPassword] = useState('');
-    const[address,setAddress] = useState('');
-    const[birthdate,setBirthdate] = useState('');
-    const[enrollmentDoc,setEnrollmentDoc] = useState('');
-    const[isAgreed,setIsAgreed] = useState('');
-    const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
-    const letters = /^[A-Za-z\sáéíóúÁÉÍÓÚñÑ]+$/;
-    const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
-    const currentDate = new Date();
-
-    const handleEnrollmentDocChange = (e) => {
-        const file = e.target.files[0]
-        setEnrollmentDoc(file);
-    }
-
-    const handleIsAgreedChange = () => {
-        setIsAgreed(true);
-    }
-
-    const handleDownload = (file) => {
-        // Path to the PDF file
-        const fileUrl = `${process.env.PUBLIC_URL}/docs/${file}.pdf`; 
-    
-        // Create a temporary link
-        const downloadLink = document.createElement('a');
-        downloadLink.href = fileUrl;
-        downloadLink.download = `${file}.pdf`; 
-    
-        // Click the link to download the file
-        downloadLink.click();
-      };
-
-    const calculateAge = (birthdate) => {
-        const birthDate = new Date(birthdate);
-        const today = new Date();
-        const age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        return m < 0 || (m === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
-    };
-
-    function constantTimeComparison(str1, str2){
-        if (str1.length !== str2.length){
-            return false;
-        }
-        let result = 0;
-        for (let i = 0 ; i < str1.length; i++){
-            result |= str1.charCodeAt(i) ^ str2.charCodeAt(i);
-        }
-        return result === 0;
-    }
-
-    const sendRecurringForm = async(e) => {
-        e.preventDefault();
-        if(!recurringName || recurringName === ''){
-            toast.error("Introduzca un nombre")
-        }else if(!recurringSurname || recurringSurname === ''){
-            toast.error("Introduzca apellidos")
-        }else if(!recurringEmail || recurringEmail === ''){
-            toast.error("Introduzca un correo electrónico")
-        }else if(!idNumber || idNumber === ''){
-            toast.error("Introduzca su DNI")
-        }else if(!address || address === ''){
-            toast.error("Introduzca una dirección")
-        }else if(!enrollmentDoc || enrollmentDoc === ''){
-            toast.error("Adjunte un documento de inscripción")
-        }else if(!birthdate || birthdate === ''){
-            toast.error("Introduzca una fecha de nacimiento")
-        }else if(calculateAge(birthdate) < 18){
-            toast.error("Debe ser mayor de edad para ser socio")
-        }else if(!password || password === ''){
-            toast.error("Introduzca una contraseña")
-        }else if (!constantTimeComparison(password, confirmPassword)){
-            toast.error("Las contraseñas no coinciden")
-        }else if (!isAgreed){
-            toast.error("Para registrarse debe aceptar los términos y condiciones")
-        }else if (!emailFormat.test(recurringEmail)) {
-            toast.error('Formato de correo inválido');
-            return;
-        }
-        
-        else if(recurringName.length>75){
-            toast.error("Indica un nombre, no debe superar 75 caráteres")
-        }
-        else if(recurringSurname.length>75){
-            toast.error("Indica un nombre, no debe superar 75 caráteres")
-        }
-         else if(recurringSurname.length>75){
-            toast.error("Indica un nombre, no debe superar 75 caráteres")
-        }
-        else if(!recurringName.match(letters) || !recurringSurname.match(letters)) {
-            toast.error('Nombre y apellido no puede contener números');
-            return;
-        }
-        else if (!idNumber.match(spanishIdFormat)) {
-            toast.error('Formato de identificación inválido');
-            return;
-          }
-          
-        else if (password.length < 8) {
-            toast.error('La contraseña debe tener 8 caracteres mínimo');
-            return;
-        }else if (!/\D/.test(password)) {
-          toast.error('La contraseña no puede ser solo números');
-          return;
-        }else if  (commonPasswords.includes(password)) {
-          toast.error('Contraseña demasiado común');
-          return;
-        }  
-        else if (birthdate > currentDate){
-            toast.error('No puede seleccionar una fecha en el futuro')
-        }
-        else if (address.length > 255){
-            toast.error('Se ha superado el número de carácteres permitido')
-        }
-        else{
-            try {
-                const usersResponse = await axios.get(`${API_ENDPOINT}user/`)         
-                
-                
-                const users = usersResponse.data;
-                const existingUser = users.find(user => user.email === recurringEmail);
-                if (existingUser) {
-                  toast.error("El correo electrónico ya está registrado", { autoClose: 5000 });
-                  return;
-                }
-              } catch (error) {
-                toast.error("El correo introducido ya esta registrado", { autoClose: 5000 });
-                return;
-              }
-            const partnerData = new FormData();
-            partnerData.append('address',address);
-            partnerData.append('enrollment_document',enrollmentDoc);
-            partnerData.append('birthdate',birthdate);
-            const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`,partnerData,{
-                headers:{
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const partnerId = partnerResponse.data.id;
-            const recurringFormData = new FormData();
-            recurringFormData.append('first_name',recurringName);
-            recurringFormData.append('last_name',recurringSurname);
-            recurringFormData.append('email',recurringEmail);
-            recurringFormData.append('id_number',idNumber);
-            recurringFormData.append('password',password);
-            recurringFormData.append('role',"SOCIO");
-            recurringFormData.append('partner',partnerId);
-            recurringFormData.append('is_agreed',isAgreed);
-            try{
-                const update = await axios.post(`${API_ENDPOINT}auth/users/`,
-                recurringFormData,
-                {
-                    headers:{
-                        'Content-Type': 'multipart/form-data',
-                       
-                        
-                    }
-                });
-
-                const { access: accessToken, refresh: refreshToken } = update.data;
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
-                console.log('Registered, access token:', accessToken);
-
-                console.log(update);
-                const { data } = update;
-                if (data.message){
-                    toast.error(data.message);
-                }else{
-                    toast.success('Registro correcto. Revise su correo para activar cuenta');
-                }
-            }catch(error){
-                console.error('Error',error);
-            }
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////
-
     return (
-        <LayoutHomepage 
-            title={'Asociación Manos Abiertas con Norte'} 
-            description={'Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada.'}
-            image={'ong'}
+        <LayoutHomepage
             toastcontainer={true}
             intro={false}
-        > 
-            <table className='donations-table' style={{marginTop}}>
-                <thead>
-                <tr>
-                    <td style={{width:'50%'}}>
-                        <h1>Donaciones puntuales</h1>
-                    </td>
-                    <td style={{width:'50%'}}>
-                        <h1>Donaciones recurrentes</h1>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td className='donations-table-td'>
-                        
-                        <div>
-                            <p>Si quiere ayudarnos con algún donativo puntual,
-                            puede hacerlo a través de una transferencia
-                            bancaria a nuestra cuenta o a través de nuestro
-                            código de Bizum.</p>
-                            <p>¡Ambas opciones son bienvenidas!</p>
-                            <ul>
-                                <li>IBAN: ES63 2100 2409 5002 0019 2504</li>
-                                <li>Bizum: ONG: 03857</li>
-                            </ul>
-                            <p>Para recibir un justificante, por favor rellene
-                            los siguientes campos:</p>
-                        </div>
-                        
-                        <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}} onSubmit={sendOneTimeForm}>
+        >
+            <div className='homepage-container'>
+                <div className='flex-container' style={{'--columnwidth': `300px`, display: 'flex', flexDirection: 'column', position: 'relative'}}>
+                    <h2>Donaciones puntuales</h2>
+                    <div>
+                        <p>Si quiere ayudarnos con algún donativo puntual,
+                        puede hacerlo a través de una transferencia
+                        bancaria a nuestra cuenta o a través de nuestro
+                        código de Bizum.</p>
+                        <p>¡Ambas opciones son bienvenidas!</p>
+                        <ul>
+                            <li>IBAN: ES63 2100 2409 5002 0019 2504</li>
+                            <li>Bizum: ONG: 03857</li>
+                        </ul>
+                        <p>Para recibir un justificante, por favor rellene
+                        los siguientes campos:</p>
+                    </div>
+            
+                    <form className='register-container' style={{width: '95%', backgroundColor: 'transparent', border: 'none', boxShadow: 'none'}} onSubmit={sendOneTimeForm}>
 
-                            <label>Nombre</label>
-                            <input
-                            value={oneTimeName}
-                            type='text'
-                            placeholder='Escriba su nombre'
-                            onChange={(e) => setOneTimeName(e.target.value)}
-                            />
+                        <label>Nombre</label>
+                        <input
+                        value={oneTimeName}
+                        type='text'
+                        placeholder='Escriba su nombre'
+                        onChange={(e) => setOneTimeName(e.target.value)}
+                        />
 
-                            <label>Apellidos</label>
-                            <input
-                            value={oneTimeSurname}
-                            type='text'
-                            placeholder='Escriba sus apellidos'
-                            onChange={(e) => setOneTimeSurname(e.target.value)}
-                            />
+                        <label>Apellidos</label>
+                        <input
+                        value={oneTimeSurname}
+                        type='text'
+                        placeholder='Escriba sus apellidos'
+                        onChange={(e) => setOneTimeSurname(e.target.value)}
+                        />
 
-                            <label>Correo electrónico</label>
-                            <input
-                            value={oneTimeEmail}
-                            type='text'
-                            placeholder='Escriba su correo electrónico'
-                            onChange={(e) => setOneTimeEmail(e.target.value)}
-                            />
+                        <label>Correo electrónico</label>
+                        <input
+                        value={oneTimeEmail}
+                        type='text'
+                        placeholder='Escriba su correo electrónico'
+                        onChange={(e) => setOneTimeEmail(e.target.value)}
+                        />
 
-                            <label>Documento de pago</label>
-                            <input
-                            type='file'
-                            onChange={handlePaymentDocChange}
-                            />
+                        <label>Documento de pago</label>
+                        <input
+                        type='file'
+                        onChange={handlePaymentDocChange}
+                        />
 
+                        <button type='submit' className='register-button'>
+                            Enviar
+                        </button>
 
-                            <button type='submit' className='register-button'>
-                                Enviar
-                            </button>
+                    </form>
+                </div>
 
-                        </form>
-                    </td>
+                <div className='flex-container' style={{'--columnwidth': `300px`, display: 'flex', flexDirection: 'column', position: 'relative', maxHeight: '300px'}}>
 
-                    <td style={{borderRight: 'none'}}>
+                    <h2>Donaciones recurrentes</h2>
 
-                        <form className='register-container' style={{width: '70%', marginTop: '0%'}} onSubmit={sendRecurringForm}>
+                    <p>
+                        ¿Quiere contribuir a nuestra organización de forma periódica?
+                        Regístrese como socio y le proporcionaremos todo lo necesario.
+                    </p>
 
-                            <h2>Regístrese</h2>
+                    <div className='flex-container' style={{alignItems: 'center', backgroundColor: 'transparent', border: 'none', boxShadow: 'none'}}>
+                        <button className='register-button' onClick={handleClick}>
+                            Registrarse
+                        </button>
+                    </div>
 
-                   
-                            <label>Nombre</label>
-                            <input
-                            value={recurringName}
-                            type='text'
-                            placeholder='Escriba su nombre'
-                            onChange={(e) => setRecurringName(e.target.value)}
-                            />
+                </div>
 
-                            <label>Apellidos</label>
-                            <input
-                            value={recurringSurname}
-                            type='text'
-                            placeholder='Escriba sus apellidos'
-                            onChange={(e) => setRecurringSurname(e.target.value)}
-                            />
-
-                            <label>Correo electrónico</label>
-                            <input
-                            value={recurringEmail}
-                            type='text'
-                            placeholder='Escriba su correo electrónico'
-                            onChange={(e) => setRecurringEmail(e.target.value)}
-                            />
-
-                            <label>DNI</label>
-                            <input
-                            value={idNumber}
-                            type='text'
-                            placeholder='Escriba su DNI'
-                            onChange={(e) => setIdNumber(e.target.value)}
-                            />
-
-                            <label>Dirección</label>
-                            <input
-                            value={address}
-                            type='text'
-                            placeholder='Escriba su dirección'
-                            onChange={(e) => setAddress(e.target.value)}
-                            />
-
-                            <label>Documento de inscripción</label>
-                            <div className='register-container-files'>
-                                <button className='button-contrast-files'
-                                onClick={() => handleDownload('volunteer_registration')}>
-                                    Descargar
-                                </button>
-                                <input
-                                type='file'
-                                onChange={handleEnrollmentDocChange}
-                            />
-                            </div>
-
-                            <label>Fecha de nacimiento</label>
-                            <input
-                            value={birthdate}
-                            type='date'
-                            onChange={(e) => setBirthdate(e.target.value)}
-                            />
-
-                            <label>Contraseña</label>
-                            <input
-                            value={password}
-                            type='password'
-                            placeholder='Escriba su contraseña'
-                            onChange={(e) => setPassword(e.target.value)}
-                            />
-
-                            <label>Confirmar contraseña</label>
-                            <input
-                            value={confirmPassword}
-                            type='password'
-                            placeholder='Confirme su contraseña'
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
-
-                            <div style={{ marginTop: '4%' }}>
-                            <input
-                                type="checkbox"
-                                name="acccept"
-                                onChange={handleIsAgreedChange}
-                            />
-                            <label>He leído y acepto los términos y condiciones</label>
-                            </div>
-
-                            <button className='register-button'>
-                                Crear cuenta
-                            </button>
-
-                            <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
-
-                            <Link to={"https://myaccount.google.com/"} className='google-button'>
-                                <span>Registrarse con Google</span>
-                                <img src={google} alt="Logo"/>
-                            </Link>
-
-
-                            <p style={{ textAlign: 'center', marginBottom: '5%'}}>
-                                ¿Ya tiene una cuenta?&nbsp;
-                                <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
-                                Inicie sesión aquí
-                                </Link>.
-                            </p>
-
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
+            </div>
         </LayoutHomepage>
     );
   }
