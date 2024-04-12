@@ -1,15 +1,13 @@
 import '../../styles/styles.css'
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation, redirect } from 'react-router-dom';
-import google from '../../logo/google.svg'
 import LayoutHomepage from '../../components/LayoutHomepage';
 import useAdjustMargin from '../../components/useAdjustMargin';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button } from '@material-ui/core';
-import Header from '../../components/Header';
-import { Print } from '@material-ui/icons';
+import useToken from '../../components/useToken';
+
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -18,46 +16,7 @@ axios.defaults.withCredentials = true;
 function LogIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        getUserData().then(async response => {
-            if (response !== null) {
-                console.log("User is logged in");
-                const user = response.data;
-                console.log(user);
-                // Check if the user is enabled
-                if (!user.is_enabled) {
-                    toast.error('Revise el correo y active la cuenta');
-                } else {
-                    if (user.role === 'VOLUNTARIO') {
-                        if (user.volunteer === null) {
-                            navigate('/voluntario/formulario');
-                        } else {
-                            const volunteer = await axios.get(`${API_ENDPOINT}volunteer/${user.volunteer}`);
-                            localStorage.setItem('volunteerId', user.volunteer);
-
-                            if (volunteer.status === 'ACEPTADO') {
-                                navigate('/voluntario/agenda');
-                            } else {
-                                navigate('/voluntario/espera');
-                            }
-                        }
-                    } else if (user.role === 'FAMILIA') {
-                        navigate('/familia/perfil');
-                    } else if (user.role === 'SOCIO') {
-                        navigate('/socio/calendario');
-                    } else if (user.role === 'EDUCADOR') {
-                        navigate('/educador');
-                    } else {
-                        navigate(`/admin/voluntarios`);
-                    }
-            
-                    localStorage.setItem('userId', user.id);
-                }    
-            }    
-        });
-    }, []);
+    const [token, updateToken] = useToken();
 
     const getUserData = async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -78,7 +37,6 @@ function LogIn() {
     const manageLogin = async (access, refresh) => { 
         localStorage.setItem('accessToken', access);
         localStorage.setItem('refreshToken', refresh);
-
         console.log('Logged in, access token:', access);
 
         getUserData().then(response => {
@@ -135,14 +93,80 @@ function LogIn() {
                 password: password,
             });
             const { access: accessToken, refresh: refreshToken } = response.data;
-    
-            manageLogin(accessToken, refreshToken);
-            
-        } catch (error) {
-            console.error('Error during login:', error);
-            toast.error('Contraseña o correo incorrecto');
-        }
-    };
+
+            console.log('Logged in, access token:', accessToken);
+            updateToken(accessToken);
+
+            manageLogin(accessToken, refreshToken);            // Find the user that matches the logged-in user's token
+            const userResponse = await axios.get(`${API_ENDPOINT}auth/users/me/`, {
+                headers: {
+                  'Authorization': `Bearer ${accessToken}`
+                }});
+            const user = userResponse.data;
+            console.log('User data:', user);
+
+                if (user.role === 'VOLUNTARIO') {
+                    if (user.volunteer === null) {
+                        navigate('/voluntario/formulario');
+                    } else {
+                        const volunteer = await axios.get(`${API_ENDPOINT}volunteer/${user.volunteer}`, {
+                            headers: {
+                              'Authorization': `Bearer ${accessToken}`
+                            }});
+                        localStorage.setItem('volunteerId', user.volunteer);
+
+                        if (volunteer.status === 'ACEPTADO') {
+                            navigate('/voluntario/agenda');
+                        } else {
+                            navigate('/voluntario/espera');
+                        }
+                    }
+                } else if (user.role === 'FAMILIA') {
+                    localStorage.setItem('role', 'FAMILIA')
+                    if (user.family === null) {
+                    //Crea un objeto familia
+                    const response = await axios.post(`${API_ENDPOINT}family/`, 
+                    {name: "Familia " + user.last_name}, {
+                        headers: {
+                          'Authorization': `Bearer ${accessToken}`
+                        }});
+                    
+                    localStorage.setItem('familyId', response.data.id);
+                     console.log(response.data);
+                    //El usuario es asignado esa familia
+                    await axios.patch(`${API_ENDPOINT}auth/users/me/`,
+                    {password: password, family: response.data.id}, {
+                        headers: {
+                          'Authorization': `Bearer ${accessToken}`
+                        }});
+                    }
+                    navigate('/familia/perfil');
+                } else if (user.role === 'SOCIO') {
+                    localStorage.setItem('role', 'SOCIO')
+                    //TODO Aqui formulario para socio, una cosa así:
+                    //if (user.socio === null) {
+                    //    navigate('/socio/formulario');}
+                    navigate('/socio/calendario');
+                    
+                } else if (user.role === 'EDUCADOR') {
+                    localStorage.setItem('role', 'EDUCADOR')
+                    //TODO Aqui formulario para educador, una cosa así:
+                    //if (user.educador === null) {
+                    //    navigate('/educador/formulario');}
+                    navigate('/educador/perfil');
+                } else if (user.role === 'ADMIN'){
+                    localStorage.setItem('role', 'ADMIN')
+                    navigate(`/admin/voluntarios`);
+                }
+        
+                localStorage.setItem('userId', user.id);  
+            } catch(error){
+                Object.entries(error.response.data).forEach(([key, value]) => {
+                  toast.error(`${value}`);
+                });
+              }
+        }  
+
     const marginTop = useAdjustMargin();
 
     return (

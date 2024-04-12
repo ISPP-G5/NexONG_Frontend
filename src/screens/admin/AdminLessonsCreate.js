@@ -8,10 +8,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '../../styles/styles.css';
-
+import useToken from '../../components/useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminLessonsCreate = () => {
+  const [token, updateToken] = useToken();
+    const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const [localFormData, setLocalFormData] = useState({
     name: '',
     description: '',
@@ -36,6 +42,7 @@ const AdminLessonsCreate = () => {
   };
 
   const handleChange = (e) => {
+    
     const { name, value, type, checked } = e.target;
 
     if (type === 'checkbox') {
@@ -50,12 +57,13 @@ const AdminLessonsCreate = () => {
   };
 
   const handleSubmit = () => {
+   
     if (!localFormData.name || !localFormData.description || !localFormData.capacity || !localFormData.start_date || !localFormData.end_date) {
       toast.error('Por favor, rellene todos los campos.');
       return;
     }
     axios
-      .post(`${API_ENDPOINT}lesson/`, localFormData)
+      .post(`${API_ENDPOINT}lesson/`, localFormData, config)
       .then((response) => {
         console.log('Response of post:', response.data);
         toast.success('Clase creada con éxito');
@@ -95,7 +103,7 @@ const AdminLessonsCreate = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}educator/`)
+      .get(`${API_ENDPOINT}educator/`, config)
       .then((response) => {
         console.log('response educators:', response.data);
         setEducators(response.data);
@@ -104,7 +112,7 @@ const AdminLessonsCreate = () => {
         console.error('Error fetching educators:', error);
       });
     axios
-      .get(`${API_ENDPOINT}student/`)
+      .get(`${API_ENDPOINT}student/`, config)
       .then((response) => {
         console.log('response students:', response.data);
         setStudents(response.data);
@@ -113,7 +121,7 @@ const AdminLessonsCreate = () => {
         console.error('Error fetching educators:', error);
       });
     axios
-    .get(`${API_ENDPOINT}user/`)
+    .get(`${API_ENDPOINT}user/`, config)
     .then((response) => {
       console.log('response user:', response.data);
       setUsers(response.data);

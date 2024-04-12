@@ -7,11 +7,16 @@ import avatarEducator from '../logo/family-avatar.jpg';
 import avatarVolunteer from '../logo/volunteer-avatar.png';
 import avatarFamily from '../logo/family-avatar.jpg';
 import avatarPartner from  '../logo/partner-avatar.png'
-
-
+import useToken from './useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
 
   const handleDescargar = async(person) => {
     const descargarDocumento = (documento, nombreArchivo) => {
@@ -36,8 +41,8 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 }; 
 
   const handleAceptar = async (person) => {
+  
     person.status = "ACEPTADO";
-    console.log(person)
     let url;
     if (person.volunteer) {
       url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
@@ -47,7 +52,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 
     const update = await axios.patch(url, {
       status: person.status
-    });
+    }, config);
     console.log('update', update);
     const { data } = update;
     if (data.message) {
@@ -63,7 +68,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 }
 
   const handleRechazar = async (person) => {
-    let url;
+   let url;
     person.status = "RECHAZADO";
     if (person.volunteer) {
       url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
@@ -73,7 +78,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 
     const update = await axios.patch(url, {
       status: person.status
-    });
+    }, config);
     console.log('update', update);
     const { data } = update;
     if (data.message) {
@@ -89,18 +94,19 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   }
 
   const handleEliminar = async (person) => {
+   
     if (!person.id || person.id <= 0) {
       toast.error('La id no es valida', {
         autoClose: 5000
       })
     } else {
       if (personType === 'Familias-solicitudes') {
-        await axios.delete(`${API_ENDPOINT}student/${person.id}/`);
+        await axios.delete(`${API_ENDPOINT}student/${person.id}/`, config);
       } else if (personType === 'Voluntarios') {
         console.log(person.id);
-        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`);
+        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`, config);
       } else {
-        await axios.delete(`${API_ENDPOINT}user/${person.id}/`);
+        await axios.delete(`${API_ENDPOINT}user/${person.id}/`, config);
       }
       toast.success("Persona eliminada correctamente", {
         autoClose: 5000
@@ -128,7 +134,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         </div>
         :
         <div className='family-request'>
-<img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none' }}>
+<img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
             {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
           </div>

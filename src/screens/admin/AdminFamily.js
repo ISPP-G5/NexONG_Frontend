@@ -2,7 +2,7 @@ import '../../styles/styles.css';
 import React, { useState, useEffect } from 'react';
 import ShowType from '../../components/ShowAdminProfiles';
 import { useFetchFamilies, useFetchLessons, useFetchStudentEvaluation, useFetchStudents } from '../../components/useFetchData';
-
+import useToken from '../../components/useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 const pantallas = [
@@ -19,11 +19,12 @@ const pantallas = [
 ];
 
 function AdminFamily() {
+  const [token, updateToken] = useToken();
 
-  const families = useFetchFamilies(API_ENDPOINT);
-  const students = useFetchStudents(API_ENDPOINT, 'ACEPTADO');
-  const lessons = useFetchLessons(API_ENDPOINT);
-  const evaluations = useFetchStudentEvaluation(API_ENDPOINT);
+  const families = useFetchFamilies(API_ENDPOINT, token);
+  const students = useFetchStudents(API_ENDPOINT, 'ACEPTADO', token);
+  const lessons = useFetchLessons(API_ENDPOINT, token);
+  const evaluations = useFetchStudentEvaluation(API_ENDPOINT, token);
 
   const [kids, setKids] = useState([]);
 
