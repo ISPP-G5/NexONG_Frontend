@@ -64,7 +64,9 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         autoClose: 5000
       })
     }
+   setTimeout(() => {
     window.location.reload();
+   }, 2000); 
 }
 
   const handleRechazar = async (person) => {
@@ -111,7 +113,9 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       toast.success("Persona eliminada correctamente", {
         autoClose: 5000
       })
-      window.location.reload(); // Recarga la ventana después de eliminar
+      setTimeout(() => {
+        window.location.reload();
+       }, 2000); 
     }
   }
   const roleAvatarMap = {
