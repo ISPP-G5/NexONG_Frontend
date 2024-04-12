@@ -6,14 +6,15 @@ import { useFetchMyKids, useFetchStudentDailyEval } from '../../components/useFe
 import useToken from '../../components/useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-function FamilyDailyEval() {
-  const { studentIndex } = useParams();
+function FamilyEval() {
+  const { studentIndex, tipoTiempo} = useParams();
+  const tiempo = tipoTiempo==='anual'? 'ANUAL':'DIARIO';
   const userId = parseInt(localStorage.getItem('userId'), 10);
   const [token] = useToken();
   const [selectedScreenIndex, setSelectedScreenIndex] = useState(studentIndex ? parseInt(studentIndex, 10) : 0);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const userStudents = useFetchMyKids(API_ENDPOINT, userId);
-  const { userDailyEval, gradeTypes, lessons } = useFetchStudentDailyEval(API_ENDPOINT, token, selectedStudent, 'ANUAL');
+  const { userDailyEval, gradeTypes, lessons } = useFetchStudentDailyEval(API_ENDPOINT, token, selectedStudent, tiempo);
   const [pantallas, setPantallas] = useState([]);
   console.log("evals",userDailyEval)
   console.log("evalsTipo",gradeTypes)
@@ -22,7 +23,7 @@ function FamilyDailyEval() {
     if (userStudents && userStudents.length > 0) {
       const screens = userStudents.map((student, index) => ({
         pantalla: student.name, 
-        link: `/familia/evaluacion/anual/${index}`,
+        link: `/familia/evaluacion/${tipoTiempo}/${index}`,
         selected: index === selectedScreenIndex
       }));
       setPantallas(screens);
@@ -45,10 +46,10 @@ function FamilyDailyEval() {
         evalType={gradeTypes}
         request={false}
         lessons={lessons}
-        type = "Evaluación anual"
+        type = {"Evaluación " + tipoTiempo}
       />
     </div>
   );
 }
 
-export default FamilyDailyEval;
+export default FamilyEval;
