@@ -8,8 +8,11 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../styles/styles.css';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
+import useToken from '../../components/useToken';
+
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const token = localStorage.getItem('accessToken');
 
 const AdminSchedules = () => {
   const [schedules, setSchedules] = useState([]);
@@ -69,6 +72,7 @@ const AdminSchedules = () => {
         Volver
       </button>
       <div className="card-info-suggestion table">
+        <div class= "table-wrapper">
         <h2>Lista de Horarios</h2>
         <table style={{ borderSpacing: '10px' }}>
           <thead>
@@ -102,6 +106,11 @@ const AdminSchedules = () => {
             ))}
           </tbody>
         </table>
+
+
+          
+        </div>
+
       </div>
       {/* Delete confirmation dialog */}
       <Dialog open={scheduleToDelete !== null} onClose={() => setScheduleToDelete(null)}>
