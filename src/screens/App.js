@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route , Routes,useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // HOMEPAGE
 import HomePage from './homepage/HomePage';
 import HomePageAssociation from './homepage/HomePageAssociation';
@@ -40,6 +40,8 @@ import AdminLessonsCreate from './admin/AdminLessonsCreate';
 import AdminLessonsEdit from './admin/AdminLessonsEdit';
 import AdminSuggestions from './admin/AdminSuggestions';
 import AdminTransparency from './admin/AdminTransparency';
+import AdminEditProfiles from '../components/AdminEditProfiles';
+
 
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
@@ -76,7 +78,7 @@ function RedirectToHome() {
   return null;
 }
 function App() {
-  const role = localStorage.getItem('role')
+  const [role, setRole] = useState(localStorage.getItem('role'));
   
   console.log('role',role)
   return (
@@ -116,6 +118,9 @@ function App() {
               <>
             <Route path="/admin/perfil" exact={true} element={<AdminProfile />} />
             <Route path="/admin/perfil/actualizar" exact={true} element={<AdminProfileUpdate />} />
+            <Route path="/admin/perfil/actualizar/:id" exact={true} element={<AdminEditProfiles />} />
+
+
             
             <Route path="/admin/voluntarios" element={<AdminVolunteers />} />
             <Route path="/admin/voluntarios/solicitudes" exact={true} element={<AdminVolunteersRequests />} />

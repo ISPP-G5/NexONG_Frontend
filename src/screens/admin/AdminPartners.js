@@ -40,8 +40,9 @@ const AdminPartners = () => {
   const handleDownload = (format) => {
     window.location.href = `http://localhost:8000/api/export/${format}/donations`;
 }
+const token = localStorage.getItem('accessToken');
 
-const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO");
+const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO", token);
 
 return (
     <div>

@@ -8,10 +8,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { ToastContainer, toast } from 'react-toastify';
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const VolunteersAttendance = () => {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
     const [eventsList, setEventsList] = useState([]);
     const [currentUser, setCurrentUser] = useState({
       volunteerId: ''
@@ -23,9 +30,9 @@ const VolunteersAttendance = () => {
     const userId = parseInt(localStorage.getItem('userId'));
 
     useEffect(() => {
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`, config)
         .then(response => {
-          const userWithUserId = response.data.find(user => user.id === userId);
+          const userWithUserId = response.data;
           if (userWithUserId) {
               setCurrentUser({
               volunteerId: userWithUserId.volunteer
@@ -37,7 +44,7 @@ const VolunteersAttendance = () => {
         .catch(error => {
           console.error(error);
         });
-      axios.get(`${API_ENDPOINT}event/`)
+      axios.get(`${API_ENDPOINT}event/`, config)
         .then(response => {
           const filteredEvents = response.data.filter(activity => activity.volunteers.includes(currentUser.volunteerId));
           setEventsList(filteredEvents.map(activity => ({
@@ -69,7 +76,7 @@ const VolunteersAttendance = () => {
 
   const handleDeleteVolunteer = () => {
       const updatedVolunteers = deleteConfirmation.event.volunteers.filter(volunteer => volunteer !== currentUser.volunteerId);
-      axios.put(`${API_ENDPOINT}event/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers })
+      axios.put(`${API_ENDPOINT}event/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers }, config)
           .then(response => {
               window.alert('Se ha eliminado correctamente');
               setDeleteConfirmation({

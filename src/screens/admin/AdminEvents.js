@@ -11,6 +11,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import ButtonCreate from '../../components/ButtonCreate';
 import 'react-toastify/dist/ReactToastify.css';
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const labelStyle = {
@@ -24,6 +25,12 @@ const labelStyle = {
 };
 
 function AdminEvents() {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const localizer = momentLocalizer(moment);
   const initialFormData = {
     name: '',
@@ -226,7 +233,7 @@ function AdminEvents() {
 
     useEffect(() => {
       axios
-        .get(`${API_ENDPOINT}event/`)
+        .get(`${API_ENDPOINT}event/`, config)
         .then((response) => {
           console.log('response event:', response.data);
           const formattedEvents = response.data.map((event) => ({
@@ -249,7 +256,7 @@ function AdminEvents() {
         });
 
       axios
-        .get(`${API_ENDPOINT}volunteer/`)
+        .get(`${API_ENDPOINT}volunteer/`, config)
         .then((response) => {
           console.log('response volunteers:', response.data);
           setVolunteers(response.data);
@@ -258,7 +265,7 @@ function AdminEvents() {
           console.error('Error fetching volunteers:', error);
         });
         axios
-        .get(`${API_ENDPOINT}meeting/`)
+        .get(`${API_ENDPOINT}meeting/`, config)
         .then((response) => {
           console.log('response asambleas:', response.data);
           const formattedMeetings = response.data.map((meeting) => ({
@@ -277,7 +284,7 @@ function AdminEvents() {
         });
 
       axios
-        .get(`${API_ENDPOINT}student/`)
+        .get(`${API_ENDPOINT}student/`, config)
         .then((response) => {
           console.log('response students:', response.data);
           setStudents(response.data);
@@ -287,7 +294,7 @@ function AdminEvents() {
         });
 
       axios
-        .get(`${API_ENDPOINT}user/`)
+        .get(`${API_ENDPOINT}user/`, config)
         .then((response) => {
           console.log('response user:', response.data);
           setUsers(response.data);
@@ -346,7 +353,7 @@ function AdminEvents() {
     
         // Push each axios.post promise into the promises array
         promises.push(
-          axios.post(`${API_ENDPOINT}event/`, eventData)
+          axios.post(`${API_ENDPOINT}event/`, eventData, config)
         );
     
         // Move to the next occurrence
@@ -394,7 +401,7 @@ function AdminEvents() {
           return;
         }
         axios
-          .post(`${API_ENDPOINT}event/`, localFormData)
+          .post(`${API_ENDPOINT}event/`, localFormData, config)
           .then((response) => {
             console.log('Response of post:', response.data);
             toast.success('Evento creado con éxito');
@@ -435,7 +442,7 @@ function AdminEvents() {
         };
     
         axios
-          .put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData)
+          .put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData, config)
           .then((response) => {
             const updatedEvent = response.data;
             setEvents(prevEvents =>
@@ -494,7 +501,7 @@ function AdminEvents() {
     const handleConfirmDelete = () => {
       if (eventToDelete) {
         axios
-          .delete(`${API_ENDPOINT}event/${eventToDelete.id}/`)
+          .delete(`${API_ENDPOINT}event/${eventToDelete.id}/`, config)
           .then(() => {
             setEvents(events.filter((event) => event.id !== eventToDelete.id));
             setOpenEditDialog(false);

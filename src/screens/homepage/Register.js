@@ -145,26 +145,7 @@ function Register() {
           const { data } = userUpdate;
           if (data.message){
               toast.error(data.message);
-          } else {
-            if (isFamilyChecked) {
-              // Create a Familia object
-              const familiaData = new FormData();
-              familiaData.append('name', `Familia ${surname}`);
-              const familiaUpdate = await axios.post(`${API_ENDPOINT}family/`, familiaData, {
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                }
-              });
-      
-              // Update the user with the id of the created Familia
-              const userFamiliaData = new FormData();
-              userFamiliaData.append('familia', familiaUpdate.data.id);
-              await axios.patch(`${API_ENDPOINT}auth/users/${data.id}/`, userFamiliaData, {
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                }
-              });
-            } 
+          }else{
             setFirst_name('');
             setSurname('');
             setEmail('');
@@ -177,7 +158,9 @@ function Register() {
             toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
         } catch(error){
-          console.error('Error',error);
+          Object.entries(error.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         }
     }
   }  
