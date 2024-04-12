@@ -95,7 +95,7 @@ function HomePageDonation() {
             toastcontainer={true}
             intro={false}
         >
-            <div className='homepage-container'>
+            <div className='homepage-container' style={{ marginTop }}>
                 <div className='flex-container' style={{'--columnwidth': `300px`, display: 'flex', flexDirection: 'column', position: 'relative'}}>
                     <h2>Donaciones puntuales</h2>
                     <div>
