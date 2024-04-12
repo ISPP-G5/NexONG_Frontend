@@ -65,6 +65,7 @@ import PartnersCalendar from './partners/PartnersCalendar';
 
 // FAMILIES
 import FamilyProfile from './family/FamilyProfile';
+import FamilyChildren from './family/FamilyChildren';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
 
@@ -185,9 +186,10 @@ function App() {
             {role === 'FAMILIA' && (
               <>
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
+            <Route path="/familia/niños" exact={true} element={<FamilyChildren />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
-             </> 
+              </> 
             )}
              {/* Redirect unauthorized users to the homepage */}
           {!['ADMIN', 'EDUCADOR', 'SOCIO', 'VOLUNTARIO','FAMILIA'].includes(role) || (
