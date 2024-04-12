@@ -64,7 +64,9 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         autoClose: 5000
       })
     }
+   setTimeout(() => {
     window.location.reload();
+   }, 2000); 
 }
 
   const handleRechazar = async (person) => {
@@ -86,11 +88,13 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         autoClose: 5000
       });
     } else {
-      toast.success("Usuario actualizado con éxito.", {
+      toast.success("Usuario rechazado con éxito.", {
         autoClose: 5000
       })
     }
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+     }, 2000); 
   }
 
   const handleEliminar = async (person) => {
@@ -111,7 +115,9 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       toast.success("Persona eliminada correctamente", {
         autoClose: 5000
       })
-      window.location.reload(); // Recarga la ventana después de eliminar
+      setTimeout(() => {
+        window.location.reload();
+       }, 2000); 
     }
   }
   const roleAvatarMap = {
