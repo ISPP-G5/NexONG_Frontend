@@ -7,6 +7,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import  useAdjustMargin from '../../components/useAdjustMargin';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -25,6 +28,8 @@ function Register() {
   const[password,setPassword] = useState('');
   const[confirmPassword,setConfirmPassword] = useState('');
   const[phone,setPhone] = useState('');
+  const [termsText, setTermsText] = useState(null);
+
   const phoneFormat = /^[6-9]\d{8}$/; 
    const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
@@ -51,6 +56,7 @@ function Register() {
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
   const [isAgreedChecked, setIsAgreedChecked] = useState(false);
+ const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleFamilyChange = () => {
     setIsFamilyChecked(!isFamilyChecked);
@@ -61,12 +67,35 @@ function Register() {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
     };
+    const handleDialogOpen = () => {
+      setDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+    };
+    
 
   const handleAgreedChange = () => {
     setIsAgreedChecked(!isAgreedChecked);
       };
 
   const marginTop = useAdjustMargin();
+  const fetchTerms = async () => {
+    try {
+      const response = await axios.get(`${API_ENDPOINT}terms/`);
+      const terms = response.data;
+      console.log('terms',terms)
+      setTermsText(terms[0].text);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchTerms();
+  }, []);
+  console.log('terms',termsText)
 
   const sendRecurringForm = async(e) => {
     e.preventDefault();
@@ -136,6 +165,8 @@ function Register() {
         userData.append('password', password);
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
         userData.append('is_agreed', isAgreedChecked);
+        userData.append('is_enabled', false);
+
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
@@ -164,6 +195,30 @@ function Register() {
         }
     }
   }  
+  const TermsAndConditions = ({ termsText }) => {
+    console.log('termsText:', termsText); // Log the original termsText
+
+    const termsArray = termsText.split(/\.(?=\w)/);
+    console.log('termsArray:', termsArray); // Log the array of terms
+
+    const formattedTerms = termsArray.map((term, index) => {
+      const colonIndex = term.indexOf(':');
+      const title = term.substring(0, colonIndex + 1);
+      const content = term.substring(colonIndex + 1);
+      console.log('term:', term); // Log each term
+      console.log('title:', title); // Log the title of each term
+      console.log('content:', content); // Log the content of each term
+  
+  
+      return (
+        <div key={index} style={{textAlign:'justify'}}>
+          <strong>{index === 0 ? <span>Términos y Condiciones de Uso.</span> : title}</strong>
+          {content}
+        </div>
+      );
+    });
+    return <> {formattedTerms}</>
+  }
 
   return (
     <LayoutHomepage 
@@ -250,17 +305,25 @@ function Register() {
             </label>
           </div>
           <div className="checkbox-group">
-            <input
-              type="checkbox"
-              id="selectCheckboxAgreed"
-              className="hidden-checkbox"
-              checked={isAgreedChecked}
-              onChange={handleAgreedChange}
-            />
-            <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Acepto los términos y condiciones
-            </label>
-          </div>
+            <div >
+              <input
+                type="checkbox"
+                id="selectCheckboxAgreed"
+                className="hidden-checkbox"
+                checked={isAgreedChecked}
+                onChange={handleAgreedChange}
+              />
+              <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
+                <span className="custom-checkbox"></span>
+                Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              </label>
+            </div>
+            <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+              <DialogTitle>Términos y Condiciones</DialogTitle>
+              <DialogContent>
+                <TermsAndConditions termsText={termsText} />
+              </DialogContent>
+            </Dialog>
+        </div>
 
           <button className='register-button'>
             Crear cuenta
