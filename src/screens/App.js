@@ -68,6 +68,7 @@ import FamilyProfile from './family/FamilyProfile';
 import FamilyChildren from './family/FamilyChildren';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
+import FamilyChildForm from './family/FamilyChildForm';
 
 function RedirectToHome() {
   const navigate = useNavigate();
@@ -187,6 +188,7 @@ function App() {
               <>
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
             <Route path="/familia/niños" exact={true} element={<FamilyChildren />} />
+            <Route path="/familia/niños/registro" exact={true} element={<FamilyChildForm />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
               </> 
