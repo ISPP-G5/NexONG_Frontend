@@ -96,21 +96,18 @@ const FamilyCalendar = () => {
         .then(response => {
             const filteredActivities = response.data.filter(activity => 
                 moment(activity.start_date).isAfter(moment()) && 
-                activity.attendees.some(attendee => attendee === studentFamily.studentsId)
+                activity.students.some(student => student === studentFamily.studentsId)
             );
             setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
             id: activity.id,
             title: activity.name,
             description: activity.description,
-            place: activity.place,
-            max_volunteers: activity.max_volunteers,
-            start: new Date(activity.start_date),
-            end: new Date(activity.end_date),          
-            lesson: activity.lesson,
-            price: activity.price,
+            capacity: activity.capacity,
+            is_morning_lesson: activity.is_morning_lesson,  
             educators: activity.educators,
-            attendees: activity.attendees,
-            volunteers: activity.volunteers,
+            students: activity.students,
+            start: new Date(activity.start_date),
+            end: new Date(activity.end_date),  
             url: activity.url
             }))]);
         })
