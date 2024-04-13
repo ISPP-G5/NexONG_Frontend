@@ -64,11 +64,10 @@ import VolunteerFormation from './volunteers/VolunteerFormation';
 import PartnersCalendar from './partners/PartnersCalendar';
 
 // FAMILIES
-import FamilyForm from './families/FamilyForm';
-import KidForm from './families/KidForm';
-import FamilyProfile from './families/FamilyProfile';
-import FamilyUpdate from './families/FamilyUpdate';
+import FamilyForm from './family/FamilyForm';
+import KidForm from './family/KidForm';
 import FamilyProfile from './family/FamilyProfile';
+import FamilyUpdate from './family/FamilyUpdate';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
 
