@@ -7,6 +7,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import  useAdjustMargin from '../../components/useAdjustMargin';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -25,6 +28,13 @@ function Register() {
   const[password,setPassword] = useState('');
   const[confirmPassword,setConfirmPassword] = useState('');
   const[phone,setPhone] = useState('');
+  const [termsText, setTermsText] = useState(null);
+
+  const phoneFormat = /^[6-9]\d{8}$/; 
+   const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
+  const letters = /^[A-Za-z\sáéíóúÁÉÍÓÚñÑ]+$/;
+  const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
  
 
@@ -46,6 +56,7 @@ function Register() {
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
   const [isAgreedChecked, setIsAgreedChecked] = useState(false);
+ const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleFamilyChange = () => {
     setIsFamilyChecked(!isFamilyChecked);
@@ -56,12 +67,35 @@ function Register() {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
     };
+    const handleDialogOpen = () => {
+      setDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+    };
+    
 
   const handleAgreedChange = () => {
     setIsAgreedChecked(!isAgreedChecked);
       };
 
   const marginTop = useAdjustMargin();
+  const fetchTerms = async () => {
+    try {
+      const response = await axios.get(`${API_ENDPOINT}terms/`);
+      const terms = response.data;
+      console.log('terms',terms)
+      setTermsText(terms[0].text);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchTerms();
+  }, []);
+  console.log('terms',termsText)
 
   const sendRecurringForm = async(e) => {
     e.preventDefault();
@@ -74,12 +108,54 @@ function Register() {
     } else if(!idNumber || idNumber === ''){
         toast.error("Introduzca un DNI")
     } else if(!phone || phone === ''){
-        toast.error("Introduzca número de telefono correcto")
+        toast.error("Introduzca un número de teléfono correcto")
     } else if(!password || password === ''){
         toast.error("Introduzca una contraseña")
     } else if (!constantTimeComparison(password, confirmPassword)){
         toast.error("Las contraseñas no coinciden")
-    } else {
+      }
+      else if(!first_name.match(letters) || !first_name.match(letters)) {
+          toast.error('Nombre y apellido no puede contener números');
+          return;
+      } 
+      else if (!isFamilyChecked && !isVolunteerChecked) {
+        toast.error("Debe elegir una de las opciones: familia o voluntario");
+      }
+      else if (!phoneFormat.test(phone)) {
+        toast.error('Formato de teléfono incorrecto');
+        return;
+       }
+     else if (!emailFormat.test(email)) {
+      toast.error('Formato de correo inválido');
+      return;
+     }
+      else if(first_name.length>75){
+        toast.error("Indica un nombre, no debe superar 75 caráteres")
+    }
+    else if (!idNumber.match(spanishIdFormat)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if (password.length < 8) {
+      toast.error('La contraseña debe tener 8 caracteres mínimo');
+      return;
+  }else if (!/\D/.test(password)) {
+    toast.error('La contraseña no puede ser solo números');
+    return;
+  }else if  (commonPasswords.includes(password)) {
+    toast.error('Contraseña demasiado común');
+    return;
+  }  
+  
+    else if(surname.length>75){
+        toast.error("Indica un nombre, no debe superar 75 caráteres")
+    }
+   else if (!isAgreedChecked){
+    toast.error("Acepte los términos y condiciones")
+    }
+
+    
+    else {
         const userData = new FormData();
         userData.append('first_name', first_name);
         userData.append('last_name', surname);
@@ -88,6 +164,9 @@ function Register() {
         userData.append('phone', phone);
         userData.append('password', password);
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
+        userData.append('is_agreed', isAgreedChecked);
+        userData.append('is_enabled', false);
+
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
@@ -97,26 +176,7 @@ function Register() {
           const { data } = userUpdate;
           if (data.message){
               toast.error(data.message);
-          } else {
-            if (isFamilyChecked) {
-              // Create a Familia object
-              const familiaData = new FormData();
-              familiaData.append('name', `Familia ${surname}`);
-              const familiaUpdate = await axios.post(`${API_ENDPOINT}family/`, familiaData, {
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                }
-              });
-      
-              // Update the user with the id of the created Familia
-              const userFamiliaData = new FormData();
-              userFamiliaData.append('familia', familiaUpdate.data.id);
-              await axios.patch(`${API_ENDPOINT}auth/users/${data.id}/`, userFamiliaData, {
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                }
-              });
-            } 
+          }else{
             setFirst_name('');
             setSurname('');
             setEmail('');
@@ -129,10 +189,36 @@ function Register() {
             toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
         } catch(error){
-          console.error('Error',error);
+          Object.entries(error.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         }
     }
   }  
+  const TermsAndConditions = ({ termsText }) => {
+    console.log('termsText:', termsText); // Log the original termsText
+
+    const termsArray = termsText.split(/\.(?=\w)/);
+    console.log('termsArray:', termsArray); // Log the array of terms
+
+    const formattedTerms = termsArray.map((term, index) => {
+      const colonIndex = term.indexOf(':');
+      const title = term.substring(0, colonIndex + 1);
+      const content = term.substring(colonIndex + 1);
+      console.log('term:', term); // Log each term
+      console.log('title:', title); // Log the title of each term
+      console.log('content:', content); // Log the content of each term
+  
+  
+      return (
+        <div key={index} style={{textAlign:'justify'}}>
+          <strong>{index === 0 ? <span>Términos y Condiciones de Uso.</span> : title}</strong>
+          {content}
+        </div>
+      );
+    });
+    return <> {formattedTerms}</>
+  }
 
   return (
     <LayoutHomepage 
@@ -219,17 +305,25 @@ function Register() {
             </label>
           </div>
           <div className="checkbox-group">
-            <input
-              type="checkbox"
-              id="selectCheckboxAgreed"
-              className="hidden-checkbox"
-              checked={isAgreedChecked}
-              onChange={handleAgreedChange}
-            />
-            <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Acepto los términos y condiciones
-            </label>
-          </div>
+            <div >
+              <input
+                type="checkbox"
+                id="selectCheckboxAgreed"
+                className="hidden-checkbox"
+                checked={isAgreedChecked}
+                onChange={handleAgreedChange}
+              />
+              <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
+                <span className="custom-checkbox"></span>
+                Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              </label>
+            </div>
+            <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+              <DialogTitle>Términos y Condiciones</DialogTitle>
+              <DialogContent>
+                <TermsAndConditions termsText={termsText} />
+              </DialogContent>
+            </Dialog>
+        </div>
 
           <button className='register-button'>
             Crear cuenta
