@@ -199,13 +199,13 @@ function App() {
               </>
             )}
             {/* FAMILIES ROUTES */}
+            <Route path="/familia/registro" exact={true} element={<FamilyForm />} />
+            <Route path="/familia/registro/niños" exact={true} element={<KidForm />} />
             {role === 'FAMILIA' && (
               <>
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
-            <Route path="/familia/registro" exact={true} element={<FamilyForm />} />
-            <Route path="/familia/registro/niños" exact={true} element={<KidForm />} />
             <Route path='/familia/perfil' exact={true} element={<FamilyProfile/>}/>
             <Route path='/familia/perfil/actualizar' exact={true} element={<FamilyUpdate/>}/>
              </> 
