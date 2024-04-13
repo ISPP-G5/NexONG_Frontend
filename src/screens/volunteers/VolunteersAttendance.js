@@ -115,7 +115,9 @@ const VolunteersAttendance = () => {
     <LayoutProfiles profile={'voluntario'} selected={'Asistencia'}>
       <ToastContainer/>
       {eventsList.length === 0 ? (
+        <div className='card-info'>
           <h3>No asistes aún a ningún evento.</h3>
+        </div>
       ) : (
         eventsList.map((event) => (
           <div className='card-info' key={event.id}>
