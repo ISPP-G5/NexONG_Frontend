@@ -7,26 +7,51 @@ import LayoutProfiles from '../../components/LayoutProfiles';
 import { ToastContainer, toast } from 'react-toastify';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
+import {DialogActions ,makeStyles }from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const localizer = momentLocalizer(moment);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(4),
+  },
 
+  calendarContainer: {
+    flex: 1,
+    position: 'relative',
+    minHeight: '20rem',
+    marginTop: '2rem',
+    overflow: 'hidden',
+    width: '90%',
+  },
+}));
 const VolunteerAgenda = () => {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const [activities, setActivities] = useState([]);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [currentUser, setCurrentUser] = useState({
     volunteerId: ''
   });
+  const classes = useStyles();
+
   const userId = parseInt(localStorage.getItem('userId'));
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}user/`)
+    axios.get(`${API_ENDPOINT}auth/users/me/`, config)
       .then(response => {
-        const userWithUserId = response.data.find(user => user.id === userId);
+        const userWithUserId = response.data;
         if (userWithUserId) {
           setCurrentUser({
             volunteerId: userWithUserId.volunteer
@@ -39,7 +64,7 @@ const VolunteerAgenda = () => {
         console.error(error);
       });
 
-    axios.get(`${API_ENDPOINT}event/`)
+    axios.get(`${API_ENDPOINT}event/`, config)
       .then(response => {
         const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
         setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...filteredActivities.map(activity => ({
@@ -61,7 +86,7 @@ const VolunteerAgenda = () => {
         console.error(error);
       });
 
-    axios.get(`${API_ENDPOINT}lesson-event/`)
+    axios.get(`${API_ENDPOINT}lesson-event/`, config)
       .then(response => {
         const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
         setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
@@ -116,7 +141,7 @@ const VolunteerAgenda = () => {
         attendees: selectedEvent.attendees,
         volunteers: updatedVolunteers,
         url: selectedEvent.url
-      })
+      }, config)
       .then(response => {
         console.log('Registered volunteer for:', selectedEvent);
         setShowRegisterForm(false);
@@ -142,6 +167,8 @@ const VolunteerAgenda = () => {
   return (
     <LayoutProfiles profile={'voluntario'} selected={'Agenda'}>
     <ToastContainer />
+    <div className={classes.calendarContainer}>
+
       <Calendar
         localizer={localizer}
         events={activities}
@@ -155,6 +182,7 @@ const VolunteerAgenda = () => {
         }}
         eventPropGetter={eventStyleGetter}
       />
+      </div>
       {showRegisterForm && (
         <Dialog open={showRegisterForm} onClose={() => setShowRegisterForm(false)}>
         <DialogTitle>¿Quieres unirte a este evento?</DialogTitle>

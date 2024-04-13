@@ -3,7 +3,7 @@ import '../../styles/styles.css';
 import React, { useState, useEffect } from 'react';
 import ShowType from '../../components/ShowAdminProfiles';
 import { useFetchFamilies, useFetchStudents } from '../../components/useFetchData';
-
+import useToken from '../../components/useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
@@ -21,28 +21,31 @@ const pantallas = [
 
 
 function AdminFamilyRequests() {
-  
-  const families = useFetchFamilies(API_ENDPOINT);
-  const kids = useFetchStudents(API_ENDPOINT, 'PENDIENTE');
+  const [token, updateToken] = useToken();
+  const families = useFetchFamilies(API_ENDPOINT, token);
+  const kids = useFetchStudents(API_ENDPOINT, 'PENDIENTE', token);
   const [persons, setPersons] = useState([]);
 
   
   useEffect(() => {
     if (families.length > 0 && kids.length > 0) {
-      const newPersons = families.map(family => {
-        const kid = kids.find(kid => kid.family === family.id);
-        if (kid) {
-          return {
-            id: kid.id,
-            first_name: family.name,
-            last_name: `${kid.name} ${kid.surname}`,
-            avatar: kid.avatar,
-            enrollment_document: kid.enrollment_document
-          };
-        }
-        return null;
-      }).filter(person => person !== null);
-      setPersons(newPersons);
+      const newPersons = kids.map(async (kid) => {
+        const family = families.find(family => kid.family === family.id);
+        return {
+          id: kid.id,
+          first_name: family.name,
+          last_name: `${kid.name} ${kid.surname}`,
+          avatar: kid.avatar,
+          enrollment_document: kid.enrollment_document
+        };
+      })
+      Promise.all(newPersons)
+      .then(result => {
+        setPersons(result);
+      })
+      .catch(error => {
+        console.error(error);
+      });
     }
   }, [families, kids]);
 
@@ -50,10 +53,11 @@ function AdminFamilyRequests() {
   return (
     <ShowType 
       data={persons}
-      type = "Familias-solicitudes" 
+      type = "Familias" 
       pantallas={pantallas} 
       request={true} 
       trash={false}
+      message={'No hay solicitudes pendientes'}
     />
   );
 }

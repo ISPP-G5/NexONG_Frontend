@@ -8,10 +8,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '../../styles/styles.css';
-
+import useToken from '../../components/useToken';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const AdminLessonsCreate = () => {
+  const [token, updateToken] = useToken();
+    const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const [localFormData, setLocalFormData] = useState({
     name: '',
     description: '',
@@ -36,6 +42,7 @@ const AdminLessonsCreate = () => {
   };
 
   const handleChange = (e) => {
+    
     const { name, value, type, checked } = e.target;
 
     if (type === 'checkbox') {
@@ -50,12 +57,13 @@ const AdminLessonsCreate = () => {
   };
 
   const handleSubmit = () => {
+   
     if (!localFormData.name || !localFormData.description || !localFormData.capacity || !localFormData.start_date || !localFormData.end_date) {
       toast.error('Por favor, rellene todos los campos.');
       return;
     }
     axios
-      .post(`${API_ENDPOINT}lesson/`, localFormData)
+      .post(`${API_ENDPOINT}lesson/`, localFormData, config)
       .then((response) => {
         console.log('Response of post:', response.data);
         toast.success('Clase creada con éxito');
@@ -74,18 +82,28 @@ const AdminLessonsCreate = () => {
             toast.error('Error: la fecha de fin no puede ser anterior a la de inicio.');
           } else if (data && data.students) {
             toast.error('Error: hay estudiantes que no pertenecen a este turno'); // Display students error
-          } else {
+          } else if (data && data.students) {
+            toast.error('Error: hay estudiantes que no pertenecen a este turno'); // Display students error
+          }
+        }
+        else if (localFormData.name.length > 75) {
+          toast.error('Ha introducido mayor número de carácteres del permitido');
+          return;
+        }
+        else if (localFormData.description.length > 1000) {
+          toast.error('Ha introducido mayor número de carácteres del permitido');
+          return;
+        }
+        else {
             toast.error('Ha ocurrido un error al crear la clase.');
           }
-        } else {
-          console.error('Error creating lesson:', error);
-        }
+       
       });
   };
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}educator/`)
+      .get(`${API_ENDPOINT}educator/`, config)
       .then((response) => {
         console.log('response educators:', response.data);
         setEducators(response.data);
@@ -94,7 +112,7 @@ const AdminLessonsCreate = () => {
         console.error('Error fetching educators:', error);
       });
     axios
-      .get(`${API_ENDPOINT}student/`)
+      .get(`${API_ENDPOINT}student/`, config)
       .then((response) => {
         console.log('response students:', response.data);
         setStudents(response.data);
@@ -103,7 +121,7 @@ const AdminLessonsCreate = () => {
         console.error('Error fetching educators:', error);
       });
     axios
-    .get(`${API_ENDPOINT}user/`)
+    .get(`${API_ENDPOINT}user/`, config)
     .then((response) => {
       console.log('response user:', response.data);
       setUsers(response.data);

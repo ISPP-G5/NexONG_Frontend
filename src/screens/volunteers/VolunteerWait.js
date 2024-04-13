@@ -7,20 +7,26 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+
 const VolunteerWait = () => {
     const [status, setStatus] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         // Function to fetch status
+        const token = localStorage.getItem('accessToken');
+        console.log(token)
         const fetchStatus = async () => {
         const volunteerId = localStorage.getItem('volunteerId');
-        const response = await axios.get(`${API_ENDPOINT}volunteer/${volunteerId}/`);
+        const response = await axios.get(`${API_ENDPOINT}volunteer/${volunteerId}/`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }});
     
         setStatus(response.data.status);
     
         if (response.data.status === 'ACEPTADO') {
-            navigate('/voluntario/perfil');
+            navigate('/voluntario/formacion');
         } else if (response.data.status === 'RECHAZADO') {
             // Show a toast notification
             toast.error('Tu solicitud ha sido rechazada');
@@ -39,6 +45,7 @@ const VolunteerWait = () => {
     return (
         <div className='App'>
             <HeaderProfiles profile={'voluntario'} showProfile={false} />
+            <ToastContainer />
             <h1 style={{marginTop: '10rem'}}>Estamos revisando su solicitud</h1>
             <h4>Estado: {status}</h4>
         </div>
