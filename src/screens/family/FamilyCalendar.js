@@ -63,7 +63,7 @@ const FamilyCalendar = () => {
                     const lessonEventResponse = await fetchData('lesson-event/', activity => moment(activity.start_date).isAfter(moment()) && activity.attendees.some(attendee => attendee === studentFamily.studentsId));
                     setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...mapActivities(lessonEventResponse, true)]);
         
-                    const lessonResponse = await fetchData('lesson/', activity => moment(activity.start_date).isAfter(moment()) && activity.students.some(student => student === studentFamily.studentsId));
+                    const lessonResponse = await fetchData('lesson/', activity => activity.students.some(student => student === studentFamily.studentsId));
                     setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...mapActivities(lessonResponse, true)]);
                 }
             }
