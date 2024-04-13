@@ -79,7 +79,21 @@ function RedirectToHome() {
   return null;
 }
 function App() {
-  const [role, setRole] = useState(localStorage.getItem('role'));
+    const [role, setRole] = useState(localStorage.getItem('role'));
+    
+    
+    useEffect(() => {
+      const handleStorageChange = () => {
+        setRole(localStorage.getItem('role'));
+      };
+  
+      window.addEventListener('storage', handleStorageChange);
+  
+      // Limpieza al desmontar
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+      };
+    }, []);
   
   
   useEffect(() => {
