@@ -20,100 +20,56 @@ const FamilyCalendar = () => {
     });
     const userId = parseInt(localStorage.getItem('userId'), 10);
 
-    useEffect(() => {
-        axios.get(`${API_ENDPOINT}auth/users/me/`)
-        .then(response => {
-            setCurrentUser({
-                familyId: response.data.family
-            });
-        })
-        .catch(error => {
+    const fetchData = async (url, filterFunc) => {
+        try {
+            const response = await axios.get(`${API_ENDPOINT}${url}`);
+            return response.data.filter(filterFunc);
+        } catch (error) {
             console.error(error);
-        });
+        }
+    };
 
-        axios.get(`${API_ENDPOINT}student/`)
-        .then(response => {
-            const filteredStudent = response.data.filter(student => student.family === currentUser.familyId);
-            setStudentFamily({
-                studentsId: filteredStudent.id
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    
-        axios.get(`${API_ENDPOINT}event/`)
-        .then(response => {
-            const filteredActivities = response.data.filter(activity => 
-                moment(activity.start_date).isAfter(moment()) && 
-                activity.attendees.some(attendee => attendee === studentFamily.studentsId)
-            );
-            setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...filteredActivities.map(activity => ({
+    const mapActivities = (activities, isLesson) => {
+        return activities.map(activity => ({
+            id: activity.id,
             title: activity.name,
+            description: activity.description,
+            place: activity.place,
+            max_volunteers: activity.max_volunteers,
             start: new Date(activity.start_date),
             end: new Date(activity.end_date),
-            id: activity.id,
-            description: activity.description,
-            place: activity.place,
-            max_volunteers: activity.max_volunteers,
-            max_attendees: activity.max_attendees,
-            price: activity.price,
-            attendees: activity.attendees,
-            volunteers: activity.volunteers,
-            url: activity.url
-            }))]);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    
-        axios.get(`${API_ENDPOINT}lesson-event/`)
-        .then(response => {
-            const filteredActivities = response.data.filter(activity => 
-                moment(activity.start_date).isAfter(moment()) && 
-                activity.attendees.some(attendee => attendee === studentFamily.studentsId)
-            );
-            setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
-            id: activity.id,
-            title: activity.name,
-            description: activity.description,
-            place: activity.place,
-            max_volunteers: activity.max_volunteers,
-            start: new Date(activity.start_date),
-            end: new Date(activity.end_date),          
-            lesson: activity.lesson,
+            lesson: isLesson ? activity.lesson : undefined,
             price: activity.price,
             educators: activity.educators,
             attendees: activity.attendees,
             volunteers: activity.volunteers,
             url: activity.url
-            }))]);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-        axios.get(`${API_ENDPOINT}lesson/`)
-        .then(response => {
-            const filteredActivities = response.data.filter(activity => 
-                moment(activity.start_date).isAfter(moment()) && 
-                activity.students.some(student => student === studentFamily.studentsId)
-            );
-            setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
-            id: activity.id,
-            title: activity.name,
-            description: activity.description,
-            capacity: activity.capacity,
-            is_morning_lesson: activity.is_morning_lesson,  
-            educators: activity.educators,
-            students: activity.students,
-            start: new Date(activity.start_date),
-            end: new Date(activity.end_date),  
-            url: activity.url
-            }))]);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        }));
+    };
+
+    useEffect(() => {
+        const fetchAndSetActivities = async () => {
+            const userResponse = await fetchData('auth/users/me/', data => data.family === currentUser.familyId);
+            if (userResponse) {
+                setCurrentUser({ familyId: userResponse.family });
+        
+                const studentResponse = await fetchData('student/', student => student.family === currentUser.familyId);
+                if (studentResponse) {
+                    setStudentFamily({ studentsId: studentResponse.id });
+        
+                    const eventResponse = await fetchData('event/', activity => moment(activity.start_date).isAfter(moment()) && activity.attendees.some(attendee => attendee === studentFamily.studentsId));
+                    setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...mapActivities(eventResponse, false)]);
+        
+                    const lessonEventResponse = await fetchData('lesson-event/', activity => moment(activity.start_date).isAfter(moment()) && activity.attendees.some(attendee => attendee === studentFamily.studentsId));
+                    setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...mapActivities(lessonEventResponse, true)]);
+        
+                    const lessonResponse = await fetchData('lesson/', activity => moment(activity.start_date).isAfter(moment()) && activity.students.some(student => student === studentFamily.studentsId));
+                    setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...mapActivities(lessonResponse, true)]);
+                }
+            }
+        };
+
+        fetchAndSetActivities();
     }, [userId, currentUser.familyId]);
 
     return (
