@@ -64,7 +64,7 @@ import VolunteerFormation from './volunteers/VolunteerFormation';
 import PartnersCalendar from './partners/PartnersCalendar';
 
 // FAMILIES
-import FamilyCalendar from './families/FamilyCalendar';
+import FamilyCalendar from './family/FamilyCalendar';
 import FamilyProfile from './family/FamilyProfile';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
