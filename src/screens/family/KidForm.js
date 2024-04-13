@@ -1,137 +1,292 @@
-import React, { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import '../../styles/styles.css';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import useToken from '../../components/useToken';
 import LayoutProfiles from '../../components/LayoutProfiles';
-
+import  { fetchMyFamilyId } from '../../components/useFetchData'; 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-
-const KidForm = () => {
-
-
-    const [valoresList, setValores] = useState([]);
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-
-      axios.get(`${API_ENDPOINT}auth/users/me/`)
-        .then(response => {
-          setValores(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-    }, []);
-
-    //Atributos
-
-    const [password, setPassword] = useState("");
-
-    const [surname1, setSurname1] = useState("");
-    const [surname2, setSurname2] = useState("");
-
-    //Atributos son correctos
-    
-    const updatePut = async () => {
-        try {
-            const postFam = { 
-                name: "Familia " + surname1 + " " + surname2,
-            };
-    
-            const post = await axios.post(`${API_ENDPOINT}family/`, postFam);
-            const { data } = post;
-    
-            console.log("datos", data);
-    
-            const firstKey = Object.values(data)[0];
-            console.log("Primera clave de 'data':", firstKey);
-    
-            if (data.message) {
-                window.alert(data.message);
-            } else {
-                axios.get(`${API_ENDPOINT}family/${firstKey}`)
-                    .then(response => {
-                        const familiaData = response.data;
-                        console.log("fam", familiaData.id);
-    
-                        const updatedData = {
-                            email: valoresList.email,
-                            password: password,
-                            family: familiaData.id, 
-                            is_agreed: 'true',
-                        };
-    
-                        axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData)
-                            .then(update => {
-                                const { data: updatedUserData } = update;
-                                if (updatedUserData.message) {
-                                    window.alert(updatedUserData.message);
-                                } else {
-                                    navigate(`/familia/registro/niños`);
-                                }
-                            })
-                            .catch(error => {
-                                toast.error("Error al actualizar los datos del usuario.");
-                            });
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        toast.error("Error al obtener detalles de la familia.");
-                    });
-            }
-        } catch (error) {
-            toast.error("Datos no válidos.");
-        }
-    };
-    
-    
-
-
-    return (
-        <>
-            <LayoutProfiles profile={'familia'}>
-            <ToastContainer />
-            <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
-                
-                <p>Apellido 1</p>
-                <input 
-                    defaultValue={surname1}
-                    onChange={(e) => setSurname1(e.target.value)}
-                    type='text'
-                    placeholder='Primer Apellido'
-                ></input>
-
-                <p>Apellido 2</p>
-                <input 
-                    defaultValue={surname2}
-                    onChange={(e) => setSurname2(e.target.value)}
-                    type='text'
-                    placeholder='Segundo Apellido'
-                ></input>
-
-                <p>Contraseña</p>
-                <input 
-                    defaultValue={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    type='password'
-                    placeholder='Contraseña'
-                ></input>
-
-                <button onClick={updatePut} className='register-button admin' >
-                    Proceder
-                </button>
-            </div>
-            </LayoutProfiles>
-        </>
-        
-    )
-  
+function KidForm() {
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${token}`,
+    }
   };
-  
-  export default KidForm;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    surname: '',
+    currentEducationYear: '',
+    tutor: '',
+    nationality: '',
+    birthdate: '',
+    isMorning: '',
+    enrollmentDoc: null,
+    sanitaryCard: null
+  });
+
+  const errorsDefault = {
+    name: '',
+    surname: '',
+    currentEducationYear: '',
+    tutor: '',
+    nationality: '',
+    birthdate: '',
+    isMorning: '',
+    enrollmentDoc: '',
+    sanitaryCard: ''
+  }
+  const [formDataErrors, setFormDataErrors] = useState(errorsDefault);
+
+  const validateFormData = () => {
+    let errorsMsg = errorsDefault;
+    let errors = false;
+
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] === '' || formData[key] === null) {
+        errors = true;
+        errorsMsg = {
+          ...errorsMsg,
+          [key]: `${key} es obligatorio`
+        }
+      }
+    });
+
+    if (formData.birthdate !== '') {
+      const actualDate = new Date();
+      const date = new Date(formData.birthdate);
+      if (date >= actualDate) {
+        errors = true;
+        errorsMsg = {
+          ...errorsMsg,
+          birthdate: 'La fecha de nacimiento debe ser anterior a la fecha actual'
+        }
+      }
+    }
+
+    return { errors, errorsMsg };
+  }
+
+  const createKidData = () => {
+    const kidData = new FormData();
+    Object.keys(formData).forEach((key) => {
+      kidData.append(key, formData[key]);
+    });
+    kidData.append('is_morning_student', formData.isMorning === 'TARDE' ? false: true);
+    return kidData;
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setFormDataErrors(errorsDefault);
+
+    const { errors, errorsMsg } = validateFormData();
+
+    if(errors) {
+      setFormDataErrors(errorsMsg);
+      return;
+    }
+
+    const kidData = createKidData();
+
+    let id = localStorage.getItem('familyId');
+
+    if (id === null) {
+      console.log("Fetching family id...")
+      const response = await fetchMyFamilyId(API_ENDPOINT, null);
+
+      if (response !== null) {
+        localStorage.setItem('familyId', response);
+        console.log("Family id:",response);
+        id = response;
+      }
+      else {
+        console.error("Failed to get family id");
+      }
+    }
+
+    kidData.append('family', id);
+
+    try {
+      console.log(formData);
+      const response = await axios.post(`${API_ENDPOINT}student/`, kidData, config);
+      console.log(response.data);
+      toast.success('Hijo registrado con éxito');
+
+      setTimeout(() => {
+        navigate('/familia/niños');
+      }, 2000); 
+    } catch (error) {
+      if (error.response && error.response.data) {
+        // If the error response and data exist, show the error message from the backend
+        Object.entries(error.response.data).forEach(([key, value]) => {
+          toast.error(`${value}`);
+        });
+      } else {
+        // If the error response or data doesn't exist, show a generic error message
+        toast.error('Error creating student');
+      }
+
+      //Delete localstorage in case its not valid
+      localStorage.removeItem('familyId');
+    }
+  };
+
+  return (
+    <LayoutProfiles 
+      profile={'familia'} 
+      selected={''}
+    >
+      <ToastContainer />
+      <form className='register-container' onSubmit={handleSubmit}>
+
+        <label>Nombre</label>
+        <input
+          style={{ border: "2px solid #a6c1ce"}}
+          value={formData.name}
+          type='text'
+          placeholder='Escriba el nombre de su hijo'
+          onChange={(e) => setFormData({
+              ...formData,
+              name: e.target.value
+            })} 
+          />
+        {formDataErrors.name && <div  style={{color:'red'}}>{formDataErrors.name}</div>}
+
+        <label>Apellidos</label>
+        <input
+          style={{ border: "2px solid #a6c1ce"}}
+          value={formData.surname}
+          type='text'
+          placeholder='Escriba los apellidos de su hijo'
+          onChange={(e) => setFormData({
+            ...formData,
+            surname: e.target.value
+          })} 
+      />
+        {formDataErrors.surname && <div  style={{color:'red'}}>{formDataErrors.surname}</div>}
+
+        <label>Fecha de nacimiento</label>
+        <input
+          style={{ border: "2px solid #a6c1ce"}}
+          value={formData.birthdate}
+          type='date'
+          onChange={(e) => setFormData({
+            ...formData,
+            birthdate: e.target.value
+          })} 
+      />
+        {formDataErrors.birthdate && <div  style={{color:'red'}}>{formDataErrors.birthdate}</div>}
+
+        <label>Tutor</label>
+        <input
+          style={{ border: "2px solid #a6c1ce"}}
+          value={formData.tutor}
+          type='text'
+          placeholder='Escriba el nombre del tutor de su hijo'
+          onChange={(e) => setFormData({
+            ...formData,
+            tutor: e.target.value
+          })} 
+      />
+        {formDataErrors.tutor && <div  style={{color:'red'}}>{formDataErrors.tutor}</div>}
+
+        <label>Año de educación actual</label>
+        <select 
+          style={{ border: "2px solid #a6c1ce"}}
+          value={formData.currentEducationYear}
+          onChange={(e) => setFormData({
+            ...formData,
+            currentEducationYear: e.target.value
+          })} 
+        >
+          <option value="">Selecciona...</option>
+          <option value="TRES AÑOS">Tres años</option>
+          <option value="CUATRO AÑOS">Cuatro años</option>
+          <option value="CINCO AÑOS">Cinco años</option>
+          <option value="PRIMERO PRIMARIA">Primero de primaria</option>
+          <option value="SEGUNDO PRIMARIA">Segundo de primaria</option>
+          <option value="TERCERO PRIMARIA">Tercero de primaria</option>
+          <option value="CUARTO PRIMARIA">Cuarto de primaria</option>
+          <option value="QUINTO PRIMARIA">Quinto de primaria</option>
+          <option value="SEXTO PRIMARIA">Sexto de primaria</option>
+          <option value="PRIMERO SECUNDARIA">Primero de secundaria</option>
+          <option value="SEGUNDO SECUNDARIA">Segundo de secundaria</option>
+          <option value="TERCERO SECUNDARIA">Tercero de secundaria</option>
+          <option value="CUARTO SECUNDARIA">Cuarto de secundaria</option>
+        </select>
+        {formDataErrors.currentEducationYear && <div  style={{color:'red'}}>{formDataErrors.currentEducationYear}</div>}
+
+        <label>Nacionalidad</label>
+        <input 
+          style={{ border: "2px solid #a6c1ce"}}
+          value={formData.nationality}
+          type='text'
+          onChange={(e) => setFormData({
+            ...formData,
+            nationality: e.target.value
+          })} 
+        />
+        {formDataErrors.nationality && <div  style={{color:'red'}}>{formDataErrors.nationality}</div>}
+
+        <label>Horario</label>
+        <select 
+          style={{ border: "2px solid #a6c1ce"}}
+          value={formData.isMorning}
+          onChange={(e) => setFormData({
+            ...formData,
+            isMorning: e.target.value
+          })} 
+        >
+          <option value="">Selecciona...</option>
+          <option value="Mañana">Mañana</option>
+          <option value="Tarde">Tarde</option>
+        </select>
+        {formDataErrors.isMorning && <div  style={{color:'red'}}>{formDataErrors.isMorning}</div>}
+
+        <label>Documento de inscripción</label>
+        <div className='register-container-files'>
+          <input 
+            type='file' 
+            onChange={(e) => setFormData({
+              ...formData,
+              enrollmentDoc: e.target.files[0]
+            })} 
+          />
+        </div>
+        {formDataErrors.enrollmentDoc && <div  style={{color:'red'}}>{formDataErrors.enrollmentDoc}</div>}
+
+        <label>Tarjeta sanitaria</label>
+        <div className='register-container-files'>
+          <input 
+            type='file' 
+            onChange={(e) => setFormData({
+              ...formData,
+              sanitaryCard: e.target.files[0]
+            })} 
+          />
+        </div>
+        {formDataErrors.sanitaryCard && <div  style={{color:'red'}}>{formDataErrors.sanitaryCard}</div>}
+
+        <button type='submit' className='register-button' style={{  backgroundColor: "#f8f8f8",   border: "2px solid #a6c1ce"}}>
+          Enviar
+        </button>
+      </form>
+    </LayoutProfiles>
+  );
+}
+
+export default KidForm;
