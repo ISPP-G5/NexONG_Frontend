@@ -5,35 +5,6 @@ function EvalCard({ evaluat, evalType, student, lessons }) {
   const dateObj = new Date(evaluat.date);
   const formattedDate = dateObj.toLocaleDateString('es-ES');
 
-  // Estilos en línea específicos para este componente
-  const cardStyle = {
-    backgroundColor: '#cdf0fe',
-    borderRadius: '25px',
-    boxShadow: '0px 4px 4px #9ee5ff',
-    padding: '3%',
-    width: '80%',
-    margin: '2%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  };
-
-  const leftStyle = {
-    flex: '1',
-    textAlign: 'left',
-    fontSize: '1.5rem', // Tamaño más grande para la nota y el tipo
-    fontWeight: 'bold',
-    color: '#000'
-  };
-
-  const rightStyle = {
-    flex: '2',
-    textAlign: 'left',
-    paddingLeft: '20px', // Espacio entre las columnas
-    fontSize: '1rem',
-    color: '#000'
-  };
-
   // Función para obtener la nota relativa
   const getRelativeGrade = (grade, gradeType) => {
     let maxGrade = 10; // Asumimos un valor por defecto de 10
@@ -41,21 +12,38 @@ function EvalCard({ evaluat, evalType, student, lessons }) {
       maxGrade = 5;
     } else if (gradeType === 'CERO A UNO') {
       maxGrade = 1;
-    }
-    else {
+    } else {
       maxGrade = 10;
     }
     return `${grade}/${maxGrade}`;
   };
 
   return (
-    <div style={cardStyle}>
+    <div className="card-info" >
       <ToastContainer autoClose={5000} />
-      <div style={leftStyle}>
-        <p><strong>Nota:</strong> {getRelativeGrade(evaluat.grade, evalType.grade_system)}</p>
-        <p><strong>EVALUACIÓN DE </strong> {evalType.grade_system}</p>
+      <div className="grade-circle" style={{
+        alignSelf: 'center',
+        width: '150px',
+        height: '150px',
+        borderRadius: '50%',
+        backgroundColor: '#fff',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: '3rem',
+        fontWeight: 'bold',
+        boxShadow: '0px 2px 2px #6bd4fe',
+        margin: '10px',
+        flexShrink: 0 // Prevent circle from shrinking
+      }}>
+        {getRelativeGrade(evaluat.grade, evalType.grade_system)}
       </div>
-      <div style={rightStyle}>
+      <div style={{
+        textAlign: 'left',
+        flexGrow: 1,
+        minWidth: '50%', // Minimum width of the text container
+        padding: '10px'
+      }}>
         <p><strong>Nombre de la evaluación:</strong> {evalType.name}</p>
         <p><strong>Nombre completo del alumno:</strong> {student.name + " " + student.surname}</p>
         <p><strong>Fecha de la evaluación:</strong> {formattedDate}</p>
