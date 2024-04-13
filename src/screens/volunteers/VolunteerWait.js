@@ -45,6 +45,7 @@ const VolunteerWait = () => {
     return (
         <div className='App'>
             <HeaderProfiles profile={'voluntario'} showProfile={false} />
+            <ToastContainer />
             <h1 style={{marginTop: '10rem'}}>Estamos revisando su solicitud</h1>
             <h4>Estado: {status}</h4>
         </div>

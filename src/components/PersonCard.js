@@ -1,13 +1,20 @@
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+
 import avatarEducator from '../logo/family-avatar.jpg';
 import avatarVolunteer from '../logo/volunteer-avatar.png';
 import avatarFamily from '../logo/family-avatar.jpg';
 import avatarPartner from  '../logo/partner-avatar.png'
 import useToken from './useToken';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
@@ -41,104 +48,129 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 }; 
 
   const handleAceptar = async (person) => {
-  
-    person.status = "ACEPTADO";
-    let url;
-    if (person.volunteer) {
-      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
-    } else if (person.id) {
-      url = `${API_ENDPOINT}student/${person.id}/`;
-    }
-
-    const update = await axios.patch(url, {
-      status: person.status
-    }, config);
-    console.log('update', update);
-    const { data } = update;
-    if (data.message) {
-      toast.error("Error al actualizar", {
-        autoClose: 5000
-      });
+    if(personType === 'Voluntarios'){
+      await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`, 
+        {status: "ACEPTADO"}, 
+        config);
+    } else if(personType === 'Familias'){
+      await axios.patch(`${API_ENDPOINT}student/${person.id}/`, 
+        {status: "ACEPTADO"}, 
+        config);
     } else {
-      toast.success("Usuario actualizado con éxito.", {
+      toast.error('Error al eliminar', {
         autoClose: 5000
       })
     }
+    toast.success("Persona rechazada correctamente", {
+      autoClose: 5000
+    })
+   setTimeout(() => {
     window.location.reload();
+   }, 2000); 
 }
-
+  
+  
   const handleRechazar = async (person) => {
-   let url;
-    person.status = "RECHAZADO";
-    if (person.volunteer) {
-      url = `${API_ENDPOINT}volunteer/${person.volunteer}/`;
-    } else if (person.id) {
-      url = `${API_ENDPOINT}student/${person.id}/`;
-    }
-
-    const update = await axios.patch(url, {
-      status: person.status
-    }, config);
-    console.log('update', update);
-    const { data } = update;
-    if (data.message) {
-      toast.error("Error al actualizar", {
-        autoClose: 5000
-      });
+    if(personType === 'Voluntarios'){
+      await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`, 
+        {status: "RECHAZADO"}, 
+        config);
+    } else if(personType === 'Familias'){
+      await axios.patch(`${API_ENDPOINT}student/${person.id}/`, 
+        {status: "RECHAZADO"}, 
+        config);
     } else {
-      toast.success("Usuario actualizado con éxito.", {
+      toast.error('Error al eliminar', {
         autoClose: 5000
       })
     }
-    window.location.reload();
+    toast.success("Persona rechazada correctamente", {
+      autoClose: 5000
+    })
+    setTimeout(() => {
+      window.location.reload();
+     }, 2000);
   }
 
-  const handleEliminar = async (person) => {
-   
-    if (!person.id || person.id <= 0) {
-      toast.error('La id no es valida', {
-        autoClose: 5000
-      })
-    } else {
-      if (personType === 'Familias-solicitudes') {
-        await axios.delete(`${API_ENDPOINT}student/${person.id}/`, config);
-      } else if (personType === 'Voluntarios') {
-        console.log(person.id);
+  const handleEliminar = async(person) =>{
+      if(personType === 'Voluntarios'){
         await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`, config);
+      } else if(personType === 'Socios'){
+        await axios.delete(`${API_ENDPOINT}partner/${person.partner}/`, config);
+      } else if(personType === 'Educadores'){
+        await axios.delete(`${API_ENDPOINT}educator/${person.educator}/`, config);
       } else {
-        await axios.delete(`${API_ENDPOINT}user/${person.id}/`, config);
+        toast.error('Error al eliminar', {
+          autoClose: 5000
+        })
       }
       toast.success("Persona eliminada correctamente", {
         autoClose: 5000
       })
-      window.location.reload(); // Recarga la ventana después de eliminar
+      setTimeout(() => {
+        window.location.reload();
+       }, 2000); 
     }
   }
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const handleConfirmDelete = () => {
+    handleEliminar(person);
+    setConfirmDeleteOpen(false);
+  };
+
   const roleAvatarMap = {
     'EDUCADOR': avatarEducator,
     'VOLUNTARIO': avatarVolunteer,
     'FAMILIA': avatarFamily,
     'SOCIO': avatarPartner,
   };
-  console.log('person.avatar:', person.avatar);
-  console.log('person.role:', person.role);
-  console.log('roleAvatarMap[person.role]:', roleAvatarMap[person.role]);
+
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
-      {personType === 'Familias' ?
-        <div className='family-info'>
-          <p>{person.first_name}</p>
-          <p><strong>{person.name}</strong></p>
-          <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
-        </div>
-        :
+      { (request || personType !== 'Familias') &&
         <div className='family-request'>
-<img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
-            {personType === 'Familias-solicitudes' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
+          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />
+          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+            {personType === 'Familias' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
             <p>{person.last_name}</p>
           </div>
         </div>
+      }
+      {request &&
+        <div className='buttons-requests'>
+          <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
+          <div className='buttons-acceptance'>
+            <button className='button-accept' onClick={() => handleAceptar(person)}>Aceptar</button>
+            <button className='button-decline' onClick={() => handleRechazar(person)}>Rechazar</button>
+          </div>
+        </div>
+      }
+      {trash &&
+        <div className='buttons-acceptance'>
+          <DeleteIcon className='trash' style={{marginLeft:'87.5%'}} onClick={() => setConfirmDeleteOpen(true)} />
+          <EditIcon className='edit' style={{marginLeft:'87.5%'}} onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
+        </div>
+      }
+      <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+        <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete} color="secondary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* This is used for admin families screen */}
+      {personType === 'Familias' && !request && 
+        <div className='family-info'>
+          <p><strong>{person.name}</strong></p>
+          <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
+        </div> 
       }
       {kids &&
         <div className='kids-info'>
@@ -156,24 +188,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           })}
         </div>
       }
-      {request &&
-        <div className='buttons-requests'>
-          <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
-          <div className='buttons-acceptance'>
-            <button className='button-accept' onClick={() => handleAceptar(person)}>Aceptar</button>
-            <button className='button-decline' onClick={() => handleRechazar(person)}>Rechazar</button>
-          </div>
-        </div>
-      }
-      {trash &&
-        <div className='buttons-acceptance'>
-          <DeleteIcon className='trash' style={{marginLeft:'87.5%'}} onClick={() => handleEliminar(person)} />
-          <EditIcon className='edit' style={{marginLeft:'87.5%'}} onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
-        </div>
-      }
-
-
-
     </div>
   );
 }
