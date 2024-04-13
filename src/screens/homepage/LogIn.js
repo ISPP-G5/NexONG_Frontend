@@ -154,11 +154,6 @@ function LogIn() {
                         localStorage.setItem('partnerId', user.partner);
                         navigate('/socio/calendario')
                     }
-                    // localStorage.setItem('role', 'SOCIO')
-                    //TODO Aqui formulario para socio, una cosa así:
-                    //if (user.socio === null) {
-                    //    navigate('/socio/formulario');}
-                    // navigate('/socio/calendario');
                     
                 } else if (user.role === 'EDUCADOR') {
                     localStorage.setItem('role', 'EDUCADOR')
