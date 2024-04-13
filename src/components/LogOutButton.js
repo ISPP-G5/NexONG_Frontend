@@ -6,6 +6,8 @@ const LogoutButton = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('userId'); // Limpiamos el ID de usuario del almacenamiento local
+    localStorage.removeItem('accessToken'); 
+    localStorage.removeItem('role'); 
     navigate('/'); // Redireccionar a la página de inicio
   };
 

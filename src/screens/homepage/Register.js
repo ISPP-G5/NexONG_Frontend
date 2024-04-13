@@ -1,32 +1,47 @@
 import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
-import {Link,useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import google from '../../logo/google.svg';
 import LayoutHomepage from '../../components/LayoutHomepage';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import  useAdjustMargin from '../../components/useAdjustMargin';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+const config = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+};
+
 function Register() {
-  const navigate = useNavigate();
+
   const[first_name,setFirst_name] = useState('');
   const[surname,setSurname] = useState('');
   const[email,setEmail] = useState('');
   const[idNumber,setIdNumber] = useState('');
   const[password,setPassword] = useState('');
   const[confirmPassword,setConfirmPassword] = useState('');
-  const[address,setAddress] = useState('');
-  const[birthdate,setBirthdate] = useState('');
   const[phone,setPhone] = useState('');
+  const [termsText, setTermsText] = useState(null);
+
+  const phoneFormat = /^[6-9]\d{8}$/; 
+   const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const commonPasswords = ['password', '123456', '12345678', 'admin','hola','123','123456789','admin123','adios','asshole']; 
+  const letters = /^[A-Za-z\sáéíóúÁÉÍÓÚñÑ]+$/;
+  const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
  
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   function constantTimeComparison(str1, str2){
     if (str1.length !== str2.length){
         return false;
@@ -40,6 +55,8 @@ function Register() {
 
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
+  const [isAgreedChecked, setIsAgreedChecked] = useState(false);
+ const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleFamilyChange = () => {
     setIsFamilyChecked(!isFamilyChecked);
@@ -50,67 +67,158 @@ function Register() {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
     };
-    const marginTop = useAdjustMargin();
+    const handleDialogOpen = () => {
+      setDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+    };
+    
 
-    const sendRecurringForm = async(e) => {
-      e.preventDefault();
-      if(!first_name || first_name === ''){
-          toast.error("Introduzca un nombre")
-      }else if(!surname || surname === ''){
-          toast.error("Introduzca apellidos")
-      }else if(!email || email === ''){
-          toast.error("Introduzca un correo electrónico")
-      }else if(!idNumber || idNumber === ''){
-          toast.error("Introduzca un DNI")
-      }else if(!address || address === ''){
-          toast.error("Introduzca una dirección")
-      }else if(!birthdate || birthdate === ''){
-          toast.error("Introduzca una fecha de nacimiento")
-      } else if(!phone || phone === ''){
-        toast.error("Introduzca número de telefono correcto")
+  const handleAgreedChange = () => {
+    setIsAgreedChecked(!isAgreedChecked);
+      };
+
+  const marginTop = useAdjustMargin();
+  const fetchTerms = async () => {
+    try {
+      const response = await axios.get(`${API_ENDPOINT}terms/`);
+      const terms = response.data;
+      console.log('terms',terms)
+      setTermsText(terms[0].text);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchTerms();
+  }, []);
+  console.log('terms',termsText)
+
+  const sendRecurringForm = async(e) => {
+    e.preventDefault();
+    if(!first_name || first_name === ''){
+        toast.error("Introduzca un nombre")
+    } else if(!surname || surname === ''){
+        toast.error("Introduzca apellidos")
+    } else if(!email || email === ''){
+        toast.error("Introduzca un correo electrónico")
+    } else if(!idNumber || idNumber === ''){
+        toast.error("Introduzca un DNI")
+    } else if(!phone || phone === ''){
+        toast.error("Introduzca un número de teléfono correcto")
+    } else if(!password || password === ''){
+        toast.error("Introduzca una contraseña")
+    } else if (!constantTimeComparison(password, confirmPassword)){
+        toast.error("Las contraseñas no coinciden")
       }
-      else if(!password || password === ''){
-          toast.error("Introduzca una contraseña")
-      }else if (!constantTimeComparison(password, confirmPassword)){
-          toast.error("Las contraseñas no coinciden")
-      }else{
-          const partnerData = new FormData();
-          partnerData.append('address',address);
-          partnerData.append('birthdate',birthdate);
-          const recurringFormData = new FormData();
-          recurringFormData.append('name',first_name);
-          recurringFormData.append('surname',surname);
-          recurringFormData.append('email',email);
-          recurringFormData.append('id_number',idNumber);
-          recurringFormData.append('password',password);
-                   
-          try{
-            
-            const update = await axios.post(`${API_ENDPOINT}auth/users/`,
-            recurringFormData,
-            {
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                }
-            });
-            console.log(update);
-            const { data } = update;
-            if (data.message){
-                toast.error(data.message);
-            } else {
-                // Redirect based on which checkbox is checked
-                if (isFamilyChecked) {
-                    navigate('/familia/perfil');
-                } else if (isVolunteerChecked) {
-                    navigate('/form-voluntariado');
-                }
-                toast.success('Operación realizada correctamente')
-            }
-          } catch(error){
-            console.error('Error',error);
+      else if(!first_name.match(letters) || !first_name.match(letters)) {
+          toast.error('Nombre y apellido no puede contener números');
+          return;
+      } 
+      else if (!isFamilyChecked && !isVolunteerChecked) {
+        toast.error("Debe elegir una de las opciones: familia o voluntario");
+      }
+      else if (!phoneFormat.test(phone)) {
+        toast.error('Formato de teléfono incorrecto');
+        return;
+       }
+     else if (!emailFormat.test(email)) {
+      toast.error('Formato de correo inválido');
+      return;
+     }
+      else if(first_name.length>75){
+        toast.error("Indica un nombre, no debe superar 75 caráteres")
+    }
+    else if (!idNumber.match(spanishIdFormat)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if (password.length < 8) {
+      toast.error('La contraseña debe tener 8 caracteres mínimo');
+      return;
+  }else if (!/\D/.test(password)) {
+    toast.error('La contraseña no puede ser solo números');
+    return;
+  }else if  (commonPasswords.includes(password)) {
+    toast.error('Contraseña demasiado común');
+    return;
+  }  
+  
+    else if(surname.length>75){
+        toast.error("Indica un nombre, no debe superar 75 caráteres")
+    }
+   else if (!isAgreedChecked){
+    toast.error("Acepte los términos y condiciones")
+    }
+
+    
+    else {
+        const userData = new FormData();
+        userData.append('first_name', first_name);
+        userData.append('last_name', surname);
+        userData.append('email', email);
+        userData.append('id_number', idNumber);
+        userData.append('phone', phone);
+        userData.append('password', password);
+        userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
+        userData.append('is_agreed', isAgreedChecked);
+        userData.append('is_enabled', false);
+
+        
+        try {
+          const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
+          userData, config);
+          console.log(userUpdate);
+
+          const { data } = userUpdate;
+          if (data.message){
+              toast.error(data.message);
+          }else{
+            setFirst_name('');
+            setSurname('');
+            setEmail('');
+            setIdNumber('');
+            setPhone('');
+            setPassword('');
+            setConfirmPassword('');
+            setIsFamilyChecked(false);
+            setIsVolunteerChecked(false);
+            toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
-        };
-    }  
+        } catch(error){
+          Object.entries(error.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
+        }
+    }
+  }  
+  const TermsAndConditions = ({ termsText }) => {
+    console.log('termsText:', termsText); // Log the original termsText
+
+    const termsArray = termsText.split(/\.(?=\w)/);
+    console.log('termsArray:', termsArray); // Log the array of terms
+
+    const formattedTerms = termsArray.map((term, index) => {
+      const colonIndex = term.indexOf(':');
+      const title = term.substring(0, colonIndex + 1);
+      const content = term.substring(colonIndex + 1);
+      console.log('term:', term); // Log each term
+      console.log('title:', title); // Log the title of each term
+      console.log('content:', content); // Log the content of each term
+  
+  
+      return (
+        <div key={index} style={{textAlign:'justify'}}>
+          <strong>{index === 0 ? <span>Términos y Condiciones de Uso.</span> : title}</strong>
+          {content}
+        </div>
+      );
+    });
+    return <> {formattedTerms}</>
+  }
 
   return (
     <LayoutHomepage 
@@ -139,7 +247,7 @@ function Register() {
           <label>Correo electrónico</label>
           <input
           value={email}
-          type='text'
+          type='email'
           placeholder='Escriba su correo electrónico'
           onChange={(e) => setEmail(e.target.value)}
           />
@@ -150,25 +258,12 @@ function Register() {
           placeholder='Escriba su DNI'
           onChange={(e) => setIdNumber(e.target.value)}
           />
-           <label>Télefono</label>
+          <label>Télefono</label>
           <input
           value={phone}
-          type='text'
+          type='tel'
           placeholder='Escriba su télefono'
           onChange={(e) => setPhone(e.target.value)}
-          />
-          <label>Dirección</label>
-          <input
-          value={address}
-          type='text'
-          placeholder='Escriba su dirección'
-          onChange={(e) => setAddress(e.target.value)}
-          />
-          <label>Fecha de nacimiento</label>
-          <input
-          value={birthdate}
-          type='date'
-          onChange={(e) => setBirthdate(e.target.value)}
           />
           <label>Contraseña</label>
           <input
@@ -193,7 +288,7 @@ function Register() {
               onChange={handleFamilyChange}
             />
             <label htmlFor="selectCheckboxFamily" className="checkbox-label">
-              <span className="custom-checkbox"></span> Registrarse como familiar
+              <span className="custom-checkbox"></span>      Registrarse como familiar
             </label>
           </div>
 
@@ -206,23 +301,47 @@ function Register() {
               onChange={handleVolunteerChange}
             />
             <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
-              <span className="custom-checkbox"></span> Registrarse como voluntario
+              <span className="custom-checkbox"></span>      Registrarse como voluntario
             </label>
           </div>
+          <div className="checkbox-group">
+            <div >
+              <input
+                type="checkbox"
+                id="selectCheckboxAgreed"
+                className="hidden-checkbox"
+                checked={isAgreedChecked}
+                onChange={handleAgreedChange}
+              />
+              <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
+                <span className="custom-checkbox"></span>
+                Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              </label>
+            </div>
+            <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+              <DialogTitle>Términos y Condiciones</DialogTitle>
+              <DialogContent>
+                <TermsAndConditions termsText={termsText} />
+              </DialogContent>
+            </Dialog>
+        </div>
+
           <button className='register-button'>
             Crear cuenta
-            </button>
-            <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
-            <Link to={"https://myaccount.google.com/"} className='google-button'>
-              <span>Registrarse con Google</span>
-              <img src={google} alt="Logo"/>
-              </Link>
-              <p style={{ textAlign: 'center', marginBottom: '5%'}}>
-                ¿Ya tiene una cuenta?
-                <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
-                  Inicie sesión aquí
-                </Link>
-              </p>
+          </button>
+
+          <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
+
+          <Link to={"https://myaccount.google.com/"} className='google-button'>
+            <span>Registrarse con Google</span>
+            <img src={google} alt="Logo"/>
+          </Link>
+
+          <p style={{ textAlign: 'center', marginBottom: '5%'}}>
+            ¿Ya tiene una cuenta?
+            <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
+              Inicie sesión aquí
+            </Link>
+          </p>
           </form>
     </LayoutHomepage>
   );

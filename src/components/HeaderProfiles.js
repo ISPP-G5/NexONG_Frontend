@@ -3,7 +3,7 @@ import '../styles/styles.css';
 import LogoutButton from './LogOutButton';
 import { Link } from 'react-router-dom';
 
-function HeaderProfiles({ profile, id }) {
+function HeaderProfiles({ profile, id, showProfile = true}) {
 
     return (
         <div className='header-profiles'>
@@ -13,7 +13,7 @@ function HeaderProfiles({ profile, id }) {
                 <li className="dropdown">
                     <p>{profile}</p>
                     <div className="dropdown-content">
-                        <Link to={`/${profile}/perfil`}>perfil</Link>
+                        {showProfile && <Link to={`/${profile}/perfil`}>perfil</Link>}
                         <LogoutButton/>
                     </div>
                 </li>
