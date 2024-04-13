@@ -175,7 +175,7 @@ function ChildForm() {
       console.log(formData);
       const response = await axios.post(`${API_ENDPOINT}student/`, volunteerData, config);
       console.log(response.data);
-      toast.success('Hijo registrado exitosamente');
+      toast.success('Hijo registrado con éxito');
 
       setTimeout(() => {
         navigate('/familia/niños');
@@ -202,12 +202,13 @@ function ChildForm() {
       selected={''}
     >
       <ToastContainer />
-      <form className='register-container' onSubmit={handleSubmit}>
+      <form className='register-container' style={{ backgroundColor: "#cdf0fe",   boxShadow: "0px 0px 5px #00000040"}} onSubmit={handleSubmit}>
         <h2>Registro de hijo</h2>
         <p>Necesitamos algunos datos y documentos para completar el registro de su hijo</p>
 
         <label>Nombre</label>
         <input
+          style={{ border: "2px solid #a6c1ce"}}
           value={formData.name}
           type='text'
           placeholder='Escriba el nombre de su hijo'
@@ -220,6 +221,7 @@ function ChildForm() {
 
         <label>Apellidos</label>
         <input
+          style={{ border: "2px solid #a6c1ce"}}
           value={formData.surname}
           type='text'
           placeholder='Escriba los apellidos de su hijo'
@@ -232,6 +234,7 @@ function ChildForm() {
 
         <label>Fecha de nacimiento</label>
         <input
+          style={{ border: "2px solid #a6c1ce"}}
           value={formData.birthdate}
           type='date'
           onChange={(e) => setFormData({
@@ -243,6 +246,7 @@ function ChildForm() {
 
         <label>Tutor</label>
         <input
+          style={{ border: "2px solid #a6c1ce"}}
           value={formData.tutor}
           type='text'
           placeholder='Escriba el nombre del tutor de su hijo'
@@ -255,6 +259,7 @@ function ChildForm() {
 
         <label>Año de educación actual</label>
         <select 
+          style={{ border: "2px solid #a6c1ce"}}
           value={formData.currentEducationYear}
           onChange={(e) => setFormData({
             ...formData,
@@ -280,6 +285,7 @@ function ChildForm() {
 
         <label>Nacionalidad</label>
         <input 
+          style={{ border: "2px solid #a6c1ce"}}
           value={formData.nationality}
           type='text'
           onChange={(e) => setFormData({
@@ -291,6 +297,7 @@ function ChildForm() {
 
         <label>Horario</label>
         <select 
+          style={{ border: "2px solid #a6c1ce"}}
           value={formData.isMorning}
           onChange={(e) => setFormData({
             ...formData,
@@ -327,7 +334,7 @@ function ChildForm() {
         </div>
         {formDataErrors.sanitaryCard && <div  style={{color:'red'}}>{formDataErrors.sanitaryCard}</div>}
 
-        <button type='submit' className='register-button'>
+        <button type='submit' className='register-button' style={{  backgroundColor: "#f8f8f8",   border: "2px solid #a6c1ce"}}>
           Enviar
         </button>
       </form>

@@ -12,8 +12,15 @@ function ShowType({ data, type }) {
         >
             <a 
                 href={'/familia/niños/registro'} 
-                className='button-contrast' 
-                style={{padding:'5px', width:'100px', margin:0, textDecoration: 'none'}}
+                className='button' 
+                style={{
+                    padding:'10px 25px', 
+                    width:'100px', 
+                    margin:'0px', 
+                    textDecoration: 'none', 
+                    marginRight: '20%',
+                    color: "black",
+                }}
             >
             Registrar un hijo
             </a>
