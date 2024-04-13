@@ -32,7 +32,7 @@ function AdminVolunteersRequests() {
   
         if (volunteerData) {
           return {
-            id: volunteerData.id,
+            id: userVolunteer.id,
             enrollment_document: volunteerData.enrollment_document,
             first_name: userVolunteer.first_name,
             last_name: userVolunteer.last_name,
@@ -46,6 +46,9 @@ function AdminVolunteersRequests() {
       setVolunteersData(combinedData);
     }
   }, [userVolunteers, volunteers]);
+
+  console.log(userVolunteers);
+  console.log(volunteersData);
 
 
   return (
