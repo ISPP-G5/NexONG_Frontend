@@ -64,7 +64,9 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     toast.success("Persona rechazada correctamente", {
       autoClose: 5000
     })
-    window.location.reload(); 
+   setTimeout(() => {
+    window.location.reload();
+   }, 2000); 
 }
   
   
@@ -85,7 +87,9 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     toast.success("Persona rechazada correctamente", {
       autoClose: 5000
     })
-    window.location.reload(); 
+    setTimeout(() => {
+      window.location.reload();
+     }, 2000);
   }
 
   const handleEliminar = async(person) =>{
@@ -103,7 +107,10 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       toast.success("Persona eliminada correctamente", {
         autoClose: 5000
       })
-      window.location.reload(); 
+      setTimeout(() => {
+        window.location.reload();
+       }, 2000); 
+    }
   }
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 

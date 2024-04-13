@@ -79,11 +79,11 @@ const Profile = ({ usuario }) => {
           <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{valores.username}</div>
 
           <p>Email</p>
-          <input type='text' value={valores.email || ''} readOnly />
-
+          <input type='text' value={profile.email} readOnly></input>
+  
           <p>Teléfono</p>
-          <input type='text' value={valores.phone || ''} readOnly />
-
+          <input type='text' value={profile.phone} readOnly></input>
+  
           <p>Contraseña</p>
           <input type='password' value="********" readOnly />
 
@@ -109,8 +109,11 @@ const Profile = ({ usuario }) => {
               Actualizar perfil
             </Link>
           </button>
+        </div>
+      ))}
     </div>
   );
 }
 
-export default Profile;
+  
+  export default Profile;
