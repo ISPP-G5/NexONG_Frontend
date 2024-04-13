@@ -658,7 +658,6 @@ axios
         }, config)
         .then((response) => {
           console.log('Response of post:', response.data);
-          toast.success('Lesson-Event creado con éxito');
   
           const newLessonEvent = {
             id: response.data.id,
@@ -673,6 +672,15 @@ axios
             start: new Date(localFormData.start_date),
             end: new Date(localFormData.end_date),
           };
+          const startDate = new Date(localFormData.start_date);
+          const endDate = new Date(localFormData.end_date);
+          const diffInMinutes = (endDate - startDate) / (1000 * 60);
+          if (diffInMinutes < 15) {
+            toast.error('El evento debe durar al menos 15 minutos.');
+            return;
+          }
+          toast.success('Lesson-Event creado con éxito');
+
     
           setLessonEvents([...lessonEvents, newLessonEvent]);
           setIsLessonEvent(false);
@@ -756,6 +764,8 @@ axios
           .then((response) => {
             console.log('Response of post:', response.data);
             toast.success('Evento creado con éxito');
+   
+        
     
             const newEvent = {
               id: response.data.id,
@@ -769,6 +779,7 @@ axios
               volunteers: localFormData.volunteers,
               start: new Date(localFormData.start_date),
               end: new Date(localFormData.end_date),
+
             };
     
             setEvents([...events, newEvent]);
