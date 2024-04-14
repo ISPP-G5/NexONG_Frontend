@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import HeaderProfiles from '../../components/HeaderProfiles';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+/*
 // Import the videos
 import video1 from '../../logo/formationVideos/Formacion-Manos-Abiertas-Online-1.mp4';
 import video2 from '../../logo/formationVideos/Formacion-Manos-Abiertas-Online-2.mp4';
@@ -70,4 +70,4 @@ function VolunteerFormation() {
   );
 }
 
-export default VolunteerFormation;
+export default VolunteerFormation;*/
