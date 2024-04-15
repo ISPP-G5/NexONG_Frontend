@@ -110,8 +110,8 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       setTimeout(() => {
         window.location.reload();
        }, 2000); 
-    }
   }
+  
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   const handleConfirmDelete = () => {
@@ -126,7 +126,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     'SOCIO': avatarPartner,
   };
 
-  return (
+  return(
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
       { (request || personType !== 'Familias') &&
@@ -190,5 +190,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       }
     </div>
   );
-}
+};
+
 export default PersonCard;
