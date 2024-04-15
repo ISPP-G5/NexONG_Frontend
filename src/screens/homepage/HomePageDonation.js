@@ -62,8 +62,8 @@ function HomePageDonation() {
         }
         else{
             const oneTimeFormData = new FormData();
-            oneTimeFormData.append('first_name',oneTimeName);
-            oneTimeFormData.append('last_name',oneTimeSurname);
+            oneTimeFormData.append('name',oneTimeName);
+            oneTimeFormData.append('surname',oneTimeSurname);
             oneTimeFormData.append('email',oneTimeEmail);
             oneTimeFormData.append('proof_of_payment_document',paymentDoc);
             oneTimeFormData.append('date',date);
