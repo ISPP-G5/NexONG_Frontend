@@ -38,7 +38,7 @@ const AdminPartners = () => {
   }, []);
 
   const handleDownload = (format) => {
-    window.location.href = `http://localhost:8000/api/export/${format}/donations`;
+    window.location.href = `${API_ENDPOINT}export/${format}/donations`;
 }
 const token = localStorage.getItem('accessToken');
 
