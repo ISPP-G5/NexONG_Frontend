@@ -166,24 +166,6 @@ function LogIn() {
                     localStorage.setItem('role', 'ADMIN')
                     navigate(`/admin/voluntarios`);
                 }
-                navigate('/familia/perfil');
-            } else if (user.role === 'SOCIO') {
-                localStorage.setItem('role', 'SOCIO')
-                //TODO Aqui formulario para socio, una cosa así:
-                //if (user.socio === null) {
-                //    navigate('/socio/formulario');}
-                navigate('/socio/calendario');
-                
-            } else if (user.role === 'EDUCADOR') {
-                localStorage.setItem('role', 'EDUCADOR')
-                //TODO Aqui formulario para educador, una cosa así:
-                //if (user.educador === null) {
-                //    navigate('/educador/formulario');}
-                navigate('/educador/perfil');
-            } else if (user.role === 'ADMIN'){
-                localStorage.setItem('role', 'ADMIN')
-                navigate(`/admin/voluntarios`);
-            }
         
             localStorage.setItem('userId', user.id);  
 
