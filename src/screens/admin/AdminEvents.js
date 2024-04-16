@@ -736,6 +736,8 @@ axios
           toast.error('El evento debe durar al menos 15 minutos.');
           return;
         }
+        
+    
 
         
         if (localFormData.price < 0) {
@@ -901,11 +903,7 @@ axios
 
       const handleEventEdit = async () => {
         if (editEvent) {
-          // Subtract an hour from the start and end dates
-          const startDate = new Date(localFormData.start_date);
-          startDate.setHours(startDate.getHours() +1);
-          const endDate = new Date(localFormData.end_date);
-          endDate.setHours(endDate.getHours() +1);
+          
       
           const updatedEventData = {
             ...editEvent,
@@ -916,8 +914,8 @@ axios
             price: localFormData.price,
             attendees: localFormData.attendees,
             volunteers: localFormData.volunteers,
-            start_date: startDate.toISOString(),
-            end_date: endDate.toISOString(),
+            start_date: localFormData.start_date,
+            end_date: localFormData.end_date,
           };
     
           try {
