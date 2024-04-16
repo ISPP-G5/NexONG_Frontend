@@ -603,6 +603,8 @@ axios
       // Wait for all promises to resolve
       Promise.all(promises)
         .then((responses) => {
+
+          
           // Extract the newly created events from the responses
           const newEvents = responses.map((response) => {
             const eventData = response.data;
@@ -662,6 +664,15 @@ axios
         }, config)
         .then((response) => {
           console.log('Response of post:', response.data);
+          let startDate = new Date(localFormData.start_date);
+          startDate.setHours(startDate.getHours() + 1);
+          let endDate = new Date(localFormData.end_date);
+          endDate.setHours(endDate.getHours() + 1);
+          const diffInMinutes = (endDate - startDate) / (1000 * 60);
+          if (diffInMinutes < 15) {
+            toast.error('La actividad debe durar al menos 15 minutos.');
+            return;
+          }
   
           const newLessonEvent = {
             id: response.data.id,
@@ -673,17 +684,11 @@ axios
             volunteers: localFormData.volunteers,
             lesson: localFormData.lessonId, // Include lesson ID
             educators: localFormData.educators.map(educator => educator.id), // Include only the IDs of selected educators
-            start: new Date(localFormData.start_date),
-            end: new Date(localFormData.end_date),
+            start: startDate,
+            end: endDate,
             type: 'lesson-event',
           };
-          const startDate = new Date(localFormData.start_date);
-          const endDate = new Date(localFormData.end_date);
-          const diffInMinutes = (endDate - startDate) / (1000 * 60);
-          if (diffInMinutes < 15) {
-            toast.error('La actividad debe durar al menos 15 minutos.');
-            return;
-          }
+         
           setIsNewEvent(false); 
           toast.success('Actividad creada con éxito');
 
