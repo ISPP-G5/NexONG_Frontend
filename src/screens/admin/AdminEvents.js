@@ -574,6 +574,7 @@ axios
 
     const handleRecurringEvent = () => {
       const selectedStartDate = moment(localFormData.start_date);
+      
       const promises = [];
       if (numOccurrences < 2) {
         toast.error('El número de ocurrencias debe ser 2 o más.');
@@ -590,7 +591,13 @@ axios
             .add(moment(localFormData.end_date).diff(moment(localFormData.start_date)), 'milliseconds')
             .format('YYYY-MM-DDTHH:mm'),
         };
+        if (eventData.end_date < eventData.start_date) {
+          toast.error('La fecha final no puede ser anterior a la fecha inicial.');
+          return;
+        }
+        
     
+
         // Push each axios.post promise into the promises array
         promises.push(
           axios.post(`${API_ENDPOINT}event/`, eventData, config)
@@ -608,6 +615,15 @@ axios
           // Extract the newly created events from the responses
           const newEvents = responses.map((response) => {
             const eventData = response.data;
+            let startDate = new Date(eventData.start_date);
+            startDate.setHours(startDate.getHours() - 1);
+            let endDate = new Date(eventData.end_date);
+            endDate.setHours(endDate.getHours() -1);
+            const diffInMinutes = (endDate - startDate) / (1000 * 60);
+            if (diffInMinutes < 15) {
+              toast.error('La actividad debe durar al menos 15 minutos.');
+              return;
+            }
             return {
               id: eventData.id,
               title: eventData.name,
@@ -618,8 +634,8 @@ axios
               price: eventData.price,
               attendees: eventData.attendees,
               volunteers: eventData.volunteers,
-              start: new Date(eventData.start_date),
-              end: new Date(eventData.end_date),
+              start: startDate,
+              end: endDate,
             };
           });
     
