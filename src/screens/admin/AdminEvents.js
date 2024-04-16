@@ -13,6 +13,7 @@ import ButtonCreate from '../../components/ButtonCreate';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../components/useToken';
 import { ClassSharp } from '@material-ui/icons';
+import { type } from '@testing-library/user-event/dist/type';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const token = localStorage.getItem('accessToken');
@@ -169,8 +170,11 @@ function AdminEvents() {
 
     const handleLessonEventCreate = ({  }) => {
       // Open the lesson-event dialog here
-      setOpenAddLessonEventDialog(true);
+      setIsNewEvent(false);
+
       setIsLessonEvent(true);
+      setOpenAddLessonEventDialog(true);
+
     };
     
 
@@ -671,19 +675,21 @@ axios
             educators: localFormData.educators.map(educator => educator.id), // Include only the IDs of selected educators
             start: new Date(localFormData.start_date),
             end: new Date(localFormData.end_date),
+            type: 'lesson-event',
           };
           const startDate = new Date(localFormData.start_date);
           const endDate = new Date(localFormData.end_date);
           const diffInMinutes = (endDate - startDate) / (1000 * 60);
           if (diffInMinutes < 15) {
-            toast.error('El evento debe durar al menos 15 minutos.');
+            toast.error('La actividad debe durar al menos 15 minutos.');
             return;
           }
-          toast.success('Lesson-Event creado con éxito');
+          setIsNewEvent(false); 
+          toast.success('Actividad creada con éxito');
 
     
           setLessonEvents([...lessonEvents, newLessonEvent]);
-          setIsLessonEvent(false);
+          setIsLessonEvent(true);
           setOpenAddDialog(false);
         })
         .catch((error) => {
@@ -811,6 +817,18 @@ axios
       
       const handleLessonEventEdit = () => {
         if (editLessonEvent) {
+
+          let startDate = new Date(localFormData.start_date);
+          startDate.setHours(startDate.getHours() + 1);
+          let endDate = new Date(localFormData.end_date);
+          endDate.setHours(endDate.getHours() + 1);
+
+
+          const diffInMinutes = (endDate - startDate) / (1000 * 60);
+            if (diffInMinutes < 15) {
+              toast.error('La actividad debe durar al menos 15 minutos.');
+              return;
+            }
           const updatedLessonEventData = {
             ...editLessonEvent,
             name: localFormData.name,
@@ -818,8 +836,8 @@ axios
             place: localFormData.place,
             max_volunteers: localFormData.max_volunteers,
             price: localFormData.price,
-            start_date: localFormData.start_date,
-            end_date: localFormData.end_date,
+            start_date: startDate,
+            end_date: endDate,
             lesson: localFormData.lessonId,
             educators: localFormData.educatorId,
           };
@@ -834,13 +852,7 @@ axios
               prevLessonEvents.map(lessonEvent => lessonEvent.id === updatedLessonEvent.id ? updatedLessonEvent : lessonEvent)
             );
 
-            const startDate = new Date(localFormData.start_date);
-              const endDate = new Date(localFormData.end_date);
-              const diffInMinutes = (endDate - startDate) / (1000 * 60);
-              if (diffInMinutes < 15) {
-                toast.error('La actividad debe durar al menos 15 minutos.');
-                return;
-              }
+    
             setOpenEditLessonEventDialog(false);
             setIsNewLessonEvent(true); // Set isNewEvent to false when editing an existing event
 
@@ -909,6 +921,13 @@ axios
           startDate.setHours(startDate.getHours() + 1);
           let endDate = new Date(localFormData.end_date);
           endDate.setHours(endDate.getHours() + 1);
+
+
+          const diffInMinutes = (endDate - startDate) / (1000 * 60);
+            if (diffInMinutes < 15) {
+              toast.error('El evento debe durar al menos 15 minutos.');
+              return;
+            }
          
       
           const updatedEventData = {
@@ -932,13 +951,9 @@ axios
                 String(event.id) === String(updatedEvent.id) ? updatedEvent : event
               )
             );
-            const startDate = new Date(localFormData.start_date);
-            const endDate = new Date(localFormData.end_date);
-            const diffInMinutes = (endDate - startDate) / (1000 * 60);
-            if (diffInMinutes < 15) {
-              toast.error('El evento debe durar al menos 15 minutos.');
-              return;
-            }
+            // const startDate = new Date(localFormData.start_date);
+            // const endDate = new Date(localFormData.end_date);
+            
             
             setOpenEditDialog(false);
             setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
