@@ -764,9 +764,10 @@ axios
         axios
           .post(`${API_ENDPOINT}event/`, localFormData, config)
           .then((response) => {
-            console.log('Response of post:', response.data);
-            toast.success('Evento creado con éxito');
-   
+            let startDate = new Date(localFormData.start_date);
+            startDate.setHours(startDate.getHours() + 1);
+            let endDate = new Date(localFormData.end_date);
+            endDate.setHours(endDate.getHours() + 1);
         
     
             const newEvent = {
@@ -779,8 +780,8 @@ axios
               price: localFormData.price,
               attendees: localFormData.attendees,
               volunteers: localFormData.volunteers,
-              start: new Date(localFormData.start_date),
-              end: new Date(localFormData.end_date),
+              start: startDate,
+              end: endDate,
 
             };
     
@@ -903,7 +904,12 @@ axios
 
       const handleEventEdit = async () => {
         if (editEvent) {
-          
+
+          let startDate = new Date(localFormData.start_date);
+          startDate.setHours(startDate.getHours() + 1);
+          let endDate = new Date(localFormData.end_date);
+          endDate.setHours(endDate.getHours() + 1);
+         
       
           const updatedEventData = {
             ...editEvent,
@@ -914,8 +920,8 @@ axios
             price: localFormData.price,
             attendees: localFormData.attendees,
             volunteers: localFormData.volunteers,
-            start_date: localFormData.start_date,
-            end_date: localFormData.end_date,
+            start_date: startDate,
+            end_date: endDate,
           };
     
           try {
