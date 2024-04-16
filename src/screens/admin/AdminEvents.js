@@ -595,6 +595,11 @@ axios
           toast.error('La fecha final no puede ser anterior a la fecha inicial.');
           return;
         }
+        const diffInMinutes = moment(eventData.end_date).diff(moment(eventData.start_date), 'minutes');
+        if (diffInMinutes < 15) {
+          toast.error('La actividad debe durar al menos 15 minutos.');
+          return;
+        }
         
     
 
