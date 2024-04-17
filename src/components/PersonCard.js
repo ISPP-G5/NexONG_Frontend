@@ -138,5 +138,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
       }
     </div>
   );
-}
+};
+
 export default PersonCard;
