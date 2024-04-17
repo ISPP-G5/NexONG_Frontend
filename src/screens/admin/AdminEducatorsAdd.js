@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
 import Pantallas from '../../components/Pantallas';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useToken from '../../components/useToken';
+import avatarImage from '../../logo/teacher.png';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const pantallas = [
@@ -22,6 +24,7 @@ const pantallas = [
 ];
 
 function AdminEducatorsAdd() {
+  const [token, updateToken] = useToken();
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -29,7 +32,11 @@ function AdminEducatorsAdd() {
   const [telefono, SetTelefono] = useState("");
   const [clave, setPassword] = useState("");
   const [fecha, setFecha] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [correo, setCorreo] = useState("");
+  const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const letters = /^[A-Za-z]+$/;
+  const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
 
   const createUser = async (e) => {
     e.preventDefault(); // Prevenir la recarga de la página
@@ -52,12 +59,37 @@ function AdminEducatorsAdd() {
       toast.error("Se debe de insertar una identificación")
     } else if (!telefono || telefono === '') {
       toast.error("Se debe de insertar un telefono")
-    } else if (!clave || clave === '') {
+    } else if (!phoneFormat.test(telefono)) {
+      toast.error("Formato de teléfono inválido", { autoClose: 5000 });
+    }
+    else if (!identificacion.match(spanishIdFormat)) {
+      toast.error('Formato de identificación inválido');
+      return;
+    }
+    else if (nombre.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (apellido.length > 75) {
+      toast.error('Ha introducido mayor número de carácteres que el permitido');
+      return;
+    }
+    else if (!emailFormat.test(correo)) {
+      toast.error('Formato de correo inválido');
+      return;
+    }
+    else if (!nombre.match(letters) || !apellido.match(letters)) {
+      toast.error('Nombre y apellido no puede contener números');
+      return;
+    }
+     else if (!clave || clave === '') {
       toast.error("Se debe de insertar una contraseña")
     } else {
-      await axios.post(`${API_ENDPOINT}educator/`, {
-        birthdate: fecha,
-      }).catch(error => {
+      await axios.post(`${API_ENDPOINT}educator/`,
+        {birthdate: fecha,
+      },{headers: {
+        'Authorization': `Bearer ${token}`
+      }}).catch(error => {
         if (error.response && error.response.status === 400) {
           toast.error("Error en la solicitud: Datos inválidos", {
             autoClose: 5000
@@ -71,7 +103,10 @@ function AdminEducatorsAdd() {
     }
 
     //como la entidad de arriba es la ultima que se crea en la base de datos accedemos a esta posción y sacamos la id
-    axios.get(`${API_ENDPOINT}educator/`)
+    axios.get(`${API_ENDPOINT}educator/`, {headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
       .then(response => {
         setId(response.data[response.data.length - 1].id);
       })
@@ -83,7 +118,8 @@ function AdminEducatorsAdd() {
 
     if (id) {
       try {
-        const update = await axios.post(`${API_ENDPOINT}auth/users/`, {
+        const update = await axios.post(`${API_ENDPOINT}auth/users/`
+      ,{
           first_name: nombre,
           last_name: apellido,
           id_number: identificacion,
@@ -92,17 +128,23 @@ function AdminEducatorsAdd() {
           password: clave,
           email: correo,
           educator: id,
-          avatar: "https://avatars.githubusercontent.com/u/43956",
-        });
+          avatar: avatarImage,
+        }, {headers: {
+          'Authorization': `Bearer ${token}`
+        }});
 
         if (update && update.data && update.data.message) {
-          toast.error("Datos inválidos", { autoClose: 5000 });
+          Object.entries(update.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         } else {
           toast.success("Usuario creado con éxito.", { autoClose: 5000 });
         }
       } catch (error) {
         if (error.response && error.response.status === 400) {
-          toast.error("Datos inválidos", { autoClose: 5000 });
+          Object.entries(error.response.data).forEach(([key, value]) => {
+            toast.error(`${value}`);
+          });
         } else {
           toast.error("Error en la solicitud", { autoClose: 5000 });
         }
@@ -160,6 +202,13 @@ function AdminEducatorsAdd() {
           placeholder='dd/mm/yyyy'
           onChange={(e) => setFecha(e.target.value)}
         ></input>
+        <label>Descripción</label> 
+         <textarea value={descripcion}
+          id="description"
+          label="Description"
+          type="text"
+          onChange={(e) => setDescripcion(e.target.value)}
+        ></textarea>
 
         <button onClick={createUser} className='register-button admin' style={{ textAlign: 'center', alignSelf: 'center', margin: '4%' }}>
           Crear perfil
