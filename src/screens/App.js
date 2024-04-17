@@ -60,8 +60,11 @@ import VolunteerWait from './volunteers/VolunteerWait';
 import VolunteerFormation from './volunteers/VolunteerFormation';
 
 // PARTNERS
-//import PartnerProfile from './partners/PartnerProfile';
+import PartnerProfile from './partners/PartnerProfile';
+import ParterProfileUpdate from './partners/PartnerProfileUpdate';
 import PartnersCalendar from './partners/PartnersCalendar';
+import PartnersDrop from './partners/PartnersDrop';
+import PartnersRenew from './partners/PartnersRenew';
 
 // FAMILIES
 import FamilyProfile from './family/FamilyProfile';
@@ -191,8 +194,13 @@ function App() {
             {/* PARTNERS ROUTES */}
             {role === 'SOCIO' && (
               <>
-            {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
+            <Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />
+            <Route path="/socio/perfil/actualizar" exact={true} element={<ParterProfileUpdate />} />
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
+            <Route path="/socio/baja" exact={true} element={<PartnersDrop />} />
+            <Route path="/socio/renovar" exact={true} element={<PartnersRenew />} />
+
+
               </>
             )}
             {/* FAMILIES ROUTES */}
