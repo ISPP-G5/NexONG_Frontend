@@ -27,7 +27,7 @@ function FamilyAuths() {
     <ShowType 
       data={userLesson_Events}
       kids={myKids}
-      type="Auths" 
+      type="Autorizaciones" 
       pantallas={pantallas}
       request={false}
     />
