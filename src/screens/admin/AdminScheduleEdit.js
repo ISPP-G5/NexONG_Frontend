@@ -24,7 +24,7 @@ const [scheduleData, setScheduleData] = useState({
 const [formData, setFormData] = useState(scheduleData);
 
 const [lessons, setLessons] = useState([]);
-const [weekdays, setWeekdays] = useState(['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES']); // Hardcoded list of weekdays
+const [weekdays, setWeekdays] = useState(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']); // Hardcoded list of weekdays
 useEffect(() => {
     axios
       .get(`${API_ENDPOINT}schedule/${scheduleId}/`)

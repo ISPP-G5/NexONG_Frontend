@@ -12,17 +12,22 @@ import useToken from '../../components/useToken';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-const token = localStorage.getItem('accessToken');
 
 const AdminSchedules = () => {
   const [schedules, setSchedules] = useState([]);
   const [scheduleToDelete, setScheduleToDelete] = useState(null); // State to track the schedule ID to delete
   const navigate = useNavigate();
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
 
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
-        const schedulesResponse = await axios.get(`${API_ENDPOINT}schedule/`);
+        const schedulesResponse = await axios.get(`${API_ENDPOINT}schedule/`, config);
         const schedulesData = schedulesResponse.data;
 
         const schedulesWithLessons = await Promise.all(
