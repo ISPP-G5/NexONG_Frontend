@@ -144,7 +144,7 @@ function LogIn() {
                             'Authorization': `Bearer ${accessToken}`
                         }});
                 }
-                navigate('/familia/perfil');
+                navigate('/familia/evaluacion/diaria/0');
             } else if (user.role === 'SOCIO') {
                 localStorage.setItem('role', 'SOCIO')
                 //TODO Aqui formulario para socio, una cosa así:
