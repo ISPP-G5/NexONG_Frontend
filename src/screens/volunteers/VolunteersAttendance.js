@@ -30,15 +30,16 @@ const VolunteersAttendance = () => {
     const userId = parseInt(localStorage.getItem('userId'));
 
     useEffect(() => {
-      axios.get(`${API_ENDPOINT}auth/users/me/`)
-        .then(response => {
-              setCurrentUser({
-              volunteerId: response.data.volunteer
-            });
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      axios.get(`${API_ENDPOINT}auth/users/me/`, config)
+      .then(response => {
+          setCurrentUser({
+            volunteerId: response.data.volunteer
+          });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
       axios.get(`${API_ENDPOINT}event/`, config)
         .then(response => {
           const filteredEvents = response.data.filter(activity => activity.volunteers.includes(currentUser.volunteerId));
@@ -60,7 +61,8 @@ const VolunteersAttendance = () => {
         .catch(error => {
           console.error(error);
         });
-        axios.get(`${API_ENDPOINT}lesson-event/`)
+
+        axios.get(`${API_ENDPOINT}lesson-event/`, config)
         .then(response => {
           const filteredEvents = response.data.filter(activity => activity.volunteers.includes(currentUser.volunteerId));
           setEventsList(prevEvents => [...prevEvents, ...filteredEvents.map(activity => ({
@@ -93,7 +95,7 @@ const VolunteersAttendance = () => {
 
   const handleDeleteVolunteer = () => {
       const updatedVolunteers = deleteConfirmation.event.volunteers.filter(volunteer => volunteer !== currentUser.volunteerId);
-      axios.put(`${API_ENDPOINT}${deleteConfirmation.event.lesson ? 'lesson-event' : 'event'}/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers })
+      axios.put(`${API_ENDPOINT}${deleteConfirmation.event.lesson ? 'lesson-event' : 'event'}/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers }, config)
           .then(response => {
               toast.success('Se ha eliminado correctamente');
               setDeleteConfirmation({

@@ -49,7 +49,7 @@ const VolunteerAgenda = () => {
   const userId = parseInt(localStorage.getItem('userId'));
 
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}auth/users/me/`)
+    axios.get(`${API_ENDPOINT}auth/users/me/`, config)
       .then(response => {
           setCurrentUser({
             volunteerId: response.data.volunteer
