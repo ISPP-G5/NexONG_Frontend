@@ -1527,16 +1527,17 @@ tbody tr:nth-child(odd) {
   right: 15%;
   top: 20rem;
 }
+
 .partners-button {
   width: 100%;
   max-width: 220px;
   height: 8rem;
-  margin-bottom: 10%; /* Add some margin between buttons */
+  margin-bottom: 10%;
   font-family: 'Helvetica Neue', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 1.5rem; /* 26px */
-  line-height: 1.5rem; /* 39px */
+  font-size: 1.5rem;
+  line-height: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1546,6 +1547,17 @@ tbody tr:nth-child(odd) {
   border-radius: 10px;
   border: none;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .partners-button-container {
+    position: relative;
+    right: auto;
+    top: auto;
+    text-align: center;
+    left: 80%; /* Move buttons to the center */
+    transform: translateX(-50%); /* Center buttons */
+  }
 }
 
 

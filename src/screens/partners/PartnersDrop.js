@@ -35,9 +35,12 @@ function PartnersDrop() {
 
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [motivation, setMotivation] = useState('');
+  const handleProfileClick = () => {
+    navigate('/socio/perfil');
+  };
+
+  const [email, setEmail] = useState('');
+  const [motive, setMotive] = useState('');
 
 
 
@@ -45,8 +48,8 @@ function PartnersDrop() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!address) {
-      toast.error('Dirección es obligatorio');
+    if (!email || !motive) {
+      toast.error('Por favor, rellene todos los campos');
       return;
     }
   };
@@ -65,29 +68,25 @@ function PartnersDrop() {
 
         <label>Correo</label>
         <input
-          value={address}
+          value={email}
           type='text'
-          placeholder='Escriba su dirección'
-          onChange={(e) => setAddress(e.target.value)}
+          placeholder='Escriba su correo electrónico'
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <label>Motivo</label>
         <input
-          value={postalCode}
+          value={motive}
           type='text'
-          placeholder='Escriba su código postal'
-          onChange={(e) => setPostalCode(e.target.value)}
+          placeholder='Escriba el motivo de su baja en la asociación'
+          onChange={(e) => setMotive(e.target.value)}
         />
-
-   
-
-
 
 
         <button type='submit' className='register-button'>
           Enviar
         </button>
-         <button type='button' className='register-button' >
+         <button type='button' className='register-button' onClick={handleProfileClick}>
               Atrás
             </button>
 

@@ -34,6 +34,10 @@ function PartnersRenew() {
 
   const navigate = useNavigate();
 
+  const handleProfileClick = () => {
+    navigate('/socio/perfil');
+  };
+
   const [holder, setHolder] = useState('');
   const [iban, setIban] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -194,7 +198,7 @@ function PartnersRenew() {
           <button type='submit' className='register-button'>
             Finalizar
           </button>
-          <button type='button' className='register-button' onClick={() => navigate('/previous-page')}>
+          <button type='button' className='register-button' onClick={handleProfileClick}>
             Atrás
           </button>
         </form>
