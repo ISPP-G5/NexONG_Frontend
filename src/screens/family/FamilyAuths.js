@@ -27,7 +27,7 @@ function FamilyAuths() {
   return (
     <ShowType 
       data={userAuths}
-      type="Auths" 
+      type="Autorizaciones" 
       pantallas={pantallas}
       nomStudent = {nomStudent}
       nomEvent = {nomEvent}
