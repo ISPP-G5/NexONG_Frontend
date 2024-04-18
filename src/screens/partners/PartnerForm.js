@@ -142,7 +142,7 @@ function PartnerForm() {
                 <label>Documento de inscripción</label>
                 <div className='register-container-files'>
                     <button className='button-contrast-files'
-                    onClick={() => handleDownload('enrollment_document')}>
+                    onClick={() => handleDownload('partner_document')}>
                         Descargar
                     </button>
                     <input
