@@ -151,22 +151,16 @@ function ChildForm() {
     volunteerData.append('enrollment_document', formData.enrollmentDoc);
     volunteerData.append('scanned_sanitary_card', formData.sanitaryCard);
 
+    var id = null;
+    console.log("Fetching family id...");
+    const response = await fetchMyFamilyId(API_ENDPOINT, null);
 
-    //We are in promise scope
-    var id = await localStorage.getItem('familyId');
-
-    if (id === null) {
-      console.log("Fetching family id...")
-      const response = await fetchMyFamilyId(API_ENDPOINT, null);
-
-      if (response !== null) {
-        localStorage.setItem('familyId', response);
-        console.log("Family id:",response);
-        id = response;
-      }
-      else {
-        console.error("Failed to get family id");
-      }
+    if (response !== null) {
+      console.log("Family id:",response);
+      id = response;
+    }
+    else {
+      console.error("Failed to get family id");
     }
 
     volunteerData.append('family', id);
