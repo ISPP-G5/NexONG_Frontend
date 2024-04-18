@@ -68,6 +68,7 @@ import FamilyCalendar from './family/FamilyCalendar';
 import FamilyProfile from './family/FamilyProfile';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
+import FamilyEval from './family/FamilyEval';
 
 function RedirectToHome() {
   const navigate = useNavigate();
@@ -95,7 +96,19 @@ function App() {
       };
     }, []);
   
-  console.log('role',role)
+  
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setRole(localStorage.getItem('role'));
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Limpieza al desmontar
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
   return (
     <Router>
       <Routes>
@@ -203,6 +216,7 @@ function App() {
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
             <Route path="/familia/calendario" exact={true} element={<FamilyCalendar />} />
+            <Route path="/familia/evaluacion/:tipoTiempo/:studentIndex" exact={true} element={<FamilyEval />} />
              </> 
             )}
              {/* Redirect unauthorized users to the homepage */}

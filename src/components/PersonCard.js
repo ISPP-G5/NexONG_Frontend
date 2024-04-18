@@ -2,121 +2,27 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
-import avatarEducator from '../logo/family-avatar.jpg';
+import avatarEducator from '../logo/family-avatar.jpg'; // Ensure these paths are correct
 import avatarVolunteer from '../logo/volunteer-avatar.png';
 import avatarFamily from '../logo/family-avatar.jpg';
-import avatarPartner from  '../logo/partner-avatar.png'
+import avatarPartner from  '../logo/partner-avatar.png';
 import useToken from './useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PersonCard({ person, personType, kids, request = false, trash = true }) {
-  const [token, updateToken] = useToken();
+  const [token] = useToken();
   const config = {
     headers: {
       'Authorization': `Bearer ${token}`,
     }
-  };
-
-  const handleDescargar = async(person) => {
-    const descargarDocumento = (documento, nombreArchivo) => {
-        const enlaceDescarga = document.createElement('a');
-        enlaceDescarga.href = documento;
-        enlaceDescarga.download = nombreArchivo;
-
-        // Simular un clic en el enlace para descargar el archivo
-        enlaceDescarga.click();
-    };
-
-    // Descargar cada documento
-    if(person.volunteer){
-    descargarDocumento(`${API_ENDPOINT}export/files/volunteers?name=${person.first_name}&surname=${person.last_name}`, 'documentos_voluntario.zip');
-  } else if (person.id) {
-    descargarDocumento(person.enrollment_document, 'documentos_student.pdf');
-  }
-    // Mostrar un mensaje de éxito
-    toast.success("Descarga existosa", {
-        autoClose: 5000
-    });
-}; 
-
-  const handleAceptar = async (person) => {
-    if(personType === 'Voluntarios'){
-      await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`, 
-        {status: "ACEPTADO"}, 
-        config);
-    } else if(personType === 'Familias'){
-      await axios.patch(`${API_ENDPOINT}student/${person.id}/`, 
-        {status: "ACEPTADO"}, 
-        config);
-    } else {
-      toast.error('Error al eliminar', {
-        autoClose: 5000
-      })
-    }
-    toast.success("Persona rechazada correctamente", {
-      autoClose: 5000
-    })
-   setTimeout(() => {
-    window.location.reload();
-   }, 2000); 
-}
-  
-  
-  const handleRechazar = async (person) => {
-    if(personType === 'Voluntarios'){
-      await axios.patch(`${API_ENDPOINT}volunteer/${person.volunteer}/`, 
-        {status: "RECHAZADO"}, 
-        config);
-    } else if(personType === 'Familias'){
-      await axios.patch(`${API_ENDPOINT}student/${person.id}/`, 
-        {status: "RECHAZADO"}, 
-        config);
-    } else {
-      toast.error('Error al eliminar', {
-        autoClose: 5000
-      })
-    }
-    toast.success("Persona rechazada correctamente", {
-      autoClose: 5000
-    })
-    setTimeout(() => {
-      window.location.reload();
-     }, 2000);
-  }
-
-  const handleEliminar = async(person) =>{
-      if(personType === 'Voluntarios'){
-        await axios.delete(`${API_ENDPOINT}volunteer/${person.volunteer}/`, config);
-      } else if(personType === 'Socios'){
-        await axios.delete(`${API_ENDPOINT}partner/${person.partner}/`, config);
-      } else if(personType === 'Educadores'){
-        await axios.delete(`${API_ENDPOINT}educator/${person.educator}/`, config);
-      } else {
-        toast.error('Error al eliminar', {
-          autoClose: 5000
-        })
-      }
-      toast.success("Persona eliminada correctamente", {
-        autoClose: 5000
-      })
-      setTimeout(() => {
-        window.location.reload();
-       }, 2000); 
-  }
-  
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-
-  const handleConfirmDelete = () => {
-    handleEliminar(person);
-    setConfirmDeleteOpen(false);
   };
 
   const roleAvatarMap = {
@@ -126,15 +32,59 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     'SOCIO': avatarPartner,
   };
 
-  return(
+  const handleDescargar = async(person) => {
+    const descargarDocumento = (documento, nombreArchivo) => {
+        const enlaceDescarga = document.createElement('a');
+        enlaceDescarga.href = documento;
+        enlaceDescarga.download = nombreArchivo;
+        document.body.appendChild(enlaceDescarga);
+        enlaceDescarga.click();
+        document.body.removeChild(enlaceDescarga);
+    };
+
+    if(person.volunteer){
+      descargarDocumento(`${API_ENDPOINT}export/files/volunteers?name=${person.first_name}&surname=${person.last_name}`, 'documentos_voluntario.zip');
+    } else if (person.id) {
+      descargarDocumento(person.enrollment_document, 'documentos_student.pdf');
+    }
+    toast.success("Descarga exitosa", { autoClose: 5000 });
+  };
+
+  const handleAceptarRechazar = async (action) => {
+    try {
+      const path = personType === 'Voluntarios' ? `volunteer/${person.volunteer}` : `student/${person.id}`;
+      const status = action === 'aceptar' ? "ACEPTADO" : "RECHAZADO";
+      await axios.patch(`${API_ENDPOINT}${path}/`, {status}, config);
+      toast.success(`Persona ${status.toLowerCase()} correctamente`, { autoClose: 5000 });
+      setTimeout(() => window.location.reload(), 2000); 
+    } catch (error) {
+      console.error(error);
+      toast.error('Error al procesar la solicitud', { autoClose: 5000 });
+    }
+  };
+
+  const handleEliminar = async(person) => {
+    try {
+      const path = `${API_ENDPOINT}${personType.toLowerCase()}/${person[personType.toLowerCase()]}/`;
+      await axios.delete(path, config);
+      toast.success("Persona eliminada correctamente", { autoClose: 5000 });
+      setTimeout(() => window.location.reload(), 2000); 
+    } catch (error) {
+      console.error(error);
+      toast.error('Error al eliminar', { autoClose: 5000 });
+    }
+  };
+
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
       { (request || personType !== 'Familias') &&
         <div className='family-request'>
-          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='placeholder' />
+          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='Avatar' />
           <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
-            {personType === 'Familias' ? <p><strong>{person.first_name}</strong></p> : <p>{person.first_name}</p>}
-            <p>{person.last_name}</p>
+            <p>{person.first_name} {person.last_name}</p>
           </div>
         </div>
       }
@@ -142,8 +92,8 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         <div className='buttons-requests'>
           <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
           <div className='buttons-acceptance'>
-            <button className='button-accept' onClick={() => handleAceptar(person)}>Aceptar</button>
-            <button className='button-decline' onClick={() => handleRechazar(person)}>Rechazar</button>
+            <button className='button-accept' onClick={() => handleAceptarRechazar('aceptar', person)}>Aceptar</button>
+            <button className='button-decline' onClick={() => handleAceptarRechazar('rechazar', person)}>Rechazar</button>
           </div>
         </div>
       }
@@ -159,13 +109,11 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleConfirmDelete} color="secondary">
+          <Button onClick={() => handleEliminar(person)} color="secondary">
             Confirmar
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* This is used for admin families screen */}
       {personType === 'Familias' && !request && 
         <div className='family-info'>
           <p><strong>{person.name}</strong></p>
