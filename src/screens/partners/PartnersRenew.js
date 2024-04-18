@@ -38,6 +38,8 @@ function PartnersRenew() {
   const [iban, setIban] = useState('');
   const [quantity, setQuantity] = useState('');
   const [frequency, setFrequency] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+
 
   useEffect(() => {
     axios
@@ -54,17 +56,30 @@ function PartnersRenew() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (!holder || !iban || !quantity || !frequency) {
+    if (!holder || !iban || !quantity || !frequency || !selectedDate)  {
       toast.error('Todos los campos son obligatorios');
       return;
     }
+    const ibanRegex = /^[A-Z]{2}\d{2}(?:(?=\d+[A-Z]?)(?:\d+[A-Z]?)+|(?=\d+[A-Z]?[A-Z])(?:\d+[A-Z]?[A-Z])+)$/;
+
+    if (!ibanRegex.test(iban)) {
+      toast.error('El formato del IBAN no es válido');
+      return;
+    }
+    const parsedQuantity = parseFloat(quantity);
+    if (parsedQuantity <= 0 || isNaN(parsedQuantity)) {
+      toast.error('La cantidad debe ser mayor que 0');
+      return;
+    }
+  
   
     try {
       const response = await axios.post(`${API_ENDPOINT}donation/`, {
         iban: iban,
         quantity: quantity,
         frequency: frequency,
-        holder: holder
+        holder: holder,
+        date: selectedDate
       }, config_partner);
   
       console.log('Donation created:', response.data);
@@ -76,6 +91,9 @@ function PartnersRenew() {
   };
   
   const marginTop = useAdjustMargin('.header-profiles');
+  const handleCheckboxChange = (value) => {
+    setFrequency(value);
+  };
 
   return (
     <div className='App'>
@@ -114,38 +132,63 @@ function PartnersRenew() {
           <div className="checkbox-container-partner">
             {/* Checkbox 1 */}
             <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="mensual" 
-              />
-              <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
-            </div>
+  <input 
+    type="checkbox" 
+    id="mensual" 
+    checked={frequency === 'MENSUAL'}
+    onChange={() => handleCheckboxChange('MENSUAL')}
+  />
+  <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
+</div>
 
-            {/* Checkbox 2 */}
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="trimestral" 
-              />
-              <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada tres meses)</label>
-            </div>
+{/* Checkbox 2 */}
+<div className="checkbox-partner">
+  <input 
+    type="checkbox" 
+    id="trimestral" 
+    checked={frequency === 'TRIMESTRAL'}
+    onChange={() => handleCheckboxChange('TRIMESTRAL')}
+  />
+  <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada tres meses)</label>
+</div>
 
-            {/* Checkbox 3 */}
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="semestral" 
-              />
-              <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada seis meses)</label>
-            </div>
+{/* Checkbox 3 */}
+<div className="checkbox-partner">
+  <input 
+    type="checkbox" 
+    id="semestral" 
+    checked={frequency === 'SEMESTRAL'}
+    onChange={() => handleCheckboxChange('SEMESTRAL')}
+  />
+  <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada seis meses)</label>
+</div>
 
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="anual" 
-              />
-              <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
-            </div>
+          {/* Checkbox 4 */}
+          <div className="checkbox-partner">
+            <input 
+              type="checkbox" 
+              id="anual" 
+              checked={frequency === 'ANUAL'}
+              onChange={() => handleCheckboxChange('ANUAL')}
+            />
+            <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
+          </div>
+
+
+          <label>Fecha</label>
+          <input
+            type='date'
+            value={new Date().toISOString().split('T')[0]} // Set default value to today's date
+            onChange={(e) => {
+              const currentDate = new Date().toISOString().split('T')[0];
+              const selectedDate = e.target.value;
+              if (currentDate !== selectedDate) {
+                toast.error('La fecha debe ser la fecha actual');
+              }
+            }}
+          />
+
+
           </div>
 
           <button type='submit' className='register-button'>
