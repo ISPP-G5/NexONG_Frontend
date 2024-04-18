@@ -233,6 +233,12 @@ textarea {
   align-items: center;
   cursor: pointer;
 }
+.checkbox-container-partner {
+  display: flex;
+  flex-direction: column; /* Stack checkboxes vertically */
+  cursor: pointer;
+}
+
 
 .hidden-checkbox {
   border: 0;
