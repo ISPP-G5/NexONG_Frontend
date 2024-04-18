@@ -87,10 +87,10 @@ function PartnersRenew() {
       }, config_partner);
   
       console.log('Donation created:', response.data);
-      toast.success('Donación creada exitosamente');
+      toast.success('Cuota cambiada correctamente');
     } catch (error) {
       console.error('Error creating donation:', error);
-      toast.error('Error al crear la donación');
+      toast.error('Error al cambiar la cuota');
     }
   };
   
