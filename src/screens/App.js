@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route , Routes,useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
+import RoleContext from '../components/RoleContext';
 // HOMEPAGE
 import HomePage from './homepage/HomePage';
 import HomePageAssociation from './homepage/HomePageAssociation';
@@ -111,6 +112,8 @@ function App() {
     };
   }, []);
   return (
+    <RoleContext.Provider value={{ role, setRole }}>
+
     <Router>
       <Routes>
             <Route path="/" element={<HomePage />} />
@@ -230,6 +233,8 @@ function App() {
 
             </Routes>
     </Router>
+    </RoleContext.Provider>
+
   );
 }
 
