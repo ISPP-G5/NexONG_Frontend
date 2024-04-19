@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, globalizeLocalizer } from 'react-big-calendar';
-import { makeStyles }from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {DialogContent, DialogActions ,makeStyles }from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import moment from 'moment';
 import 'moment/locale/es';
 import Globalize from 'globalize';
-import spanish from 'globalize/lib/cultures/globalize.culture.es';
 import axios from 'axios';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
@@ -47,6 +49,8 @@ const FamilyCalendar = () => {
     });
     const classes = useStyles();
     const userId = parseInt(localStorage.getItem('userId'), 10);
+    const [open, setOpen] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     const fetchData = async (url, filterFunc = () => true) => {
         try {
@@ -125,6 +129,11 @@ const FamilyCalendar = () => {
         fetchAndSetActivities();
     }, [userId]);
 
+    const handleEventClick = (event) => {
+        setSelectedEvent(event);
+        setOpen(true);
+      };
+
     return (
         <LayoutProfiles profile={'familia'} selected={'Calendario'}>
         <ToastContainer />
@@ -134,9 +143,34 @@ const FamilyCalendar = () => {
             events={activities}
             startAccessor="start"
             endAccessor="end"
-            className='calendar'     
+            className='calendar'   
+            selectable={true}
+            onSelectEvent={(event) => {
+                handleEventClick(event);
+            }}  
         />
-        </div>  
+        </div> 
+
+        {open && (
+        <Dialog open={open} onClose={() => setOpen(false)}>
+            <DialogTitle>Detalles del evento</DialogTitle>
+            <DialogContent>
+                {selectedEvent && (
+                    <div>
+                        <p><strong>Descripción: </strong>{selectedEvent.description}</p>
+                        <p><strong>Comienzo: </strong>{selectedEvent.start.getDate()}/{selectedEvent.start.getMonth()}/{selectedEvent.start.getFullYear()}, {selectedEvent.start.getHours()}h</p>
+                        <p><strong>Final: </strong>{selectedEvent.end.getDate()}/{selectedEvent.end.getMonth()}/{selectedEvent.end.getFullYear()}, {selectedEvent.end.getHours()}h</p>
+                    </div>
+                )}
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setOpen(false)} color="secondary">
+                    Cerrar
+                </Button>
+            </DialogActions>
+        </Dialog>
+        )}
+
         </LayoutProfiles>
         
     );
