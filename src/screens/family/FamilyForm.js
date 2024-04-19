@@ -5,12 +5,20 @@ import '../../styles/styles.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import LayoutProfiles from '../../components/LayoutProfiles';
+import useToken from '../../components/useToken';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const FamilyForm = () => {
+
+    const [token, updateToken] = useToken();
+    const config = {
+        headers: {
+        'Authorization': `Bearer ${token}`,
+        }
+    };
 
 
     const [valoresList, setValores] = useState([]);
@@ -20,7 +28,7 @@ const FamilyForm = () => {
     //Traemos los datos del usuario
     useEffect(() => {
 
-      axios.get(`${API_ENDPOINT}auth/users/me/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`, config)
         .then(response => {
           setValores(response.data);
         })
@@ -45,7 +53,7 @@ const FamilyForm = () => {
                 name: "Familia " + surname1 + " " + surname2,
             };
     
-            const post = await axios.post(`${API_ENDPOINT}family/`, postFam);
+            const post = await axios.post(`${API_ENDPOINT}family/`, config, postFam);
             const { data } = post;
     
             console.log("datos", data);
@@ -68,7 +76,7 @@ const FamilyForm = () => {
                             is_agreed: 'true',
                         };
     
-                        axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData)
+                        axios.put(`${API_ENDPOINT}auth/users/me/`, config, updatedData)
                             .then(update => {
                                 const { data: updatedUserData } = update;
                                 if (updatedUserData.message) {

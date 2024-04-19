@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../components/useToken';
 import RoleContext from '../../components/RoleContext';
+import { Api } from '@mui/icons-material';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -134,12 +135,11 @@ function LogIn() {
             }  else if (user.role === 'FAMILIA') {
                 localStorage.setItem('role', 'FAMILIA')
                 setRole(user.role)
-
-                //TODO Aqui formulario para educador, una cosa así:
-                //if (user.educador === null) {
-                //    navigate('/educador/formulario');}
-                navigate('/familia/evaluacion/diaria/0');
-            
+                if(user.family === null){
+                    navigate('/familia/registro');
+                } else {    
+                    navigate('/familia/evaluacion/diaria/0');
+                }         
                
             } else if (user.role === 'SOCIO') {
                 localStorage.setItem('role', 'SOCIO')
