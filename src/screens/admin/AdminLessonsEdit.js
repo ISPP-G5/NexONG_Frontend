@@ -34,6 +34,9 @@ const AdminLessonsEdit = () => {
     end_date: '',
   });
 
+  // Define studentsFiltered state
+  const [studentsFiltered, setStudentsFiltered] = useState([]);
+
   useEffect(() => {
     axios
       .get(`${API_ENDPOINT}lesson/${lessonId}/`, config)
@@ -47,7 +50,11 @@ const AdminLessonsEdit = () => {
 
   const handleSubmit = (formData) => {
     // Validation
-    if (!formData.name || !formData.description || !formData.capacity || !formData.start_date || !formData.end_date) {
+    if (!Number.isInteger(formData.capacity) || formData.capacity <= 0) {
+      toast.error('La capacidad debe ser un número entero positivo.');
+      return;
+    }
+    if (!formData.name ||!formData.description ||!formData.capacity ||!formData.start_date ||!formData.end_date ||!formData.educator || formData.students.length === 0) {
       toast.error('Por favor, rellene todos los campos.');
       return;
     }
@@ -65,7 +72,7 @@ const AdminLessonsEdit = () => {
       .then((response) => {
         toast.success('Clase actualizada exitosamente');
       })
-      .catch((error) => {
+     .catch((error) => {
         handleApiError(error, {
           detail: 'Ha ocurrido un error al actualizar la clase.',
           capacity: 'Error: el número de alumnos no debe superar a la capacidad.',
@@ -98,6 +105,10 @@ const AdminLessonsEdit = () => {
       .get(`${API_ENDPOINT}student/`, config)
       .then((response) => {
         setStudents(response.data);
+        // Filter students based on the is_morning_student value
+        const filteredStudents = lessonData.is_morning_lesson ? response.data.filter(student => student.is_morning_student) : response.data.filter(student => !student.is_morning_student);
+        setStudentsFiltered(filteredStudents);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error('Error fetching students:', error);
@@ -112,15 +123,43 @@ const AdminLessonsEdit = () => {
         console.error('Error fetching users:', error);
       });
   }, [lessonData]);
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
-    if (type === 'datetime-local') {
+  
+    if (type === 'date') {
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
+    } else if (name === 'educator') {
+      // For select inputs, no need to convert value to number
+      setFormData((prevData) => ({
+        ...prevData,
+        educator: value,
+      }));
+    } else if (name === 'students') {
+      // For select inputs, no need to convert value to number
+      setFormData((prevData) => ({
+        ...prevData,
+        students: value,
+      }));
+    } else if (name === 'capacity') {
+      // Ensure the capacity is a positive integer or empty string
+      if (value === '' || !isNaN(parseInt(value)) && parseInt(value) > 0) {
+        setFormData((prevData) => ({
+          ...prevData,
+          capacity: value === '' ? value : parseInt(value),
+        }));
+      }
+    } else if (name === 'is_morning_lesson') {
+      // Reset students and filter based on morning lesson
+      const filteredStudents = checked ? students.filter(student => student.is_morning_student) : students.filter(student => !student.is_morning_student);
+      setFormData(prevData => ({
+        ...prevData,
+        students: [],
+        is_morning_lesson: checked,
+      }));
+      setStudentsFiltered(filteredStudents);
     } else {
       setFormData((prevData) => ({
         ...prevData,
@@ -190,7 +229,7 @@ const AdminLessonsEdit = () => {
         >
           {educators.map((educator) => (
             <MenuItem key={educator.id} value={educator.id}>
-              {users.find((user) => user.id === educator.id)?.name}
+              {users.find((user) => user.id === educator.id)?.first_name + ' ' + users.find((user) => user.id === educator.id)?.last_name}
             </MenuItem>
           ))}
         </Select>
@@ -203,16 +242,16 @@ const AdminLessonsEdit = () => {
           onChange={handleChange}
           style={{ width: '70%' }} 
         >
-          {students.map((student) => (
-            <MenuItem key={student.id} value={student.id}>
-              {student.name}
-            </MenuItem>
+          {studentsFiltered.map((student) => (
+          <MenuItem key={student.id} value={student.id}>
+          {student.surname ? `${student.name} ${student.surname}` : student.name}
+        </MenuItem>
           ))}
         </Select>
 
         <label>Fecha de inicio</label>
         <input
-          type="datetime-local"
+          type="date"
           name="start_date"
           value={formData.start_date}
           onChange={handleChange}
@@ -220,7 +259,7 @@ const AdminLessonsEdit = () => {
 
         <label>Fecha de fin</label>
         <input
-          type="datetime-local"
+          type="date"
           name="end_date"
           value={formData.end_date}
           onChange={handleChange}

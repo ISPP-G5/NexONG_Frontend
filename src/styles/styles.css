@@ -1232,8 +1232,18 @@ tbody tr:nth-child(odd) {
     text-align: justify;
 }
 
+.card-info-suggestion table .table-wrapper {
+  overflow-x: auto;
+}
 .card-info-suggestion table {
     border-spacing: 10px;
+}
+@media screen and (min-width: 1px) and (max-width: 600px) {
+  .card-info-suggestion table {
+    max-width: 70%;
+    border-spacing: 5rem;
+
+  }
 }
 
 .card-info-suggestion td {
