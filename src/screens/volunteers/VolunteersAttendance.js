@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import moment from 'moment';
 import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -42,7 +43,8 @@ const VolunteersAttendance = () => {
 
       axios.get(`${API_ENDPOINT}event/`, config)
         .then(response => {
-          const filteredEvents = response.data.filter(activity => activity.volunteers.includes(currentUser.volunteerId));
+          const filteredEvents = response.data.filter(activity => moment(activity.start_date).isAfter(moment()) && 
+                                                                activity.volunteers.includes(currentUser.volunteerId));
           setEventsList(filteredEvents.map(activity => ({
               name: activity.name,
               start_date: new Date(activity.start_date),
@@ -64,7 +66,8 @@ const VolunteersAttendance = () => {
 
         axios.get(`${API_ENDPOINT}lesson-event/`, config)
         .then(response => {
-          const filteredEvents = response.data.filter(activity => activity.volunteers.includes(currentUser.volunteerId));
+          const filteredEvents = response.data.filter(activity => moment(activity.start_date).isAfter(moment()) &&
+                                                                  activity.volunteers.includes(currentUser.volunteerId));
           setEventsList(prevEvents => [...prevEvents, ...filteredEvents.map(activity => ({
             id: activity.id,
             name: activity.name,
