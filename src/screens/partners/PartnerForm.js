@@ -39,11 +39,6 @@ function PartnerForm() {
     const[birthdate,setBirthdate] = useState('');
     const[enrollmentDoc,setEnrollmentDoc] = useState('');
 
-    const handleEnrollmentDocChange = (e) => {
-        const file = e.target.files[0]
-        setEnrollmentDoc(file);
-    }
-
     const handleDownload = (file) => {
         // Path to the PDF file
         const fileUrl = `${process.env.PUBLIC_URL}/docs/${file}.pdf`; 
@@ -140,13 +135,13 @@ function PartnerForm() {
 
                 <label>Documento de inscripción</label>
                 <div className='register-container-files'>
-                    <button className='button-contrast-files'
+                    <a className='button-contrast-files'
                     onClick={() => handleDownload('partner_enrollment_document')}>
                         Descargar
-                    </button>
+                    </a>
                     <input
                     type='file'
-                    onChange={handleEnrollmentDocChange}
+                    onChange={(e) => setEnrollmentDoc(e.target.files[0])}
                     />
                 </div>
 
