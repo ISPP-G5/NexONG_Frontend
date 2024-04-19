@@ -8,6 +8,7 @@ import axios from 'axios';
 import LayoutHomepage from '../../components/LayoutHomepage';
 import useAdjustMargin from '../../components/useAdjustMargin';
 
+
 function HomePageDonation() {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -18,13 +19,37 @@ function HomePageDonation() {
 
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+
     // ONE-TIME DONATIONS //////////////////////////////////////////
+    // Payment method variables
+    const [paymentMethod, setPaymentMethod] = useState('');
+    const [transferVisible, setTransferVisible] = useState(false);
+    const [cardVisible, setCardVisible] = useState(false);
+
+    // Function to handle payment method change
+    const handlePaymentMethodChange = (event) => {
+        const selectedMethod = event.target.value;
+        setPaymentMethod(selectedMethod);
+
+        // Show/hide payment sections based on the selected payment method
+        if (selectedMethod === 'transfer/bizum') {
+            setTransferVisible(true);
+            setCardVisible(false);
+        } else if (selectedMethod === 'card') {
+            setTransferVisible(false);
+            setCardVisible(true);
+        } else {
+            setTransferVisible(false);
+            setCardVisible(false);
+        }
+    };
 
     const[oneTimeName,setOneTimeName] = useState('');
     const[oneTimeSurname,setOneTimeSurname] = useState('');
     const[oneTimeEmail,setOneTimeEmail] = useState('');
     const[paymentDoc,setPaymentDoc] = useState('');
     const[date,setDate] = useState('');
+    const[amount,setAmount] = useState('');
 
     useEffect(() => {
         const currentDate = new Date();
@@ -163,6 +188,10 @@ function HomePageDonation() {
         }
     }
 
+    /////////STRIPE//////////////////////////////////////////////////
+
+
+
     ////////////////////////////////////////////////////////////////
 
     return (
@@ -228,20 +257,46 @@ function HomePageDonation() {
                             onChange={(e) => setOneTimeEmail(e.target.value)}
                             />
 
-                            <label>Documento de pago</label>
-                            <input
-                            type='file'
-                            onChange={handlePaymentDocChange}
-                            />
+                            <label>
+                                Seleccione el método de pago:
+                                <select value={paymentMethod} onChange={handlePaymentMethodChange} style={{width: '100%', height: '100%'}}>
+                                    <option value="">--Selecciona una opción--</option>
+                                    <option value="transfer/bizum">Transferencia/Bizum</option>
+                                    <option value="card">Pago con Tarjeta</option>
+                                </select>
+                            </label>
+
+                            {transferVisible && (
+                                <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
+                                    {/* Transfer Form */}
+                                    <label>Documento de pago</label>
+                                    <input
+                                    type='file'
+                                    onChange={handlePaymentDocChange}
+                                    />
+                                    <button type='submit' className='register-button'>
+                                        Enviar
+                                    </button>
+                                </form>
+                            )}
+
+                            {cardVisible && (
+                                <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
+                                    {/* Stripe Form */}
+                                    <label>Cantidad</label>
+                                    <input
+                                    value={oneTimeEmail}
+                                    type='text'
+                                    placeholder='Escriba la cantidad a donar'
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    />
+                                    <button type='submit' className='register-button'>
+                                        Pagar con Tarjeta
+                                    </button>
+                                </form>
+                            )}
 
 
-                            <button type='submit' className='register-button'>
-                                Enviar
-                            </button>
-
-                            <button type='submit' className='register-button'>
-                                Pagar con tarjeta
-                            </button>
 
                         </form>
                     </td>
