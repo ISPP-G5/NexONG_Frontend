@@ -81,8 +81,16 @@ function HomePageDonation() {
             oneTimeFormData.append('email',oneTimeEmail);
             oneTimeFormData.append('proof_of_payment_document',paymentDoc);
             oneTimeFormData.append('date',date);
+            oneTimeFormData.append('amount', amount);
             try {
-                const update = await axios.post(`${API_ENDPOINT}punctual-donation/`,
+                let endpoint = '';
+                if (paymentMethod === 'transfer') {
+                    endpoint = `${API_ENDPOINT}punctual-donation/`;
+                } else if (paymentMethod === 'card') {
+                    endpoint = `${API_ENDPOINT}process-payment/`;
+                }
+    
+                const update = await axios.post(endpoint,
                 oneTimeFormData,
                 {
                     headers:{
@@ -231,7 +239,7 @@ function HomePageDonation() {
                             los siguientes campos:</p>
                         </div>
                         
-                        <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}} onSubmit={sendOneTimeForm}>
+                        <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
 
                             <label>Nombre</label>
                             <input
@@ -267,7 +275,7 @@ function HomePageDonation() {
                             </label>
 
                             {transferVisible && (
-                                <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
+                                <div className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}} onSubmit={sendOneTimeForm}>
                                     {/* Transfer Form */}
                                     <label>Documento de pago</label>
                                     <input
@@ -277,11 +285,11 @@ function HomePageDonation() {
                                     <button type='submit' className='register-button'>
                                         Enviar
                                     </button>
-                                </form>
+                                </div>
                             )}
 
                             {cardVisible && (
-                                <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
+                                <div className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
                                     {/* Stripe Form */}
                                     <label>Cantidad</label>
                                     <input
@@ -293,7 +301,7 @@ function HomePageDonation() {
                                     <button type='submit' className='register-button'>
                                         Pagar con Tarjeta
                                     </button>
-                                </form>
+                                </div>
                             )}
 
 
