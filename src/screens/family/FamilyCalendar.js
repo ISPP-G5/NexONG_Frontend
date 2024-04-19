@@ -64,39 +64,45 @@ const FamilyCalendar = () => {
     useEffect(() => {
         const fetchAndSetActivities = async () => {
             const userResponse = await fetchData('auth/users/me/');
-
+    
             if (userResponse) {
-                setCurrentUser({ familyId: userResponse.family });
+                const familyId = userResponse.family;
+                setCurrentUser({ familyId: familyId });
         
-                const studentResponse = await fetchData('student/', student => student.family === currentUser.familyId);
+                const studentResponse = await fetchData('student/', student => student.family === familyId);
                 if (studentResponse) {
-                    setStudentFamily(studentResponse.map(student => student.id));
+                    const studentFamily = studentResponse.map(student => student.id);
+                    setStudentFamily(studentFamily);
         
+                    let newActivities = [];
+    
                     const eventResponse = await fetchData('event/', activity => 
                         moment(activity.start_date).isAfter(moment()) &&
                         activity.attendees.some(attendee => studentFamily.includes(attendee))
                     );
-                    setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...mapActivities(eventResponse, false)]);
-
+                    newActivities = [...newActivities, ...mapActivities(eventResponse, false)];
+    
                     const lessonEventResponse = await fetchData('lesson-event/', activity => 
                         moment(activity.start_date).isAfter(moment()) && 
                         activity.attendees.some(attendee => studentFamily.includes(attendee))
                     );
-                    setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...mapActivities(lessonEventResponse, true)]);
+                    newActivities = [...newActivities, ...mapActivities(lessonEventResponse, true)];
         
                     const lessonResponse = await fetchData('lesson/', activity => 
+                        moment(activity.end_date).isAfter(moment()) && 
                         activity.students.some(student =>  studentFamily.includes(student))
                     );
-                    setActivities(prevActivities => [...prevActivities, ...mapActivities(lessonResponse, true)]);
-
+                    newActivities = [...newActivities, ...mapActivities(lessonResponse, true)];
+    
+                    setActivities(newActivities);
                 }
             }else{
                 toast.error('No se ha podido cargar la información de la familia');
             }
         };
-
+    
         fetchAndSetActivities();
-    }, [userId, currentUser.familyId]);
+    }, [userId]);
 
     return (
         <LayoutProfiles profile={'familia'} selected={'Calendario'}>
