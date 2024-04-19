@@ -15,7 +15,7 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
-  const educator = users.find(user => user.id === lesson.educators);
+  const educator = users.find(user => user.id === lesson.educator);
   const morningLessonText = lesson.is_morning_lesson ? 'Sí' : 'No';
 
   const onDeleteClick = () => {
@@ -29,9 +29,9 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
         <p><strong>Inicio:</strong> {lesson.start_date} {lesson.start_time}</p>
         <p><strong>Fin:</strong> {lesson.end_date} {lesson.end_time}</p>
         <p><strong>Capacidad:</strong> {lesson.capacity}</p>
-        <p><strong>Educador Asociado:</strong> {educator ? educator.name : "No se encontró educador"}</p>
         <p><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</p>
         <p><strong>Clase de Mañana:</strong> {morningLessonText}</p>
+        <p><strong>Educador:</strong> {educator ? `${educator.first_name} ${educator.last_name}` : 'No asignado'}</p>
         <EditIcon className="edit-fill" onClick={() => handleEditClick(lesson.id)} />
         <DeleteIcon className="trash" onClick={onDeleteClick} />
     </div>
@@ -68,7 +68,7 @@ const AdminLessons = () => {
           console.error('Error deleting lesson:', error);
         })
         .finally(() => {
-          setLessonToDelete(null); // Reset lessonToDelete state
+          setLessonToDelete(null); 
         });
     }
   };
@@ -80,6 +80,13 @@ const AdminLessons = () => {
   const handleCreateClassClick = () => {
     navigate('/admin/clases/crear');
   };
+
+  const handleCreateScheduleClick = () => {
+    navigate('/admin/horarios/crear');
+  };
+  const handleScheduleClick = () => {
+    navigate('/admin/horarios');
+  }
 
   useEffect(() => {
     axios
@@ -104,7 +111,12 @@ const AdminLessons = () => {
 
   return (
     <LayoutProfiles profile={'admin'} selected={'Clases'}>
-      <ButtonCreate text='Crear clase' handleCreate={handleCreateClassClick} />
+    <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2%' }}>
+      <ButtonCreate text='Ver Horarios' handleCreate={handleScheduleClick} withIcon={false} />
+      <ButtonCreate text='Crear Clase' handleCreate={handleCreateClassClick} withIcon={true} />
+      <ButtonCreate text='Crear Horario' handleCreate={handleCreateScheduleClick} withIcon={true} />
+
+    </div>
       <ToastContainer />
       <div className='lessons-container'>
       {lessons.length > 0 ? (
