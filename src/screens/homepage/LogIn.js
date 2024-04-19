@@ -131,28 +131,16 @@ function LogIn() {
                         navigate('/voluntario/espera');
                     }
                 }
-            } else if (user.role === 'FAMILIA') {
+            }  else if (user.role === 'FAMILIA') {
                 localStorage.setItem('role', 'FAMILIA')
                 setRole(user.role)
 
-                if (user.family === null) {
-                    //Crea un objeto familia
-                    const response = await axios.post(`${API_ENDPOINT}family/`, 
-                    {name: "Familia " + user.last_name}, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        }});
-                    
-                    localStorage.setItem('familyId', response.data.id);
-                    
-                    //El usuario es asignado esa familia
-                    await axios.patch(`${API_ENDPOINT}auth/users/me/`,
-                    {password: password, family: response.data.id}, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        }});
-                }
+                //TODO Aqui formulario para educador, una cosa así:
+                //if (user.educador === null) {
+                //    navigate('/educador/formulario');}
                 navigate('/familia/evaluacion/diaria/0');
+            
+               
             } else if (user.role === 'SOCIO') {
                 localStorage.setItem('role', 'SOCIO')
                 setRole(user.role)
