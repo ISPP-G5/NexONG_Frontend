@@ -165,17 +165,20 @@ function Register() {
 
     
     else {
+      const username = `${first_name} ${surname}`;
+
         const userData = new FormData();
         userData.append('first_name', first_name);
         userData.append('last_name', surname);
         userData.append('email', email);
+        userData.append('username',username)
         userData.append('id_number', idNumber);
         userData.append('phone', phone);
         userData.append('password', password);
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : isPartnerChecked ? 'SOCIO' : 'FAMILIA');
         userData.append('is_agreed', isAgreedChecked);
         userData.append('is_enabled', false);
-
+        console.log('username',username)
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
