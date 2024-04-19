@@ -124,10 +124,10 @@ const VolunteersAttendance = () => {
         eventsList.map((event) => (
           <div className='card-info' key={event.id}>
             <div>
-              <h3>Evento:</h3><p>{event.name}</p>
-              <h3>Tipo:</h3><p>{event.lesson ? 'Evento de clase' : 'Evento'}</p>
-              <h3>Comienzo:</h3><p>{event.start_date.getDate()}/{event.start_date.getMonth()}/{event.start_date.getFullYear()}, {event.start_date.getHours()}h</p>
-              <h3>Final:</h3><p>{event.end_date.getDate()}/{event.end_date.getMonth()}/{event.end_date.getFullYear()}, {event.end_date.getHours()}h</p>
+              <p><strong>Evento:</strong> {event.name}</p>
+              <p><strong>Tipo:</strong> {event.lesson ? 'Evento de clase' : 'Evento'}</p>
+              <p><strong>Comienzo:</strong> {event.start_date.getDate()}/{event.start_date.getMonth()}/{event.start_date.getFullYear()}, {event.start_date.getHours()}h</p>
+              <p><strong>Final:</strong> {event.end_date.getDate()}/{event.end_date.getMonth()}/{event.end_date.getFullYear()}, {event.end_date.getHours()}h</p>
             </div>
             <div className='edit-delete-icons'>
               <DeleteIcon className='trash' onClick={() => handleDeleteConfirmation(event)} />
