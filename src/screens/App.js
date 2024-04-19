@@ -42,7 +42,9 @@ import AdminSuggestions from './admin/AdminSuggestions';
 import AdminTransparency from './admin/AdminTransparency';
 import AdminEditProfiles from '../components/AdminEditProfiles';
 
-
+import AdminScheduleCreate from './admin/AdminScheduleCreate';
+import AdminSchedules from './admin/AdminSchedules';
+import AdminScheduleEdit from './admin/AdminScheduleEdit';
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
 import EducatorProfileUpdate from './educators/EducatorProfileUpdate';
@@ -66,8 +68,11 @@ import PartnerForm from './partners/PartnerForm';
 
 // FAMILIES
 import FamilyProfile from './family/FamilyProfile';
+import FamilyChildren from './family/FamilyChildren';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
+import FamilyChildForm from './family/FamilyChildForm';
+import FamilyEval from './family/FamilyEval';
 
 function RedirectToHome() {
   const navigate = useNavigate();
@@ -95,7 +100,19 @@ function App() {
       };
     }, []);
   
-  console.log('role',role)
+  
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setRole(localStorage.getItem('role'));
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Limpieza al desmontar
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
   return (
     <Router>
       <Routes>
@@ -152,6 +169,10 @@ function App() {
             <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
 
             <Route path="/admin/documentos" exact={true} element={<AdminTransparency />} />
+
+            <Route path="/admin/horarios/crear" exact={true} element={<AdminScheduleCreate />} />
+            <Route path="/admin/horarios" exact={true} element={<AdminSchedules />} />
+            <Route path="/admin/horarios/editar/:scheduleId" exact={true} element={<AdminScheduleEdit />} />
             
             {/* Routes para colegios aquí */}
 
@@ -201,9 +222,12 @@ function App() {
             {role === 'FAMILIA' && (
               <>
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
+            <Route path="/familia/niños" exact={true} element={<FamilyChildren />} />
+            <Route path="/familia/niños/registro" exact={true} element={<FamilyChildForm />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
-             </> 
+            <Route path="/familia/evaluacion/:tipoTiempo/:studentIndex" exact={true} element={<FamilyEval />} />
+              </> 
             )}
              {/* Redirect unauthorized users to the homepage */}
           {!['ADMIN', 'EDUCADOR', 'SOCIO', 'VOLUNTARIO','FAMILIA'].includes(role) || (

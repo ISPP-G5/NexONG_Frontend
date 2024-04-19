@@ -142,30 +142,24 @@ function LogIn() {
                             'Authorization': `Bearer ${accessToken}`
                         }});
                     }
-                    navigate('/familia/perfil');
-                } else if (user.role === 'SOCIO') {
-                    localStorage.setItem('role', 'SOCIO')
-                    if (user.partner === null) {
-                        navigate('/socio/formulario');
-                    } else {
-                        const partner = await axios.get(`${API_ENDPOINT}partner/${user.partner}`, {
-                            headers: {
-                                'Authorization': `Bearer ${accessToken}`
-                            }});
-                        localStorage.setItem('partnerId', user.partner);
-                        navigate('/socio/calendario')
-                    }
-                    
-                } else if (user.role === 'EDUCADOR') {
-                    localStorage.setItem('role', 'EDUCADOR')
-                    //TODO Aqui formulario para educador, una cosa así:
-                    //if (user.educador === null) {
-                    //    navigate('/educador/formulario');}
-                    navigate('/educador/perfil');
-                } else if (user.role === 'ADMIN'){
-                    localStorage.setItem('role', 'ADMIN')
-                    navigate(`/admin/voluntarios`);
-                }
+                    navigate('/familia/evaluacion/diaria/0');
+            } else if (user.role === 'SOCIO') {
+                localStorage.setItem('role', 'SOCIO')
+                //TODO Aqui formulario para socio, una cosa así:
+                //if (user.socio === null) {
+                //    navigate('/socio/formulario');}
+                navigate('/socio/calendario');
+                
+            } else if (user.role === 'EDUCADOR') {
+                localStorage.setItem('role', 'EDUCADOR')
+                //TODO Aqui formulario para educador, una cosa así:
+                //if (user.educador === null) {
+                //    navigate('/educador/formulario');}
+                navigate('/educador/perfil');
+            } else if (user.role === 'ADMIN'){
+                localStorage.setItem('role', 'ADMIN')
+                navigate(`/admin/voluntarios`);
+            }
         
             localStorage.setItem('userId', user.id);  
 
