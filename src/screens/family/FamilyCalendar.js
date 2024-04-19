@@ -98,17 +98,16 @@ const FamilyCalendar = () => {
         
                     let newActivities = [];
     
-                    const eventResponse = await fetchData('event/', activity => 
-                        moment(activity.start_date).isAfter(moment()) &&
-                        activity.attendees.some(attendee => studentFamily.includes(attendee))
-                    );
-                    newActivities = [...newActivities, ...mapActivities(eventResponse, false)];
-    
-                    const lessonEventResponse = await fetchData('lesson-event/', activity => 
-                        moment(activity.start_date).isAfter(moment()) && 
-                        activity.attendees.some(attendee => studentFamily.includes(attendee))
-                    );
-                    newActivities = [...newActivities, ...mapActivities(lessonEventResponse, true)];
+                    async function fetchAndMapActivities(url, isLesson) {
+                        const response = await fetchData(url, activity => 
+                            moment(activity.start_date).isAfter(moment()) &&
+                            activity.attendees.some(attendee => studentFamily.includes(attendee))
+                        );
+                        return [...mapActivities(response, isLesson)];
+                    }
+                    
+                    newActivities = [...newActivities, ...await fetchAndMapActivities('event/', false)];
+                    newActivities = [...newActivities, ...await fetchAndMapActivities('lesson-event/', true)];
         
                     const lessonResponse = await fetchData('lesson/', activity => 
                         moment(activity.end_date).isAfter(moment()) && 
