@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import 'moment/locale/es';
 import axios from 'axios';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
@@ -9,9 +10,9 @@ import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-const localizer = momentLocalizer(moment);
-
 const FamilyCalendar = () => {
+    moment.locale('es');
+    const localizer = momentLocalizer(moment);
     const [token, updateToken] = useToken();
     const config = {
         headers: {
