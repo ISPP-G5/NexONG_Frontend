@@ -2,10 +2,10 @@ import '../../styles/styles.css';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LayoutHomepage from '../../components/LayoutHomepage';
-import FundacionLaCaixa from '../../logo/ColaboratorsEntities/+fundacion-la-caixa.jpg';
-import Logotipo_de_la_Junta_de_Andalucia_2020 from '../../logo/ColaboratorsEntities/Logotipo_de_la_Junta_de_Andalucia.png';
-import ayuntamientoSevilla from '../../logo/ColaboratorsEntities/logo_ayuntamiento_sevilla.png';
-import consejeriaIgualdad from  '../../logo/ColaboratorsEntities/Logo_de_la_Consejeria_de_Inclusion_Social_Juventud_Familias_e_Igualdad_de_la_Junta_de_Andalucia.png';
+import FundacionLaCaixa from '../../logo/ColaboratorsEntities/la-caixa.jpg';
+import Logotipo_de_la_Junta_de_Andalucia_2020 from '../../logo/ColaboratorsEntities/log-andalucia.png';
+import ayuntamientoSevilla from '../../logo/ColaboratorsEntities/ayutamiento_sevilla.png';
+import consejeriaIgualdad from  '../../logo/ColaboratorsEntities/logo-igualdad-andalucia.png';
 import misnis from '../../logo/ColaboratorsEntities/misnis2030-150x150.jpg';
 import pablOlavide from  '../../logo/ColaboratorsEntities/pablo-olavide.jpg';
 import consejoSocialUs from  '../../logo/ColaboratorsEntities/consejo-social-us.jpg'
