@@ -38,7 +38,6 @@ function PartnerForm() {
     const[address,setAddress] = useState('');
     const[birthdate,setBirthdate] = useState('');
     const[enrollmentDoc,setEnrollmentDoc] = useState('');
-    const currentDate = new Date();
 
     const handleEnrollmentDocChange = (e) => {
         const file = e.target.files[0]
