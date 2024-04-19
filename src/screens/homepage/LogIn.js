@@ -145,10 +145,17 @@ function LogIn() {
                     navigate('/familia/evaluacion/diaria/0');
             } else if (user.role === 'SOCIO') {
                 localStorage.setItem('role', 'SOCIO')
-                //TODO Aqui formulario para socio, una cosa así:
-                //if (user.socio === null) {
-                //    navigate('/socio/formulario');}
-                navigate('/socio/calendario');
+                if (user.partner === null) {
+                    navigate('/socio/formulario');
+                } else {
+                    const partner = await axios.get(`${API_ENDPOINT}partner/${user.partner}`, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }});
+                    console.log('Partner:', partner.data.status);
+                    localStorage.setItem('partnerId', user.partner);
+                    navigate('/socio/calendario');
+                }
                 
             } else if (user.role === 'EDUCADOR') {
                 localStorage.setItem('role', 'EDUCADOR')
