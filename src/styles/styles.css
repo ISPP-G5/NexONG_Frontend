@@ -696,7 +696,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 }
 
 .intro-container.history::before {
-    background-image: url("../logo/backgrounds/Vacie.jpg");
+    background-image: url("../logo/backgrounds/Programa\ Familias\ \(2\).jpeg");
 }
 
 .intro-container.colab::before {
@@ -725,6 +725,8 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 .intro-text h1,
 .intro-text p {
     color: white;
+    text-align: center;
+
 }
 
 /* HOMEPAGE CONTAINER */
