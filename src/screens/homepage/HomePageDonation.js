@@ -69,14 +69,7 @@ function HomePageDonation() {
             oneTimeFormData.append('date',date);
             try {
                 const update = await axios.post(`${API_ENDPOINT}punctual-donation/`,
-                oneTimeFormData,
-                {
-                    headers:{
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `Bearer ${token}`
-                        
-                    }
-                });
+                oneTimeFormData);
                 console.log(update);
                 const { data } = update;
                 if (data.message) {
