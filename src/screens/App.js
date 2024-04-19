@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route , Routes,useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
+import RoleContext from '../components/RoleContext';
 // HOMEPAGE
 import HomePage from './homepage/HomePage';
 import HomePageAssociation from './homepage/HomePageAssociation';
@@ -64,6 +65,7 @@ import VolunteerFormation from './volunteers/VolunteerFormation';
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
+import PartnerForm from './partners/PartnerForm';
 
 // FAMILIES
 import FamilyProfile from './family/FamilyProfile';
@@ -113,6 +115,8 @@ function App() {
     };
   }, []);
   return (
+    <RoleContext.Provider value={{ role, setRole }}>
+
     <Router>
       <Routes>
             <Route path="/" element={<HomePage />} />
@@ -214,6 +218,7 @@ function App() {
               <>
             {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
+            <Route path="/socio/formulario" exact={true} element={<PartnerForm />} />
               </>
             )}
             {/* FAMILIES ROUTES */}
@@ -236,6 +241,8 @@ function App() {
 
             </Routes>
     </Router>
+    </RoleContext.Provider>
+
   );
 }
 

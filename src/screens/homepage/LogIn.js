@@ -1,5 +1,5 @@
 import '../../styles/styles.css'
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation, redirect } from 'react-router-dom';
 import LayoutHomepage from '../../components/LayoutHomepage';
 import useAdjustMargin from '../../components/useAdjustMargin';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../components/useToken';
-
+import RoleContext from '../../components/RoleContext';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -17,6 +17,8 @@ function LogIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [token, updateToken] = useToken();
+    const { setRole } = useContext(RoleContext);
+
 
     const getUserData = async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -103,10 +105,9 @@ function LogIn() {
                 }});
             const user = userResponse.data;
 
-            console.log('User:', user);
-
             if (user.role === 'VOLUNTARIO') {
                 localStorage.setItem('role', 'VOLUNTARIO')
+                setRole(user.role)
                 if (user.volunteer === null) {
                     navigate('/voluntario/formulario');
                 } else {
@@ -119,6 +120,8 @@ function LogIn() {
                     console.log('Volunteer:', volunteer.data.status);
 
                     localStorage.setItem('volunteerId', user.volunteer);
+                    setRole(user.role)
+
 
                     if (volunteer.data.status === 'ACEPTADO') {
                         navigate('/voluntario/agenda');
@@ -126,7 +129,7 @@ function LogIn() {
                         navigate('/voluntario/espera');
                     }
                 }
-            } else if (user.role === 'FAMILIA') {
+            }  else if (user.role === 'FAMILIA') {
                 localStorage.setItem('role', 'FAMILIA')
                 if (user.family === null) {
                     //Crea un objeto familia
@@ -143,23 +146,34 @@ function LogIn() {
                         headers: {
                             'Authorization': `Bearer ${accessToken}`
                         }});
-                }
-                navigate('/familia/evaluacion/diaria/0');
+                    }
+                    navigate('/familia/evaluacion/diaria/0');
             } else if (user.role === 'SOCIO') {
                 localStorage.setItem('role', 'SOCIO')
-                //TODO Aqui formulario para socio, una cosa así:
-                //if (user.socio === null) {
-                //    navigate('/socio/formulario');}
-                navigate('/socio/calendario');
+                if (user.partner === null) {
+                    navigate('/socio/formulario');
+                } else {
+                    const partner = await axios.get(`${API_ENDPOINT}partner/${user.partner}`, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }});
+                    console.log('Partner:', partner.data.status);
+                    localStorage.setItem('partnerId', user.partner);
+                    navigate('/socio/calendario');
+                }
                 
             } else if (user.role === 'EDUCADOR') {
                 localStorage.setItem('role', 'EDUCADOR')
+                setRole(user.role)
+
                 //TODO Aqui formulario para educador, una cosa así:
                 //if (user.educador === null) {
                 //    navigate('/educador/formulario');}
                 navigate('/educador/perfil');
             } else if (user.role === 'ADMIN'){
                 localStorage.setItem('role', 'ADMIN')
+                setRole(user.role)
+
                 navigate(`/admin/voluntarios`);
             }
         
