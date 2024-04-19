@@ -23,7 +23,6 @@ function HomePageDonation() {
     const[oneTimeEmail,setOneTimeEmail] = useState('');
     const[paymentDoc,setPaymentDoc] = useState('');
     const[date,setDate] = useState('');
-    const token = localStorage.getItem('accessToken');
 
     const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     useEffect(() => {
