@@ -97,8 +97,10 @@ const FamilyForm = () => {
             <LayoutProfiles profile={'familia'}>
             <ToastContainer />
             <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
+
+                <h3>Formulario de Familiares</h3>
                 
-                <p>Apellido 1</p>
+                <p>Primer Apellido</p>
                 <input 
                     defaultValue={surname1}
                     onChange={(e) => setSurname1(e.target.value)}
@@ -106,7 +108,7 @@ const FamilyForm = () => {
                     placeholder='Primer Apellido'
                 ></input>
 
-                <p>Apellido 2</p>
+                <p>Segundo Apellido</p>
                 <input 
                     defaultValue={surname2}
                     onChange={(e) => setSurname2(e.target.value)}
