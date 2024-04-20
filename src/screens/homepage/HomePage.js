@@ -33,9 +33,7 @@ function HomePage() {
       window.scrollTo(0, 0);
     }, []);
     axios.get( `${API_ENDPOINT}`)
-    .then(response => {
-        console.log(response.data);
-    }, error => {
+    .then(response => {}, error => {
         console.error(error);
     }
     );
