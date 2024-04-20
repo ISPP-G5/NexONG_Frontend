@@ -25,6 +25,10 @@ const Document = () => {
   
     const sendForm = async (e) => {
       e.preventDefault(); // Prevenir la recarga de la página
+      if(document &&document.type !== 'application/pdf'){
+        toast.error("Adjunte un documento en formato PDF");
+        return
+      }
       if (!title || title === '') {
         toast.error("Se debe de insertar un titulo", {
           autoClose: 5000

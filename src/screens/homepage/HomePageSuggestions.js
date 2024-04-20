@@ -13,6 +13,7 @@ function HomePageSuggestions() {
 
   const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const[email,setEmail] = useState('');
   const[subject,setSubject] = useState('');
   const[description,setDescription] = useState('');
@@ -29,11 +30,15 @@ function HomePageSuggestions() {
 
   const sendForm = async(e) => {
     e.preventDefault();
+    if (!emailFormat.test(email)) {
+      toast.error('Formato de correo inválido');
+      return;
+     }
     if(!subject || subject === ''){
       toast.error("Introduzca un asunto");
     }else if(!description || description === ''){
-      toast.error("Intdoduzca su sugerencia")
-    }else if(description.length > 1000){
+      toast.error("Introduzca su sugerencia")
+    }else if(description.length > 255){
       toast.error("La descripción puede contener hasta 255 carácteres")
     }
     else{
@@ -44,12 +49,8 @@ function HomePageSuggestions() {
       formData.append('date',date);
       try{
         const update = await axios.post(`${API_ENDPOINT}suggestion/`,
-        formData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-        }
-        });
+        formData
+        );
         console.log(update);
         const { data } = update;
         if(data.message){

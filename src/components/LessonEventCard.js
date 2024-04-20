@@ -55,7 +55,8 @@ function LessonEventCard({ lessonEvent, kids }) {
       toast.success("Autorización subida con éxito");
     } catch (error) {
       console.error("Error al subir el archivo:", error);
-      toast.error(error.response.data.non_field_errors[0]);
+      if (error.response.data.authorization) toast.error("Porfavor, introduzca un fichero de autorización en formato PDF");
+      if (error.response.data.non_field_errors)  toast.error("El alumno escogido no está puede asistir a este evento");
     }
   };
 

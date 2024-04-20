@@ -102,7 +102,7 @@ const UpdateProfile = ({tipo,id}) => {
                 toast.error("Formato del correo incorrecto.");
             } else if (error.response.data.phone) {
                 toast.error("Formato del telefono incorrecto");
-            } else if (!id.match(spanishIdFormat)) {
+            } else if (!spanishIdFormat.test(id)) {
                 toast.error('Formato de identificación inválido');
             } else {
                 toast.error("Datos no válidos.");

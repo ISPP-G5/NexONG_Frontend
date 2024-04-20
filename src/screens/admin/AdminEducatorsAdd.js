@@ -143,7 +143,8 @@ function AdminEducatorsAdd() {
       } catch (error) {
         if (error.response && error.response.status === 400) {
           Object.entries(error.response.data).forEach(([key, value]) => {
-            toast.error(`${value}`);
+            if (value == "Enter a valid email address.") toast.error("Correo inválido");
+            if (value == "The id_number does not match the expected pattern.") toast.error("DNI inválido");
           });
         } else {
           toast.error("Error en la solicitud", { autoClose: 5000 });

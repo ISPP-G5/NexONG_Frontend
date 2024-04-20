@@ -165,9 +165,7 @@ function LogIn() {
             localStorage.setItem('userId', user.id);  
 
         } catch(error){
-            Object.entries(error.response.data).forEach(([key, value]) => {
-                toast.error(`${value}`);
-            });
+            toast.error("No hay ningún usuario con este correo o la contraseña no es correcta")
         }
     }  
 
