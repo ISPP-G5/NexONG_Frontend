@@ -51,14 +51,9 @@ const VolunteerAgenda = () => {
   useEffect(() => {
     axios.get(`${API_ENDPOINT}auth/users/me/`, config)
       .then(response => {
-        const userWithUserId = response.data;
-        if (userWithUserId) {
           setCurrentUser({
-            volunteerId: userWithUserId.volunteer
+            volunteerId: response.data.volunteer
           });
-        } else {
-          console.error('No user found with the provided user ID.');
-        }
       })
       .catch(error => {
         console.error(error);

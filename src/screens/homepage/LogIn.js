@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../components/useToken';
 import RoleContext from '../../components/RoleContext';
+import { Api } from '@mui/icons-material';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -125,23 +126,13 @@ function LogIn() {
                 }
             }  else if (user.role === 'FAMILIA') {
                 localStorage.setItem('role', 'FAMILIA')
-                if (user.family === null) {
-                    //Crea un objeto familia
-                    const response = await axios.post(`${API_ENDPOINT}family/`, 
-                    {name: "Familia " + user.last_name}, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        }});
-                    
-                    localStorage.setItem('familyId', response.data.id);
-                    //El usuario es asignado esa familia
-                    await axios.patch(`${API_ENDPOINT}auth/users/me/`,
-                    {password: password, family: response.data.id}, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        }});
-                    }
+                setRole(user.role)
+                if(user.family === null){
+                    navigate('/familia/registro');
+                } else {    
                     navigate('/familia/evaluacion/diaria/0');
+                }         
+            
             } else if (user.role === 'SOCIO') {
                 localStorage.setItem('role', 'SOCIO')
                 if (user.partner === null) {
