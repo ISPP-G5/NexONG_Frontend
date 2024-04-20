@@ -54,10 +54,10 @@ function HomePageDonation() {
             toast.error("Adjunte un documento de pago")
         }
         else if(oneTimeName.length>75){
-        toast.error("Indica un nombre, no debe superar 75 caráteres")
+        toast.error("Introduzca un nombre, no debe superar 75 caracteres")
          }
          else if(oneTimeSurname.length>75){
-            toast.error("Indica un nombre, no debe superar 75 caráteres")
+            toast.error("Introduzca un nombre, no debe superar 75 caracteres")
         }
         else{
             const oneTimeFormData = new FormData();
