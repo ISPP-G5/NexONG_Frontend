@@ -39,9 +39,6 @@ const FamilyForm = () => {
     }, []);
 
     //Atributos
-
-    const [password, setPassword] = useState("");
-
     const [surname1, setSurname1] = useState("");
     const [surname2, setSurname2] = useState("");
 
@@ -56,13 +53,10 @@ const FamilyForm = () => {
             const post = await axios.post(`${API_ENDPOINT}family/`, postFam, config);
             const { data } = post;
     
-            console.log("datos", data);
-    
             const firstKey = Object.values(data)[0];
-            console.log("Primera clave de 'data':", firstKey);
     
             if (data.message) {
-                window.alert(data.message);
+                console.error(data.message);
             } else {
                 axios.get(`${API_ENDPOINT}family/${firstKey}`, config)
                     .then(response => {
@@ -71,7 +65,6 @@ const FamilyForm = () => {
     
                         const updatedData = {
                             email: valoresList.email,
-                            password: password,
                             family: familiaData.id, // Aquí se pasa el pk de la familia
                             is_agreed: 'true',
                         };
@@ -79,7 +72,6 @@ const FamilyForm = () => {
                         axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData, config)
                             .then(update => {
                                 const { data: updatedUserData } = update;
-                                window.alert(updatedUserData.message);
                                 navigate('/familia/perfil');
                             })
                             .catch(error => {
@@ -120,14 +112,6 @@ const FamilyForm = () => {
                     onChange={(e) => setSurname2(e.target.value)}
                     type='text'
                     placeholder='Segundo Apellido'
-                ></input>
-
-                <p>Contraseña</p>
-                <input 
-                    defaultValue={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    type='password'
-                    placeholder='Contraseña'
                 ></input>
 
                 <button onClick={updatePut} className='register-button admin' >
