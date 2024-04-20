@@ -22,6 +22,8 @@ import HomePageVolunteers from './homepage/HomePageVolunteers';
 import HomePageSuggestions from './homepage/HomePageSuggestions';
 import Register from './homepage/Register';
 import LogIn from './homepage/LogIn';
+import Checkout from '../components/Checkout';
+
 
 // ADMIN
 import AdminProfile from './admin/AdminProfile';
@@ -75,6 +77,8 @@ function App() {
             <Route path="/asociacion/historia" element={<HomePageHistory />} />
             <Route path="/asociacion/donde-estamos" exact={true} element={<HomePageWhereWeAre />} />
             <Route path="/asociacion/mision-vision-valores" element={<HomePageMisionOverviewValues />} />
+            <Route exact path="checkout/:prod_id" element={<Checkout/>}/>         
+
             {/* Falta la salle */}
             {/* Falta organizacion */}
             <Route path="/asociacion/transparencia" exact={true} element={<HomePageTransparency />} />

@@ -1,5 +1,7 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import {Link} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,6 +9,7 @@ import google from '../../logo/google.svg'
 import axios from 'axios';
 import LayoutHomepage from '../../components/LayoutHomepage';
 import useAdjustMargin from '../../components/useAdjustMargin';
+
 
 
 function HomePageDonation() {
@@ -43,6 +46,11 @@ function HomePageDonation() {
             setCardVisible(false);
         }
     };
+
+    const handleCheckout=(e)=>{
+        e.preventDefault(); // Prevent default form submission behavior
+        window.location.replace(`/checkout/${1}`)
+   }
 
     const[oneTimeName,setOneTimeName] = useState('');
     const[oneTimeSurname,setOneTimeSurname] = useState('');
@@ -239,7 +247,7 @@ function HomePageDonation() {
                             los siguientes campos:</p>
                         </div>
                         
-                        <form className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
+                        <form onSubmit={handleCheckout}  className='register-container' style={{width: '95%', backgroundColor: 'transparent' ,border: 'none', boxShadow: 'none'}}>
 
                             <label>Nombre</label>
                             <input
@@ -293,12 +301,12 @@ function HomePageDonation() {
                                     {/* Stripe Form */}
                                     <label>Cantidad</label>
                                     <input
-                                    value={oneTimeEmail}
+                                    value={amount}
                                     type='text'
                                     placeholder='Escriba la cantidad a donar'
                                     onChange={(e) => setAmount(e.target.value)}
                                     />
-                                    <button type='submit' className='register-button'>
+                                    <button type='submit'  className='register-button'>
                                         Pagar con Tarjeta
                                     </button>
                                 </div>
