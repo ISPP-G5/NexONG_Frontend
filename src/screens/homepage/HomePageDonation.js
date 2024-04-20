@@ -23,7 +23,6 @@ function HomePageDonation() {
     const[oneTimeEmail,setOneTimeEmail] = useState('');
     const[paymentDoc,setPaymentDoc] = useState('');
     const[date,setDate] = useState('');
-    const token = localStorage.getItem('accessToken');
 
     const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     useEffect(() => {
@@ -69,14 +68,7 @@ function HomePageDonation() {
             oneTimeFormData.append('date',date);
             try {
                 const update = await axios.post(`${API_ENDPOINT}punctual-donation/`,
-                oneTimeFormData,
-                {
-                    headers:{
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `Bearer ${token}`
-                        
-                    }
-                });
+                oneTimeFormData);
                 console.log(update);
                 const { data } = update;
                 if (data.message) {
