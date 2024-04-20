@@ -68,8 +68,10 @@ import PartnersCalendar from './partners/PartnersCalendar';
 import PartnerForm from './partners/PartnerForm';
 
 // FAMILIES
+import FamilyForm from './family/FamilyForm';
 import FamilyCalendar from './family/FamilyCalendar';
 import FamilyProfile from './family/FamilyProfile';
+import FamilyUpdate from './family/FamilyUpdate';
 import FamilyChildren from './family/FamilyChildren';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
@@ -225,11 +227,13 @@ function App() {
             {/* FAMILIES ROUTES */}
             {role === 'FAMILIA' && (
               <>
+            <Route path="/familia/registro" exact={true} element={<FamilyForm />} />
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
             <Route path="/familia/niños" exact={true} element={<FamilyChildren />} />
             <Route path="/familia/niños/registro" exact={true} element={<FamilyChildForm />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
+            <Route path='/familia/perfil/actualizar' exact={true} element={<FamilyUpdate/>}/>
             <Route path="/familia/calendario" exact={true} element={<FamilyCalendar />} />
             <Route path="/familia/evaluacion/:tipoTiempo/:studentIndex" exact={true} element={<FamilyEval />} />
               </> 
