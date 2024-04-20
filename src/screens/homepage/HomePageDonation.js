@@ -57,7 +57,7 @@ function HomePageDonation() {
         toast.error("Introduzca un nombre, no debe superar 75 caracteres")
          }
          else if(oneTimeSurname.length>75){
-            toast.error("Introduzca un nombre, no debe superar 75 caracteres")
+            toast.error("Introduzca un apellido, no debe superar 75 caracteres")
         }
         else{
             const oneTimeFormData = new FormData();
