@@ -174,7 +174,7 @@ const FamilyCalendar = () => {
 
         {open && (
         <Dialog open={open} onClose={() => setOpen(false)}>
-            <DialogTitle>Detalles del evento</DialogTitle>
+            <DialogTitle>Detalles de{selectedEvent.max_volunteers ? 'l evento' : ' la clase'}</DialogTitle>
             <DialogContent>
                 {selectedEvent && (
                     <div>
