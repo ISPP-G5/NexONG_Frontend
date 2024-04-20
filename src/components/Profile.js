@@ -15,8 +15,14 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const Profile = ({ usuario }) => {
   const [token] = useToken(); 
-  const [valores, setValores] = useState({});
+  const [userData, setUserData] = useState({});
   const navigate = useNavigate();
+
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +32,8 @@ const Profile = ({ usuario }) => {
             'Authorization': `Bearer ${token}`,
           }
         });
-        setValores(response.data);
+        setUserData(response.data);
+        console.log('User',userData);
       } catch (error) {
         console.error(error);
         toast.error('Error al cargar datos del usuario', { autoClose: 5000 });
@@ -34,50 +41,54 @@ const Profile = ({ usuario }) => {
     };
 
     fetchData();
-  }, [token, API_ENDPOINT]);
-
-  const handleEliminar = async () => {
-    if (!valores.id || valores.id <= 0) {
-      toast.error('Error al eliminar', { autoClose: 5000 });
-      return;
-    }
-
-    try {
-      const path = `${API_ENDPOINT}${valores.role.toLowerCase()}/${valores[valores.role.toLowerCase()]}/`;
-      await axios.delete(path, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        }
-      });
-      toast.success("Persona eliminada correctamente", { autoClose: 5000 });
-      navigate('/');
+  }, []);
+  
+  const handleEliminar = async() =>{
+    try{
+      const roleEndpointMap = {
+        'VOLUNTARIO': `volunteer/${userData.volunteer}`,
+        'SOCIO': `partner/${userData.partner}`,
+        'EDUCADOR': `educator/${userData.educator}`,
+        'FAMILIA': `family/${userData.family}`,
+      };
+  
+      const endpoint = roleEndpointMap[userData.role];
+  
+      if (endpoint) {
+        await axios.delete(`${API_ENDPOINT}${endpoint}/`, config);
+        toast.success("Persona eliminada correctamente", { autoClose: 5000 });
+        navigate('/');
+      } else {
+        throw new Error('Invalid user role');
+      }
     } catch (error) {
       console.error(error);
       toast.error('El usuario no puede ser borrado', { autoClose: 5000 });
+      window.location.reload(); 
     }
-  };
+  }
 
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   return (
     <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
       <ToastContainer />
-      <img src={valores.avatar || avatarImage} alt="Profile Avatar" />
+      <img src={userData.avatar || avatarImage} alt="Profile Avatar" />
 
       <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>
-        {valores.username}
+        {userData.username}
       </div>
 
       <p>Email</p>
-      <input type='text' value={valores.email || ''} readOnly />
+      <input type='text' value={userData.email || ''} readOnly />
 
       <p>Teléfono</p>
-      <input type='text' value={valores.phone || ''} readOnly />
+      <input type='text' value={userData.phone || ''} readOnly />
 
       <p>Contraseña</p>
       <input type='password' value="********" readOnly />
 
-      {valores.role !== "ADMIN" && (
+      {usuario !== "admin" && (
         <button className='button-decline' style={{marginTop: '5%'}} onClick={() => setConfirmDeleteOpen(true)}>
           Borrar cuenta y datos
         </button>

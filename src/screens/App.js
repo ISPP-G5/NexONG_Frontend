@@ -65,6 +65,7 @@ import VolunteerFormation from './volunteers/VolunteerFormation';
 // PARTNERS
 //import PartnerProfile from './partners/PartnerProfile';
 import PartnersCalendar from './partners/PartnersCalendar';
+import PartnerForm from './partners/PartnerForm';
 
 // FAMILIES
 import FamilyCalendar from './family/FamilyCalendar';
@@ -218,6 +219,7 @@ function App() {
               <>
             {/*<Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />*/}
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
+            <Route path="/socio/formulario" exact={true} element={<PartnerForm />} />
               </>
             )}
             {/* FAMILIES ROUTES */}
