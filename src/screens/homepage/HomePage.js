@@ -1,6 +1,7 @@
 import '../../styles/styles.css';
 import { useEffect } from 'react';
 import LayoutHomepage from '../../components/LayoutHomepage';
+import HomePageDescription from '../../components/HomePageDescription';
 import axios from 'axios';
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -9,6 +10,8 @@ const info = [
     {
       title: 'Nosotros',
       description: 'Asociación Manos Abiertas con Norte es una entidad sin ánimo de lucro, perteneciente a la Red de Obras Socioeducativas de La Salle, que trabaja en el ámbito de la intervención social en la barriada Polígono Norte y en el asentamiento chabolista de El Vacie, Sevilla.',
+      link: '/asociacion/nosotros',
+      button: 'Conócenos',
     },
     {
       title: 'Entidades Colaboradoras',
@@ -30,17 +33,15 @@ function HomePage() {
       window.scrollTo(0, 0);
     }, []);
     axios.get( `${API_ENDPOINT}`)
-    .then(response => {
-        console.log(response.data);
-    }, error => {
+    .then(response => {}, error => {
         console.error(error);
     }
     );
         return (
           <LayoutHomepage 
             title={'Asociación Manos Abiertas con Norte'} 
-            description={'Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada.'}
-            image={'ong'}
+            description={HomePageDescription()}
+            image={'ong'} 
             info={info}
           />        
          );

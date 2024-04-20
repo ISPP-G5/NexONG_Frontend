@@ -10,12 +10,15 @@ function Footer () {
         <div className='footer'>
             <div className='footer-contact'>
                 <p>Email:&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:manosabiertas@lasalleandalucia.net" style={{ color: 'black', display: 'inline' }}>manosabiertas@lasalleandalucia.net</a></p>
-                <p>Teléfonos:&nbsp;&nbsp;&nbsp;&nbsp;650485214&nbsp;&nbsp;ó&nbsp;&nbsp;640168593</p>
+                <p>Teléfonos:&nbsp;&nbsp;&nbsp;&nbsp;650485214&nbsp;&nbsp;ó&nbsp;&nbsp;640168593&nbsp;&nbsp;ó&nbsp;&nbsp;660980483</p>
                 <p>Fax:&nbsp;&nbsp;&nbsp;&nbsp;158 425 252</p>
+                <p>CIF:&nbsp;&nbsp;&nbsp;&nbsp;G-41753435</p>
+
+
             </div>
 
             <div className='footer-address'> 
-                <p>Polígono norte Sevilla (41009):</p>
+                <p>Polígono Norte Sevilla (41009):</p>
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Plaza Río de Janeiro, 10 </p>
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Calle Meléndez Valdés, 28</p>
             </div>

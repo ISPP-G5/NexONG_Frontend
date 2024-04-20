@@ -3,6 +3,13 @@ import axios from 'axios';
 import { toast} from 'react-toastify';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+const token = localStorage.getItem('accessToken');
+
+const config = {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+};
 
 export default function EducatorEvaluationCommon() {
   const [userId,setUserId] = useState(null);
@@ -39,7 +46,7 @@ export default function EducatorEvaluationCommon() {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
           const user = response.data.find(user => user.id == userId);
           if (user) {
@@ -49,7 +56,7 @@ export default function EducatorEvaluationCommon() {
     }
   }, [userId]);
   useEffect(() => {
-    axios.get(`${API_ENDPOINT}evaluation-type/`)
+    axios.get(`${API_ENDPOINT}evaluation-type/`,config)
       .then(response => {
         console.log('evaluation types',response.data)
         setEvaluationTypes(response.data);
@@ -60,7 +67,7 @@ export default function EducatorEvaluationCommon() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
+        const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`,config);
         setStudentEvaluations(evaluations);
         console.log('student evaluations',evaluations)
       } catch (error) {
@@ -74,7 +81,7 @@ export default function EducatorEvaluationCommon() {
 
   useEffect(() => {
     if (educatorId) {
-      axios.get(`${API_ENDPOINT}lesson/`)
+      axios.get(`${API_ENDPOINT}lesson/`,config)
         .then(response => {
           const lessons = response.data.filter(lesson => lesson.educator === educatorId);
           if (lessons.length > 0) {
@@ -91,7 +98,7 @@ export default function EducatorEvaluationCommon() {
 
 useEffect(() => {
   if (kids) {
-    axios.get(`${API_ENDPOINT}student/`)
+    axios.get(`${API_ENDPOINT}student/`,config)
       .then(response => {
         const matchingStudents = response.data.filter(student => kids.includes(student.id));
         setStudents(matchingStudents);
@@ -108,7 +115,7 @@ useEffect(() => {
   useEffect(() => {
     if (selectedStudent) {
       console.log(selectedStudent);
-      axios.get(`${API_ENDPOINT}user/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`)
         .then(response => {
           const user = response.data.find(user => user.family == selectedStudent.family);
           if (user) {
@@ -174,7 +181,7 @@ useEffect(() => {
       
     
      
-      const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`);
+      const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`,config);
 
       const studentEvaluation = evaluations.find(evaluation => 
         evaluation.student === parseInt(studentId) && 
@@ -189,7 +196,7 @@ useEffect(() => {
           grade: parseInt(grade, 10), 
           comment: comment, 
           date: selectedDate, 
-        });
+        },config);
         console.log('Update response:', updateResponse);
         if (updateResponse.status === 200) {
           console.log('Evaluation updated successfully');
@@ -220,7 +227,7 @@ useEffect(() => {
           student: parseInt(studentId),
           evaluation_type: Object.keys(evaluation)[0],
           
-        });
+        },config);
         console.log('Create response:', createResponse);
 
         if (createResponse.status === 201) {
