@@ -1863,6 +1863,11 @@ tbody tr:nth-child(odd) {
     z-index: 999;
 }
 
+.Toastify__toast {
+    color: #000000 !important;
+  }
+
+
 /********************* EDUCATORS EVALUATION ******************/
 
 .evaluation-select option {

@@ -84,6 +84,17 @@ function VolunteerForm() {
       toast.error('Fecha de nacimiento es obligatorio');
       return;
     }
+    const birthdateObj = new Date(birthdate);
+    birthdateObj.setHours(0, 0, 0, 0); 
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalizar la fecha actual para eliminar la hora
+
+    // Comprobar si la fecha de nacimiento es antes de hoy
+    if (birthdateObj >= today) {
+      toast.error('La fecha de nacimiento inválida');
+      return;
+    }
     if (!academicFormation) {
       toast.error('Formación academica es obligatorio');
       return;
@@ -94,6 +105,22 @@ function VolunteerForm() {
     }
     if (!scannedId) {
       toast.error('Fotocopia del DNI es obligatorio');
+      return;
+    }
+    if (scannedId &&scannedId.type !== 'application/pdf') {
+      toast.error('La fotocopia de su DNI debe ser un PDF');
+      return;
+    }
+    if (sexualOffensesDocument && sexualOffensesDocument.type !== 'application/pdf') {
+      toast.error('El Certificado de Antecedentes de Delitos Sexuales debe ser un PDF');
+      return;
+    }
+    if ( registrySheet &&registrySheet.type !== 'application/pdf') {
+      toast.error('La ficha de registro debe ser un PDF');
+      return;
+    }
+    if (enrollmentDocument && enrollmentDocument.type !== 'application/pdf') {
+      toast.error('El contrato debe ser un PDF');
       return;
     }
     if (isUnder18) {
@@ -158,7 +185,7 @@ function VolunteerForm() {
         });
       } else {
         // If the error response or data doesn't exist, show a generic error message
-        toast.error('Error creating volunteer');
+        toast.error('Error al crear el voluntario');
       }
     }
   };
