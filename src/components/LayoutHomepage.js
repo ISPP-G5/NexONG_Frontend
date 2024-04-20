@@ -5,7 +5,7 @@ import Footer from './Footer';
 import HomepageContainer from './HomepageContainer';
 import { ToastContainer } from 'react-toastify';
 
-function LayoutHomepage ({ title, description, image, info, children,intro = true, toastcontainer = false }) {
+function LayoutHomepage ({ title, description, image, info, children,intro = true, toastcontainer = false, columnwidth = 300}) {
 
   return(
     <div className="App">
@@ -16,7 +16,7 @@ function LayoutHomepage ({ title, description, image, info, children,intro = tru
             description={description}
             image={image}
         />}
-        {info && <HomepageContainer info={info} />}
+        {info && <HomepageContainer info={info} columnwidth={columnwidth}/>}
 
         {children}
         <Footer />

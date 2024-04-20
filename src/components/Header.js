@@ -35,7 +35,7 @@ function Header(){
                     <Link to="/actividades/club-verano">Club de verano</Link>
                 </div>
             </li>
-            <li><Link to="/agenda">Agenda</Link></li>
+            <li><Link to="/agenda">Agenda 2030</Link></li>
             <li><Link to="/donaciones">Donaciones</Link></li>
             <li><Link to="/voluntariado">Voluntariado</Link></li>
             <li><Link to="/sugerencias">Sugerencias</Link></li>

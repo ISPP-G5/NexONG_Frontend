@@ -3,14 +3,14 @@ import React from 'react';
 
 
 const profileItems = {
-    admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Proyectos', 'Sugerencias'],
-    educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades', 'Proyectos','Evaluación trimestral','Evaluación anual Proyectos'],
+    admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Sugerencias', 'Documentos'],
+    educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades'],
     voluntario: ['Agenda', 'Asistencia'],
-    familia: ['Niños', 'Evaluación diaria','Evaluación anual','Observaciones','Autorizaciones','Calendario'],
+    familia: ['Niños', 'Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
     socios: ['Calendario', 'Membresía'],
   };
   
-  const profileLinks = {
+const profileLinks = {
     admin: {
       'Voluntarios': '/admin/voluntarios',
       'Educadores': '/admin/educadores',
@@ -18,17 +18,14 @@ const profileItems = {
       'Familias': '/admin/familias',
       'Clases': '/admin/clases',
       'Eventos': '/admin/eventos',
-      'Proyectos': '/admin/proyectos',
       'Sugerencias': '/admin/sugerencias',
+      'Documentos': '/admin/documentos',
     },
     educador: {
         'Niños': '/educador/niños/evaluacion/diaria',
         'Evaluación diaria': '/educador/niños/evaluacion/diaria',
         'Evaluación anual Niños': '/educador/niños/evaluacion/anual',
         'Actividades': '/educador/niños/actividades',
-        'Proyectos': '/educador/proyectos/evaluacion/trimestral',
-        'Evaluación trimestral': '/educador/proyectos/evaluacion/trimestral',
-        'Evaluación anual Proyectos': '/educador/proyectos/evaluacion/anual',
     },
     voluntario: {
         'Agenda': '/voluntario/agenda',
@@ -36,9 +33,8 @@ const profileItems = {
     },
     familia: {
         'Niños': '/familia/niños',
-        'Evaluación diaria': '/familia/evaluacion/diaria',
-        'Evaluación anual': '/familia/evaluacion/anual',
-        'Observaciones': '/familia/observaciones',
+        'Evaluación diaria': '/familia/evaluacion/diaria/0',
+        'Evaluación anual': '/familia/evaluacion/anual/0',
         'Autorizaciones': '/familia/autorizaciones',
         'Calendario': '/familia/calendario',
     },
@@ -52,6 +48,8 @@ const profileItems = {
 function MenuProfiles({ profile, selected }) {
     const items = profileItems[profile];
     const links = profileLinks[profile];
+    const emptyRows = 8 - items.length;
+
     
     return (
         <table className='menu-profiles' >
@@ -60,13 +58,16 @@ function MenuProfiles({ profile, selected }) {
             <tr key={index}>
                 <td 
                 className={item === selected ? 'selected-menu-profiles' : ''}
-                style={item === 'Familias' || (profile === 'educador' && item === 'Niños') || (profile === 'educador' && item === 'Proyectos')? { borderBottom: '2px solid #9ee5ff' } : {}}
-                >                    
+                style={item === 'Familias' || (profile === 'educador' && item === 'Niños') ? { borderBottom: '2px solid #9ee5ff' } : profile === 'voluntario' || profile === 'socios' ? { height: '5vh'} : {}}                >                    
                 <a href={links[item]}>{item}</a>
                 </td>
             </tr>
             ))}
-
+            {Array(emptyRows).fill().map((_, index) => (
+            <tr key={index + items.length}>
+                <td className='empty'></td>
+            </tr>
+            ))}
         </tbody>
         </table>
     );

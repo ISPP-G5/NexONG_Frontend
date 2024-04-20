@@ -1,54 +1,117 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
-import '../styles/styles.css'
+import { Link, useNavigate } from 'react-router-dom';
+import '../styles/styles.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import useToken from './useToken'; 
+import avatarImage from '../logo/avatar.png';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-const Profile = ({usuario}) => {
+const Profile = ({ usuario }) => {
+  const [token] = useToken(); 
+  const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
 
-  const [valores, setValores] = useState([]);
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
 
-  //Traemos los datos del usuario que ha iniciado sesión
   useEffect(() => {
-
-      axios.get(`${API_ENDPOINT}user/`)
-        .then(response => {
-          setValores(response.data.filter(x=>x.id===parseInt(localStorage.getItem('userId'),10)));
-        })
-        .catch(error => {
-          console.error(error);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_ENDPOINT}auth/users/me/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
         });
+        setUserData(response.data);
+        console.log('User',userData);
+      } catch (error) {
+        console.error(error);
+        toast.error('Error al cargar datos del usuario', { autoClose: 5000 });
+      }
+    };
 
+    fetchData();
   }, []);
+  
+  const handleEliminar = async() =>{
+    try{
+      const roleEndpointMap = {
+        'VOLUNTARIO': `volunteer/${userData.volunteer}`,
+        'SOCIO': `partner/${userData.partner}`,
+        'EDUCADOR': `educator/${userData.educator}`,
+        'FAMILIA': `family/${userData.family}`,
+      };
+  
+      const endpoint = roleEndpointMap[userData.role];
+  
+      if (endpoint) {
+        await axios.delete(`${API_ENDPOINT}${endpoint}/`, config);
+        toast.success("Persona eliminada correctamente", { autoClose: 5000 });
+        navigate('/');
+      } else {
+        throw new Error('Invalid user role');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('El usuario no puede ser borrado', { autoClose: 5000 });
+      window.location.reload(); 
+    }
+  }
 
-  //Mostramos los datos en inputs para censurar la contraseña
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
   return (
-    <div  className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
-      {valores.map((profile, index) => (
-        <div key={index}>
-          <img src={profile.avatar} alt={"imagen"} />
+    <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
+      <ToastContainer />
+      <img src={userData.avatar || avatarImage} alt="Profile Avatar" />
 
-          <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>{profile.username}</div>
+      <div style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '1%', marginBottom:'1%' }}>
+        {userData.username}
+      </div>
 
-          <p>Email</p>
-          <input type='text' value={profile.email} readOnly></input>
+      <p>Email</p>
+      <input type='text' value={userData.email || ''} readOnly />
 
-          <p>Teléfono</p>
-          <input type='text' value={profile.phone} readOnly></input>
+      <p>Teléfono</p>
+      <input type='text' value={userData.phone || ''} readOnly />
 
-          <p>Contraseña</p>
-          <input type='password' value={profile.password} readOnly></input>
+      <p>Contraseña</p>
+      <input type='password' value="********" readOnly />
 
-          <button className='register-button admin' >
-            <Link to={`/${usuario}/perfil/actualizar`}>
-              Actualizar perfil
-            </Link>
-          </button>
-        </div>
-      ))}
+      {usuario !== "admin" && (
+        <button className='button-decline' style={{marginTop: '5%'}} onClick={() => setConfirmDeleteOpen(true)}>
+          Borrar cuenta y datos
+        </button>
+      )}
+
+      <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+        <DialogTitle>¿Estás seguro que quieres borrar tu cuenta y datos de nuestra ONG?</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleEliminar} color="secondary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <button className='register-button admin'>
+        <Link to={`/${usuario}/perfil/actualizar`}>
+          Actualizar perfil
+        </Link>
+      </button>
     </div>
-
   );
 };
 
