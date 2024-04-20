@@ -70,6 +70,10 @@ function PartnerForm() {
             toast.error("Adjunte un documento de inscripción");
             return;
         }
+        if(enrollmentDoc &&enrollmentDoc.type !== 'application/pdf'){
+            toast.error("Adjunte un documento de inscripción en formato PDF");
+            return;
+        }
         if(!birthdate || birthdate === ''){
             toast.error("Introduzca una fecha de nacimiento");
             return;

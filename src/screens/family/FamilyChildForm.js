@@ -178,7 +178,9 @@ function ChildForm() {
       if (error.response && error.response.data) {
         // If the error response and data exist, show the error message from the backend
         Object.entries(error.response.data).forEach(([key, value]) => {
-          toast.error(`${value}`);
+          if (key == "enrollment_document") toast.error(`Se debe añadir un documento de inscripción en PDF`);
+          if (key == "scanned_sanitary_card") toast.error(`Se debe añadir una tarjeta sanitaria en PDF`);
+
         });
       } else {
         // If the error response or data doesn't exist, show a generic error message

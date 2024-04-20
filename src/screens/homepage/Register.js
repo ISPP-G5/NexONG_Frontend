@@ -203,7 +203,7 @@ function Register() {
           }
         } catch(error){
           Object.entries(error.response.data).forEach(([key, value]) => {
-            toast.error(`${value}`);
+            if (key == "email") toast.error("Ya existe un usuario con ese correo");
           });
         }
     }
@@ -356,12 +356,7 @@ function Register() {
             Crear cuenta
           </button>
 
-          <p style={{ textAlign: 'center', marginTop: '0px', marginBottom: '0px'}}>o</p>
 
-          <Link to={"https://myaccount.google.com/"} className='google-button'>
-            <span>Registrarse con Google</span>
-            <img src={google} alt="Logo"/>
-          </Link>
 
           <p style={{ textAlign: 'center', marginBottom: '5%'}}>
             ¿Ya tiene una cuenta?
