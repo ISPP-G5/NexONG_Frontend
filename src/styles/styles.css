@@ -1430,14 +1430,14 @@ tbody tr:nth-child(odd) {
 }
 
 .partners-button {
-  width: 100%;
+  width: 70%;
   max-width: 220px;
-  height: 8rem;
+  height: 6rem;
   margin-bottom: 10%;
   font-family: 'Helvetica Neue', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1rem;
   line-height: 1.5rem;
   display: flex;
   align-items: center;

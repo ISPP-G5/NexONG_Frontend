@@ -7,7 +7,7 @@ const profileItems = {
     educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades'],
     voluntario: ['Agenda', 'Asistencia'],
     familia: ['Niños', 'Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
-    socios: ['Calendario', 'Membresía'],
+    socios: ['Calendario'],
   };
   
 const profileLinks = {

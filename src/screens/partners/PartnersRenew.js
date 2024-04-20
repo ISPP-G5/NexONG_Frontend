@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import useToken from '../../components/useToken';
+import IBAN from 'iban';
 import LayoutProfiles from '../../components/LayoutProfiles';
 
 
@@ -64,12 +65,14 @@ function PartnersRenew() {
       toast.error('Todos los campos son obligatorios');
       return;
     }
-    const ibanRegex = /^[A-Z]{2}\d{2}(?:(?=\d+[A-Z]?)(?:\d+[A-Z]?)+|(?=\d+[A-Z]?[A-Z])(?:\d+[A-Z]?[A-Z])+)$/;
-
-    if (!ibanRegex.test(iban)) {
-      toast.error('El formato del IBAN no es válido');
-      return;
-    }
+      if (IBAN.isValid(iban)) {
+        // The IBAN is valid
+        console.log('EL formato del IBAN no es correcto');
+      } else {
+        // The IBAN is not valid
+        toast.error('El formato del IBAN no es correcto');
+      }
+    
     const parsedQuantity = parseFloat(quantity);
     if (parsedQuantity <= 0 || isNaN(parsedQuantity)) {
       toast.error('La cantidad debe ser mayor que 0');
@@ -90,7 +93,6 @@ function PartnersRenew() {
       toast.success('Cuota cambiada correctamente');
     } catch (error) {
       console.error('Error creating donation:', error);
-      toast.error('Error al cambiar la cuota');
     }
   };
   

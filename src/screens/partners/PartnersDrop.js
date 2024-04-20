@@ -47,10 +47,25 @@ function PartnersDrop() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!email || !motive) {
       toast.error('Por favor, rellene todos los campos');
       return;
+    }
+  
+    try {
+      const response = await axios.delete(`${API_ENDPOINT}partner/`, config_user, {
+        data: { email, motive }
+      });
+  
+      if (response.status === 200) {
+        toast.success('Dado de baja correctamente');
+        navigate('/logout');
+      }
+
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast.error('Error dando de baja al usuario');
     }
   };
   
