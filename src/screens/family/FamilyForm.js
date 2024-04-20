@@ -6,13 +6,13 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import useToken from '../../components/useToken';
+import { Password } from '@mui/icons-material';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
 const FamilyForm = () => {
-
     const [token, updateToken] = useToken();
     const config = {
         headers: {
@@ -20,8 +20,7 @@ const FamilyForm = () => {
         }
     };
 
-
-    const [valoresList, setValores] = useState([]);
+    const [user, setUser] = useState([]);
 
     const navigate = useNavigate();
 
@@ -30,7 +29,7 @@ const FamilyForm = () => {
 
       axios.get(`${API_ENDPOINT}auth/users/me/`, config)
         .then(response => {
-          setValores(response.data);
+            setUser(response.data);
         })
         .catch(error => {
           console.error(error);
@@ -64,17 +63,22 @@ const FamilyForm = () => {
                         console.log("fam", familiaData.id);
     
                         const updatedData = {
-                            email: valoresList.email,
+                            password: user.password,
                             family: familiaData.id, // Aquí se pasa el pk de la familia
-                            is_agreed: 'true',
+                            email: user.email,
                         };
-    
+                        
+                        console.log("fam", familiaData.id);
+                        console.log("updatedData", updatedData);
+                        console.log("config", config);
+
                         axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData, config)
                             .then(update => {
                                 const { data: updatedUserData } = update;
                                 navigate('/familia/perfil');
                             })
                             .catch(error => {
+                                console.log(error);
                                 toast.error("Error al actualizar los datos del usuario.");
                             });
                     })
