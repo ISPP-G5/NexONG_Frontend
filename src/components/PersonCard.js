@@ -65,13 +65,26 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
 
   const handleEliminar = async(person) => {
     try {
-      const path = `${API_ENDPOINT}${personType.toLowerCase()}/${person[personType.toLowerCase()]}/`;
-      await axios.delete(path, config);
-      toast.success("Persona eliminada correctamente", { autoClose: 5000 });
-      setTimeout(() => window.location.reload(), 2000); 
+      const typeEndpointMap = {
+        'Voluntarios': `volunteer/${person.volunteer}`,
+        'Socios': `partner/${person.partner}`,
+        'Educadores': `educator/${person.educator}`,
+        'default': `user/${person.id}`
+      };
+  
+      const endpoint = typeEndpointMap[personType] || typeEndpointMap['default'];
+  
+      if (endpoint) {
+        await axios.delete(`${API_ENDPOINT}${endpoint}/`, config);
+        toast.success("Persona eliminada correctamente", { autoClose: 5000 });
+        setTimeout(() => window.location.reload(), 2000); 
+      } else {
+        throw new Error('Invalid user role');
+      }
     } catch (error) {
       console.error(error);
-      toast.error('Error al eliminar', { autoClose: 5000 });
+      toast.error('El usuario no puede ser borrado', { autoClose: 5000 });
+      window.location.reload(); 
     }
   };
 
