@@ -67,20 +67,18 @@ const FamilyForm = () => {
                             family: familiaData.id, // Aquí se pasa el pk de la familia
                             email: user.email,
                         };
-                        
-                        console.log("fam", familiaData.id);
-                        console.log("updatedData", updatedData);
-                        console.log("config", config);
 
                         axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData, config)
-                            .then(update => {
-                                const { data: updatedUserData } = update;
-                                navigate('/familia/perfil');
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                toast.error("Error al actualizar los datos del usuario.");
-                            });
+                        .then(update => {
+                            const { data: updatedUserData } = update;
+                            navigate('/familia/niños');
+                            toast.success("Familia creada correctamente.");
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            toast.error("Error al actualizar los datos del usuario.");
+                        });
+                        
                     })
                     .catch(error => {
                         console.error(error);
@@ -90,7 +88,6 @@ const FamilyForm = () => {
         } catch (error) {
             toast.error("Datos no válidos.");
         }
-        navigate('/familia/perfil');
     };
     
     
@@ -98,7 +95,6 @@ const FamilyForm = () => {
 
     return (
         <>
-            <LayoutProfiles profile={'familia'}>
             <ToastContainer />
             <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
 
@@ -124,7 +120,6 @@ const FamilyForm = () => {
                     Proceder
                 </button>
             </div>
-            </LayoutProfiles>
         </>
         
     )
