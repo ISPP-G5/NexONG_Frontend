@@ -53,7 +53,7 @@ const FamilyForm = () => {
                 name: "Familia " + surname1 + " " + surname2,
             };
     
-            const post = await axios.post(`${API_ENDPOINT}family/`, config, postFam);
+            const post = await axios.post(`${API_ENDPOINT}family/`, postFam, config);
             const { data } = post;
     
             console.log("datos", data);
@@ -64,7 +64,7 @@ const FamilyForm = () => {
             if (data.message) {
                 window.alert(data.message);
             } else {
-                axios.get(`${API_ENDPOINT}family/${firstKey}`)
+                axios.get(`${API_ENDPOINT}family/${firstKey}`, config)
                     .then(response => {
                         const familiaData = response.data;
                         console.log("fam", familiaData.id);
@@ -76,14 +76,11 @@ const FamilyForm = () => {
                             is_agreed: 'true',
                         };
     
-                        axios.put(`${API_ENDPOINT}auth/users/me/`, config, updatedData)
+                        axios.put(`${API_ENDPOINT}auth/users/me/`, updatedData, config)
                             .then(update => {
                                 const { data: updatedUserData } = update;
-                                if (updatedUserData.message) {
-                                    window.alert(updatedUserData.message);
-                                } else {
-                                    navigate(`/familia/registro/niños`);
-                                }
+                                window.alert(updatedUserData.message);
+                                navigate('/familia/perfil');
                             })
                             .catch(error => {
                                 toast.error("Error al actualizar los datos del usuario.");
@@ -97,6 +94,7 @@ const FamilyForm = () => {
         } catch (error) {
             toast.error("Datos no válidos.");
         }
+        navigate('/familia/perfil');
     };
     
     
