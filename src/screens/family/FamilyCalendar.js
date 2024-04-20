@@ -51,6 +51,7 @@ const FamilyCalendar = () => {
     const userId = parseInt(localStorage.getItem('userId'), 10);
     const [open, setOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const [schedules, setSchedules] = useState([]);
 
     const fetchData = async (url, filterFunc = () => true) => {
         try {
@@ -86,6 +87,16 @@ const FamilyCalendar = () => {
             url: activity.url
         }));
     };
+
+    useEffect(() => {
+        const fetchAndSetSchedule = async () => {
+            const response = await fetchData('schedule/');
+            if (response) {
+                setSchedules(response);
+            }
+        };  
+        fetchAndSetSchedule();
+    }, []);
 
     useEffect(() => {
         const fetchAndSetActivities = async () => {
@@ -154,6 +165,8 @@ const FamilyCalendar = () => {
         };
     };
 
+
+
     return (
         <LayoutProfiles profile={'familia'} selected={'Calendario'}>
         <ToastContainer />
@@ -189,6 +202,11 @@ const FamilyCalendar = () => {
                             (<div>
                                 <p><strong>Comienzo: </strong>{selectedEvent.start.getDate()}/{selectedEvent.start.getMonth()+1}/{selectedEvent.start.getFullYear()}</p>
                                 <p><strong>Final: </strong>{selectedEvent.end.getDate()}/{selectedEvent.end.getMonth()+1}/{selectedEvent.end.getFullYear()}</p>
+                                <p><strong>Horario:</strong> {
+                                    schedules.filter(schedule => schedule.lesson === selectedEvent.id).map(schedule => 
+                                        <p>{schedule.weekday} de {schedule.start_time} a {schedule.end_time}</p>
+                                    )
+                                }</p>
                             </div>) 
                     }
                     </div>
