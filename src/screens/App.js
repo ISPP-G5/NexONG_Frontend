@@ -68,6 +68,7 @@ import PartnersCalendar from './partners/PartnersCalendar';
 import PartnerForm from './partners/PartnerForm';
 
 // FAMILIES
+import FamilyCalendar from './family/FamilyCalendar';
 import FamilyProfile from './family/FamilyProfile';
 import FamilyChildren from './family/FamilyChildren';
 import FamilyAuths from './family/FamilyAuths';
@@ -229,6 +230,7 @@ function App() {
             <Route path="/familia/niños/registro" exact={true} element={<FamilyChildForm />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
+            <Route path="/familia/calendario" exact={true} element={<FamilyCalendar />} />
             <Route path="/familia/evaluacion/:tipoTiempo/:studentIndex" exact={true} element={<FamilyEval />} />
               </> 
             )}
