@@ -178,6 +178,7 @@ const FamilyCalendar = () => {
             <DialogContent>
                 {selectedEvent && (
                     <div>
+                        <p><strong>Nombre: </strong>{selectedEvent.title}</p>
                         <p><strong>Descripción: </strong>{selectedEvent.description}</p>
                         <p><strong>Comienzo: </strong>{selectedEvent.start.getDate()}/{selectedEvent.start.getMonth()}/{selectedEvent.start.getFullYear()}, {selectedEvent.start.getHours()}h</p>
                         <p><strong>Final: </strong>{selectedEvent.end.getDate()}/{selectedEvent.end.getMonth()}/{selectedEvent.end.getFullYear()}, {selectedEvent.end.getHours()}h</p>
