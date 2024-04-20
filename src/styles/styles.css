@@ -842,6 +842,20 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
     }
 }
 
+/********************* ABOUT US ******************/
+
+iframe {
+  align-self: center; 
+  margin: 2%; 
+  display: block;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+  iframe {
+    width: 90%; 
+  }
+}
+
 /********************* TRANSPARENCY ******************/
 
 .trans {
