@@ -702,7 +702,7 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 }
 
 .intro-container.history::before {
-    background-image: url("../logo/backgrounds/Vacie.jpg");
+    background-image: url("../logo/backgrounds/Programa\ Familias\ \(2\).jpeg");
 }
 
 .intro-container.colab::before {
@@ -731,6 +731,8 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 .intro-text h1,
 .intro-text p {
     color: white;
+    text-align: center;
+
 }
 
 /* HOMEPAGE CONTAINER */
@@ -844,6 +846,20 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
         max-width: 100%;
         max-height: 100%;
     }
+}
+
+/********************* ABOUT US ******************/
+
+iframe {
+  align-self: center; 
+  margin: 2%; 
+  display: block;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+  iframe {
+    width: 90%; 
+  }
 }
 
 /********************* TRANSPARENCY ******************/
@@ -1238,8 +1254,18 @@ tbody tr:nth-child(odd) {
     text-align: justify;
 }
 
+.card-info-suggestion table .table-wrapper {
+  overflow-x: auto;
+}
 .card-info-suggestion table {
     border-spacing: 10px;
+}
+@media screen and (min-width: 1px) and (max-width: 600px) {
+  .card-info-suggestion table {
+    max-width: 70%;
+    border-spacing: 5rem;
+
+  }
 }
 
 .card-info-suggestion td {

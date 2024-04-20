@@ -425,10 +425,8 @@ export function UseFetchDocuments(API_ENDPOINT, token) {
 
   useEffect(()=> {
     axios
-    .get(`${API_ENDPOINT}home-document/`, {headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
+    .get(`${API_ENDPOINT}home-document/`
+  )
     .then((response) => {
       console.log('documents:', response.data);
       setDocuments(response.data);
@@ -440,6 +438,7 @@ export function UseFetchDocuments(API_ENDPOINT, token) {
 
   return documents;
 }
+
 
 
 

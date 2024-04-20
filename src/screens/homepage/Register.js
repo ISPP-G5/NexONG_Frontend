@@ -55,17 +55,20 @@ function Register() {
 
   const [isFamilyChecked, setIsFamilyChecked] = useState(false);
   const [isVolunteerChecked, setIsVolunteerChecked] = useState(false);
+  const [isPartnerChecked, setIsPartnerChecked] = useState(false);
   const [isAgreedChecked, setIsAgreedChecked] = useState(false);
  const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleFamilyChange = () => {
     setIsFamilyChecked(!isFamilyChecked);
     setIsVolunteerChecked(false);
+    setIsPartnerChecked(false);
   };
 
   const handleVolunteerChange = () => {
     setIsVolunteerChecked(!isVolunteerChecked);
     setIsFamilyChecked(false);
+    setIsPartnerChecked(false);
     };
     const handleDialogOpen = () => {
       setDialogOpen(true);
@@ -75,6 +78,12 @@ function Register() {
       setDialogOpen(false);
     };
     
+
+  const handlePartnerChange = () => {
+    setIsPartnerChecked(!isPartnerChecked);
+    setIsFamilyChecked(false);
+    setIsVolunteerChecked(false);
+  }
 
   const handleAgreedChange = () => {
     setIsAgreedChecked(!isAgreedChecked);
@@ -118,8 +127,8 @@ function Register() {
           toast.error('Nombre y apellido no puede contener números');
           return;
       } 
-      else if (!isFamilyChecked && !isVolunteerChecked) {
-        toast.error("Debe elegir una de las opciones: familia o voluntario");
+      else if (!isFamilyChecked && !isVolunteerChecked && !isPartnerChecked) {
+        toast.error("Debe elegir una de las opciones: familia, voluntario o socio");
       }
       else if (!phoneFormat.test(phone)) {
         toast.error('Formato de teléfono incorrecto');
@@ -156,17 +165,20 @@ function Register() {
 
     
     else {
+      const username = `${first_name} ${surname}`;
+
         const userData = new FormData();
         userData.append('first_name', first_name);
         userData.append('last_name', surname);
         userData.append('email', email);
+        userData.append('username',username)
         userData.append('id_number', idNumber);
         userData.append('phone', phone);
         userData.append('password', password);
-        userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : 'FAMILIA');
+        userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : isPartnerChecked ? 'SOCIO' : 'FAMILIA');
         userData.append('is_agreed', isAgreedChecked);
         userData.append('is_enabled', false);
-
+        console.log('username',username)
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
@@ -186,6 +198,7 @@ function Register() {
             setConfirmPassword('');
             setIsFamilyChecked(false);
             setIsVolunteerChecked(false);
+            setIsPartnerChecked(false);
             toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
         } catch(error){
@@ -304,6 +317,20 @@ function Register() {
               <span className="custom-checkbox"></span>      Registrarse como voluntario
             </label>
           </div>
+
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              id="selectCheckboxPartner"
+              className="hidden-checkbox"
+              checked={isPartnerChecked}
+              onChange={handlePartnerChange}
+            />
+            <label htmlFor="selectCheckboxPartner" className="checkbox-label">
+              <span className="custom-checkbox"></span>      Registrarse como socio
+            </label>
+          </div>
+
           <div className="checkbox-group">
             <div >
               <input

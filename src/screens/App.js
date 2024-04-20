@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route , Routes,useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
+import RoleContext from '../components/RoleContext';
 // HOMEPAGE
 import HomePage from './homepage/HomePage';
 import HomePageAssociation from './homepage/HomePageAssociation';
@@ -42,7 +43,9 @@ import AdminSuggestions from './admin/AdminSuggestions';
 import AdminTransparency from './admin/AdminTransparency';
 import AdminEditProfiles from '../components/AdminEditProfiles';
 
-
+import AdminScheduleCreate from './admin/AdminScheduleCreate';
+import AdminSchedules from './admin/AdminSchedules';
+import AdminScheduleEdit from './admin/AdminScheduleEdit';
 // EDUCATORS
 import EducatorProfile from './educators/EducatorProfile';
 import EducatorProfileUpdate from './educators/EducatorProfileUpdate';
@@ -65,9 +68,13 @@ import ParterProfileUpdate from './partners/PartnerProfileUpdate';
 import PartnersCalendar from './partners/PartnersCalendar';
 import PartnersDrop from './partners/PartnersDrop';
 import PartnersRenew from './partners/PartnersRenew';
+import PartnerForm from './partners/PartnerForm';
 
 // FAMILIES
+import FamilyForm from './family/FamilyForm';
+import FamilyCalendar from './family/FamilyCalendar';
 import FamilyProfile from './family/FamilyProfile';
+import FamilyUpdate from './family/FamilyUpdate';
 import FamilyChildren from './family/FamilyChildren';
 import FamilyAuths from './family/FamilyAuths';
 import FamilyAuthsPending from './family/FamilyAuthsPending';
@@ -114,6 +121,8 @@ function App() {
     };
   }, []);
   return (
+    <RoleContext.Provider value={{ role, setRole }}>
+
     <Router>
       <Routes>
             <Route path="/" element={<HomePage />} />
@@ -169,6 +178,10 @@ function App() {
             <Route path="/admin/sugerencias" exact={true} element={<AdminSuggestions />} />
 
             <Route path="/admin/documentos" exact={true} element={<AdminTransparency />} />
+
+            <Route path="/admin/horarios/crear" exact={true} element={<AdminScheduleCreate />} />
+            <Route path="/admin/horarios" exact={true} element={<AdminSchedules />} />
+            <Route path="/admin/horarios/editar/:scheduleId" exact={true} element={<AdminScheduleEdit />} />
             
             {/* Routes para colegios aquí */}
 
@@ -216,16 +229,20 @@ function App() {
             <Route path="/socio/renovar" exact={true} element={<PartnersRenew />} />
 
 
+            <Route path="/socio/formulario" exact={true} element={<PartnerForm />} />
               </>
             )}
             {/* FAMILIES ROUTES */}
             {role === 'FAMILIA' && (
               <>
+            <Route path="/familia/registro" exact={true} element={<FamilyForm />} />
             <Route path="/familia/perfil" exact={true} element={<FamilyProfile />} />
             <Route path="/familia/niños" exact={true} element={<FamilyChildren />} />
             <Route path="/familia/niños/registro" exact={true} element={<FamilyChildForm />} />
             <Route path="/familia/autorizaciones" exact={true} element={<FamilyAuths />} />
             <Route path="/familia/autorizaciones/pendientes" exact={true} element={<FamilyAuthsPending />} />
+            <Route path='/familia/perfil/actualizar' exact={true} element={<FamilyUpdate/>}/>
+            <Route path="/familia/calendario" exact={true} element={<FamilyCalendar />} />
             <Route path="/familia/evaluacion/:tipoTiempo/:studentIndex" exact={true} element={<FamilyEval />} />
               </> 
             )}
@@ -238,6 +255,8 @@ function App() {
 
             </Routes>
     </Router>
+    </RoleContext.Provider>
+
   );
 }
 
