@@ -134,6 +134,26 @@ const FamilyCalendar = () => {
         setOpen(true);
       };
 
+      const eventStyleGetter = (event) => {
+        let backgroundColor = '#C44D0D';
+        if (event.max_volunteers){
+            backgroundColor = '#0DC487'; 
+        } else if (event.lesson) {
+            backgroundColor = '#0DC48F'; 
+        } 
+        const style = {
+            backgroundColor: backgroundColor,
+            borderRadius: '0px',
+            opacity: 0.8,
+            color: 'black',
+            border: '0px',
+            display: 'block'
+        };
+        return {
+            style: style
+        };
+    };
+
     return (
         <LayoutProfiles profile={'familia'} selected={'Calendario'}>
         <ToastContainer />
@@ -147,7 +167,8 @@ const FamilyCalendar = () => {
             selectable={true}
             onSelectEvent={(event) => {
                 handleEventClick(event);
-            }}  
+            }}
+            eventPropGetter={eventStyleGetter}
         />
         </div> 
 
