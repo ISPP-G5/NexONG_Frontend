@@ -33,8 +33,8 @@ const profileLinks = {
     },
     familia: {
         'Niños': '/familia/niños',
-        'Evaluación diaria': '/familia/evaluacion/diaria',
-        'Evaluación anual': '/familia/evaluacion/anual',
+        'Evaluación diaria': '/familia/evaluacion/diaria/0',
+        'Evaluación anual': '/familia/evaluacion/anual/0',
         'Autorizaciones': '/familia/autorizaciones',
         'Calendario': '/familia/calendario',
     },
