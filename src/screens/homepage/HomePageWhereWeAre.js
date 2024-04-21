@@ -10,7 +10,7 @@ function HomePageWhereWeAre() {
 
     return (
         <LayoutHomepage 
-            title={'Dónde estamos'} 
+            title={'Donde estamos'} 
             image={'ong'}
         >
             <div className='homepage-container'>
