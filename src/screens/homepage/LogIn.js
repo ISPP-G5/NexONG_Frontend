@@ -145,6 +145,7 @@ function LogIn() {
                         }});
                     console.log('Partner:', partner.data.status);
                     localStorage.setItem('partnerId', user.partner);
+                    setRole(user.role)
                     navigate('/socio/calendario');
                 }
                 
