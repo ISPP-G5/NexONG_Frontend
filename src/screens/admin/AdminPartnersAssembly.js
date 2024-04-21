@@ -93,9 +93,6 @@ const Asamblea = () => {
       toast.error("Se debe de insertar una fecha")
     } else if (!hora || hora === '') {
       toast.error("Se debe de insertar una hora")
-    }else if (!titulo.match(letters) )  {
-      toast.error('La descripción no puede contener números');
-
     }
     else if (meetingDate < new Date()) {
       toast.error('No se puede crear una reunión en el pasado.');
