@@ -135,6 +135,7 @@ function LogIn() {
             
             } else if (user.role === 'SOCIO') {
                 localStorage.setItem('role', 'SOCIO')
+                setRole(user.role)
                 if (user.partner === null) {
                     navigate('/socio/formulario');
                 } else {
