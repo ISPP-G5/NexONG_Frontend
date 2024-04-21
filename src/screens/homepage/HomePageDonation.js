@@ -26,7 +26,7 @@ function HomePageDonation() {
 
     // ONE-TIME DONATIONS //////////////////////////////////////////
     // Payment method variables
-    const [paymentMethod, setPaymentMethod] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState("");
     const [transferVisible, setTransferVisible] = useState(false);
     const [cardVisible, setCardVisible] = useState(false);
 
@@ -222,14 +222,15 @@ function HomePageDonation() {
                         onChange={(e) => setOneTimeEmail(e.target.value)}
                         />
 
-                                <label>
-                                    Seleccione el método de pago:
-                                    <select value={paymentMethod} onChange={handlePaymentMethodChange} style={{ width: '100%', height: '100%' }}>
-                                        <option value="">--Selecciona una opción--</option>
-                                        <option value="transfer/bizum">Transferencia/Bizum</option>
-                                        <option value="card">Pago con Tarjeta</option>
-                                    </select>
-                                </label>
+                    <label>
+                        Seleccione el método de pago:
+                        
+                        <select value={paymentMethod} onChange={handlePaymentMethodChange} style={{ width: '100%' ,height:'150%'}}>
+                            <option value="">--Selecciona una opción--</option>
+                            <option value="transfer/bizum">Transferencia/Bizum</option>
+                            <option value="card">Pago con Tarjeta</option>
+                        </select>
+                    </label>
 
                                 {transferVisible && (
                                     <div className='register-container' style={{ width: '95%', backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}>
