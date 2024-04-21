@@ -84,7 +84,7 @@ const PartnersCalendar = () => {
   
 
   return (
-    <LayoutProfiles profile={'socios'} selected={'Calendario'}>
+    <LayoutProfiles profile={'socio'} selected={'Calendario'}>
         <div className={classes.calendarContainer}>
 
       <Calendar
