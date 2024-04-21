@@ -39,8 +39,8 @@ const profileLinks = {
         'Calendario': '/familia/calendario',
     },
     socio: {
-        'Asambleas': '/socio/asambleas',
-        'Actividades': '/socio/actividades',
+        'Calendario': '/socio/calendario',
+        'Membresía': '/socio/membresia',
     },
     };
 
