@@ -94,9 +94,7 @@ function HomePageDonation() {
             return; // Detener la ejecución si se requiere una cantidad de donación pero no se proporciona o es inválida
         }
     
-        // Convertir la cantidad a centavos
-        const euros = parseFloat(amount);
-        const cents = euros * 100;
+       
         const currentTimeStamp = Date.now();
 
 // Convertir el timestamp a una fecha legible en el formato deseado (YYYY-MM-DD)
@@ -112,11 +110,10 @@ function HomePageDonation() {
         }
         oneTimeFormData.append('date', formattedDate);
         if (cardVisible) {
-            oneTimeFormData.append('amount', cents);
+            oneTimeFormData.append('amount', amount);
         }
     
         // Aquí puedes agregar el console.log para ver los datos antes de enviar la solicitud
-        console.log(cents);
         console.log(date);
         console.log(oneTimeName);
         console.log(oneTimeSurname);
