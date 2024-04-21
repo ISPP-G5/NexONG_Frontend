@@ -15,7 +15,7 @@ function HomePageAboutUs() {
         > 
             <div className='homepage-container'>
                 <div className='flex-container'>
-                    <h3>Manos Abiertas con Norte somos una ONG de La Salle en Sevilla desde 1995, centrados en educar a niños y jóvenes vulnerables mediante proyectos socioeducativos. </h3>
+                    <h3>Somos Manos Abiertas con Norte, una ONG de La Salle en Sevilla desde 1995, centrados en educar a niños y jóvenes vulnerables mediante proyectos socioeducativos. </h3>
                 </div>
                 <div className='flex-container'>
                     <h3>Trabajamos en el Polígono Norte y El Vacie, brindando apoyo académico y fortaleciendo habilidades básicas y técnicas.</h3>
@@ -24,6 +24,15 @@ function HomePageAboutUs() {
                     <h3>Nuestra misión es proporcionar una vida digna a través de la educación integral.</h3>
                 </div>
             </div>
+            <iframe 
+                title="NexONG Video"
+                width="560" 
+                height="315" 
+                src="https://www.youtube.com/embed/iD0SdTklJvQ" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+            ></iframe>
         </LayoutHomepage>
     );
 }

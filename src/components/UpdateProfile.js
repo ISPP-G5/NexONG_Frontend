@@ -4,155 +4,168 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../styles/styles.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import avatarImage from '../logo/avatar.png';
+import useToken from './useToken';
+
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
-const UpdateProfile = ({tipo}) => {
+const UpdateProfile = ({tipo,id}) => {
+    const [token] = useToken();
+    const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+    };
 
-    const id = localStorage.getItem('userId');
     const [avatar, setAvatar] = useState("");
 
     const [valoresList, setValores] = useState([]);
-
-    const navigate = useNavigate();
-
-    //Traemos los datos del usuario
-    useEffect(() => {
-
-      axios.get(`${API_ENDPOINT}user/`)
-        .then(response => {
-          setValores(response.data.find(x=>x.id==parseInt(id,10)));
-            console.log("name", name)
-            setAvatar(valoresList.avatar)
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-    }, []);
 
     //Atributos
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [id_number, setId_number] = useState("");
     const [phone, setPhone] = useState("");
-    const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
- 
+    const [password, setPassword] = useState("");
+
+    const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
+
+    const navigate = useNavigate();
+
+    //Traemos los datos del usuario
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let response;
+                if (id) {
+                    response = await axios.get(`${API_ENDPOINT}user/${id}/`, config);
+                } else {
+                    response = await axios.get(`${API_ENDPOINT}auth/users/me/`, config);
+                }
+                setValores(response.data);
+                setName(response.data.first_name);
+                setSurname(response.data.last_name);
+                setId_number(response.data.id_number);
+                setPhone(response.data.phone);
+                setEmail(response.data.email);
+                setPassword(response.data.password);
+
+                setAvatar(response.data.avatar);
+                console.log('User',valoresList);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData();
+    }, []);
 
     //Atributos son correctos
     
     const updateAdmin = async () => {
 
         try {
-            const updatedData = { //En el caso de no darle un valor, se coge el original
-                last_login: valoresList.last_login,
-                is_superuser: valoresList.is_superuser,
-                first_name: name || valoresList.first_name,
-                last_name: surname || valoresList.last_name,
-                is_staff: valoresList.is_staff,
-                is_active: valoresList.is_active,
-                date_joined: valoresList.date_joined,
+            const updatedData = { 
+                first_name: name,
+                last_name: surname,
                 username: (name + " " + surname),
-                id_number: id_number || valoresList.id_number,
-                phone: phone || valoresList.phone,
-                password: password || valoresList.password,
-                email: email || valoresList.email,
-                role: valoresList.role,
-                is_enabled: valoresList.is_enabled,
-                family: valoresList.family,
-                partner: valoresList.partner,
-                volunteer: valoresList.volunteer,
-                education_center: valoresList.education_center,
-                educator: valoresList.educator,
-                groups: valoresList.groups,
-                user_permissions: valoresList.user_permissions,
+                id_number: id_number,
+                phone: phone,
+                password: password,
+                email: email,
 
             };
-    
-            const update = await axios.put(`${API_ENDPOINT}user/${id}/`, updatedData);
-    
-            const { data } = update;
-            if (data.message) {
-                window.alert(data.message);
-            } else {
-                navigate(`/${tipo}/perfil`);
-            }
+            const updateEndpoint = id ? `${API_ENDPOINT}user/${id}/` : `${API_ENDPOINT}auth/users/me/`;
+            await axios.patch(updateEndpoint, updatedData, config);
+
+
+            const toastId = toast.success("Datos actualizados con éxito.", { autoClose: 800 });
+            const checkToast = setInterval(() => {
+                if (!toast.isActive(toastId)) { 
+                    clearInterval(checkToast); 
+                    if(id && valoresList.role === "VOLUNTARIO"){
+                        navigate('/admin/voluntarios');
+                    }else if(id && valoresList.role === "EDUCADOR"){
+                        navigate('/admin/educadores');
+                    } else {
+                        navigate(`/${tipo}/perfil`);
+                    }
+                }
+            }, 1000); 
+
         } catch (error) {
-            toast.error("Datos no válidos.");
+            if (error.response.data.email) {
+                toast.error("Formato del correo incorrecto.");
+            } else if (error.response.data.phone) {
+                toast.error("Formato del telefono incorrecto");
+            } else if (!spanishIdFormat.test(id)) {
+                toast.error('Formato de identificación inválido');
+            } else {
+                toast.error("Datos no válidos.");
+            }
         }
     };
 
 
     return (
-        <>
+        <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
             <ToastContainer />
-            <div  className='register-container' style={{width: '300px', marginTop:'6%'}}>
-                <img src={valoresList.avatar} alt={"imagen"} />
+            <img src={valoresList.avatar ? valoresList.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
 
-                <div style={{ marginTop: '2%', marginBottom: '2%'}}>
-                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
-                    <strong>Modificar sólo los datos que requieran cambio</strong>
-                    <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
-                </div>
-
-                <p>Nombre</p>
-                <input 
-                    defaultValue={name} //defaultValue es como value, pero permite el cambio
-                    onChange={(e) => setName(e.target.value)}
-                    type='text'
-                    placeholder='Nombre'
-                ></input>
-
-                <p>Apellido</p>
-                <input 
-                    defaultValue={surname}
-                    onChange={(e) => setSurname(e.target.value)}
-                    type='text'
-                    placeholder='Primer Apellido'
-                ></input>
-
-                <p>DNI/NIE/Pasaporte</p>
-                <input 
-                    defaultValue={id_number}
-                    onChange={(e) => setId_number(e.target.value)}
-                    type='text'
-                    placeholder='DNI/NIE/Pasaporte'
-                ></input>
-
-                <p>Número de teléfono</p>
-                <input 
-                    defaultValue={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    type='tel'
-                    placeholder='Número de teléfono'
-                ></input>
-
-                <p>Correo electrónico</p>
-                <input 
-                    defaultValue={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type='email'
-                    placeholder='ejemplo@gmail.com'
-                ></input>
-
-                <p>Contraseña</p>
-                <input 
-                    defaultValue={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    type='password'
-                    placeholder='Contraseña'
-                ></input>
-
-
-                <button onClick={updateAdmin} className='register-button admin' >
-                    Actualizar perfil
-                </button>
+            <div style={{ marginTop: '2%', marginBottom: '2%'}}>
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                <strong>Modificar sólo los datos que requieran cambio</strong>
+                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
             </div>
-        </>
-        
+            
+            <p>Nombre</p>
+            <input 
+                type='text'
+                defaultValue={name} 
+                onChange={(e) => setName(e.target.value)}
+                placeholder={name}
+            ></input>
+
+            <p>Apellido</p>
+            <input 
+                type='text'
+                defaultValue={surname}
+                onChange={(e) => setSurname(e.target.value)}
+                placeholder={surname}
+            ></input>
+
+            <p>DNI/NIE/Pasaporte</p>
+            <input 
+                type='text'
+                defaultValue={id_number}
+                onChange={(e) => setId_number(e.target.value)}
+                placeholder={id_number}
+            ></input>
+
+            <p>Número de teléfono</p>
+            <input 
+                type='tel'
+                defaultValue={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder={phone}
+            ></input>
+
+            <p>Correo electrónico</p>
+            <input 
+                type='email'
+                defaultValue={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={email}
+            ></input>
+
+            <button onClick={updateAdmin} className='register-button admin' >
+                Actualizar perfil
+            </button>
+        </div>        
     )
   
   };

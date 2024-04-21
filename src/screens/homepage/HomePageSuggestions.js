@@ -13,10 +13,12 @@ function HomePageSuggestions() {
 
   const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
+  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const[email,setEmail] = useState('');
   const[subject,setSubject] = useState('');
   const[description,setDescription] = useState('');
   const[date,setDate] = useState('');
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const currentDate = new Date();
@@ -28,11 +30,18 @@ function HomePageSuggestions() {
 
   const sendForm = async(e) => {
     e.preventDefault();
+    if (!emailFormat.test(email)) {
+      toast.error('Formato de correo inválido');
+      return;
+     }
     if(!subject || subject === ''){
-      toast.error("Intdoduzca un asunto");
+      toast.error("Introduzca un asunto");
     }else if(!description || description === ''){
-      toast.error("Intdoduzca su sugerencia")
-    }else{
+      toast.error("Introduzca su sugerencia")
+    }else if(description.length > 255){
+      toast.error("La descripción puede contener hasta 255 carácteres")
+    }
+    else{
       const formData = new FormData();
       formData.append('email',email);
       formData.append('subject',subject);
@@ -40,17 +49,15 @@ function HomePageSuggestions() {
       formData.append('date',date);
       try{
         const update = await axios.post(`${API_ENDPOINT}suggestion/`,
-        formData,
-        {
-          headers:{
-            'Content-Type': 'multipart/form-data'
-          }
-        });
+        formData
+        );
         console.log(update);
         const { data } = update;
         if(data.message){
           toast.error(data.message);
         }else{
+          console.log('Operation was successful');
+
           toast.success('Sugerencia enviada con éxito')
         }
       }catch(error){
@@ -88,11 +95,11 @@ function HomePageSuggestions() {
         />
 
         <label>Sugerencia</label>
-        <input
+        <textarea
         value={description}
-        type='text'
         placeholder='¿Qué es lo que quiere decirnos?'
         onChange={(e) => setDescription(e.target.value)}
+        style={{ width: '80%',height:'300px' }}
         />
 
         <button type='submit' className='register-button'>
