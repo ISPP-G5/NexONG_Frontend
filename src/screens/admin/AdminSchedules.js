@@ -27,25 +27,34 @@ const AdminSchedules = () => {
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
-        const schedulesResponse = await axios.get(`${API_ENDPOINT}schedule/`, config);
+        const schedulesResponse = await axios.get(`${API_ENDPOINT}schedule/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        });
         const schedulesData = schedulesResponse.data;
-
+  
         const schedulesWithLessons = await Promise.all(
           schedulesData.map(async (schedule) => {
-            const lessonResponse = await axios.get(`${API_ENDPOINT}lesson/${schedule.lesson}`);
+            const lessonResponse = await axios.get(`${API_ENDPOINT}lesson/${schedule.lesson}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              }
+            });
             const lessonData = lessonResponse.data;
             return { ...schedule, lessonData };
           })
         );
-
+  
         setSchedules(schedulesWithLessons);
       } catch (error) {
         console.error('Error fetching schedules:', error);
       }
     };
-
+  
     fetchSchedules();
-  }, []);
+  }, [token]); // Include token in the dependency array to trigger the effect when it changes
+  
 
   const handleEditSchedule = (scheduleId) => {
     navigate(`/admin/horarios/editar/${scheduleId}`);
