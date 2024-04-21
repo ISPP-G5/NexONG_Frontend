@@ -3,13 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import HeaderProfiles from '../../components/HeaderProfiles';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import YouTube from 'react-youtube';
 
-/*
-// Import the videos
-import video1 from '../../logo/formationVideos/Formacion-Manos-Abiertas-Online-1.mp4';
-import video2 from '../../logo/formationVideos/Formacion-Manos-Abiertas-Online-2.mp4';
-import video3 from '../../logo/formationVideos/Formacion-Manos-Abiertas-Online-3.mp4';
-*/
 function VolunteerFormation() {
 /*
   const [video1Ended, setVideo1Ended] = useState(false);
@@ -22,10 +17,16 @@ function VolunteerFormation() {
 
   const handleButtonClick = () => {
     if (allVideosEnded) {
-        navigate('/voluntario/perfil');
+        navigate('/voluntario/agenda');
     } else {
         toast.error('Por favor, termine de ver los videos antes de continuar');
     }
+  };
+
+  const videoOptions = {
+    playerVars: {
+      autoplay: 0,
+    },
   };
 
   return (
@@ -37,26 +38,26 @@ function VolunteerFormation() {
         <p style={{alignSelf: 'center'}}>Por favor, mira los siguientes videos para completar tu formación</p>
 
         <h2>Vídeo 1:</h2>
-        <video
-            src={video1}
-            controls
-            onEnded={() => setVideo1Ended(true)}
+        <YouTube
+            videoId="qOps0GI-TTw"
+            opts={videoOptions}
+            onEnd={() => setVideo1Ended(true)}
             className='formation-videos'
         />
 
         <h2>Vídeo 2:</h2>
-        <video
-            src={video2}
-            controls
-            onEnded={() => setVideo2Ended(true)}
+        <YouTube
+            videoId="GRjsJDBIqxg"
+            opts={videoOptions}
+            onEnd={() => setVideo2Ended(true)}
             className='formation-videos'
         />
 
         <h2>Vídeo 3:</h2>
-        <video
-            src={video3}
-            controls
-            onEnded={() => setVideo3Ended(true)}
+        <YouTube
+            videoId="hyCBopeI_kY"
+            opts={videoOptions}
+            onEnd={() => setVideo3Ended(true)}
             className='formation-videos'
         />
 
