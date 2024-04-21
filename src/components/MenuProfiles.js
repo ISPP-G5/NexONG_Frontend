@@ -7,7 +7,7 @@ const profileItems = {
     educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades'],
     voluntario: ['Agenda', 'Asistencia'],
     familia: ['Niños', 'Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
-    socios: ['Calendario', 'Membresía'],
+    socio: ['Calendario', 'Membresía'],
   };
   
 const profileLinks = {
@@ -38,9 +38,9 @@ const profileLinks = {
         'Autorizaciones': '/familia/autorizaciones',
         'Calendario': '/familia/calendario',
     },
-    socios: {
-        'Asambleas': '/socios/asambleas',
-        'Actividades': '/socios/actividades',
+    socio: {
+        'Asambleas': '/socio/asambleas',
+        'Actividades': '/socio/actividades',
     },
     };
 
@@ -58,7 +58,7 @@ function MenuProfiles({ profile, selected }) {
             <tr key={index}>
                 <td 
                 className={item === selected ? 'selected-menu-profiles' : ''}
-                style={item === 'Familias' || (profile === 'educador' && item === 'Niños') ? { borderBottom: '2px solid #9ee5ff' } : profile === 'voluntario' || profile === 'socios' ? { height: '5vh'} : {}}                >                    
+                style={item === 'Familias' || (profile === 'educador' && item === 'Niños') ? { borderBottom: '2px solid #9ee5ff' } : profile === 'voluntario' || profile === 'socio' ? { height: '5vh'} : {}}                >                    
                 <a href={links[item]}>{item}</a>
                 </td>
             </tr>

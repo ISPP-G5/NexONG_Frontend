@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 
 function HeaderProfiles({ profile, id, showProfile = true}) {
 
+    console.log('profile', profile);
+    console.log(`/${profile}/perfil`);
+
     return (
         <div className='header-profiles'>
             <img className='header-logo' src={logo} alt='logo' />
