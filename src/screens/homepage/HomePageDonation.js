@@ -91,6 +91,14 @@ function HomePageDonation() {
             toast.error("Introduzca un correo electrónico");
             return; // Detener la ejecución si falta el correo electrónico
         }
+        if (!emailFormat.test(oneTimeEmail)) {
+            toast.error("Introduzca un correo electrónico válido");
+            return; // Detener la ejecución si el correo electrónico no es válido
+        }
+        if(amount<1){
+            toast.error('La cantidad a donar deber ser superior a 1')
+            return;
+        }
         if (transferVisible && !paymentDoc) {
             toast.error("Adjunte un documento de pago");
             return; // Detener la ejecución si se requiere un documento de pago pero no se proporciona
