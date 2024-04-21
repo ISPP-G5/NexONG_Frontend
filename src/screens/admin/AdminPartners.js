@@ -40,7 +40,7 @@ const AdminPartners = () => {
   const handleDownload = async (format) => {
     const token = localStorage.getItem('accessToken');
 
-    const url = `http://localhost:8000/api/export/${format}/donations`;
+    const url = `${API_ENDPOINT}export/${format}/donations`;
   
     try {
       const response = await fetch(url, {
