@@ -37,9 +37,40 @@ const AdminPartners = () => {
 
   }, []);
 
-  const handleDownload = (format) => {
-    window.location.href = `${API_ENDPOINT}export/${format}/donations`;
-}
+
+  const handleDownload = async (format) => {
+    const token = localStorage.getItem('accessToken');
+
+    const url = `${API_ENDPOINT}export/${format}/donations`;
+  
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+  
+      a.href = downloadUrl;
+      a.download = `donations.${format}`;
+      document.body.appendChild(a);
+      a.click();
+  
+      window.URL.revokeObjectURL(downloadUrl);
+      document.body.removeChild(a);
+    } catch (e) {
+      console.error('Error downloading file:', e);
+    }
+  };
+
 const token = localStorage.getItem('accessToken');
 
 const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO", token);

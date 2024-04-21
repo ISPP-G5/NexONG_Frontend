@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScheduleSelect from '../../components/ScheduleSelect';
 import '../../styles/styles.css';
+import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
@@ -23,11 +24,18 @@ const [scheduleData, setScheduleData] = useState({
 });
 const [formData, setFormData] = useState(scheduleData);
 
+const [token, updateToken] = useToken();
+const config = {
+  headers: {
+    'Authorization': `Bearer ${token}`,
+  }
+};
+
 const [lessons, setLessons] = useState([]);
 const [weekdays, setWeekdays] = useState(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']); // Hardcoded list of weekdays
 useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}schedule/${scheduleId}/`)
+      .get(`${API_ENDPOINT}schedule/${scheduleId}/`, config)
       .then((response) => {
         setScheduleData(response.data);
         console.log('Response of get of schedule:', response.data);
@@ -40,7 +48,7 @@ useEffect(() => {
 useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${API_ENDPOINT}lesson/`);
+            const response = await axios.get(`${API_ENDPOINT}lesson/`, config);
             console.log('response lessons:', response.data);
             setLessons(response.data);
             setFormData(scheduleData);
