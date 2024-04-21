@@ -37,7 +37,6 @@ const AdminPartners = () => {
 
   }, []);
 
-
   const handleDownload = async (format) => {
     const token = localStorage.getItem('accessToken');
 
@@ -70,7 +69,6 @@ const AdminPartners = () => {
       console.error('Error downloading file:', e);
     }
   };
-
 const token = localStorage.getItem('accessToken');
 
 const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO", token);
