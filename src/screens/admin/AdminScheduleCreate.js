@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useToken from '../../components/useToken';
 
 import '../../styles/styles.css';
 
@@ -22,7 +23,12 @@ const AdminScheduleCreate = () => {
   const [weekdays, setWeekdays] = useState(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']); // Hardcoded list of weekdays
 
   const navigate = useNavigate();
-
+  const [token, updateToken] = useToken();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  };
   const handleScheduleClick = () => {
     navigate('/admin/clases');
   };
@@ -44,7 +50,7 @@ const AdminScheduleCreate = () => {
     }
 
     axios
-      .post(`${API_ENDPOINT}schedule/`, localFormData)
+      .post(`${API_ENDPOINT}schedule/`, localFormData, config)
       .then((response) => {
         console.log('Response of post of schedule:', response.data);
         toast.success('Horario creado con éxito');
@@ -57,7 +63,7 @@ const AdminScheduleCreate = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}lesson/`)
+      .get(`${API_ENDPOINT}lesson/`, config)
       .then((response) => {
         console.log('response lessons:', response.data);
         setLessons(response.data);
