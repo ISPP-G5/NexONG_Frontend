@@ -124,24 +124,41 @@ function HomePageDonation() {
         console.log(paymentDoc)  
         try {
             let endpoint = '';
-            
+            let headers = {};
+            let data;
+        
             if (paymentMethod === 'transfer/bizum') {
                 endpoint = `${API_ENDPOINT}punctual-donation/`;
+                headers['Content-Type'] = 'multipart/form-data';
+                data = oneTimeFormData;
             } else if (paymentMethod === 'card') {
                 endpoint = `${API_ENDPOINT}process-payment`;
-            }
-    
-            // Realizar la solicitud POST utilizando axios
-            const update = await axios.post(endpoint, oneTimeFormData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+                headers['Content-Type'] = 'application/json';
+                // Exclude the 'date' field if the endpoint is not 'punctual-donation'
+                if (oneTimeFormData.has('date')) {
+                    oneTimeFormData.delete('date');
                 }
-            });
-    
+                // Convert 'amount' to number if it's a string
+                let amount = oneTimeFormData.get('amount');
+                console.log(amount)
+                // Create a new object for the JSON data
+                data = {
+                    name: oneTimeFormData.get('name'),
+                    surname: oneTimeFormData.get('surname'),
+                    email: oneTimeFormData.get('email'),
+                    amount: parseFloat(amount)
+                };
+            }
+        
+            // Realizar la solicitud POST utilizando axios
+            console.log(data)
+            const response = await axios.post(endpoint, data, { headers });
+        
             // Manejar la respuesta
-            const { data } = update;
-            if (data.message) {
-                toast.error(data.message);
+            if (response.data.checkout_url) {
+                window.location.href = response.data.checkout_url;
+            } else if (response.data.message) {
+                toast.error(response.data.message);
             } else {
                 toast.success('Operación realizada correctamente.');
             }
