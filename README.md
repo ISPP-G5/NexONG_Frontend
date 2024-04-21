@@ -21,6 +21,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
    npm install axios
    npm install react-big-calendar
    npm install react-toastify
+   npm install react-youtube
+   npm install @testing-library/dom
    npm install @material-ui/core --legacy-peer-deps
    ```
 7. If you have any problem installing the dependencies try the tag `--force`.
