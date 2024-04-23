@@ -103,6 +103,26 @@ const VolunteerAgenda = () => {
       .catch(error => {
         console.error(error);
       });
+
+      axios.get(`${API_ENDPOINT}lesson/`, config)
+      .then(response => {
+        const filteredActivities = response.data.filter(activity => moment(activity.end_date).isAfter(moment()));
+        setActivities(prevActivities => [...prevActivities.filter(event => !event.educator), ...filteredActivities.map(activity => ({
+          id: activity.id,
+          title: activity.name,
+          description: activity.description,
+          capacity: activity.capacity,
+          is_morning_lesson: activity.is_morning_lesson,
+          educator: activity.educator,
+          students: activity.students,
+          start: new Date(activity.start_date),
+          end: new Date(activity.end_date),   
+          url: activity.url
+        }))]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, [userId]);
 
   const handleRegister = () => {
@@ -112,18 +132,19 @@ const VolunteerAgenda = () => {
       return;
     }
     
-    if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
-      toast.error('Usted ya pertenece a este evento.');
-      setShowRegisterForm(false);
-      return;
-    }
-    const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
-    if (updatedVolunteers.length > selectedEvent.max_volunteers) {
-      toast.error('El número de voluntarios excede el límite máximo permitido.');
-      return;
-    }
-
-    axios.put(`${API_ENDPOINT}${selectedEvent.lesson ? 'lesson-event' : 'event'}/${selectedEvent.id}/`, {
+    
+    if (selectedEvent.volunteers) {
+      if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
+        toast.error('Usted ya pertenece a este evento.');
+        setShowRegisterForm(false);
+        return;
+      }
+      const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
+      if (updatedVolunteers.length > selectedEvent.max_volunteers) {
+        toast.error('El número de voluntarios excede el límite máximo permitido.');
+        return;
+      }
+      axios.put(`${API_ENDPOINT}${selectedEvent.lesson ? 'lesson-event' : 'event'}/${selectedEvent.id}/`, {
         id: selectedEvent.id,
         name: selectedEvent.title,
         description: selectedEvent.description,
@@ -146,6 +167,31 @@ const VolunteerAgenda = () => {
       .catch(error => {
         console.error('Error when registering the volunteer:', error);
       });
+    }else if(selectedEvent.educator){
+      axios.get(`${API_ENDPOINT}lesson-attendance/?lesson=${selectedEvent.id}`, config)
+        .then(response => {
+            const attendance = response.data;
+            if (attendance.some(a => a.volunteer === currentUser.volunteerId)) {
+                toast.error('Usted ya pertenece a esta clase.');
+                return;
+            } else {
+                const newAttendance = {
+                    lesson: selectedEvent.id,
+                    volunteer: currentUser.volunteerId
+                };
+                axios.post(`${API_ENDPOINT}lesson-attendance/`, config, newAttendance)
+                    .then(response => {
+                        toast.success('Se ha unido a la clase exitosamente.');
+                    })
+                    .catch(error => {
+                        toast.error('Hubo un error al unirse a la clase.');
+                    });
+            }
+        })
+        .catch(error => {
+            toast.error('Hubo un error al comprobar la asistencia a la clase.');
+        });
+    }
   };
 
   const eventStyleGetter = (event) => {
