@@ -168,41 +168,38 @@ const VolunteerAgenda = () => {
         console.error('Error when registering the volunteer:', error);
       });
     }else if(selectedEvent.educator){
-      axios.get(`${API_ENDPOINT}lesson-attendance/?lesson=${selectedEvent.id}`, config)
+      const newAttendance = {
+        lesson: selectedEvent.id,
+        volunteer: currentUser.volunteerId
+    };
+    console.log(newAttendance);
+    axios.post(`${API_ENDPOINT}lesson-attendance/`, config, newAttendance)
         .then(response => {
-            const attendance = response.data;
-            if (attendance.some(a => a.volunteer === currentUser.volunteerId)) {
-                toast.error('Usted ya pertenece a esta clase.');
-                return;
-            } else {
-                const newAttendance = {
-                    lesson: selectedEvent.id,
-                    volunteer: currentUser.volunteerId
-                };
-                axios.post(`${API_ENDPOINT}lesson-attendance/`, config, newAttendance)
-                    .then(response => {
-                        toast.success('Se ha unido a la clase exitosamente.');
-                    })
-                    .catch(error => {
-                        toast.error('Hubo un error al unirse a la clase.');
-                    });
-            }
+            toast.success('Se ha unido a la clase exitosamente.');
         })
         .catch(error => {
-            toast.error('Hubo un error al comprobar la asistencia a la clase.');
+            toast.error('Hubo un error al unirse a la clase.');
         });
     }
   };
 
   const eventStyleGetter = (event) => {
-    if (event.volunteers && event.volunteers.includes(currentUser.volunteerId)) {
-      return {
-        style: {
-          backgroundColor: 'red'
-        }
-      };
+    let backgroundColor = 'red'; 
+    if (event.lesson) {
+      backgroundColor = 'blue'; 
+    } else if (event.educator) {
+      backgroundColor = 'green'; // color para las lecciones con educador
     }
-    return {};
+  
+    if (event.volunteers && event.volunteers.includes(currentUser.volunteerId)) {
+      backgroundColor = 'purple'; // color para los eventos a los que se ha unido el voluntario
+    }
+  
+    return {
+      style: {
+        backgroundColor
+      }
+    };
   };
 
   return (
@@ -226,16 +223,18 @@ const VolunteerAgenda = () => {
       </div>
       {showRegisterForm && (
         <Dialog open={showRegisterForm} onClose={() => setShowRegisterForm(false)}>
-        <DialogTitle>¿Quieres unirte a este evento?</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleRegister} color="primary">
-            Sí
-          </Button>
-          <Button onClick={() => setShowRegisterForm(false)} color="secondary">
-            No
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <DialogTitle>
+            {selectedEvent && selectedEvent.educator ? '¿Quieres unirte a esta clase?' : '¿Quieres unirte a este evento?'}
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={handleRegister} color="primary">
+              Sí
+            </Button>
+            <Button onClick={() => setShowRegisterForm(false)} color="secondary">
+              No
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
     </LayoutProfiles>
   );
