@@ -46,12 +46,17 @@ export default function EducatorEvaluationCommon() {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`${API_ENDPOINT}auth/users/me/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`,config)
         .then(response => {
-          const user = response.data.find(user => user.id == userId);
+          console.log(response.data,'reponsedata')
+          if (response.data.id == userId) {
+            const user = response.data;
+            // user now contains the object if the id matched userId
+          
           if (user) {
             setEducatorId(user.educator);
           }
+        }
         });
     }
   }, [userId]);
@@ -115,7 +120,7 @@ useEffect(() => {
   useEffect(() => {
     if (selectedStudent) {
       console.log(selectedStudent);
-      axios.get(`${API_ENDPOINT}auth/users/me/`)
+      axios.get(`${API_ENDPOINT}auth/users/me/`,config)
         .then(response => {
           const user = response.data.find(user => user.family == selectedStudent.family);
           if (user) {

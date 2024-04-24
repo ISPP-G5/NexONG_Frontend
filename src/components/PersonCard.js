@@ -33,13 +33,33 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   };
 
   const handleDescargar = async(person) => {
-    const descargarDocumento = (documento, nombreArchivo) => {
+    const descargarDocumento = async (url, nombreArchivo) => {
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const blob = await response.blob();
         const enlaceDescarga = document.createElement('a');
-        enlaceDescarga.href = documento;
+        const urlDescarga = window.URL.createObjectURL(blob);
+  
+        enlaceDescarga.href = urlDescarga;
         enlaceDescarga.download = nombreArchivo;
         document.body.appendChild(enlaceDescarga);
         enlaceDescarga.click();
+  
+        window.URL.revokeObjectURL(urlDescarga);
         document.body.removeChild(enlaceDescarga);
+      } catch (e) {
+        console.error('Error al descargar el documento:', e);
+      }
     };
 
     if(person.volunteer){
