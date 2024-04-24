@@ -274,10 +274,10 @@ const FamilyCalendar = () => {
                 }}
                 eventPropGetter={eventStyleGetter}
             />
-            <div>
-                <div className='prueba' backgroundColor={lessonColor}></div>
-                <div className='prueba' backgroundColor={lessonEventColor}></div>
-                <div className='prueba' backgroundColor={EventColor}></div>
+            <div className='legendContainer'>
+                <div className='legend' style={{ backgroundColor: lessonColor}}>Lección</div>
+                <div className='legend' style={{ backgroundColor: lessonEventColor}}>Excursión</div>
+                <div className='legend' style={{ backgroundColor: EventColor}}>Evento</div>
             </div> 
         </div> 
 
