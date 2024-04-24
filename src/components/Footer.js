@@ -10,7 +10,7 @@ function Footer () {
         <div className='footer'>
             <div className='footer-contact'>
                 <p>Email:&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:manosabiertas@lasalleandalucia.net" style={{ color: 'black', display: 'inline' }}>manosabiertas@lasalleandalucia.net</a></p>
-                <p>Teléfonos:&nbsp;&nbsp;&nbsp;&nbsp;650485214&nbsp;&nbsp;ó&nbsp;&nbsp;640168593&nbsp;&nbsp;ó&nbsp;&nbsp;660980483</p>
+                <p>Teléfonos:&nbsp;&nbsp;&nbsp;&nbsp;650485214&nbsp;&nbsp;ó&nbsp;&nbsp;640168593</p>
                 <p>Fax:&nbsp;&nbsp;&nbsp;&nbsp;158 425 252</p>
                 <p>CIF:&nbsp;&nbsp;&nbsp;&nbsp;G-41753435</p>
 
