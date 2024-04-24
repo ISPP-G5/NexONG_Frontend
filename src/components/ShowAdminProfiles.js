@@ -4,7 +4,7 @@ import PersonCard from './PersonCard';
 import LayoutProfiles from './LayoutProfiles';
 import Pantallas from './Pantallas';
 
-function ShowType({ data, type, pantallas, kids, request = false, trash = true, message }) {
+function ShowType({ data, type, pantallas, download = false, kids, request = false, trash = true, message }) {
      
     return (
         <LayoutProfiles 
@@ -12,6 +12,16 @@ function ShowType({ data, type, pantallas, kids, request = false, trash = true, 
             selected={type}
         >
             {pantallas && <Pantallas pantallas={pantallas} />}
+
+            {download &&
+            <div>
+                <select className="button-download" onChange={(e) => download(e.target.value)}>
+                    <option value=""> Descargar socios en</option>
+                    <option value="pdf">PDF</option>
+                    <option value="excel">Excel</option>
+                    <option value="csv">CSV</option>
+                </select>
+            </div>}
 
             {data.length > 0 ? (
                 data.map((p, index) => (

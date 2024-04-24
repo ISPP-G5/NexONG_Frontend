@@ -10,7 +10,7 @@ function HeaderProfiles({ profile, id, showProfile = true}) {
             <img className='header-logo' src={logo} alt='logo' />
             <p title="Manos Abiertas Con Norte" className='header-p'>Manos Abiertas Con Norte</p>            
             <ul>
-                <li className="dropdown">
+                <li className="dropdown" style={{minWidth: '100px'}}>
                     <p>{profile}</p>
                     <div className="dropdown-content" style={{right: 0}}>
                         {showProfile && <Link to={`/${profile}/perfil`}>perfil</Link>}

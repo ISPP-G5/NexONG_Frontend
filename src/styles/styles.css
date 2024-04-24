@@ -292,7 +292,7 @@ textarea {
     top: 0;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: auto;
     grid-template-areas: "logo nav";
     align-items: center;
@@ -305,8 +305,8 @@ textarea {
 
 .header-logo {
     grid-area: logo;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: auto;
     margin-top: 10px;
 }
 
@@ -338,7 +338,8 @@ textarea {
 }
 
 .header li a:hover,
-.header-profiles li p:hover {
+.header-profiles li p:hover,
+.header-profiles .dropdown-content a:hover {
     background-color: #b7ecff;
     color: black;
 }
@@ -399,7 +400,7 @@ textarea {
     height: 12%;
     top: 0;
     width: 100%;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: auto 1fr 1fr;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -465,7 +466,7 @@ textarea {
 @media (min-width: 1px) and (max-width: 768px) {
     .profiles-container {
         width: 75%; /* Take up the remaining space after the menu on smaller screens */
-        margin-top: 25%;
+        margin-top: 30%;
         margin-left: 17%;
         font-size: 16px;
         justify-content: flex-end;
@@ -1519,13 +1520,15 @@ tbody tr:nth-child(odd) {
     position: absolute;
     top: 80%;
     right: 5%;
+    bottom: 5%;
 }
 
-.edit-fill {
+.edit {
     font-size: 25px !important;
     position: absolute;
     top: 80%;
     right: 15%;
+    bottom: 5%;
 }
 
 .add-circle {
@@ -1534,7 +1537,7 @@ tbody tr:nth-child(odd) {
 
 @media (min-width: 1px) and (max-width: 768px) {
     .trash,
-    .edit-fill {
+    .edit {
         font-size: 15px !important;
         margin: 5%;
     }
