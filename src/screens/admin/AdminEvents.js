@@ -60,7 +60,7 @@ function AdminEvents() {
 
   };
 
-   const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
       flexDirection: 'column',
@@ -82,7 +82,7 @@ function AdminEvents() {
     if (value.length === 0) {
       return null;
     }
-  
+
     return (
       <div style={{ marginBottom: '1rem' }}>
         <label style={labelStyle}>{label}</label>
@@ -140,6 +140,9 @@ function AdminEvents() {
     const [openMeetingDialog, setMeetingDialog] = useState(false);
     const [editEvent, setEditEvent] = useState(null);
     const [editLessonEvent, setEditLessonEvent] = useState(null);
+    const [editMeeting, setEditMeeting] = useState(null);
+    const [meetingToDelete, setMeetingToDelete] = useState(null);
+
 
     const [volunteers, setVolunteers] = useState([]);
     const [meetings, setMeetings] = useState([]);
@@ -150,7 +153,7 @@ function AdminEvents() {
     const [lessonEvents, setLessonEvents] = useState([]);
     const [eventToDelete, setEventToDelete] = useState(null);
     const [lessonEventToDelete, setLessonEventToDelete] = useState(null);
-    const [isNewEvent, setIsNewEvent] = useState(true); 
+    const [isNewEvent, setIsNewEvent] = useState(true);
     const [isNewLessonEvent, setIsNewLessonEvent] = useState(true);
     const [isLessonEvent, setIsLessonEvent] = useState(false);
     const [openNewDialog, setOpenNewDialog] = useState(false);
@@ -168,7 +171,7 @@ function AdminEvents() {
       setOpenNewDialog(true);
     };
 
-    const handleLessonEventCreate = ({  }) => {
+    const handleLessonEventCreate = ({ }) => {
       // Open the lesson-event dialog here
       setIsNewEvent(false);
 
@@ -176,7 +179,7 @@ function AdminEvents() {
       setOpenAddLessonEventDialog(true);
 
     };
-    
+
 
 
     const clearLocalFormData = () => {
@@ -196,9 +199,9 @@ function AdminEvents() {
 
     };
 
-    const handleEventCreate = ( {start} ) => {
+    const handleEventCreate = ({ start }) => {
       setOpenAddDialog(true);
-  
+
     };
 
 
@@ -208,7 +211,7 @@ function AdminEvents() {
         const student = students.find((student) => student.id === attendeeId);
         return student ? `${student.name} ${student.surname}` : '';
       });
-    
+
       return (
         <>
           <div style={{ marginBottom: '1rem' }}>
@@ -230,17 +233,17 @@ function AdminEvents() {
           </div>
           <div style={{ marginBottom: '1rem' }}>
 
-          <label style={labelStyle}>Fecha</label>
+            <label style={labelStyle}>Fecha</label>
 
-          <TextField
+            <TextField
 
-            value={localFormData.date}
+              value={localFormData.date}
 
-            InputProps={{ readOnly: true }}
+              InputProps={{ readOnly: true }}
 
-            fullWidth
+              fullWidth
 
-          />
+            />
 
           </div>
 
@@ -270,120 +273,120 @@ function AdminEvents() {
           {renderTextFieldComponent('Nombre de la actividad', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
           {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({ ...localFormData, description: value }))}
           {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
-          {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value}), 'number')}
+          {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value }), 'number')}
           {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
           {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
           {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
           <MultiSelect
-              label="Alumnos que asisten"
-              options={students}
-              value={localFormData.attendees}
-              readOnly={true}
-            />
+            label="Alumnos que asisten"
+            options={students}
+            value={localFormData.attendees}
+            readOnly={true}
+          />
 
           <div style={{ marginBottom: '1rem' }}>
-          <label style={labelStyle}>Lección</label>
-          <Select
-          value={localFormData.lessonId || ''}
-          onChange={(e) => {
-            const selectedLessonId = e.target.value;
-            setLocalFormData({ ...localFormData, lessonId: selectedLessonId });
-          }}
-          fullWidth
-        >
-          {lessons.map((lesson) => (
-            <MenuItem key={lesson.id} value={lesson.id}>
-              {lesson.name}
-            </MenuItem>
-          ))}
-        </Select>
+            <label style={labelStyle}>Lección</label>
+            <Select
+              value={localFormData.lessonId || ''}
+              onChange={(e) => {
+                const selectedLessonId = e.target.value;
+                setLocalFormData({ ...localFormData, lessonId: selectedLessonId });
+              }}
+              fullWidth
+            >
+              {lessons.map((lesson) => (
+                <MenuItem key={lesson.id} value={lesson.id}>
+                  {lesson.name}
+                </MenuItem>
+              ))}
+            </Select>
 
-        </div>
+          </div>
 
 
           <div style={{ marginBottom: '1rem' }}>
-          <label style={labelStyle}>Educador</label>
-<Select
-  multiple // Enable multiple selections
-  value={localFormData.educatorId || []} // Ensure a default value is set as an array
-  onChange={(e) => {
-    const selectedEducatorIds = e.target.value; // Use target.value to get the array of selected IDs
-    const selectedEducators = educators.filter(educator => selectedEducatorIds.includes(educator.id));
-    setLocalFormData({ ...localFormData, educatorId: selectedEducatorIds });
-    setLocalFormData(prevState => ({ 
-      ...prevState, 
-      educators: selectedEducators 
-    }));
-  }}
-  fullWidth
->
-  {educators.map((educator) => {
-    // Find the user corresponding to the educatorId
-    const user = users.find((user) => user.id === educator.id);
-    // Display the educator's name if found
-    if (user) {
-      return (
-        <MenuItem key={user.id} value={user.id}>
-          {`${user.first_name} ${user.last_name}`}
-        </MenuItem>
-      );
-    } else {
-      return null; // Return null if user not found (handle this case as per your requirement)
-    }
-  })}
-</Select>
+            <label style={labelStyle}>Educador</label>
+            <Select
+              multiple // Enable multiple selections
+              value={localFormData.educatorId || []} // Ensure a default value is set as an array
+              onChange={(e) => {
+                const selectedEducatorIds = e.target.value; // Use target.value to get the array of selected IDs
+                const selectedEducators = educators.filter(educator => selectedEducatorIds.includes(educator.id));
+                setLocalFormData({ ...localFormData, educatorId: selectedEducatorIds });
+                setLocalFormData(prevState => ({
+                  ...prevState,
+                  educators: selectedEducators
+                }));
+              }}
+              fullWidth
+            >
+              {educators.map((educator) => {
+                // Find the user corresponding to the educatorId
+                const user = users.find((user) => user.id === educator.id);
+                // Display the educator's name if found
+                if (user) {
+                  return (
+                    <MenuItem key={user.id} value={user.id}>
+                      {`${user.first_name} ${user.last_name}`}
+                    </MenuItem>
+                  );
+                } else {
+                  return null; // Return null if user not found (handle this case as per your requirement)
+                }
+              })}
+            </Select>
           </div>
         </>
       );
     };
 
-        
+
     const [recurringEvent, setRecurringEvent] = useState(false);
     const [numOccurrences, setNumOccurrences] = useState(2);
     const [frequency, setFrequency] = useState('weeks');
-    
+
 
     const renderTextFieldComponents = () => {
       if (isNewEvent) {
         return (
           <>
-            {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({...localFormData, name: value }))}
-            {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({...localFormData, description: value }))}
-            {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({...localFormData, place: value }))}
-            {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({...localFormData, price: value}), 'number')}
-            {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({...localFormData, max_volunteers: value }), 'number')}
-            {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({...localFormData, max_attendees: value }), 'number')}
-            {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({...localFormData, start_date: value }), 'datetime-local')}
-            {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({...localFormData, end_date: value }), 'datetime-local')}
+            {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
+            {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({ ...localFormData, description: value }))}
+            {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
+            {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value }), 'number')}
+            {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
+            {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
+            {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
+            {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
 
             {recurringEvent && (
-          <>
-            {renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
-            <Button variant="outlined" color={frequency === 'days' ? 'primary' : 'default'} onClick={() => setFrequency('days')}>Diario</Button>
-            <Button variant="outlined" color={frequency === 'weeks' ? 'primary' : 'default'} onClick={() => setFrequency('weeks')}>Semanal</Button>
-          </>
-        )}
+              <>
+                {renderTextFieldComponent('Número de ocurrencias', numOccurrences, setNumOccurrences, 'number')}
+                <Button variant="outlined" color={frequency === 'days' ? 'primary' : 'default'} onClick={() => setFrequency('days')}>Diario</Button>
+                <Button variant="outlined" color={frequency === 'weeks' ? 'primary' : 'default'} onClick={() => setFrequency('weeks')}>Semanal</Button>
+              </>
+            )}
 
 
-      {isNewEvent && ( // Conditionally render the button for new events only
-        <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
-        {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
-      </Button>
-    )}
+            {isNewEvent && ( // Conditionally render the button for new events only
+              <Button variant="outlined" color="primary" onClick={() => setRecurringEvent(!recurringEvent)}>
+                {recurringEvent ? 'Crear Evento Singular' : 'Crear Evento Recurrente'}
+              </Button>
+            )}
           </>
         );
       } else {
         return (
           <>
-            {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({...localFormData, name: value }))}
-            {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({...localFormData, description: value }))}
-            {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({...localFormData, place: value }))}
-            {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({...localFormData, price: value}), 'number')}
-            {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({...localFormData, max_volunteers: value }), 'number')}
-            {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({...localFormData, max_attendees: value }), 'number')}
-            {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({...localFormData, start_date: value }), 'datetime-local')}
-            {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({...localFormData, end_date: value }), 'datetime-local')}
-            
+            {renderTextFieldComponent('Nombre del evento', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
+            {renderTextFieldComponent('Descripción', localFormData.description, (value) => setLocalFormData({ ...localFormData, description: value }))}
+            {renderTextFieldComponent('Lugar', localFormData.place, (value) => setLocalFormData({ ...localFormData, place: value }))}
+            {renderTextFieldComponent('Precio', localFormData.price, (value) => setLocalFormData({ ...localFormData, price: value }), 'number')}
+            {renderTextFieldComponent('Máximo Voluntarios', localFormData.max_volunteers, (value) => setLocalFormData({ ...localFormData, max_volunteers: value }), 'number')}
+            {renderTextFieldComponent('Máximo asistentes', localFormData.max_attendees, (value) => setLocalFormData({ ...localFormData, max_attendees: value }), 'number')}
+            {renderTextFieldComponent('Fecha Inicio', localFormData.start_date, (value) => setLocalFormData({ ...localFormData, start_date: value }), 'datetime-local')}
+            {renderTextFieldComponent('Fecha fin', localFormData.end_date, (value) => setLocalFormData({ ...localFormData, end_date: value }), 'datetime-local')}
+
             <MultiSelect
               label="Alumnos que asisten"
               options={students}
@@ -395,7 +398,7 @@ function AdminEvents() {
         );
       }
     };
-    
+
 
     useEffect(() => {
       axios
@@ -430,38 +433,38 @@ function AdminEvents() {
         .catch((error) => {
           console.error('Error fetching volunteers:', error);
         });
-axios
-  .get(`${API_ENDPOINT}meeting/`, config)
-  .then((response) => {
-    console.log('response asambleas:', response.data);
-    const formattedMeetings = response.data.map((meeting) => ({
-      id: meeting.id,
-      title: meeting.name,
-      description: meeting.description,
-      time: meeting.time,
-      start: new Date(meeting.date), // Combine date and time
-      attendees: meeting.attendees,
-      url: meeting.url,
-      type: 'meeting',
-      
-    }));
-    console.log('formattedMeetings:', formattedMeetings);
-    
-    // Add a minimum duration to each meeting event (e.g., 1 hour)
-    const formattedMeetingsWithDuration = formattedMeetings.map((meeting) => ({
-      ...meeting,
-      end: new Date(meeting.start.getTime() + (60 * 60 * 1000)), // Add 1 hour to the start time
-      
-    }));
-    
-    setMeetings(formattedMeetingsWithDuration);
-  })
-  .catch((error) => {
-    console.error('Error fetching meetings:', error);
-  });
+      axios
+        .get(`${API_ENDPOINT}meeting/`, config)
+        .then((response) => {
+          console.log('response asambleas:', response.data);
+          const formattedMeetings = response.data.map((meeting) => ({
+            id: meeting.id,
+            title: meeting.name,
+            description: meeting.description,
+            time: meeting.time,
+            start: new Date(meeting.date), // Combine date and time
+            attendees: meeting.attendees,
+            url: meeting.url,
+            type: 'meeting',
 
-      
-      
+          }));
+          console.log('formattedMeetings:', formattedMeetings);
+
+          // Add a minimum duration to each meeting event (e.g., 1 hour)
+          const formattedMeetingsWithDuration = formattedMeetings.map((meeting) => ({
+            ...meeting,
+            end: new Date(meeting.start.getTime() + (60 * 60 * 1000)), // Add 1 hour to the start time
+
+          }));
+
+          setMeetings(formattedMeetingsWithDuration);
+        })
+        .catch((error) => {
+          console.error('Error fetching meetings:', error);
+        });
+
+
+
 
       axios
         .get(`${API_ENDPOINT}student/`, config)
@@ -481,7 +484,7 @@ axios
         .catch((error) => {
           console.error('Error fetching lessons:', error);
         });
-        axios
+      axios
         .get(`${API_ENDPOINT}educator/`, config)
         .then((response) => {
           console.log('response educators:', response.data);
@@ -499,8 +502,8 @@ axios
         .catch((error) => {
           console.error('Error fetching users:', error);
         });
-      
-      
+
+
       axios
         .get(`${API_ENDPOINT}lesson-event/`, config)
         .then((response) => {
@@ -520,7 +523,7 @@ axios
             type: 'lesson-event',
           }));
           console.log('formattedLessonEvents:', formattedLessonEvents);
-          
+
           setLessonEvents(formattedLessonEvents);
         })
         .catch((error) => {
@@ -528,7 +531,7 @@ axios
         });
 
       axios
-        .get(`${API_ENDPOINT}user/`, )
+        .get(`${API_ENDPOINT}user/`,)
         .then((response) => {
           console.log('response user:', response.data);
           setUsers(response.data);
@@ -574,15 +577,15 @@ axios
 
     const handleRecurringEvent = () => {
       const selectedStartDate = moment(localFormData.start_date);
-      
+
       const promises = [];
       if (numOccurrences < 2) {
         toast.error('El número de ocurrencias debe ser 2 o más.');
         return;
       }
 
-      
-    
+
+
       for (let i = 0; i < numOccurrences; i++) {
         const eventData = {
           ...localFormData,
@@ -600,30 +603,30 @@ axios
           toast.error('La actividad debe durar al menos 15 minutos.');
           return;
         }
-        
-    
+
+
 
         // Push each axios.post promise into the promises array
         promises.push(
           axios.post(`${API_ENDPOINT}event/`, eventData, config)
         );
-    
+
         // Move to the next occurrence
         selectedStartDate.add(1, frequency); // Use the frequency state variable here
       }
-    
+
       // Wait for all promises to resolve
       Promise.all(promises)
         .then((responses) => {
 
-          
+
           // Extract the newly created events from the responses
           const newEvents = responses.map((response) => {
             const eventData = response.data;
             let startDate = new Date(eventData.start_date);
             startDate.setHours(startDate.getHours() - 1);
             let endDate = new Date(eventData.end_date);
-            endDate.setHours(endDate.getHours() -1);
+            endDate.setHours(endDate.getHours() - 1);
             const diffInMinutes = (endDate - startDate) / (1000 * 60);
             if (diffInMinutes < 15) {
               toast.error('La actividad debe durar al menos 15 minutos.');
@@ -643,21 +646,21 @@ axios
               end: endDate,
             };
           });
-    
+
           // Update the events state with the new events
           setEvents((prevEvents) => [...prevEvents, ...newEvents]);
-    
+
           // Show success message and close the dialog
           toast.success('Eventos creados con éxito');
           setOpenAddDialog(false);
         })
         .catch(handleErrorResponse);
     };
-    
+
     const handleLessonEvent = () => {
       console.log('Educators:', localFormData.educators);
       console.log('Lesson:', localFormData.lessonId);
-      
+
       if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_volunteers || !localFormData.price || !localFormData.educators || localFormData.educators.length === 0) {
         toast.error('Por favor, rellene todos los campos y seleccione al menos un educador.');
         return;
@@ -667,7 +670,7 @@ axios
         return;
       }
 
-      if (localFormData.max_volunteers <1) {
+      if (localFormData.max_volunteers < 1) {
         toast.error('Los máximos voluntarios no pueden ser menos de 1.');
         return;
       }
@@ -675,11 +678,11 @@ axios
         toast.error('El precio debe ser 0€ o más.');
         return;
       }
-      
-    
+
+
       axios
-        .post(`${API_ENDPOINT}lesson-event/`, { 
-          ...localFormData, 
+        .post(`${API_ENDPOINT}lesson-event/`, {
+          ...localFormData,
           lesson: localFormData.lessonId, // Include lesson ID
           educators: localFormData.educators.map(educator => educator.id) // Include only the IDs of selected educators
         }, config)
@@ -694,7 +697,7 @@ axios
             toast.error('La actividad debe durar al menos 15 minutos.');
             return;
           }
-  
+
           const newLessonEvent = {
             id: response.data.id,
             title: localFormData.name,
@@ -709,11 +712,11 @@ axios
             end: endDate,
             type: 'lesson-event',
           };
-         
-          setIsNewEvent(false); 
+
+          setIsNewEvent(false);
           toast.success('Actividad creada con éxito');
 
-    
+
           setLessonEvents([...lessonEvents, newLessonEvent]);
           setIsLessonEvent(true);
           setOpenAddDialog(false);
@@ -729,7 +732,7 @@ axios
             } else if (data && data.end_date) {
               toast.error('Error: la fecha de fin no puede ser anterior o igual a la de inicio.');
 
-            } 
+            }
             const startDate = new Date(localFormData.start_date);
             const endDate = new Date(localFormData.end_date);
             const diffInMinutes = (endDate - startDate) / (1000 * 60);
@@ -741,10 +744,10 @@ axios
             console.error('Error creando actividad:', error);
           }
         }
-      );
+        );
 
     };
-    
+
 
     const handleSubmit = () => {
       if (recurringEvent) {
@@ -752,10 +755,10 @@ axios
       } else if (isLessonEvent) {
         handleLessonEvent();
       } else {
-        if ( localFormData.end_date < localFormData.start_date) {
+        if (localFormData.end_date < localFormData.start_date) {
           toast.error('La fecha final no puede ser anterior a la fecha inicial.');
           return;
-        } 
+        }
         if (localFormData.start_date < new Date()) {
           // Start date is in the past
           toast.error('La fecha de inicio no puede ser en el pasado.');
@@ -768,15 +771,15 @@ axios
           toast.error('El evento debe durar al menos 15 minutos.');
           return;
         }
-        
-    
 
-        
+
+
+
         if (localFormData.price < 0) {
           toast.error('El precio debe ser 0€ o más.');
           return;
         }
-        if (localFormData.max_volunteers <1) {
+        if (localFormData.max_volunteers < 1) {
           toast.error('Los voluntarios no pueden ser menos de 1.');
           return;
         }
@@ -784,14 +787,14 @@ axios
           toast.error('Los máximos asistentes no pueden ser menos de 1.');
           return;
         }
-        
+
 
         if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
           toast.error('Por favor, rellene todos los campos.');
           return;
         }
-        
-        
+
+
 
         axios
           .post(`${API_ENDPOINT}event/`, localFormData, config)
@@ -800,8 +803,8 @@ axios
             startDate.setHours(startDate.getHours() + 1);
             let endDate = new Date(localFormData.end_date);
             endDate.setHours(endDate.getHours() + 1);
-        
-    
+
+
             const newEvent = {
               id: response.data.id,
               title: localFormData.name,
@@ -816,7 +819,7 @@ axios
               end: endDate,
 
             };
-    
+
             setEvents([...events, newEvent]);
             setOpenAddDialog(false);
           })
@@ -830,47 +833,48 @@ axios
                 toast.error('Error: la fecha de inicio no puede ser en el pasado.');
               } else if (data && data.end_date) {
                 toast.error('Error: la fecha de fin no puede ser anterior o igual a la de inicio.');
-              }  else {
+              } else {
                 toast.error('Ha ocurrido un error al crear la clase.');
               }
             } else {
               console.error('Error creating event:', error);
             }
           });
-            
-        }};
 
-      
-      const handleLessonEventEdit = () => {
-        if (editLessonEvent) {
-
-          let startDate = new Date(localFormData.start_date);
-          startDate.setHours(startDate.getHours() + 1);
-          let endDate = new Date(localFormData.end_date);
-          endDate.setHours(endDate.getHours() + 1);
+      }
+    };
 
 
-          const diffInMinutes = (endDate - startDate) / (1000 * 60);
-            if (diffInMinutes < 15) {
-              toast.error('La actividad debe durar al menos 15 minutos.');
-              return;
-            }
-          const updatedLessonEventData = {
-            ...editLessonEvent,
-            name: localFormData.name,
-            description: localFormData.description,
-            place: localFormData.place,
-            max_volunteers: localFormData.max_volunteers,
-            price: localFormData.price,
-            start_date: startDate,
-            end_date: endDate,
-            lesson: localFormData.lessonId,
-            educators: localFormData.educatorId,
-          };
-          console.log('updatedLessonEventData:', updatedLessonEventData);
-          axios
+    const handleLessonEventEdit = () => {
+      if (editLessonEvent) {
+
+        let startDate = new Date(localFormData.start_date);
+        startDate.setHours(startDate.getHours() + 1);
+        let endDate = new Date(localFormData.end_date);
+        endDate.setHours(endDate.getHours() + 1);
+
+
+        const diffInMinutes = (endDate - startDate) / (1000 * 60);
+        if (diffInMinutes < 15) {
+          toast.error('La actividad debe durar al menos 15 minutos.');
+          return;
+        }
+        const updatedLessonEventData = {
+          ...editLessonEvent,
+          name: localFormData.name,
+          description: localFormData.description,
+          place: localFormData.place,
+          max_volunteers: localFormData.max_volunteers,
+          price: localFormData.price,
+          start_date: startDate,
+          end_date: endDate,
+          lesson: localFormData.lessonId,
+          educators: localFormData.educatorId,
+        };
+        console.log('updatedLessonEventData:', updatedLessonEventData);
+        axios
           .put(`${API_ENDPOINT}lesson-event/${editLessonEvent.id}/`, updatedLessonEventData, config)
-          
+
           .then((response) => {
             console.log('Response of put:', response.data);
             const updatedLessonEvent = response.data;
@@ -878,18 +882,18 @@ axios
               prevLessonEvents.map(lessonEvent => lessonEvent.id === updatedLessonEvent.id ? updatedLessonEvent : lessonEvent)
             );
 
-    
+
             setOpenEditLessonEventDialog(false);
             setIsNewLessonEvent(true); // Set isNewEvent to false when editing an existing event
 
             toast.success('Actividad actualizada correctamente, por favor refresca la página');
           })
           .catch((error) => {
-            if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date  || !localFormData.max_volunteers || !localFormData.price) {
+            if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_volunteers || !localFormData.price) {
               toast.error('Por favor, rellene todos los campos.');
               return;
             }
-            
+
             if (error.response && error.response.data) {
               const { data } = error.response;
               if (data && data.detail) {
@@ -905,119 +909,119 @@ axios
               } else if (data && data.end_date) {
                 toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
               }
-              
+
             } else {
               console.error('Error updating event:', error);
               toast.error('Ha ocurrido un error al actualizar el evento.');
             }
           });
-        }
-        
       }
-      const handleLessonEventDelete = () => {
-        if (editLessonEvent) {
-          setLessonEventToDelete(editLessonEvent);
-          setConfirmDeleteLessonEventOpen(true);
-        };
-      }
-      const handleConfirmDeleteLessonEvent = () => {
-        if (lessonEventToDelete) {
-          axios
-            .delete(`${API_ENDPOINT}lesson-event/${lessonEventToDelete.id}/`, config)
-            .then(() => {
-              setLessonEvents(lessonEvents.filter((lessonEvent) => lessonEvent.id !== lessonEventToDelete.id));
-              setOpenEditLessonEventDialog(false);
-              setIsNewLessonEvent(true); // Set isNewEvent to false when editing an existing event
-              toast.success('Actividad eliminada correctamente');
-              setConfirmDeleteLessonEventOpen(false);
-              setLessonEventToDelete(null);
-            })
-            .catch((error) => {
-              console.error('Error deleting lesson-event:', error);
-              toast.error('Ha ocurrido un error al eliminar el evento.');
-            });
-        }
+
+    }
+    const handleLessonEventDelete = () => {
+      if (editLessonEvent) {
+        setLessonEventToDelete(editLessonEvent);
+        setConfirmDeleteLessonEventOpen(true);
       };
-          
+    }
+    const handleConfirmDeleteLessonEvent = () => {
+      if (lessonEventToDelete) {
+        axios
+          .delete(`${API_ENDPOINT}lesson-event/${lessonEventToDelete.id}/`, config)
+          .then(() => {
+            setLessonEvents(lessonEvents.filter((lessonEvent) => lessonEvent.id !== lessonEventToDelete.id));
+            setOpenEditLessonEventDialog(false);
+            setIsNewLessonEvent(true); // Set isNewEvent to false when editing an existing event
+            toast.success('Actividad eliminada correctamente');
+            setConfirmDeleteLessonEventOpen(false);
+            setLessonEventToDelete(null);
+          })
+          .catch((error) => {
+            console.error('Error deleting lesson-event:', error);
+            toast.error('Ha ocurrido un error al eliminar el evento.');
+          });
+      }
+    };
 
-      const handleEventEdit = async () => {
-        if (editEvent) {
 
-          let startDate = new Date(localFormData.start_date);
-          startDate.setHours(startDate.getHours() + 1);
-          let endDate = new Date(localFormData.end_date);
-          endDate.setHours(endDate.getHours() + 1);
+    const handleEventEdit = async () => {
+      if (editEvent) {
+
+        let startDate = new Date(localFormData.start_date);
+        startDate.setHours(startDate.getHours() + 1);
+        let endDate = new Date(localFormData.end_date);
+        endDate.setHours(endDate.getHours() + 1);
 
 
-          const diffInMinutes = (endDate - startDate) / (1000 * 60);
-            if (diffInMinutes < 15) {
-              toast.error('El evento debe durar al menos 15 minutos.');
-              return;
+        const diffInMinutes = (endDate - startDate) / (1000 * 60);
+        if (diffInMinutes < 15) {
+          toast.error('El evento debe durar al menos 15 minutos.');
+          return;
+        }
+
+
+        const updatedEventData = {
+          ...editEvent,
+          name: localFormData.name,
+          description: localFormData.description,
+          place: localFormData.place,
+          max_volunteers: localFormData.max_volunteers,
+          price: localFormData.price,
+          attendees: localFormData.attendees,
+          volunteers: localFormData.volunteers,
+          start_date: startDate,
+          end_date: endDate,
+        };
+
+        try {
+          const response = await axios.put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData, config);
+          const updatedEvent = response.data;
+          setEvents(prevEvents =>
+            prevEvents.map(event =>
+              String(event.id) === String(updatedEvent.id) ? updatedEvent : event
+            )
+          );
+          // const startDate = new Date(localFormData.start_date);
+          // const endDate = new Date(localFormData.end_date);
+
+
+          setOpenEditDialog(false);
+          setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
+
+          toast.success('Evento actualizado correctamente, por favor refresca la página');
+        } catch (error) {
+          if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
+            toast.error('Por favor, rellene todos los campos.');
+            return;
+          }
+
+          if (error.response && error.response.data) {
+            const { data } = error.response;
+            if (data && data.detail) {
+              toast.error('Error: ' + data.detail); // General error message
+            } else if (data && data.name) {
+              toast.error('Error: ' + data.name[0]); // Error message for name field
+            } else if (data && data.description) {
+              toast.error('Error: ' + data.description[0]); // Error message for description field
+            } else if (data && data.place) {
+              toast.error('Error: ' + data.place[0]); // Error message for place field
+            } else if (data && data.start_date) {
+              toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
+            } else if (data && data.end_date) {
+              toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
             }
-         
-      
-          const updatedEventData = {
-            ...editEvent,
-            name: localFormData.name,
-            description: localFormData.description,
-            place: localFormData.place,
-            max_volunteers: localFormData.max_volunteers,
-            price: localFormData.price,
-            attendees: localFormData.attendees,
-            volunteers: localFormData.volunteers,
-            start_date: startDate,
-            end_date: endDate,
-          };
-    
-          try {
-            const response = await axios.put(`${API_ENDPOINT}event/${editEvent.id}/`, updatedEventData, config);
-            const updatedEvent = response.data;
-            setEvents(prevEvents =>
-              prevEvents.map(event => 
-                String(event.id) === String(updatedEvent.id) ? updatedEvent : event
-              )
-            );
-            // const startDate = new Date(localFormData.start_date);
-            // const endDate = new Date(localFormData.end_date);
-            
-            
-            setOpenEditDialog(false);
-            setIsNewEvent(true); // Set isNewEvent to false when editing an existing event
-      
-            toast.success('Evento actualizado correctamente, por favor refresca la página');
-          } catch(error) {
-            if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_attendees || !localFormData.max_volunteers || !localFormData.volunteers || !localFormData.attendees || !localFormData.price) {
-              toast.error('Por favor, rellene todos los campos.');
-              return;
-            }
-            
-            if (error.response && error.response.data) {
-              const { data } = error.response;
-              if (data && data.detail) {
-                toast.error('Error: ' + data.detail); // General error message
-              } else if (data && data.name) {
-                toast.error('Error: ' + data.name[0]); // Error message for name field
-              } else if (data && data.description) {
-                toast.error('Error: ' + data.description[0]); // Error message for description field
-              } else if (data && data.place) {
-                toast.error('Error: ' + data.place[0]); // Error message for place field
-              } else if (data && data.start_date) {
-                toast.error('Error: La fecha inicial no puede ser anterior a la fecha actual'); // Customized Spanish error message
-              } else if (data && data.end_date) {
-                toast.error('Error: La fecha final no puede ser anterior a la fecha inicial'); // Customized Spanish error message
-              } 
-              else if (data && data.max_attendees) {
-                toast.error('Error: No pueden haber más asistenes que el máximo establecido'); // Customized Spanish error message
-              } else if (data && data.max_volunteers) {
-                toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
-              } else {
-                toast.error('Ha ocurrido un error al actualizar el evento.'); // Customized Spanish error message
-              }
+            else if (data && data.max_attendees) {
+              toast.error('Error: No pueden haber más asistenes que el máximo establecido'); // Customized Spanish error message
+            } else if (data && data.max_volunteers) {
+              toast.error('Error: No pueden haber más voluntarios que el máximo establecido'); // Customized Spanish error message
             } else {
-              console.error('Error updating event:', error);
-              toast.error('Ha ocurrido un error al actualizar el evento.');
+              toast.error('Ha ocurrido un error al actualizar el evento.'); // Customized Spanish error message
             }
-          };
+          } else {
+            console.error('Error updating event:', error);
+            toast.error('Ha ocurrido un error al actualizar el evento.');
+          }
+        };
       }
     };
     const handleEventDelete = () => {
@@ -1025,8 +1029,8 @@ axios
         setEventToDelete(editEvent);
         setConfirmDeleteOpen(true);
 
+      };
     };
-  };
     const handleConfirmDelete = () => {
       if (eventToDelete) {
         axios
@@ -1047,14 +1051,100 @@ axios
       }
     };
 
-    
+    //meeting------------------------------------
+    const handleMeetingEdit = async () => {
+      if (editMeeting) {
+
+
+        const updatedMeetingData = {
+          ...editMeeting,
+          name: localFormData.name,
+          description: localFormData.description,
+          start_date: localFormData.start_date,
+          time: localFormData.time,
+          attendees: localFormData.attendees,
+
+        };
+
+        try {
+          const response = await axios.put(`${API_ENDPOINT}meeting/${editMeeting.id}/`, updatedMeetingData, config);
+          const updatedMeeting = response.data;
+          setMeetings(prevMeetings =>
+            prevMeetings.map(meeting =>
+              String(meeting.id) === String(updatedMeeting.id) ? updatedMeeting : meeting
+            )
+          );
+          // const startDate = new Date(localFormData.start_date);
+          // const endDate = new Date(localFormData.end_date);
+
+
+          setOpenEditDialog(false);
+          setIsNewEvent(true); // Set isNewMeeting to false when editing an existing Meeting
+
+          toast.success('Asamblea actualizada correctamente, por favor refresca la página');
+        } catch (error) {
+          if (!localFormData.name || !localFormData.description || !localFormData.start_date || !localFormData.time || !localFormData.attendees) {
+            toast.error('Por favor, rellene todos los campos.');
+            return;
+          }
+
+          if (error.response && error.response.data) {
+            const { data } = error.response;
+            if (data && data.detail) {
+              toast.error('Error: ' + data.detail); // General error message
+            } else if (data && data.name) {
+              toast.error('Error: ' + data.name[0]); // Error message for name field
+            } else if (data && data.description) {
+              toast.error('Error: ' + data.description[0]); // Error message for description field
+            } else {
+              toast.error('Ha ocurrido un error al actualizar la asamblea.'); // Customized Spanish error message
+            }
+          } else {
+            console.error('Error updating Meeting:', error);
+            toast.error('Ha ocurrido un error al actualizar la asamblea.');
+          }
+        };
+      }
+    };
+
+    const handleMeetingDelete = () => {
+      if (editMeeting) {
+        setMeetingToDelete(editMeeting);
+        setConfirmDeleteOpen(true);
+
+      };
+    };
+    const handleConfirmMeetingDelete = () => {
+      if (meetingToDelete) {
+        axios
+          .delete(`${API_ENDPOINT}meeting/${meetingToDelete.id}/`, config)
+          .then(() => {
+            setMeetings(meetings.filter((meeting) => meeting.id !== meetingToDelete.id));
+            setOpenEditDialog(false);
+            setIsNewEvent(true);
+            setConfirmDeleteOpen(false); // Cerrar el diálogo después de la eliminación
+            setMeetingToDelete(null);
+            toast.success('Asamblea eliminada correctamente');
+          })
+          .catch((error) => {
+            console.error('Error deleting Meeting:', error);
+            toast.error('Ha ocurrido un error al eliminar la Asamblea.');
+          });
+      }
+    };
+
+    //-----------------------------------------
+
 
     const handleEventClick = (event) => {
       // Check if it's a meeting event
-      
+
       if (event.type === 'meeting') {
         // Display the information without editing
+        setEditMeeting(event);
+        setIsNewEvent(false);
         const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+
 
         setLocalFormData({
           name: event.title,
@@ -1064,7 +1154,7 @@ axios
           time: event.time
 
         });
-       setMeetingDialog(true); // Open the dialog to display meeting information
+        setMeetingDialog(true); // Open the dialog to display meeting information
       } else if (event.type === 'lesson-event') {
         setIsNewLessonEvent(false); // Set isNewEvent to false when editing an existing event
         setEditLessonEvent(event);
@@ -1073,8 +1163,8 @@ axios
         const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
         const endDate = moment(event.end).subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
         const educatorsArray = Array.isArray(event.educators) ? event.educators : [event.educators];
-                // Find the lesson object by id and get its name
-        
+        // Find the lesson object by id and get its name
+
 
         setLocalFormData({
           name: event.title,
@@ -1093,11 +1183,11 @@ axios
         });
         setOpenEditLessonEventDialog(true);
         console.log('activida d editar:', event);
-      
+
       }
 
-      
-      
+
+
       else {
         // For non-meeting events, proceed with editing
         setIsNewEvent(false); // Set isNewEvent to false when editing an existing event
@@ -1124,70 +1214,70 @@ axios
 
       }
     };
-    
-    
+
+
 
     return (
       <LayoutProfiles profile='admin' selected='Eventos'>
-      <ToastContainer />
-      <ButtonCreate text='Crear evento' handleCreate={handleCreateClick} />
+        <ToastContainer />
+        <ButtonCreate text='Crear evento' handleCreate={handleCreateClick} />
 
         <div className={classes.calendarContainer}>
-            <Calendar
-      localizer={localizer}
-      events={allEvents}
-      startAccessor="start"
-      endAccessor="end"
-      onSelectSlot={handleCreateClick}
-      onSelectEvent={handleEventClick}
-      views={['month', 'week', 'day']}
-      selectable={true}
-      step={60} // Decreased step for finer granularity
-      timeslots={1} // Only one row per hour
-      className='calendar'
-      eventPropGetter={(event, start, end, isSelected) => {
-        let newStyle = {
-          backgroundColor: "lightblue",
-          color: 'black',
-          borderRadius: "15px",
-          border: "none"
-        };
+          <Calendar
+            localizer={localizer}
+            events={allEvents}
+            startAccessor="start"
+            endAccessor="end"
+            onSelectSlot={handleCreateClick}
+            onSelectEvent={handleEventClick}
+            views={['month', 'week', 'day']}
+            selectable={true}
+            step={60} // Decreased step for finer granularity
+            timeslots={1} // Only one row per hour
+            className='calendar'
+            eventPropGetter={(event, start, end, isSelected) => {
+              let newStyle = {
+                backgroundColor: "lightblue",
+                color: 'black',
+                borderRadius: "15px",
+                border: "none"
+              };
 
-        if (event.type === 'meeting') {
-          newStyle.backgroundColor = "yellow";
-        } else if (event.type === 'lesson-event') {
-          newStyle.backgroundColor = "pink";
-        } else if (event.type === 'event') {
-          newStyle.backgroundColor = "red";
-        }
+              if (event.type === 'meeting') {
+                newStyle.backgroundColor = "yellow";
+              } else if (event.type === 'lesson-event') {
+                newStyle.backgroundColor = "pink";
+              } else if (event.type === 'event') {
+                newStyle.backgroundColor = "red";
+              }
 
-        return {
-          className: "",
-          style: newStyle
-        };
-      }}
-    />
+              return {
+                className: "",
+                style: newStyle
+              };
+            }}
+          />
 
 
         </div>
 
-              <Dialog 
-        open={openNewDialog} 
-        onClick={() => setOpenNewDialog(false)}
-        maxWidth = 'lg'  // set maxWidth to large
-        width = '20%'
-      >
-        <div style={{ height: '30vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <DialogActions style={{ justifyContent: 'center', textAlign: 'center' }}>
-            <Button onClick={handleEventCreate} color="primary" style={{ fontSize: '30px' }}>
-              Crear Evento
-            </Button>
-            <Button onClick={handleLessonEventCreate} color="primary" style={{ fontSize: '30px' }}>
-              Crear Actividad
-            </Button>
-          </DialogActions>
-        </div>
-      </Dialog>
+        <Dialog
+          open={openNewDialog}
+          onClick={() => setOpenNewDialog(false)}
+          maxWidth='lg'  // set maxWidth to large
+          width='20%'
+        >
+          <div style={{ height: '30vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <DialogActions style={{ justifyContent: 'center', textAlign: 'center' }}>
+              <Button onClick={handleEventCreate} color="primary" style={{ fontSize: '30px' }}>
+                Crear Evento
+              </Button>
+              <Button onClick={handleLessonEventCreate} color="primary" style={{ fontSize: '30px' }}>
+                Crear Actividad
+              </Button>
+            </DialogActions>
+          </div>
+        </Dialog>
 
 
         <Dialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
@@ -1214,12 +1304,12 @@ axios
             </Button>
           </DialogActions>
         </Dialog>
-        
+
 
         <Dialog open={openEditDialog} onClose={() => {
           setOpenEditDialog(false);
           setIsNewEvent(true); // Set isNewEvent to true when closing the edit dialog
-          }}>
+        }}>
           <DialogTitle>Editar Evento</DialogTitle>
           <DialogContent>{renderTextFieldComponents()}</DialogContent>
           <DialogActions>
@@ -1238,7 +1328,7 @@ axios
         <Dialog open={openEditLessonEventDialog} onClose={() => {
           setOpenEditLessonEventDialog(false);
           setIsNewLessonEvent(true); // Set isNewEvent to true when closing the edit dialog
-          }}>
+        }}>
           <DialogTitle>Editar Actividad</DialogTitle>
           <DialogContent>{renderLessonEventTextFieldComponents()}</DialogContent>
           <DialogActions>
@@ -1266,14 +1356,34 @@ axios
         </Dialog>
 
         <Dialog open={openMeetingDialog} onClose={() => setMeetingDialog(false)}>
-        <DialogTitle>Ver Reunión</DialogTitle>
-        <DialogContent>{renderMeetingTextFieldComponents()}</DialogContent>
-        <DialogActions>
-          <Button onClick={() => setMeetingDialog(false)} color="primary">
-            Volver
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <DialogTitle>Ver Reunión</DialogTitle>
+          <DialogContent>{renderMeetingTextFieldComponents()}</DialogContent>
+          <DialogActions>
+            <Button onClick={() => setMeetingDialog(false)} color="primary">
+              Volver
+            </Button>
+            <Button onClick={handleMeetingEdit} color="primary">
+              Guardar
+            </Button>
+            <Button onClick={handleMeetingDelete} color="secondary">
+              Borrar
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+          <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
+          <DialogActions>
+            <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmMeetingDelete} color="secondary">
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+
+
 
         <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
           <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
