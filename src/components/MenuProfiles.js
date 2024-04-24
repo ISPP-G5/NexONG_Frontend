@@ -6,7 +6,7 @@ const profileItems = {
     admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Sugerencias', 'Documentos'],
     educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades'],
     voluntario: ['Agenda', 'Asistencia'],
-    familia: ['Niños', 'Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
+    familia: ['Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
     socio: ['Calendario'],
   };
   
