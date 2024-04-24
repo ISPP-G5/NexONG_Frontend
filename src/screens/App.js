@@ -69,8 +69,7 @@ import PartnersCalendar from './partners/PartnersCalendar';
 import PartnersDrop from './partners/PartnersDrop';
 import PartnersRenew from './partners/PartnersRenew';
 import PartnerForm from './partners/PartnerForm';
-import PartnerProfile from './partners/PartnerProfile';
-import PartnerProfileUpdate from './partners/PartnerProfileUpdate';
+
 
 // FAMILIES
 import FamilyForm from './family/FamilyForm';
