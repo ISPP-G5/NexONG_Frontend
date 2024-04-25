@@ -32,8 +32,8 @@ const Box = ({ lesson, index, handleDelete, handleEditClick, users }) => {
         <p><strong>Nº Alumnos:</strong> {lesson.students ? lesson.students.length : 0}</p>
         <p><strong>Clase de Mañana:</strong> {morningLessonText}</p>
         <p><strong>Educador:</strong> {educator ? `${educator.first_name} ${educator.last_name}` : 'No asignado'}</p>
-        <EditIcon className="edit-fill" onClick={() => handleEditClick(lesson.id)} />
-        <DeleteIcon className="trash" onClick={onDeleteClick} />
+        <EditIcon className="edit-lessons" onClick={() => handleEditClick(lesson.id)} />
+        <DeleteIcon className="trash-lessons" onClick={onDeleteClick} />
     </div>
   );
 };
@@ -111,11 +111,10 @@ const AdminLessons = () => {
 
   return (
     <LayoutProfiles profile={'admin'} selected={'Clases'}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2%' }}>
-      <ButtonCreate text='Ver Horarios' handleCreate={handleScheduleClick} withIcon={false} />
-      <ButtonCreate text='Crear Clase' handleCreate={handleCreateClassClick} withIcon={true} />
-      <ButtonCreate text='Crear Horario' handleCreate={handleCreateScheduleClick} withIcon={true} />
-
+    <div className='button-container'>
+      <ButtonCreate className='button-contrast' text='Ver Horarios' handleCreate={handleScheduleClick} withIcon={false} />
+      <ButtonCreate className='button-contrast' text='Crear Clase' handleCreate={handleCreateClassClick} withIcon={true} />
+      <ButtonCreate className='button-contrast' text='Crear Horario' handleCreate={handleCreateScheduleClick} withIcon={true} />
     </div>
       <ToastContainer />
       <div className='lessons-container'>

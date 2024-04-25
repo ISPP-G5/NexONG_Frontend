@@ -1130,7 +1130,7 @@ axios
     return (
       <LayoutProfiles profile='admin' selected='Eventos'>
       <ToastContainer />
-      <ButtonCreate text='Crear evento' handleCreate={handleCreateClick} />
+      <ButtonCreate className='button-contrast' text='Crear evento' handleCreate={handleCreateClick} withIcon={true} />
 
         <div className={classes.calendarContainer}>
             <Calendar

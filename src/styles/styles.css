@@ -1524,7 +1524,7 @@ tbody tr:nth-child(odd) {
 
 /********************* ICONS ******************/
 
-.trash {
+.trash, .trash-lessons {
     font-size: 25px !important;
     position: absolute;
     top: 80%;
@@ -1532,7 +1532,7 @@ tbody tr:nth-child(odd) {
     bottom: 5%;
 }
 
-.edit {
+.edit, .edit-lessons {
     font-size: 25px !important;
     position: absolute;
     top: 80%;
@@ -1547,8 +1547,14 @@ tbody tr:nth-child(odd) {
 @media (min-width: 1px) and (max-width: 768px) {
     .trash,
     .edit {
-        font-size: 15px !important;
+        font-size: 20px !important;
         margin: 5%;
+    }
+    .trash-lessons,
+    .edit-lessons {
+        font-size: 20px !important;
+        margin: 7%;
+        position: relative;
     }
     .add-circle {
         font-size: 25px !important;
@@ -1638,7 +1644,20 @@ tbody tr:nth-child(odd) {
     .box {
         width: 100%;
         font-size: 12px;
-        margin-bottom: 5%;
+        margin-bottom: 10%;
+    }
+}
+
+/* BOX BUTTON */
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+    
+@media (max-width: 600px) {
+    .button-container {
+        flex-direction: column;
     }
 }
 
