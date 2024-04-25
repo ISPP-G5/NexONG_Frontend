@@ -1310,6 +1310,10 @@ tbody tr:nth-child(odd) {
     align-items: flex-start;
 }
 
+.kid p {
+    margin-bottom: 0;
+}
+
 .family-request {
     flex: 0.75;
     display: flex;
@@ -1339,7 +1343,6 @@ tbody tr:nth-child(odd) {
     }
 
     .kids-info,
-    .kid,
     .family-request {
         flex-direction: column;
         width: 100%;
@@ -1350,6 +1353,14 @@ tbody tr:nth-child(odd) {
         border-right: none;
         border-bottom: 2px solid #9ee5ff;
         margin-left: 10px;
+        align-items: center;
+    }
+
+    
+    .kid {
+        flex-direction: column;
+        width: 100%;
+        border-top: 2px solid #9ee5ff;
     }
 
     .family-request img {
@@ -1391,9 +1402,7 @@ tbody tr:nth-child(odd) {
         height: 1rem;
         margin-top: 5%;
     }
-}
 
-@media (min-width: 1px) and (max-width: 768px) {
     .card-info-suggestion {
         width: 70%;
         font-size: 12px;
