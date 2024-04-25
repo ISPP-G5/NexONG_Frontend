@@ -72,7 +72,7 @@ function PartnersDrop() {
 
   return (
     <div className='App'>
-      <LayoutProfiles profile={'socios'}>
+      <LayoutProfiles profile={'socio'}>
         <ToastContainer />
         <form className='register-container' style={{ marginTop }} onSubmit={handleSubmit}>
           <h2>Baja</h2>

@@ -104,7 +104,7 @@ function PartnersRenew() {
   return (
     <div className='App'>
       <ToastContainer />
-      <LayoutProfiles profile={'socios'}>
+      <LayoutProfiles profile={'socio'}>
         <form className='register-container' style={{marginTop }} onSubmit={handleSubmit}>
           <h2>Renovar o cambiar cuota</h2>
           <p>Para domiciliar sus recibos necesitamos los siguientes datos:</p>

@@ -20,8 +20,8 @@ const PartnerProfile = () => {
 
   return (
     <>
-      <LayoutProfiles profile={'socios'}>
-        <Profile usuario={'socios'} />
+      <LayoutProfiles profile={'socio'}>
+        <Profile usuario={'socio'} />
       </LayoutProfiles>
       {/* Button completely outside LayoutProfiles and Profile components */}
       <div className="partners-button-container">

@@ -228,8 +228,6 @@ function App() {
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
             <Route path="/socio/baja" exact={true} element={<PartnersDrop />} />
             <Route path="/socio/renovar" exact={true} element={<PartnersRenew />} />
-
-
             <Route path="/socio/formulario" exact={true} element={<PartnerForm />} />
               </>
             )}
