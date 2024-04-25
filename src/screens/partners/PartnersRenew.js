@@ -54,6 +54,20 @@ function PartnersRenew() {
     const existingDonation = existingDonations.find(donation => donation.iban === iban);
 
     if (existingDonation) {
+      if (!holder || !iban || !quantity || !frequency) {
+        toast.error('Todos los campos son obligatorios');
+        return;
+      }
+      if (!IBAN.isValid(iban)) {
+        toast.error('El formato del IBAN no es correcto');
+        return;
+      }
+
+      const parsedQuantity = parseFloat(quantity);
+      if (parsedQuantity <= 0 || isNaN(parsedQuantity)) {
+        toast.error('La cantidad debe ser mayor que 0');
+        return;
+      }
       // Update existing donation
       try {
         const response = await axios.patch(`${API_ENDPOINT}donation/${existingDonation.id}/`,  {
@@ -66,12 +80,15 @@ function PartnersRenew() {
         setIsDonationMade(true);
         console.log('Donation updated:', response.data);
         toast.success('Cuota actualizada correctamente');
+        setTimeout(() => {
+          navigate('/socio/perfil');
+        }, 2000); // 2000 milliseconds = 2 seconds
       } catch (error) {
         console.error('Error updating donation:', error);
       }
     } else {
       // Create new donation
-      if (!holder || !iban || !quantity || !frequency || !selectedDate) {
+      if (!holder || !iban || !quantity || !frequency) {
         toast.error('Todos los campos son obligatorios');
         return;
       }
@@ -98,7 +115,10 @@ function PartnersRenew() {
         console.log('Donation created:', response.data);
         toast.success('Cuota creada correctamente');
 
-        navigate('/socio/perfil');
+         // Add a delay before navigating
+  setTimeout(() => {
+    navigate('/socio/perfil');
+  }, 2000); // 2000 milliseconds = 2 seconds
 
 
       } catch (error) {
@@ -191,8 +211,8 @@ function PartnersRenew() {
           <label>Fecha</label>
           <input
             type='date'
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            value={new Date().toISOString().substr(0, 10)}
+            readOnly
           />
 
           <button type='submit' className='register-button'>
