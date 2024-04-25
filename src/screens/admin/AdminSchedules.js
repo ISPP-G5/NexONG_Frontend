@@ -85,35 +85,35 @@ const AdminSchedules = () => {
       <button className='button' onClick={() => navigate('/admin/clases')} style={{ alignSelf: 'start', marginLeft: '15%' }}>
         Volver
       </button>
-      <div className="card-info-suggestion table">
-        <div class= "table-wrapper">
+      <div className="card-info-schedules">
+        <div class= "table-responsive">
         <h2>Lista de Horarios</h2>
         <table style={{ borderSpacing: '10px' }}>
           <thead>
             <tr>
-              <th style={{ wordWrap: 'break-word', width: '15%' }}>Clase</th>
-              <th style={{ overflowWrap: 'break-word', width: '15%' }}>Fecha de inicio de la Clase</th>
-              <th style={{ overflowWrap: 'break-word', width: '15%' }}>Fecha de fin de la Clase</th>
-              <th style={{ overflowWrap: 'break-word', width: '15%' }}>Día de la semana</th>
-              <th style={{ overflowWrap: 'break-word', width: '15%' }}>Hora de inicio</th>
-              <th style={{ overflowWrap: 'break-word', width: '15%' }}>Hora de fin</th>
-              <th style={{ overflowWrap: 'break-word', width: '15%' }}>Editar</th>
-              <th style={{ overflowWrap: 'break-word', width: '15%' }}>Eliminar</th>
+              <th>Clase</th>
+              <th>Fecha de inicio de la Clase</th>
+              <th>Fecha de fin de la Clase</th>
+              <th>Día de la semana</th>
+              <th>Hora de inicio</th>
+              <th>Hora de fin</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
             </tr>
           </thead>
           <tbody>
             {schedules.map((schedule) => (
               <tr key={schedule.id}>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top', wordWrap: 'break-word' }}>{schedule.lessonData.name}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top', wordWrap: 'break-word' }}>{schedule.lessonData.start_date}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top', wordWrap: 'break-word' }}>{schedule.lessonData.end_date}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top', wordWrap: 'break-word' }}>{schedule.weekday}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top', wordWrap: 'break-word' }}>{schedule.start_time}</td>
-                <td style={{ backgroundColor: '#cdf0fe', textAlign: 'left', verticalAlign: 'top', wordWrap: 'break-word' }}>{schedule.end_time}</td>
-                <td>
+                <td style={{textAlign: 'left'}}>{schedule.lessonData.name}</td>
+                <td>{schedule.lessonData.start_date}</td>
+                <td>{schedule.lessonData.end_date}</td>
+                <td>{schedule.weekday}</td>
+                <td>{schedule.start_time}</td>
+                <td>{schedule.end_time}</td>
+                <td style={{textAlign: 'center'}}>
                   <EditIcon onClick={() => handleEditSchedule(schedule.id)} />
                 </td>
-                <td>
+                <td style={{textAlign: 'center'}}>
                   <DeleteIcon onClick={() => handleDeleteSchedule(schedule.id)} />
                 </td>
               </tr>

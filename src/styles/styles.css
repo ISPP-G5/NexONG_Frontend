@@ -1195,40 +1195,31 @@ tbody tr:nth-child(odd) {
     justify-content: flex-start;
 }
 
-/* CARD INFO ADMIN */
+/* CARD INFO ADMIN SCHEDULES */
 
-.card-info-suggestion {
-    overflow: auto;
-
-    word-wrap: break-word;
-    white-space: pre-wrap;
+.card-info-schedules {
     background-color: #cdf0fe;
     border-radius: 25px;
     box-shadow: 0px 4px 4px #9ee5ff;
     padding: 3%;
+    position: relative;
     width: 80%;
     margin: 2%;
-    text-align: justify;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
-.card-info-suggestion table .table-wrapper {
+.card-info-schedules table, .table-responsive {
   overflow-x: auto;
 }
-.card-info-suggestion table {
-    border-spacing: 10px;
-}
-@media screen and (min-width: 1px) and (max-width: 600px) {
-  .card-info-suggestion table {
-    max-width: 70%;
-    border-spacing: 5rem;
 
-  }
-}
-
-.card-info-suggestion td {
+.card-info-schedules td, .card-info-schedules th {
     background-color: #cdf0fe;
-    text-align: left;
+    text-align: center;
     vertical-align: top;
+    word-wrap: break-word;
 }
 
 /* CARD INFO EDUCATOR ACTIVITIES */
@@ -1406,11 +1397,8 @@ tbody tr:nth-child(odd) {
         margin-top: 5%;
     }
 
-    .card-info-suggestion {
+    .card-info-schedules {
         width: 70%;
-        font-size: 12px;
-        align-items: right;
-        overflow: hidden;
     }
 }
 
@@ -1420,7 +1408,7 @@ tbody tr:nth-child(odd) {
     flex: 0.25;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 70%;
     width: 15%;
     position: absolute;
     top: 7%;

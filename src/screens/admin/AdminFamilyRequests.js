@@ -31,12 +31,15 @@ function AdminFamilyRequests() {
     if (families.length > 0 && kids.length > 0) {
       const newPersons = kids.map(async (kid) => {
         const family = families.find(family => kid.family === family.id);
+        console.log('Family', family);
+        console.log('Kid', kid);
         return {
           id: kid.id,
           first_name: family.name,
           last_name: `${kid.name} ${kid.surname}`,
           avatar: kid.avatar,
-          enrollment_document: kid.enrollment_document
+          enrollment_document: kid.enrollment_document, 
+          role: 'FAMILIA',
         };
       })
       Promise.all(newPersons)
