@@ -205,6 +205,7 @@ function AdminEvents() {
     };
 
 
+    // meeting 2------------------------------------------------------------
     const renderMeetingTextFieldComponents = () => {
       // Map student IDs to their full names
       const attendeeFullNames = localFormData.attendees.map((attendeeId) => {
@@ -214,47 +215,23 @@ function AdminEvents() {
 
       return (
         <>
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={labelStyle}>Nombre de la reunión</label>
-            <TextField
-              value={localFormData.name}
-              InputProps={{ readOnly: true }}
-              fullWidth
-            />
-          </div>
+
+          {renderTextFieldComponent('Nombre de la reunión', localFormData.name, (value) => setLocalFormData({ ...localFormData, name: value }))}
+
           <div style={{ marginBottom: '1rem' }}>
             <label style={labelStyle}>Descripción</label>
             <TextField
               value={localFormData.description}
-              InputProps={{ readOnly: true }}
+              onChange={(e) => {
+                const selectedDescription = e.target.value;
+                setLocalFormData({ ...localFormData, description: selectedDescription });
+              }}
               fullWidth
               multiline
             />
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-
-            <label style={labelStyle}>Fecha</label>
-
-            <TextField
-
-              value={localFormData.date}
-
-              InputProps={{ readOnly: true }}
-
-              fullWidth
-
-            />
-
-          </div>
-
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={labelStyle}>Hora</label>
-            <TextField
-              value={localFormData.time}
-              InputProps={{ readOnly: true }}
-              fullWidth
-            />
-          </div>
+          {renderTextFieldComponent('Fecha Inicio', localFormData.date, (value) => setLocalFormData({ ...localFormData, date: value }), 'date')}
+          {renderTextFieldComponent('Hora', localFormData.time, (value) => setLocalFormData({ ...localFormData, time: value }), 'time')}
 
           <div style={{ marginBottom: '1rem' }}>
             <label style={labelStyle}>Asistentes</label>
@@ -267,6 +244,8 @@ function AdminEvents() {
         </>
       );
     };
+
+    //Endmeeting--------------------------------------------------------------
     const renderLessonEventTextFieldComponents = () => {
       return (
         <>
@@ -1055,12 +1034,11 @@ function AdminEvents() {
     const handleMeetingEdit = async () => {
       if (editMeeting) {
 
-
         const updatedMeetingData = {
           ...editMeeting,
           name: localFormData.name,
           description: localFormData.description,
-          start_date: localFormData.start_date,
+          date: localFormData.date,
           time: localFormData.time,
           attendees: localFormData.attendees,
 
@@ -1074,16 +1052,13 @@ function AdminEvents() {
               String(meeting.id) === String(updatedMeeting.id) ? updatedMeeting : meeting
             )
           );
-          // const startDate = new Date(localFormData.start_date);
-          // const endDate = new Date(localFormData.end_date);
-
 
           setOpenEditDialog(false);
           setIsNewEvent(true); // Set isNewMeeting to false when editing an existing Meeting
 
           toast.success('Asamblea actualizada correctamente, por favor refresca la página');
         } catch (error) {
-          if (!localFormData.name || !localFormData.description || !localFormData.start_date || !localFormData.time || !localFormData.attendees) {
+          if (!localFormData.name || !localFormData.description || !localFormData.date || !localFormData.time || !localFormData.attendees) {
             toast.error('Por favor, rellene todos los campos.');
             return;
           }
@@ -1096,6 +1071,10 @@ function AdminEvents() {
               toast.error('Error: ' + data.name[0]); // Error message for name field
             } else if (data && data.description) {
               toast.error('Error: ' + data.description[0]); // Error message for description field
+            } else if (data && data.date) {
+              toast.error('Error: ' + data.date[0]); // Error message for description field
+            } else if (data && data.time) {
+              toast.error('Error: ' + data.time[0]); // Error message for description field
             } else {
               toast.error('Ha ocurrido un error al actualizar la asamblea.'); // Customized Spanish error message
             }
@@ -1144,13 +1123,15 @@ function AdminEvents() {
         setEditMeeting(event);
         setIsNewEvent(false);
         const attendeesArray = Array.isArray(event.attendees) ? event.attendees : [event.attendees];
+        const startDate = moment(event.start).subtract(1, 'hours').format('YYYY-MM-DD');
+
 
 
         setLocalFormData({
           name: event.title,
           description: event.description,
           attendees: attendeesArray,
-          date: event.start.toISOString().split('T')[0],
+          date: startDate,
           time: event.time
 
         });
