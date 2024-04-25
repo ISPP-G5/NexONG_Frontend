@@ -1,4 +1,3 @@
-import '../../styles/styles.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import HeaderProfiles from '../../components/HeaderProfiles';
@@ -10,27 +9,30 @@ import useToken from '../../components/useToken';
 import IBAN from 'iban';
 import LayoutProfiles from '../../components/LayoutProfiles';
 
-
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-
 
 function PartnersRenew() {
   const [token, updateToken] = useToken();
+  const [isDonationMade, setIsDonationMade] = useState(false);
+  const [existingDonations, setExistingDonations] = useState([]);
+
   const config_partner = {
     headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${token}`,
     }
   };
-  
-  const config_user = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    }
-  };
+
   useEffect(() => {
-    window.scrollTo(0, 0);
+    axios
+      .get(`${API_ENDPOINT}donation/`, config_partner)
+      .then((response) => {
+        console.log('response:', response.data);
+        setExistingDonations(response.data); // Store existing donations
+      })
+      .catch((error) => {
+        console.error('Error fetching donation:', error);
+      });
   }, []);
 
   const navigate = useNavigate();
@@ -45,58 +47,68 @@ function PartnersRenew() {
   const [frequency, setFrequency] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
-
-  useEffect(() => {
-    axios
-      .get(`${API_ENDPOINT}donation/`, config_partner)
-      .then((response) => {
-        console.log('response:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching donation:', error);
-      });
-
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    if (!holder || !iban || !quantity || !frequency || !selectedDate)  {
-      toast.error('Todos los campos son obligatorios');
-      return;
-    }
-      if (IBAN.isValid(iban)) {
-        // The IBAN is valid
-        console.log('EL formato del IBAN no es correcto');
-      } else {
-        // The IBAN is not valid
-        toast.error('El formato del IBAN no es correcto');
+
+    // Check if there's an existing donation with the same IBAN
+    const existingDonation = existingDonations.find(donation => donation.iban === iban);
+
+    if (existingDonation) {
+      // Update existing donation
+      try {
+        const response = await axios.patch(`${API_ENDPOINT}donation/${existingDonation.id}/`,  {
+          iban: iban,
+          quantity: quantity,
+          frequency: frequency,
+          holder: holder,
+          date: selectedDate
+        }, config_partner);
+        setIsDonationMade(true);
+        console.log('Donation updated:', response.data);
+        toast.success('Cuota actualizada correctamente');
+      } catch (error) {
+        console.error('Error updating donation:', error);
       }
-    
-    const parsedQuantity = parseFloat(quantity);
-    if (parsedQuantity <= 0 || isNaN(parsedQuantity)) {
-      toast.error('La cantidad debe ser mayor que 0');
-      return;
-    }
-  
-  
-    try {
-      const response = await axios.post(`${API_ENDPOINT}donation/`, {
-        iban: iban,
-        quantity: quantity,
-        frequency: frequency,
-        holder: holder,
-        date: selectedDate
-      }, config_partner);
-  
-      console.log('Donation created:', response.data);
-      toast.success('Cuota cambiada correctamente');
-    } catch (error) {
-      console.error('Error creating donation:', error);
+    } else {
+      // Create new donation
+      if (!holder || !iban || !quantity || !frequency || !selectedDate) {
+        toast.error('Todos los campos son obligatorios');
+        return;
+      }
+      if (!IBAN.isValid(iban)) {
+        toast.error('El formato del IBAN no es correcto');
+        return;
+      }
+
+      const parsedQuantity = parseFloat(quantity);
+      if (parsedQuantity <= 0 || isNaN(parsedQuantity)) {
+        toast.error('La cantidad debe ser mayor que 0');
+        return;
+      }
+
+      try {
+        const response = await axios.post(`${API_ENDPOINT}donation/`, {
+          iban: iban,
+          quantity: quantity,
+          frequency: frequency,
+          holder: holder,
+          date: selectedDate
+        }, config_partner);
+        setIsDonationMade(true);
+        console.log('Donation created:', response.data);
+        toast.success('Cuota creada correctamente');
+
+        navigate('/socio/perfil');
+
+
+      } catch (error) {
+        console.error('Error creating donation:', error);
+      }
     }
   };
-  
+
   const marginTop = useAdjustMargin('.header-profiles');
+
   const handleCheckboxChange = (value) => {
     setFrequency(value);
   };
@@ -134,68 +146,54 @@ function PartnersRenew() {
 
           <label>¿Con qué frecuencia?</label>
   
-          {/* Checkbox Container */}
           <div className="checkbox-container-partner">
-            {/* Checkbox 1 */}
             <div className="checkbox-partner">
-  <input 
-    type="checkbox" 
-    id="mensual" 
-    checked={frequency === 'MENSUAL'}
-    onChange={() => handleCheckboxChange('MENSUAL')}
-  />
-  <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
-</div>
+              <input 
+                type="checkbox" 
+                id="mensual" 
+                checked={frequency === 'MENSUAL'}
+                onChange={() => handleCheckboxChange('MENSUAL')}
+              />
+              <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
+            </div>
 
-{/* Checkbox 2 */}
-<div className="checkbox-partner">
-  <input 
-    type="checkbox" 
-    id="trimestral" 
-    checked={frequency === 'TRIMESTRAL'}
-    onChange={() => handleCheckboxChange('TRIMESTRAL')}
-  />
-  <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada tres meses)</label>
-</div>
+            <div className="checkbox-partner">
+              <input 
+                type="checkbox" 
+                id="trimestral" 
+                checked={frequency === 'TRIMESTRAL'}
+                onChange={() => handleCheckboxChange('TRIMESTRAL')}
+              />
+              <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada tres meses)</label>
+            </div>
 
-{/* Checkbox 3 */}
-<div className="checkbox-partner">
-  <input 
-    type="checkbox" 
-    id="semestral" 
-    checked={frequency === 'SEMESTRAL'}
-    onChange={() => handleCheckboxChange('SEMESTRAL')}
-  />
-  <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada seis meses)</label>
-</div>
+            <div className="checkbox-partner">
+              <input 
+                type="checkbox" 
+                id="semestral" 
+                checked={frequency === 'SEMESTRAL'}
+                onChange={() => handleCheckboxChange('SEMESTRAL')}
+              />
+              <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada seis meses)</label>
+            </div>
 
-          {/* Checkbox 4 */}
-          <div className="checkbox-partner">
-            <input 
-              type="checkbox" 
-              id="anual" 
-              checked={frequency === 'ANUAL'}
-              onChange={() => handleCheckboxChange('ANUAL')}
-            />
-            <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
+            <div className="checkbox-partner">
+              <input 
+                type="checkbox" 
+                id="anual" 
+                checked={frequency === 'ANUAL'}
+                onChange={() => handleCheckboxChange('ANUAL')}
+              />
+              <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
+            </div>
           </div>
-
 
           <label>Fecha</label>
           <input
             type='date'
-            value={new Date().toISOString().split('T')[0]} // Set default value to today's date
-            onChange={(e) => {
-              const currentDate = new Date().toISOString().split('T')[0];
-              const selectedDate = e.target.value;
-              if (currentDate !== selectedDate) {
-                toast.error('La fecha debe ser la fecha actual');
-              }
-            }}
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
           />
-
-
-          </div>
 
           <button type='submit' className='register-button'>
             Finalizar
@@ -210,6 +208,3 @@ function PartnersRenew() {
 }
 
 export default PartnersRenew;
-
-
-
