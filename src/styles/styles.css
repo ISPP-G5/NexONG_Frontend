@@ -1777,6 +1777,10 @@ tbody tr:nth-child(odd) {
     text-align: left;
 }
 
+.evaluation-filter {
+    border: 3px solid #b7ecff;
+}
+
 .evaluation-select {
     width: 6rem;
     height: 2rem;
