@@ -13,8 +13,8 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PartnersRenew() {
   const [token, updateToken] = useToken();
-  const [isDonationMade, setIsDonationMade] = useState(false);
-  const [existingDonations, setExistingDonations] = useState([]);
+  const [user, setUser] = useState({});
+  const [donationId, setDonationId] = useState(null); // Initialize donationId as null
 
   const config_partner = {
     headers: {
@@ -24,17 +24,42 @@ function PartnersRenew() {
   };
 
   useEffect(() => {
+    // Fetch authenticated user data to get partner id
     axios
-      .get(`${API_ENDPOINT}donation/`, config_partner)
-      .then((response) => {
-        console.log('response:', response.data);
-        setExistingDonations(response.data); // Store existing donations
-      })
-      .catch((error) => {
-        console.error('Error fetching donation:', error);
-      });
-  }, []);
+      .get(`${API_ENDPOINT}auth/users/me`, config_partner)
+      .then((userResponse) => {
+        const partnerId = userResponse.data.partner;
+  
+        // Fetch all donations
+        axios
+          .get(`${API_ENDPOINT}donation/`, config_partner)
+          .then((donationsResponse) => {
+            // Filter donations where partner matches authenticated user's partner id
+            const matchingDonation = donationsResponse.data.find(donation => donation.partner === partnerId);
+  
+            if (matchingDonation) {
+              console.log('Matching donation:', matchingDonation);
+              // Do something with the matching donation
+              setDonationId(matchingDonation.id);
+              setHolder(matchingDonation.holder);
+              setIban(matchingDonation.iban);
+              setQuantity(matchingDonation.quantity);
+              setFrequency(matchingDonation.frequency);
+              setSelectedDate(matchingDonation.date);
 
+            } else {
+              console.log('No donation found for the authenticated user.');
+            }
+          })
+          .catch((donationsError) => {
+            console.error('Error fetching donations:', donationsError);
+          });
+      })
+      .catch((userError) => {
+        console.error('Error fetching authenticated user data:', userError);
+      });
+  }, []); // Empty dependency array to run effect only once
+  
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
@@ -50,10 +75,6 @@ function PartnersRenew() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if there's an existing donation with the same IBAN
-    const existingDonation = existingDonations.find(donation => donation.iban === iban);
-
-    if (existingDonation) {
       if (!holder || !iban || !quantity || !frequency) {
         toast.error('Todos los campos son obligatorios');
         return;
@@ -68,16 +89,16 @@ function PartnersRenew() {
         toast.error('La cantidad debe ser mayor que 0');
         return;
       }
-      // Update existing donation
       try {
-        const response = await axios.patch(`${API_ENDPOINT}donation/${existingDonation.id}/`,  {
+ 
+    const response = await axios.patch(`${API_ENDPOINT}donation/${donationId}/`, {
+
           iban: iban,
           quantity: quantity,
           frequency: frequency,
           holder: holder,
           date: selectedDate
         }, config_partner);
-        setIsDonationMade(true);
         console.log('Donation updated:', response.data);
         toast.success('Cuota actualizada correctamente');
         setTimeout(() => {
@@ -86,46 +107,8 @@ function PartnersRenew() {
       } catch (error) {
         console.error('Error updating donation:', error);
       }
-    } else {
-      // Create new donation
-      if (!holder || !iban || !quantity || !frequency) {
-        toast.error('Todos los campos son obligatorios');
-        return;
-      }
-      if (!IBAN.isValid(iban)) {
-        toast.error('El formato del IBAN no es correcto');
-        return;
-      }
+    } 
 
-      const parsedQuantity = parseFloat(quantity);
-      if (parsedQuantity <= 0 || isNaN(parsedQuantity)) {
-        toast.error('La cantidad debe ser mayor que 0');
-        return;
-      }
-
-      try {
-        const response = await axios.post(`${API_ENDPOINT}donation/`, {
-          iban: iban,
-          quantity: quantity,
-          frequency: frequency,
-          holder: holder,
-          date: selectedDate
-        }, config_partner);
-        setIsDonationMade(true);
-        console.log('Donation created:', response.data);
-        toast.success('Cuota creada correctamente');
-
-         // Add a delay before navigating
-  setTimeout(() => {
-    navigate('/socio/perfil');
-  }, 2000); // 2000 milliseconds = 2 seconds
-
-
-      } catch (error) {
-        console.error('Error creating donation:', error);
-      }
-    }
-  };
 
   const marginTop = useAdjustMargin('.header-profiles');
 
@@ -145,8 +128,8 @@ function PartnersRenew() {
           <input
             value={holder}
             type='text'
-            placeholder='Escriba el nombre del titular de la cuenta'
             onChange={(e) => setHolder(e.target.value)}
+            placeholder= "Escriba el titular de la cuenta " // Update to display matching donation's holder
           />
 
           <label>Nº de cuenta con IBAN</label>

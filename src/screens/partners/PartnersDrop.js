@@ -74,6 +74,10 @@ function PartnersDrop() {
     <div className='App'>
       <LayoutProfiles profile={'socio'}>
         <ToastContainer />
+        <PushPinIcon style={{ position: 'absolute', width: '51px', height: '50px', left: '32rem', top: '7.5rem' }} />
+        <p style={{ position: 'absolute', width: '40rem', height: '60px', left: '27rem', top: '6rem', fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '25px', lineHeight: '30px', display: 'flex', alignItems: 'center', color: '#000000' }}>
+          No olvide pulsar el enlace mandado a su correo para finalizar el proceso de baja
+        </p>
         <form className='register-container' style={{ marginTop }} onSubmit={handleSubmit}>
           <h2>Baja</h2>
 
@@ -97,10 +101,7 @@ function PartnersDrop() {
           <button type='button' className='register-button' onClick={handleProfileClick}>Atrás</button>
         </form>
 
-        <PushPinIcon style={{ position: 'absolute', width: '51px', height: '50px', left: '32rem', top: '52rem' }} />
-        <p style={{ position: 'absolute', width: '40rem', height: '60px', left: '27rem', top: '50rem', fontFamily: 'Inter', fontStyle: 'normal', fontWeight: 400, fontSize: '25px', lineHeight: '30px', display: 'flex', alignItems: 'center', color: '#000000' }}>
-          No olvide pulsar el enlace mandado a su correo para finalizar el proceso de baja
-        </p>
+
 
         <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
           <DialogTitle>Confirmar eliminación</DialogTitle>
