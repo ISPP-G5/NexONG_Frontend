@@ -19,7 +19,6 @@ const StudentCard = ({ familyName, kidName, currentEducationYear, evaluation, on
       </div>
       <div className='buttons-requests'>
         <button className="button-contrast" onClick={onEdit}>Evaluar</button>
-        <button className="button-contrast" onClick={onEvaluacion2}>Evaluaciones</button>
         <button className="button-contrast" onClick={onInfo}>Contactar</button>
       </div>
     </div>
