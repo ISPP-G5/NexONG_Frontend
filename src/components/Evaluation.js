@@ -38,9 +38,6 @@ export default function EducatorEvaluationCommon() {
       [id]: event.target.value,
     }));
   };
-
-
-  console.log('prueba prueba',evaluation)
  
   useEffect(() => {
     const id = localStorage.getItem('userId');
@@ -124,23 +121,13 @@ useEffect(() => {
     if (selectedStudent) {
       console.log(selectedStudent);
       axios.get(`${API_ENDPOINT}auth/users/me/`,config)
-  .then(response => {
-    if (response && response.data) {
-      console.log(response.data,'responsedata')
-      if (response.data.id == userId) {
-        const user = response.data;
-        // user now contains the object if the id matched userId
-        if (user) {
-          setEducatorId(user.educator);
-        }
-      }
-    } else {
-      console.error('No response or response data');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+        .then(response => {
+          const user = response.data.find(user => user.family == selectedStudent.family);
+          if (user) {
+            setEmail(user.email);
+            setPhone(user.phone);
+          }
+        });
     }
   }, [selectedStudent]);
 
@@ -206,7 +193,7 @@ useEffect(() => {
         evaluation.evaluation_type === evaluationTypes &&
         evaluation.date === selectedDate
       );
-  console.log('grade',studentEvaluation)
+  console.log('grade',grade)
       if (studentEvaluation) {
         console.log('Updating evaluation with grade:', grade, 'and comment:', comment);
         const updateResponse = await axios.patch(`${API_ENDPOINT}student-evaluation/${studentEvaluation.id}/`, {
@@ -231,15 +218,20 @@ useEffect(() => {
         }
       } else {
         
-        
-       console.log(evaluationTypes,'evaluation types')
+          
+        console.log('evaluation type evaluation.js',evaluationTypes)
+        console.log(' comment',comment)
+        console.log(' grade',evaluationTypes)
+        console.log('date',selectedDate)
+        console.log()
+        console.log('Creating new evaluation with grade:', grade, 'and comment:', comment);
         const createResponse = await axios.post(`${API_ENDPOINT}student-evaluation/`, {
           grade: parseInt(grade, 10), 
           date: selectedDate, 
           comment: comment,
           student: parseInt(studentId),
-          evaluation_type: evaluationTypes[0].id
-
+          evaluation_type: Object.keys(evaluation)[0],
+          
         },config);
         console.log('Create response:', createResponse);
 
