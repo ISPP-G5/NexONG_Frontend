@@ -149,6 +149,7 @@ function AdminEvents() {
     const [students, setStudents] = useState([]);
     const [users, setUsers] = useState([]);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+    const [confirmDeleteMeetingOpen, setConfirmDeleteMeetingOpen] = useState(false);
     const [confirmDeleteLessonEventOpen, setConfirmDeleteLessonEventOpen] = useState(false);
     const [lessonEvents, setLessonEvents] = useState([]);
     const [eventToDelete, setEventToDelete] = useState(null);
@@ -1089,7 +1090,7 @@ function AdminEvents() {
     const handleMeetingDelete = () => {
       if (editMeeting) {
         setMeetingToDelete(editMeeting);
-        setConfirmDeleteOpen(true);
+        setConfirmDeleteMeetingOpen(true);
 
       };
     };
@@ -1101,8 +1102,10 @@ function AdminEvents() {
             setMeetings(meetings.filter((meeting) => meeting.id !== meetingToDelete.id));
             setOpenEditDialog(false);
             setIsNewEvent(true);
-            setConfirmDeleteOpen(false); // Cerrar el diálogo después de la eliminación
+            setConfirmDeleteMeetingOpen(false); // Cerrar el diálogo después de la eliminación
+            setMeetingDialog(false);
             setMeetingToDelete(null);
+
             toast.success('Asamblea eliminada correctamente');
           })
           .catch((error) => {
@@ -1351,10 +1354,10 @@ function AdminEvents() {
             </Button>
           </DialogActions>
         </Dialog>
-        <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+        <Dialog open={confirmDeleteMeetingOpen} onClose={() => setConfirmDeleteMeetingOpen(false)}>
           <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
           <DialogActions>
-            <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+            <Button onClick={() => setConfirmDeleteMeetingOpen(false)} color="primary">
               Cancelar
             </Button>
             <Button onClick={handleConfirmMeetingDelete} color="secondary">
