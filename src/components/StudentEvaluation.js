@@ -14,6 +14,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
   const handleLessonChange = (event) => {
     setSelectedLesson(event.target.value);
   };
+  console.log('selected student',selectedStudent)
 
   useEffect(() => {
     console.log('students',students)
@@ -26,7 +27,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
         const studentsInSelectedLessonFilter = students.filter(student => selectedLessonObj.students.includes(student.id));
         
         setStudentInSelectedLesson(studentsInSelectedLessonFilter)
-        handleEvaluationChange(setStudentInSelectedLesson);
+        handleEvaluationChange(setStudentInSelectedLesson.id)({target:{value:setStudentInSelectedLesson.id}});
 
       }
     }
@@ -59,7 +60,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
           lesson={lesson.name}
           currentEducationYear={student.current_education_year}
           evaluation={getStudentEvaluation(student.id)}
-          onEvaluationChange={(event) => handleEvaluationChange(student.id)(event)}
+          onEvaluationChange={(event) => handleEvaluationChange(setStudentInSelectedLesson.id)(event)}
           onSubmit={handleSubmit}
           onEdit={() => handleEdit(student.id)}
           onInfo={() => handleInfo(student.id)}
