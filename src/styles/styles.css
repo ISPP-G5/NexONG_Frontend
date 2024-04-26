@@ -726,7 +726,6 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 .intro-text p {
     color: white;
     text-align: center;
-
 }
 
 /* HOMEPAGE CONTAINER */
@@ -845,15 +844,15 @@ COPY THIS AND CHANGE THE NAME AS LIKED:
 /********************* ABOUT US ******************/
 
 iframe {
-  align-self: center; 
-  margin: 2%; 
-  display: block;
+    align-self: center;
+    margin: 2%;
+    display: block;
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
-  iframe {
-    width: 90%; 
-  }
+    iframe {
+        width: 90%;
+    }
 }
 
 /********************* TRANSPARENCY ******************/
@@ -1249,17 +1248,16 @@ tbody tr:nth-child(odd) {
 }
 
 .card-info-suggestion table .table-wrapper {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 .card-info-suggestion table {
     border-spacing: 10px;
 }
 @media screen and (min-width: 1px) and (max-width: 600px) {
-  .card-info-suggestion table {
-    max-width: 70%;
-    border-spacing: 5rem;
-
-  }
+    .card-info-suggestion table {
+        max-width: 70%;
+        border-spacing: 5rem;
+    }
 }
 
 .card-info-suggestion td {
@@ -1747,7 +1745,7 @@ tbody tr:nth-child(odd) {
 .calendar {
     min-height: 600px;
     margin-right: 0;
-    margin-bottom: 5%;
+    margin-bottom: 10px;
     align-self: center;
     width: "100%";
 }
@@ -1759,6 +1757,16 @@ tbody tr:nth-child(odd) {
     }
 }
 
+.legendContainer {
+    width: max(12%, 110px);
+    margin-left: auto;
+}
+
+.legend {
+    border-radius: 4px;
+    height: 20px;
+    margin: 3px;
+}
 /********************* PROFILE ******************/
 
 .ToastContainer {
@@ -1767,8 +1775,7 @@ tbody tr:nth-child(odd) {
 
 .Toastify__toast {
     color: #000000 !important;
-  }
-
+}
 
 /********************* EDUCATORS EVALUATION ******************/
 
