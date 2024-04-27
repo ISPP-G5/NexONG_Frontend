@@ -238,7 +238,7 @@ useEffect(() => {
           date: selectedDate, 
           comment: comment,
           student: parseInt(studentId),
-          evaluation_type: evaluationTypes[0].id
+          evaluation_type: evaluationTypes[1].id
 
         },config);
         console.log('Create response:', createResponse);
