@@ -7,13 +7,18 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 const AdminSuggestions = () => {
     const [token, updateToken] = useToken();
     const [suggestions, setSuggestions] = useFetchSuggestions(API_ENDPOINT, token);
-    
+    const [doHandleAceptarRechazar, setDohandleAceptarRechazar] = useState(false);
+
     async function handleDelete(id) {
       try {
         const token = localStorage.getItem('accessToken');  // Replace with your actual token
@@ -28,17 +33,7 @@ const AdminSuggestions = () => {
         // Handle error...
       }
     }
-         
-    const ConfirmToast = ({ closeToast, handleDelete, id }) => (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          ¿Esta seguro que quiere eliminar la sugerencia?
-          <div>
-            <button style={{marginRight:'10px'}} onClick={() => { handleDelete(id); closeToast(); }}>Yes</button>
-            <button onClick={closeToast}>No</button>
-          </div>
-        </div>
-      );
-    
+            
     return (
         <LayoutProfiles profile={'admin'} selected={'Sugerencas'}>
                 <ToastContainer />
@@ -67,17 +62,22 @@ const AdminSuggestions = () => {
                       
                         </tbody>
                     </table>
+
+                    <Dialog open={doHandleAceptarRechazar} onClose={() => setDohandleAceptarRechazar(false)}>
+                      <DialogTitle>¿Estás seguro que quieres rechazar?</DialogTitle>
+                      <DialogActions>
+                        <Button onClick={() => setDohandleAceptarRechazar(false)} color="primary">
+                          Cancelar
+                        </Button>
+                        <Button onClick={() => handleDelete(suggestion.id)} color="secondary">
+                          Confirmar
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                     
                     <DeleteIcon 
                     style={{ position: 'relative', top: '80%', left: '90%' }} 
-                    onClick={() => {
-                        toast(<ConfirmToast handleDelete={handleDelete} id={suggestion.id} />, {
-                            autoClose: false,
-                            closeOnClick: false,
-                            draggable: false,
-                            toastId: 'confirmDelete',
-                        });
-                    }}
+                    onClick={() => setDohandleAceptarRechazar(true)}
                     />
                 <ToastContainer />
 
