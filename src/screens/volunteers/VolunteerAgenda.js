@@ -299,13 +299,19 @@ const VolunteerAgenda = () => {
       let backgroundColor;
       if (event.type === 'event') { 
           backgroundColor = 'red';
+          if(event.volunteers.includes(currentUser.volunteerId)){
+            backgroundColor = 'purple';
+        }
       } else if (event.type === 'lesson-event') {
           backgroundColor = 'blue'; 
+          if(event.volunteers.includes(currentUser.volunteerId)){
+            backgroundColor = 'purple';
+        }
       } else if (event.type === 'lesson') {
           backgroundColor = 'green'; 
-      }
-      if (lessonAttendance.some(attendance => attendance.lesson === event.id && attendance.volunteer === currentUser.volunteerId)) {
-          backgroundColor = 'purple'; 
+          if (lessonAttendance.some(attendance => attendance.lesson === event.id && attendance.volunteer === currentUser.volunteerId)) {
+            backgroundColor = 'purple'; 
+        }
       }
       return {
           style: {
