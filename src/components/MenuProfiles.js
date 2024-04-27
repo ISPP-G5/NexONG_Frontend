@@ -22,9 +22,9 @@ const profileLinks = {
       'Documentos': '/admin/documentos',
     },
     educador: {
-        'Niños': '/educador/niños/evaluacion/diaria',
-        'Evaluación diaria': '/educador/niños/evaluacion/diaria',
-        'Evaluación anual Niños': '/educador/niños/evaluacion/anual',
+       
+        'Evaluación Diaria': '/educador/niños/evaluacion/diaria',
+        'Evaluación Anual': '/educador/niños/evaluacion/anual',
         'Actividades': '/educador/niños/actividades',
     },
     voluntario: {
