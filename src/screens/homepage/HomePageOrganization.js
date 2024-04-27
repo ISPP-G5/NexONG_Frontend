@@ -47,31 +47,16 @@ function HomePageOrganization(){
                 </p>
                 <p>
                     <b>Presidente:</b> Juan Miguel Gálvez<br></br>
-                    <b>Vicepresidenta:</b> Cristina Olmedo<br></br>
+                    <b>Vicepresidenta:</b> Laura Carmet<br></br>
                     <b>Tesorero:</b> Antonio Pino<br></br>
                     <b>Secretaria:</b> Cristina Valero<br></br>
                     <b>Vocal:</b> Ignacio Aguilar<br></br>
-                    <b>Vocal:</b> Pablo<br></br>
+                    <b>Vocal:</b> Pablo Galán<br></br>
                     <b>Vocal:</b> Ángel Sevilla<br></br>
-                    <b>Vocal:</b> Laura Carmet<br></br>
+                    <b>Vocal:</b> Marta Calderón<br></br>
+                    <b>Vocal:</b> Ana Belén Arroyo<br></br>
                 </p>
                 <img src={juntaDirectiva} alt='junta-directiva' style={{display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '85%'}}></img>
-
-                <p><h2 style={{textAlign: 'left'}}>Equipo de Educadoras/es</h2></p>
-                <p>
-                    Como grupo de personas contratadas para el desarrollo  y dinamismo de los
-                    proyectos y programas de la entidad, tenemos a este equipo de educadoras/es:
-                </p>
-                <p>
-                    <b>Coordinadora de la entidad:</b> María Arce<br></br>
-                    <b>Educadora: </b> Cristina Martínez<br></br>
-                    <b>Educadora:</b> Andrea Domínguez<br></br>
-                    <b>Educador:</b> Juan Antonio Lugo<br></br>
-                </p>
-                <img src={educadoras} alt='educadoras' style={{display: 'block',
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 width: '85%'}}></img>
