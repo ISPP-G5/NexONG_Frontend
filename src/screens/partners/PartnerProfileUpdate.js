@@ -1,13 +1,15 @@
 import '../../styles/styles.css';
-import UpdateProfile from '../../components/UpdateProfile';
 import LayoutProfiles from '../../components/LayoutProfiles';
+import UpdateProfile from '../../components/UpdateProfile';
 
 const PartnerProfileUpdate = () => {
+
     return (
-        <LayoutProfiles profile={'socio'}>
-            <UpdateProfile tipo={'socio'}/>
-        </LayoutProfiles>      
+        <LayoutProfiles profile={'socios'} >
+            <UpdateProfile tipo={'socios'}/>
+        </LayoutProfiles>
     )
-};
   
-export default PartnerProfileUpdate;
+  };
+  
+  export default PartnerProfileUpdate;

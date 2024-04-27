@@ -236,6 +236,12 @@ textarea {
     align-items: center;
     cursor: pointer;
 }
+.checkbox-container-partner {
+  display: flex;
+  flex-direction: column; /* Stack checkboxes vertically */
+  cursor: pointer;
+}
+
 
 .hidden-checkbox {
     border: 0;
@@ -1439,6 +1445,98 @@ tbody tr:nth-child(odd) {
         overflow: hidden;
     }
 }
+/* PARTNERS STYLES*/
+
+.partners-button-container {
+  position: absolute;
+  right: 15%;
+  top: 20rem;
+}
+
+.partners-button {
+  width: 70%;
+  max-width: 220px;
+  height: 6rem;
+  margin-bottom: 10%;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #000000;
+  background: #B7ECFF;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .partners-button-container {
+    position: relative;
+    right: auto;
+    top: auto;
+    text-align: center;
+    left: 80%; /* Move buttons to the center */
+    transform: translateX(-50%); /* Center buttons */
+  }
+}
+
+
+.checkbox-partner {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.checkbox-partner input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-partner label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: rgba(34, 30, 30, 0.87); /* Set label color to a softer black */
+  padding-left: 35px; /* Adjust the spacing between checkbox and label */
+}
+
+
+
+.checkbox-partner label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px; /* Size of the checkbox */
+  height: 20px; /* Size of the checkbox */
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+
+.checkbox-partner input[type="checkbox"]:checked + label:before {
+  background-color: #000; /* Change background color when checked */
+}
+
+.checkbox-partner label:after {
+  content: '';
+  position: absolute;
+  left: 5px; /* Adjust the position of the checkmark */
+  top: 4px; /* Adjust the position of the checkmark */
+  width: 10px; /* Size of the checkmark */
+  height: 5px; /* Size of the checkmark */
+  border: solid #fff; /* Color of the checkmark */
+  border-width: 0 2px 2px 0; /* Style of the checkmark */
+  transform: rotate(45deg); /* Rotate the checkmark */
+  opacity: 0; /* Hide the checkmark initially */
+}
+
+.checkbox-partner input[type="checkbox"]:checked + label:after {
+  opacity: 0; /* Show the checkmark when checked */
+}
+
 
 /* BUTTONS CARD INFO */
 
@@ -1838,10 +1936,9 @@ tbody tr:nth-child(odd) {
 /********************* VOLUNTEER FORMATION ******************/
 
 .formation-videos {
+    align-self: center;
     width: 60%;
     height: auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
+    margin-left: 15%;
 }
