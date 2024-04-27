@@ -50,6 +50,7 @@ const VolunteerAgenda = () => {
     const classes = useStyles();
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [schedules, setSchedules] = useState([]);
+    const [lessonAttendance, setLessonAttendance] = useState([]);
 
     useEffect(() => {
       axios.get(`${API_ENDPOINT}auth/users/me/`, config)
@@ -61,6 +62,16 @@ const VolunteerAgenda = () => {
         .catch(error => {
           console.error(error);
         });
+
+        const fetchLessonAttendance = async () => {
+          try {
+              const response = await axios.get(`${API_ENDPOINT}lesson-attendance/`, config);
+              setLessonAttendance(response.data);
+          } catch (error) {
+              console.error(error);
+          }
+      };
+      fetchLessonAttendance();
     }, []);
     
     const fetchData = async (url, filterFunc = () => true) => {
@@ -120,7 +131,7 @@ const VolunteerAgenda = () => {
         }
 
         var res = []
-        const isLesson = type !== 'event'
+        const isLesson = type !== 'event' && type !== 'lesson-event'
         
         for (var i = 0; i < activities.length; i++) {
             var activity = activities[i];
@@ -158,15 +169,13 @@ const VolunteerAgenda = () => {
                     id: activity.id,
                     title: activity.name,
                     description: activity.description,
-                    place: activity.place,
-                    max_volunteers: activity.max_volunteers,
-                    max_attendees: activity.max_attendees,
+                    capacity: activity.capacity,
+                    is_morning_lesson: activity.is_morning_lesson,
+                    educator: activity.educator,
+                    students: activity.students,
+                    type: type,
                     start: new Date(start),
                     end: new Date(end),
-                    type: type,
-                    price: activity.price,
-                    attendees: activity.attendees,
-                    volunteers: activity.volunteers,
                     url: activity.url
                 })
 
@@ -213,6 +222,7 @@ const VolunteerAgenda = () => {
           };
         
         fetchAndSetActivities();
+        console.log(activities);
     }, [schedules]);
 
     const handleRegister = () => {
@@ -261,45 +271,48 @@ const VolunteerAgenda = () => {
         })
         .catch(error => {
           console.error('Error when registering the volunteer:', error);
+          toast.error('Hubo un error al unirse a la clase.');
         });
       }else if(selectedEvent.type === 'lesson'){
         const newAttendance = {
           lesson: selectedEvent.id,
-          volunteer: currentUser.volunteerId
+          volunteer: currentUser.volunteerId,
+          date: moment().format('YYYY-MM-DD')
       };
       console.log(newAttendance);
       axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config)
           .then(response => {
-              toast.success('Se ha unido a la clase exitosamente.');
+            console.log('Registered volunteer for:', selectedEvent);
+            setShowRegisterForm(false);
+            toast.success('Se ha unido correctamente');
+            window.location.reload(true);
           })
           .catch(error => {
-              toast.error('Hubo un error al unirse a la clase.');
+            console.error('Error when registering the volunteer:', error);
+            toast.error('Hubo un error al unirse a la clase.');
           });
       }
     };
   
 
     const eventStyleGetter = (event) => {
-        let backgroundColor;
-        if (event.type === 'event') { 
-            backgroundColor = 'red';
-        } else if (event.type === 'lesson-event') {
-            backgroundColor = 'blue'; 
-        } else if (event.type === 'lesson') {
-            backgroundColor = 'green'; 
-        }
-        if (event.volunteers && event.volunteers.includes(currentUser.volunteerId)) {
-            backgroundColor = 'purple'; 
-        } else if(event.attendees && event.attendees.includes(currentUser.volunteerId)){
-            backgroundColor = 'purple';
-        }
-    
-        return {
-            style: {
-                backgroundColor
-            }
-        };
-    };
+      let backgroundColor;
+      if (event.type === 'event') { 
+          backgroundColor = 'red';
+      } else if (event.type === 'lesson-event') {
+          backgroundColor = 'blue'; 
+      } else if (event.type === 'lesson') {
+          backgroundColor = 'green'; 
+      }
+      if (lessonAttendance.some(attendance => attendance.lesson === event.id && attendance.volunteer === currentUser.volunteerId)) {
+          backgroundColor = 'purple'; 
+      }
+      return {
+          style: {
+              backgroundColor
+          }
+      };
+  };
   
 
 
