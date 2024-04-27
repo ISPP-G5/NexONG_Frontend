@@ -139,7 +139,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
         </div>
       }
       <Dialog open={doHandleAceptarRechazar} onClose={() => setDohandleAceptarRechazar(false)}>
-        <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
+        <DialogTitle>¿Estás seguro que quieres rechazar?</DialogTitle>
         <DialogActions>
           <Button onClick={() => setDohandleAceptarRechazar(false)} color="primary">
             Cancelar
