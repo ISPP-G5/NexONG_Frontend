@@ -25,7 +25,7 @@ function HomePageAgenda() {
 
     return (
         <LayoutHomepage 
-            title={'Agenda 2030'} 
+            title={'AGENDA 2030'} 
             description={'Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada.'}
             image={'globalGoals'}
         > 
