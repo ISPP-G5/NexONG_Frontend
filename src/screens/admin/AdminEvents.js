@@ -233,15 +233,6 @@ function AdminEvents() {
           </div>
           {renderTextFieldComponent('Fecha Inicio', localFormData.date, (value) => setLocalFormData({ ...localFormData, date: value }), 'date')}
           {renderTextFieldComponent('Hora', localFormData.time, (value) => setLocalFormData({ ...localFormData, time: value }), 'time')}
-
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={labelStyle}>Asistentes</label>
-            <TextField
-              value={attendeeFullNames.join(', ')}
-              InputProps={{ readOnly: true }}
-              fullWidth
-            />
-          </div>
         </>
       );
     };
