@@ -109,6 +109,8 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
   };
 
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [doHandleAceptarRechazar, setDohandleAceptarRechazar] = useState(false);
+
 
   return (
     <div className='card-info'>
@@ -126,7 +128,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
           <div className='buttons-acceptance'>
             <button className='button-accept' onClick={() => handleAceptarRechazar('aceptar', person)}>Aceptar</button>
-            <button className='button-decline' onClick={() => handleAceptarRechazar('rechazar', person)}>Rechazar</button>
+            <button className='button-decline' onClick={() => setDohandleAceptarRechazar(true)}>Rechazar</button>
           </div>
         </div>
       }
@@ -136,6 +138,17 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           <EditIcon className='edit' style={{marginLeft:'87.5%'}} onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
         </div>
       }
+      <Dialog open={doHandleAceptarRechazar} onClose={() => setDohandleAceptarRechazar(false)}>
+        <DialogTitle>¿Estás seguro que quieres rechazar?</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setDohandleAceptarRechazar(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={() => handleAceptarRechazar('rechazar', person)} color="secondary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
         <DialogTitle>¿Estás seguro que quieres borrar?</DialogTitle>
         <DialogActions>
