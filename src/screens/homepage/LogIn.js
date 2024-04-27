@@ -117,9 +117,15 @@ function LogIn() {
                     localStorage.setItem('volunteerId', user.volunteer);
                     setRole(user.role)
 
+                    console.log('Volunteer:', volunteer.data);
+                    console.log('status:', volunteer.data.status);
+                    console.log('formation:', volunteer.data.watchedFormation);
 
-                    if (volunteer.data.status === 'ACEPTADO') {
+
+                    if (volunteer.data.status === 'ACEPTADO' && volunteer.data.watchedFormation === true) {
                         navigate('/voluntario/agenda');
+                    } else if (volunteer.data.status === 'ACEPTADO' && volunteer.data.watchedFormation === false) {
+                        navigate('/voluntario/formacion');
                     } else {
                         navigate('/voluntario/espera');
                     }

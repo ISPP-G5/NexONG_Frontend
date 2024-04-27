@@ -1936,6 +1936,7 @@ tbody tr:nth-child(odd) {
 /********************* VOLUNTEER FORMATION ******************/
 
 .formation-videos {
+    align-self: center;
     width: 60%;
     height: auto;
     display: block;
