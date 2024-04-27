@@ -4,7 +4,7 @@ import React from 'react';
 
 const profileItems = {
     admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Sugerencias', 'Documentos'],
-    educador: ['Evaluación diaria','Evaluación anual Niños', 'Actividades'],
+    educador: ['Evaluación diaria','Evaluación Anual', 'Actividades'],
     voluntario: ['Agenda', 'Asistencia'],
     familia: ['Niños', 'Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
     socio: ['Calendario'],
