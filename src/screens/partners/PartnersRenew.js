@@ -135,9 +135,11 @@ function PartnersRenew() {
           />
 
           <label>¿Con qué cantidad deseas colaborar?</label>
-          <textarea
+          <input
             value={quantity}
+            type='number'
             placeholder='Escriba aquí la cantidad deseada'
+            min={0} // Set the minimum value to 0
             onChange={(e) => setQuantity(e.target.value)}
           />
 

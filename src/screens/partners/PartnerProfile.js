@@ -28,9 +28,7 @@ const PartnerProfile = () => {
         <button className="partners-button" onClick={handleRenewClick}>
           Renovar o cambiar cuota
         </button>
-        <button className="partners-button" onClick={handleDrop}>
-          Baja 
-        </button>
+       
       </div>
     </>
   );

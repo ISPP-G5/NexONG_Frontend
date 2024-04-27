@@ -66,7 +66,6 @@ import VolunteerFormation from './volunteers/VolunteerFormation';
 import PartnerProfile from './partners/PartnerProfile';
 import ParterProfileUpdate from './partners/PartnerProfileUpdate';
 import PartnersCalendar from './partners/PartnersCalendar';
-import PartnersDrop from './partners/PartnersDrop';
 import PartnersRenew from './partners/PartnersRenew';
 import PartnerForm from './partners/PartnerForm';
 
@@ -226,7 +225,6 @@ function App() {
             <Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />
             <Route path="/socio/perfil/actualizar" exact={true} element={<ParterProfileUpdate />} />
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
-            <Route path="/socio/baja" exact={true} element={<PartnersDrop />} />
             <Route path="/socio/renovar" exact={true} element={<PartnersRenew />} />
             <Route path="/socio/formulario" exact={true} element={<PartnerForm />} />
               </>

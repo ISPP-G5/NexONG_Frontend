@@ -223,6 +223,7 @@ function PartnerForm() {
                 <input
                     value={quantity}
                     type='number'
+                    min={0}
                     placeholder='Introduce la cantidad de la donación'
                     onChange={(e) => setQuantity(e.target.value)}
                 />
