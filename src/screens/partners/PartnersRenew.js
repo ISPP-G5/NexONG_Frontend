@@ -75,15 +75,11 @@ function PartnersRenew() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-      if (!holder || !iban || !quantity || !frequency) {
+      if (!holder || !quantity || !frequency) {
         toast.error('Todos los campos son obligatorios');
         return;
       }
-      if (!IBAN.isValid(iban)) {
-        toast.error('El formato del IBAN no es correcto');
-        return;
-      }
-
+  
       const parsedQuantity = parseFloat(quantity);
       if (parsedQuantity <= 0 || isNaN(parsedQuantity)) {
         toast.error('La cantidad debe ser mayor que 0');
@@ -93,7 +89,6 @@ function PartnersRenew() {
  
     const response = await axios.patch(`${API_ENDPOINT}donation/${donationId}/`, {
 
-          iban: iban,
           quantity: quantity,
           frequency: frequency,
           holder: holder,
@@ -136,8 +131,7 @@ function PartnersRenew() {
           <input
             value={iban}
             type='text'
-            placeholder='Escriba su código IBAN'
-            onChange={(e) => setIban(e.target.value)}
+            readOnly = {true}
           />
 
           <label>¿Con qué cantidad deseas colaborar?</label>
