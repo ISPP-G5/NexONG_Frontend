@@ -1838,10 +1838,9 @@ tbody tr:nth-child(odd) {
 /********************* VOLUNTEER FORMATION ******************/
 
 .formation-videos {
+    align-self: center;
     width: 60%;
     height: auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
+    margin-left: 15%;
 }
