@@ -1,227 +1,334 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar, globalizeLocalizer } from 'react-big-calendar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { DialogActions ,makeStyles }from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import moment from 'moment';
+import 'moment/locale/es';
+import Globalize from 'globalize';
 import axios from 'axios';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import { ToastContainer, toast } from 'react-toastify';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import {DialogActions ,makeStyles }from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import useToken from '../../components/useToken';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-const localizer = momentLocalizer(moment);
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(4),
-  },
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: theme.spacing(4),
+    },
+  
+    calendarContainer: {
+      flex: 1,
+      position: 'relative',
+      minHeight: '20rem',
+      marginTop: '2rem',
+      overflow: 'hidden',
+      width: '90%',
+    },
+  }));
 
-  calendarContainer: {
-    flex: 1,
-    position: 'relative',
-    minHeight: '20rem',
-    marginTop: '2rem',
-    overflow: 'hidden',
-    width: '90%',
-  },
-}));
 const VolunteerAgenda = () => {
-  const [token, updateToken] = useToken();
-  const config = {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    }
-  };
-  const [activities, setActivities] = useState([]);
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [currentUser, setCurrentUser] = useState({
-    volunteerId: ''
-  });
-  const classes = useStyles();
+    Globalize.culture('es');
+    const localizer = globalizeLocalizer(Globalize);
+    const [token, updateToken] = useToken();
+    const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      };
+    const [activities, setActivities] = useState([]);
+    const [showRegisterForm, setShowRegisterForm] = useState(false);
+    const [currentUser, setCurrentUser] = useState({
+      volunteerId: ''
+    });
+    const classes = useStyles();
+    const [selectedEvent, setSelectedEvent] = useState(null);
+    const [schedules, setSchedules] = useState([]);
 
-  const userId = parseInt(localStorage.getItem('userId'));
-
-  useEffect(() => {
-    axios.get(`${API_ENDPOINT}auth/users/me/`, config)
-      .then(response => {
-          setCurrentUser({
-            volunteerId: response.data.volunteer
-          });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    axios.get(`${API_ENDPOINT}event/`, config)
-      .then(response => {
-        const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
-        setActivities(prevActivities => [...prevActivities.filter(event => event.lesson), ...filteredActivities.map(activity => ({
-          title: activity.name,
-          start: new Date(activity.start_date),
-          end: new Date(activity.end_date),
-          id: activity.id,
-          description: activity.description,
-          place: activity.place,
-          max_volunteers: activity.max_volunteers,
-          max_attendees: activity.max_attendees,
-          price: activity.price,
-          attendees: activity.attendees,
-          volunteers: activity.volunteers,
-          url: activity.url
-        }))]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    axios.get(`${API_ENDPOINT}lesson-event/`, config)
-      .then(response => {
-        const filteredActivities = response.data.filter(activity => moment(activity.start_date).isAfter(moment()));
-        setActivities(prevActivities => [...prevActivities.filter(event => !event.lesson), ...filteredActivities.map(activity => ({
-          id: activity.id,
-          title: activity.name,
-          description: activity.description,
-          place: activity.place,
-          max_volunteers: activity.max_volunteers,
-          start: new Date(activity.start_date),
-          end: new Date(activity.end_date),          
-          lesson: activity.lesson,
-          price: activity.price,
-          educators: activity.educators,
-          attendees: activity.attendees,
-          volunteers: activity.volunteers,
-          url: activity.url
-        }))]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-      axios.get(`${API_ENDPOINT}lesson/`, config)
-      .then(response => {
-        const filteredActivities = response.data.filter(activity => moment(activity.end_date).isAfter(moment()));
-        setActivities(prevActivities => [...prevActivities.filter(event => !event.educator), ...filteredActivities.map(activity => ({
-          id: activity.id,
-          title: activity.name,
-          description: activity.description,
-          capacity: activity.capacity,
-          is_morning_lesson: activity.is_morning_lesson,
-          educator: activity.educator,
-          students: activity.students,
-          start: new Date(activity.start_date),
-          end: new Date(activity.end_date),   
-          url: activity.url
-        }))]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, [userId]);
-
-  const handleRegister = () => {
-    if (!currentUser.volunteerId) {
-      console.error('The current volunteer cannot be registered. Volunteer ID not available.');
-      toast.error('El voluntario actual no puede registrarse. Identificación de voluntario no disponible.');
-      return;
-    }
-    
-    
-    if (selectedEvent.volunteers) {
-      if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
-        toast.error('Usted ya pertenece a este evento.');
-        setShowRegisterForm(false);
-        return;
-      }
-      const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
-      if (updatedVolunteers.length > selectedEvent.max_volunteers) {
-        toast.error('El número de voluntarios excede el límite máximo permitido.');
-        return;
-      }
-      axios.put(`${API_ENDPOINT}${selectedEvent.lesson ? 'lesson-event' : 'event'}/${selectedEvent.id}/`, {
-        id: selectedEvent.id,
-        name: selectedEvent.title,
-        description: selectedEvent.description,
-        place: selectedEvent.place,
-        max_volunteers: selectedEvent.max_volunteers,
-        max_attendees: selectedEvent.max_attendees,
-        start_date: selectedEvent.start,
-        end_date: selectedEvent.end,
-        price: selectedEvent.price,
-        attendees: selectedEvent.attendees,
-        volunteers: updatedVolunteers,
-        url: selectedEvent.url
-      }, config)
-      .then(response => {
-        console.log('Registered volunteer for:', selectedEvent);
-        setShowRegisterForm(false);
-        toast.success('Se ha unido correctamente');
-        window.location.reload(true);
-      })
-      .catch(error => {
-        console.error('Error when registering the volunteer:', error);
-      });
-    }else if(selectedEvent.educator){
-      const newAttendance = {
-        lesson: selectedEvent.id,
-        volunteer: currentUser.volunteerId
-    };
-    console.log(newAttendance);
-    axios.post(`${API_ENDPOINT}lesson-attendance/`, config, newAttendance)
+    useEffect(() => {
+      axios.get(`${API_ENDPOINT}auth/users/me/`, config)
         .then(response => {
-            toast.success('Se ha unido a la clase exitosamente.');
+            setCurrentUser({
+              volunteerId: response.data.volunteer
+            });
         })
         .catch(error => {
-            toast.error('Hubo un error al unirse a la clase.');
+          console.error(error);
         });
-    }
-  };
+    }, []);
+    
+    const fetchData = async (url, filterFunc = () => true) => {
+        try {
+            const response = await axios.get(`${API_ENDPOINT}${url}`, config);
+            const data = response.data;
+            if (Array.isArray(data)) {
+                return data.filter(filterFunc);
+            } else if (typeof data === 'object') {
+                return filterFunc(data) ? data : null;
+            } else {
+                console.error('Data is not an array or object:', data);
+                return null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-  const eventStyleGetter = (event) => {
-    let backgroundColor = 'red'; 
-    if (event.lesson) {
-      backgroundColor = 'blue'; 
-    } else if (event.educator) {
-      backgroundColor = 'green'; // color para las lecciones con educador
+    function setCustomTime(date, time) {
+        const [hours, minutes, seconds] = time.split(':').map(Number)
+    
+        date.setHours(hours - 1)
+        date.setMinutes(minutes)
+        date.setSeconds(seconds)
+    
+        return date
     }
-  
-    if (event.volunteers && event.volunteers.includes(currentUser.volunteerId)) {
-      backgroundColor = 'purple'; // color para los eventos a los que se ha unido el voluntario
+    
+    const weekdays = ['DOMINGO', 'LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']
+    
+    function getNextWeekday(date, weekday) {
+        const targetWeekday = weekdays.indexOf(weekday)
+        if (targetWeekday === -1) {
+            throw new Error("Invalid weekday")
+        }
+    
+        const nextDate = new Date(date)
+        const currentWeekday = nextDate.getDay()
+    
+        let daysToAdd = targetWeekday - currentWeekday
+
+        if (daysToAdd < 0) {
+            daysToAdd += 7
+        }
+
+        if (daysToAdd !== 0) {
+            nextDate.setDate(nextDate.getDate() + daysToAdd)
+        }
+    
+        return nextDate
     }
-  
-    return {
-      style: {
-        backgroundColor
+
+    const mapActivities = (activities, type) => {
+        if (type !== 'event' && type !== 'lesson' && type !== 'lesson-event') {
+            throw new Error("Invalid activity type")
+        }
+
+        var res = []
+        const isLesson = type !== 'event'
+        
+        for (var i = 0; i < activities.length; i++) {
+            var activity = activities[i];
+            var startDate = new Date(activity.start_date)
+            var endDate = new Date(activity.end_date)
+
+            if (!isLesson) {
+                res.push({
+                        id: activity.id,
+                        title: activity.name,
+                        description: activity.description,
+                        place: activity.place,
+                        max_volunteers: activity.max_volunteers,
+                        max_attendees: activity.max_attendees,
+                        start: startDate,
+                        end: endDate,
+                        type: type,
+                        lesson: activity.lesson,
+                        price: activity.price,
+                        educators: activity.educators,
+                        attendees: activity.attendees,
+                        volunteers: activity.volunteers,
+                        url: activity.url
+                })
+                continue
+            }
+            var schedule = schedules.find(schedule => schedule.lesson === activity.id)
+
+            startDate = getNextWeekday(startDate, schedule.weekday)
+
+            var start = setCustomTime(startDate, schedule.start_time)
+            var end = setCustomTime(startDate, schedule.end_time)
+            while (end < endDate) {
+                res.push({
+                    id: activity.id,
+                    title: activity.name,
+                    description: activity.description,
+                    place: activity.place,
+                    max_volunteers: activity.max_volunteers,
+                    max_attendees: activity.max_attendees,
+                    start: new Date(start),
+                    end: new Date(end),
+                    type: type,
+                    price: activity.price,
+                    attendees: activity.attendees,
+                    volunteers: activity.volunteers,
+                    url: activity.url
+                })
+
+                startDate.setDate(startDate.getDate() + 7)
+                start = setCustomTime(startDate, schedule.start_time)
+                end = setCustomTime(startDate, schedule.end_time) 
+            }
+        }
+
+        return res
+    };
+
+    useEffect(() => {
+        const fetchAndSetSchedule = async () => {
+            const response = await fetchData('schedule/');
+            if (response) {
+                setSchedules(response);
+            }
+        };  
+        fetchAndSetSchedule();
+    }, []);
+
+    useEffect(() => {
+        if (schedules.length === 0) return
+
+        const fetchAndSetActivities = async () => {
+    
+            let newActivities = [];
+    
+            async function fetchAndMapActivities(url, type) {
+              const response = await fetchData(url, activity => 
+              moment(activity.start_date).isAfter(moment()) );
+              return [...mapActivities(response, type)];
+            }
+                    
+            newActivities = [...newActivities, ...await fetchAndMapActivities('event/', 'event')];
+            newActivities = [...newActivities, ...await fetchAndMapActivities('lesson-event/', 'lesson-event')];
+        
+            const lessonResponse = await fetchData('lesson/', activity => 
+              moment(activity.end_date).isAfter(moment()));
+              newActivities = [...newActivities, ...mapActivities(lessonResponse, 'lesson')];
+    
+              setActivities(newActivities);
+          };
+        
+        fetchAndSetActivities();
+    }, [schedules]);
+
+    const handleRegister = () => {
+      if (!currentUser.volunteerId) {
+        console.error('The current volunteer cannot be registered. Volunteer ID not available.');
+        toast.error('El voluntario actual no puede registrarse. Identificación de voluntario no disponible.');
+        return;
+      }
+      
+      if (!selectedEvent) {
+        console.error('No event selected.');
+        return;
+      }
+
+      if (selectedEvent.type === 'event' || selectedEvent.type === 'lesson-event') {
+        if (selectedEvent.volunteers.includes(currentUser.volunteerId)) {
+          toast.error('Usted ya pertenece a este evento.');
+          setShowRegisterForm(false);
+          return;
+        }
+        const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
+        if (updatedVolunteers.length > selectedEvent.max_volunteers) {
+          toast.error('El número de voluntarios excede el límite máximo permitido.');
+          return;
+        }
+        console.log('Registering volunteer for:', selectedEvent);
+        axios.put(`${API_ENDPOINT}${selectedEvent.lesson ? 'lesson-event' : 'event'}/${selectedEvent.id}/`, {
+          id: selectedEvent.id,
+          name: selectedEvent.title,
+          description: selectedEvent.description,
+          place: selectedEvent.place,
+          max_volunteers: selectedEvent.max_volunteers,
+          max_attendees: selectedEvent.max_attendees,
+          start_date: selectedEvent.start,
+          end_date: selectedEvent.end,
+          price: selectedEvent.price,
+          attendees: selectedEvent.attendees,
+          volunteers: updatedVolunteers,
+          url: selectedEvent.url
+        }, config)
+        .then(response => {
+          console.log('Registered volunteer for:', selectedEvent);
+          setShowRegisterForm(false);
+          toast.success('Se ha unido correctamente');
+          window.location.reload(true);
+        })
+        .catch(error => {
+          console.error('Error when registering the volunteer:', error);
+        });
+      }else if(selectedEvent.type === 'lesson'){
+        const newAttendance = {
+          lesson: selectedEvent.id,
+          volunteer: currentUser.volunteerId
+      };
+      console.log(newAttendance);
+      axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config)
+          .then(response => {
+              toast.success('Se ha unido a la clase exitosamente.');
+          })
+          .catch(error => {
+              toast.error('Hubo un error al unirse a la clase.');
+          });
       }
     };
-  };
+  
 
-  return (
-    <LayoutProfiles profile={'voluntario'} selected={'Agenda'}>
-    <ToastContainer />
-    <div className={classes.calendarContainer}>
+    const eventStyleGetter = (event) => {
+        let backgroundColor;
+        if (event.type === 'event') { 
+            backgroundColor = 'red';
+        } else if (event.type === 'lesson-event') {
+            backgroundColor = 'blue'; 
+        } else if (event.type === 'lesson') {
+            backgroundColor = 'green'; 
+        }
+        if (event.volunteers && event.volunteers.includes(currentUser.volunteerId)) {
+            backgroundColor = 'purple'; 
+        } else if(event.attendees && event.attendees.includes(currentUser.volunteerId)){
+            backgroundColor = 'purple';
+        }
+    
+        return {
+            style: {
+                backgroundColor
+            }
+        };
+    };
+  
 
-      <Calendar
-        localizer={localizer}
-        events={activities}
-        startAccessor="start"
-        endAccessor="end"
-        className='calendar'
-        selectable={true}
-        onSelectEvent={(event) => {
-          setSelectedEvent(event);
-          setShowRegisterForm(true);
-        }}
-        eventPropGetter={eventStyleGetter}
-      />
-      </div>
-      {showRegisterForm && (
+
+    return (
+        <LayoutProfiles profile={'voluntario'} selected={'Agenda'}>
+        <ToastContainer />
+        <div className={classes.calendarContainer}>
+            <Calendar
+                localizer={localizer}
+                events={activities}
+                startAccessor="start"
+                endAccessor="end"
+                className='calendar'   
+                selectable={true}
+                onSelectEvent={(event) => {
+                  setSelectedEvent(event);
+                  setShowRegisterForm(true);
+                }}
+                eventPropGetter={eventStyleGetter}
+            />
+            <div className='legendContainer'>
+                <div className='legend' style={{ backgroundColor: 'green'}}>Lección</div>
+                <div className='legend' style={{ backgroundColor: 'blue'}}>Excursión</div>
+                <div className='legend' style={{ backgroundColor: 'red'}}>Evento</div>
+                <div className='legend' style={{ backgroundColor: 'purple'}}>Participas</div>
+            </div> 
+        </div> 
+
+        {showRegisterForm && (
         <Dialog open={showRegisterForm} onClose={() => setShowRegisterForm(false)}>
           <DialogTitle>
             {selectedEvent && selectedEvent.educator ? '¿Quieres unirte a esta clase?' : '¿Quieres unirte a este evento?'}
@@ -236,12 +343,9 @@ const VolunteerAgenda = () => {
           </DialogActions>
         </Dialog>
       )}
-    </LayoutProfiles>
-  );
+      </LayoutProfiles>
+        
+    );
 };
 
 export default VolunteerAgenda;
-
-
-
-
