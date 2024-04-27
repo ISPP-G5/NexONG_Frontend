@@ -334,10 +334,10 @@ const VolunteerAgenda = () => {
                 eventPropGetter={eventStyleGetter}
             />
             <div className='legendContainer'>
-                <div className='legend' style={{ backgroundColor: 'green'}}>Lección</div>
-                <div className='legend' style={{ backgroundColor: 'blue'}}>Excursión</div>
-                <div className='legend' style={{ backgroundColor: 'red'}}>Evento</div>
-                <div className='legend' style={{ backgroundColor: 'purple'}}>Participas</div>
+                <div className='legend' style={{ backgroundColor: 'green', color: 'white'}}>Lección</div>
+                <div className='legend' style={{ backgroundColor: 'blue', color: 'white'}}>Excursión</div>
+                <div className='legend' style={{ backgroundColor: 'red', color: 'white'}}>Evento</div>
+                <div className='legend' style={{ backgroundColor: 'purple', color: 'white'}}>Participas</div>
             </div> 
         </div> 
 
