@@ -1072,12 +1072,12 @@ function AdminEvents() {
               toast.error('Error: ' + data.name[0]); // Error message for name field
             } else if (data && data.description) {
               toast.error('Error: ' + data.description[0]); // Error message for description field
-            } else if (data && data.date) {
-              toast.error('Error: ' + data.date[0]); // Error message for description field
+            }else if (data && data.date) {
+              toast.error('Error: La fecha no puede ser anterior a la fecha actual'); // Customized Spanish error message
             } else if (data && data.time) {
               toast.error('Error: ' + data.time[0]); // Error message for description field
             } else {
-              toast.error('Ha ocurrido un error al actualizar la asamblea.'); // Customized Spanish error message
+              toast.error('Por favor, compruebe la que la fecha es en el futuro'); // Customized Spanish error message
             }
           } else {
             console.error('Error updating Meeting:', error);
