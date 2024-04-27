@@ -20,6 +20,7 @@ const AdminSuggestions = () => {
     const [doHandleAceptarRechazar, setDohandleAceptarRechazar] = useState(false);
 
     async function handleDelete(id) {
+      setDohandleAceptarRechazar(false)
       try {
         const token = localStorage.getItem('accessToken');  // Replace with your actual token
         const config = {
