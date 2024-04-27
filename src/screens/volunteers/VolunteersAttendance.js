@@ -164,8 +164,7 @@ const VolunteersAttendance = () => {
               setDeleteConfirmation({ open: false, event: null })
           });
     }else if (deleteConfirmation.event.type === 'lesson') {
-      const updateLessonAttendance = lessonAttendance.filter(attendance => attendance.lesson !== deleteConfirmation.event.id);
-      axios.put(`${API_ENDPOINT}lesson-attendance/${deleteConfirmation.event.id}`, { ...lessonAttendance, updateLessonAttendance }, config)
+      axios.delete(`${API_ENDPOINT}lesson-attendance/${deleteConfirmation.event.id}`, config)
           .then(response => {
               toast.success('Se ha eliminado correctamente');
               setDeleteConfirmation({
