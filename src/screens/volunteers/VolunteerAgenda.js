@@ -225,7 +225,7 @@ const VolunteerAgenda = () => {
         console.log(activities);
     }, [schedules]);
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
       if (!currentUser.volunteerId) {
         console.error('The current volunteer cannot be registered. Volunteer ID not available.');
         toast.error('El voluntario actual no puede registrarse. Identificación de voluntario no disponible.');
@@ -249,66 +249,66 @@ const VolunteerAgenda = () => {
           return;
         }
         console.log('Registering volunteer for:', selectedEvent);
-        axios.put(`${API_ENDPOINT}${selectedEvent.lesson ? 'lesson-event' : 'event'}/${selectedEvent.id}/`, {
-          id: selectedEvent.id,
-          name: selectedEvent.title,
-          description: selectedEvent.description,
-          place: selectedEvent.place,
-          max_volunteers: selectedEvent.max_volunteers,
-          max_attendees: selectedEvent.max_attendees,
-          start_date: selectedEvent.start,
-          end_date: selectedEvent.end,
-          price: selectedEvent.price,
-          attendees: selectedEvent.attendees,
-          volunteers: updatedVolunteers,
-          url: selectedEvent.url
-        }, config)
-        .then(response => {
+        try {
+          const response = await axios.put(`${API_ENDPOINT}${selectedEvent.lesson ? 'lesson-event' : 'event'}/${selectedEvent.id}/`, {
+            id: selectedEvent.id,
+            name: selectedEvent.title,
+            description: selectedEvent.description,
+            place: selectedEvent.place,
+            max_volunteers: selectedEvent.max_volunteers,
+            max_attendees: selectedEvent.max_attendees,
+            start_date: selectedEvent.start,
+            end_date: selectedEvent.end,
+            price: selectedEvent.price,
+            attendees: selectedEvent.attendees,
+            volunteers: updatedVolunteers,
+            url: selectedEvent.url
+          }, config);
           console.log('Registered volunteer for:', selectedEvent);
           setShowRegisterForm(false);
           toast.success('Se ha unido correctamente');
           window.location.reload(true);
-        })
-        .catch(error => {
+        } catch (error) {
           console.error('Error when registering the volunteer:', error);
           toast.error('Hubo un error al unirse a la clase.');
-        });
-      }else if(selectedEvent.type === 'lesson'){
+        }
+      } else if(selectedEvent.type === 'lesson'){
         const newAttendance = {
           lesson: selectedEvent.id,
           volunteer: currentUser.volunteerId,
           date: moment().format('YYYY-MM-DD')
-      };
-      console.log(newAttendance);
-      axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config)
-          .then(response => {
-            console.log('Registered volunteer for:', selectedEvent);
-            setShowRegisterForm(false);
-            toast.success('Se ha unido correctamente');
-            window.location.reload(true);
-          })
-          .catch(error => {
-            console.error('Error when registering the volunteer:', error);
-            toast.error('Hubo un error al unirse a la clase.');
-          });
+        };
+        console.log(newAttendance);
+        try {
+          const response = await axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config);
+          console.log('Registered volunteer for:', selectedEvent);
+          setShowRegisterForm(false);
+          toast.success('Se ha unido correctamente');
+          window.location.reload(true);
+        } catch (error) {
+          console.error('Error when registering the volunteer:', error);
+          toast.error('Hubo un error al unirse a la clase.');
+        }
       }
     };
-  
 
+    const lessonColor = '#3399ff'
+    const lessonEventColor = '#ff66cc'
+    const EventColor = '#ccff66'
     const eventStyleGetter = (event) => {
       let backgroundColor;
       if (event.type === 'event') { 
-          backgroundColor = 'red';
+          backgroundColor = EventColor;
           if(event.volunteers.includes(currentUser.volunteerId)){
             backgroundColor = 'purple';
         }
       } else if (event.type === 'lesson-event') {
-          backgroundColor = 'blue'; 
+          backgroundColor = lessonEventColor; 
           if(event.volunteers.includes(currentUser.volunteerId)){
             backgroundColor = 'purple';
         }
       } else if (event.type === 'lesson') {
-          backgroundColor = 'green'; 
+          backgroundColor = lessonColor; 
           if (lessonAttendance.some(attendance => attendance.lesson === event.id && attendance.volunteer === currentUser.volunteerId)) {
             backgroundColor = 'purple'; 
         }
@@ -340,9 +340,9 @@ const VolunteerAgenda = () => {
                 eventPropGetter={eventStyleGetter}
             />
             <div className='legendContainer'>
-                <div className='legend' style={{ backgroundColor: 'green', color: 'white'}}>Lección</div>
-                <div className='legend' style={{ backgroundColor: 'blue', color: 'white'}}>Excursión</div>
-                <div className='legend' style={{ backgroundColor: 'red', color: 'white'}}>Evento</div>
+            <div className='legend' style={{ backgroundColor: lessonColor, color: 'white'}}>Lección</div>
+                <div className='legend' style={{ backgroundColor: lessonEventColor, color: 'white'}}>Excursión</div>
+                <div className='legend' style={{ backgroundColor: EventColor, color: 'white'}}>Evento</div>
                 <div className='legend' style={{ backgroundColor: 'purple', color: 'white'}}>Participas</div>
             </div> 
         </div> 
@@ -368,3 +368,4 @@ const VolunteerAgenda = () => {
 };
 
 export default VolunteerAgenda;
+
