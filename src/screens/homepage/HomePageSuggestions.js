@@ -68,7 +68,7 @@ function HomePageSuggestions() {
 
   return (
     <LayoutHomepage 
-      title="Sugerencias"
+      title="SUGERENCIAS"
       image={'suggestions'}
       toastcontainer={true}
     >
