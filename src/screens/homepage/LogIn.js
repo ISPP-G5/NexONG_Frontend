@@ -162,7 +162,7 @@ function LogIn() {
                 //TODO Aqui formulario para educador, una cosa así:
                 //if (user.educador === null) {
                 //    navigate('/educador/formulario');}
-                navigate('/educador/perfil');
+                navigate('/educador/niños/evaluacion/diaria');
             } else if (user.role === 'ADMIN'){
                 localStorage.setItem('role', 'ADMIN')
                 setRole(user.role)

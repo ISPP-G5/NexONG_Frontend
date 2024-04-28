@@ -4,7 +4,7 @@ import React from 'react';
 
 const profileItems = {
     admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Sugerencias', 'Documentos'],
-    educador: ['Niños','Evaluación diaria','Evaluación anual Niños', 'Actividades'],
+    educador: ['Evaluación Diaria','Evaluación Anual', 'Actividades'],
     voluntario: ['Agenda', 'Asistencia'],
     familia: ['Niños', 'Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
     socio: ['Calendario'],
@@ -22,9 +22,9 @@ const profileLinks = {
       'Documentos': '/admin/documentos',
     },
     educador: {
-        'Niños': '/educador/niños/evaluacion/diaria',
-        'Evaluación diaria': '/educador/niños/evaluacion/diaria',
-        'Evaluación anual Niños': '/educador/niños/evaluacion/anual',
+       
+        'Evaluación Diaria': '/educador/niños/evaluacion/diaria',
+        'Evaluación Anual': '/educador/niños/evaluacion/anual',
         'Actividades': '/educador/niños/actividades',
     },
     voluntario: {

@@ -9,43 +9,71 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
     width: '100%',
     marginBottom: '3%',
   };
+  const [selectedLesson,setSelectedLesson] = useState ([]);
+  const [studentsInSelectedLesson,setStudentInSelectedLesson] = useState([])
+  const handleLessonChange = (event) => {
+    setSelectedLesson(event.target.value);
+  };
+  console.log('selected student',selectedStudent)
 
   useEffect(() => {
-    if (students && lessons && selectedStudent) {
-      const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-      console.log('selectedStudentLesson id', selectedStudentLesson)
-      if (selectedStudentLesson && selectedStudentLesson.id) {
-        handleEvaluationChange(selectedStudentLesson.id)({ target: { value: selectedStudentLesson.id } });
+    console.log('students',students)
+    console.log('lesson',lessons)
+    
+    if (students && lessons && selectedLesson) {
+      const selectedLessonObj = lessons.find(lesson => lesson.id == selectedLesson);
+      console.log('selectedLessonObj',selectedLessonObj)
+      if (selectedLessonObj && Array.isArray(selectedLessonObj.students)) {
+        const studentsInSelectedLessonFilter = students.filter(student => selectedLessonObj.students.includes(student.id));
+        
+        setStudentInSelectedLesson(studentsInSelectedLessonFilter)
+        handleEvaluationChange(setStudentInSelectedLesson.id)({target:{value:setStudentInSelectedLesson.id}});
+
       }
     }
-  }, [students, lessons, selectedStudent]);
+  }, [students, lessons, selectedLesson]);
 
+
+  console.log('lessons', lessons[0]);
+  console.log('selectedLesson', selectedLesson);
   return (
     <>
-      {students && lessons && students.map((student, studentIndex) => {
-        const lesson = lessons.find(lesson => lesson.students.includes(student.id));
-        if (!lesson) {
-          return null; 
-        }
+      <label>Selecciona una clase:</label>
+      <select  className='evaluation-filter' onChange={handleLessonChange}>
+         <option value="">Selecciona una clase</option>
+        {lessons && lessons.map((lesson, index) => (
+          <option key={index} value={lesson.id}>{lesson.name}</option>
+        ))}
+      </select>
   
+      {selectedLesson ? (
+        studentsInSelectedLesson.map((student) => {
+          const lesson = lessons.find(lesson => lesson.students.includes(student.id));
+          if (!lesson) {
+            return <p>No existe ninguna información para mostrar</p>; 
+           }
         return (
-        <StudentCard
-          key={studentIndex}
+          <StudentCard
+          key={student.id}
           familyName={student.name}
           kidName={student.surname}
           lesson={lesson.name}
           currentEducationYear={student.current_education_year}
           evaluation={getStudentEvaluation(student.id)}
-          onEvaluationChange={(event) => handleEvaluationChange(student.id)(event)}
+          onEvaluationChange={(event) => handleEvaluationChange(setStudentInSelectedLesson.id)(event)}
           onSubmit={handleSubmit}
           onEdit={() => handleEdit(student.id)}
           onInfo={() => handleInfo(student.id)}
-          onEvaluacion2={() => handleEvaluacion2(student.id)} 
-        />
-
-        );
-      })}
-
+          onEval={() => handleLessonChange(student.id)}
+         />
+         );
+        })
+      ) : (
+        <div className= "centered-message">
+          <p>Por favor, selecciona una clase.</p>
+       </div>   
+)}
+ 
 {showEditModal && (
   <Dialog open={showEditModal} onClose={handleCloseModal}>
     <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
@@ -55,11 +83,10 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
           {evaluationTypes && evaluationTypes.map((evaluationType, index) => {
             let lessonsIds;
             let evaluationTypeIds
-            console.log('lessons',lessons)
             if (lessons) {
               lessonsIds = lessons.map(lesson => lesson.id);
               evaluationTypeIds = evaluationType.lesson
-              console.log('evaluationTypeIds',evaluationTypeIds)
+
             }
             let dailyEvaluations;
             if (evaluationType) {
@@ -67,7 +94,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
 
               if (dailyEvaluations) {
                 const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-                console.log('selected student lesson', selectedStudentLesson.id)
               
                 if (!selectedStudentLesson) {
                   return null;
@@ -95,13 +121,11 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
               }
               else if ( evaluationTypes.filter(evaluationType => evaluationType.evaluation_type === 'ANUAL')){
                 const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-                console.log('selected student lesson', selectedStudentLesson.id)
               
                 if (!selectedStudentLesson) {
                   return null;
                 }
               
-                console.log('lesons ids',lessonsIds)
                 
                 const defaultGrade = evaluationType.grade_system === 'CERO A UNO' ? 0 : 1;
 
