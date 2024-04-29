@@ -30,7 +30,7 @@ function HomePageSuggestions() {
 
   const sendForm = async(e) => {
     e.preventDefault();
-    if (!emailFormat.test(email)) {
+    if (email && !emailFormat.test(email)) {
       toast.error('Formato de correo inválido');
       return;
      }
