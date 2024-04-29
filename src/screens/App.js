@@ -200,7 +200,6 @@ function App() {
             <Route path="/educador/perfil/actualizar" exact={true} element={<EducatorProfileUpdate />} />
             
             <Route path="/educador" exact={true} element={<EducatorKidsEvaluationDaily />} />
-            <Route path="/educador/niños" exact={true} element={<EducatorKidsEvaluationDaily />} />
             <Route path="/educador/niños/evaluacion/diaria" exact={true} element={<EducatorKidsEvaluationDaily />} />
             <Route path="/educador/niños/evaluacion/anual" exact={true} element={<EducatorKidsEvaluationYearly />} />
             <Route path="/educador/niños/actividades" exact={true} element={<EducatorKidsActivities />} />
