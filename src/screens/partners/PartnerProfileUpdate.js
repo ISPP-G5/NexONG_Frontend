@@ -5,8 +5,8 @@ import UpdateProfile from '../../components/UpdateProfile';
 const PartnerProfileUpdate = () => {
 
     return (
-        <LayoutProfiles profile={'socios'} >
-            <UpdateProfile tipo={'socios'}/>
+        <LayoutProfiles profile={'socio'} >
+            <UpdateProfile tipo={'socio'}/>
         </LayoutProfiles>
     )
   
