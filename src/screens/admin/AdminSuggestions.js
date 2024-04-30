@@ -17,8 +17,10 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 const AdminSuggestions = () => {
     const [token, updateToken] = useToken();
     const [suggestions, setSuggestions] = useFetchSuggestions(API_ENDPOINT, token);
-    
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
     async function handleDelete(id) {
+      setConfirmDeleteOpen(false)
       try {
         const token = localStorage.getItem('accessToken');  // Replace with your actual token
         const config = {
@@ -32,19 +34,7 @@ const AdminSuggestions = () => {
         // Handle error...
       }
     }
-         
-    const ConfirmToast = ({ closeToast, handleDelete, id }) => (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          ¿Esta seguro que quiere eliminar la sugerencia?
-          <div>
-            <button style={{marginRight:'10px'}} onClick={() => { handleDelete(id); closeToast(); }}>Yes</button>
-            <button onClick={closeToast}>No</button>
-          </div>
-        </div>
-      );
-    
-    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-  
+
     return (
         <LayoutProfiles profile={'admin'} selected={'Sugerencias'}>
                 <ToastContainer />
