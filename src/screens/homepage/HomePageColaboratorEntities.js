@@ -10,6 +10,7 @@ import misnis from '../../logo/ColaboratorsEntities/misnis2030-150x150.jpg';
 import pablOlavide from  '../../logo/ColaboratorsEntities/pablo-olavide.jpg';
 import consejoSocialUs from  '../../logo/ColaboratorsEntities/consejo-social-us.jpg'
 import fp from  '../../logo/ColaboratorsEntities/ministerioFP.jpg'
+
 const entidadesData = [
     {
         name:"Junta de andalucia",
@@ -63,17 +64,8 @@ function HomePageColaboratorEntities() {
             title="ENTIDADES COLABORADORAS"
             description="Nuestro proyecto recibe ayudas y subvenciones de los asociados y de diversas entidades públicas y privadas que hacen posible la transformación social del entorno."
             image={'colab'}
-        > 
-            
-            <div className='homepage-container'>
-                {entidadesData.map(ed =>{return(
-                <div className='flex-container'>
-                    <img className="colab-image" src={ed.img} alt={"imagen de" + ed.nombre } />
-                    <h4><Link to={ed.link}>{ed.name}</Link></h4>
-                </div>
-                )})}
-            </div>
-        </LayoutHomepage>
+            info={entidadesData}
+        /> 
     );
 }
 export default HomePageColaboratorEntities;    

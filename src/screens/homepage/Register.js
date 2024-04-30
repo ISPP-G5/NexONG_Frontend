@@ -292,74 +292,61 @@ function Register() {
           placeholder='Confirme su contraseña'
           onChange={(e) => setConfirmPassword(e.target.value)}
           />
-           <div className="checkbox-group">
+          
+          <div className='register-container-checkbox' style={{marginTop: '4%'}}>
             <input
               type="checkbox"
               id="selectCheckboxFamily"
-              className="hidden-checkbox"
               checked={isFamilyChecked}
               onChange={handleFamilyChange}
             />
-            <label htmlFor="selectCheckboxFamily" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Registrarse como familiar
-            </label>
+            <label htmlFor="selectCheckboxFamily" >Registrarse como familiar</label>
           </div>
 
-          <div className="checkbox-group">
+          <div className='register-container-checkbox'>
             <input
               type="checkbox"
               id="selectCheckboxVolunteer"
-              className="hidden-checkbox"
               checked={isVolunteerChecked}
               onChange={handleVolunteerChange}
             />
-            <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Registrarse como voluntario
-            </label>
+            <label htmlFor="selectCheckboxVolunteer" >Registrarse como voluntario</label>
           </div>
 
-          <div className="checkbox-group">
+          <div className='register-container-checkbox'>
             <input
               type="checkbox"
               id="selectCheckboxPartner"
-              className="hidden-checkbox"
               checked={isPartnerChecked}
               onChange={handlePartnerChange}
             />
-            <label htmlFor="selectCheckboxPartner" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Registrarse como socio
+            <label htmlFor="selectCheckboxPartner" >Registrarse como socio</label>
+          </div>
+          
+          <div className='register-container-checkbox'>
+            <input
+              type="checkbox"
+              id="selectCheckboxAgreed"
+              checked={isAgreedChecked}
+              onChange={handleAgreedChange}
+            />
+            <label htmlFor="selectCheckboxAgreed">
+              Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              
             </label>
           </div>
-
-          <div className="checkbox-group">
-            <div >
-              <input
-                type="checkbox"
-                id="selectCheckboxAgreed"
-                className="hidden-checkbox"
-                checked={isAgreedChecked}
-                onChange={handleAgreedChange}
-              />
-              <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
-                <span className="custom-checkbox"></span>
-                Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              </label>
-            </div>
-            <Dialog open={isDialogOpen} onClose={handleDialogClose}>
-              <DialogTitle>Términos y Condiciones</DialogTitle>
-              <DialogContent>
-                <TermsAndConditions termsText={termsText} />
-              </DialogContent>
-            </Dialog>
-        </div>
+          <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+            <DialogTitle>Términos y Condiciones</DialogTitle>
+            <DialogContent>
+              <TermsAndConditions termsText={termsText} />
+            </DialogContent>
+          </Dialog>
 
           <button className='register-button'>
             Crear cuenta
           </button>
 
-
-
           <p style={{ textAlign: 'center', marginBottom: '5%'}}>
-            ¿Ya tiene una cuenta?
+            ¿Ya tiene una cuenta? &nbsp;
             <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
               Inicie sesión aquí
             </Link>

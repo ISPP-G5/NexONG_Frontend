@@ -41,46 +41,55 @@ function HomePageCamps() {
                 </div>
             </div>
 
-            <div className='agenda-structure'>
+            <div className='agenda-intro'>
                 <div>
                     <h2>1. Reflexiones para la educación en valores</h2>
                     <p>El objetivo principal de esta actividad es educar en valores que fomenten la solidaridad, la socialización, la interdependencia, así como el sentido de la responsabilidad individual y de grupo, haciendo ver que son fundamentales para una correcta integración social.</p>
                 </div>
                 <img src={educacion} alt='Educación en valores' width={500}></img>
+            </div>
+            <div className='agenda-plan'>     
                 <img src={talleres} alt='Talleres Experienciales' width={500}></img>
                 <div>
                     <h2>2. Talleres Experienciales</h2>
                     <p>Enfocado a adolescentes y jóvenes (13 a 18 años). Es experiencial porque parte de la vida concreta de los/as destinatarios y del ambiente en el que viven. Y mediante un proceso dinámico y gradual orienta y transforma la propia vida y la del entorno.</p>
                 </div>
+            </div>
+            <div className='agenda-intro'>
                 <div>
                     <h2>3. TALLERES DE MANUALIDADES</h2>
                     <p>Actividades que fomentan la capacidad creativa y artística de los/la participantes, así como su autonomía y aprendizaje cooperativo.</p>
                 </div>
                 <img src={manualidades} alt='TALLERES DE MANUALIDADES' width={500}></img>
+            </div>
+            <div className='agenda-plan'>
                 <img src={gynkanas} alt='ACTIVIDADES DEPORTIVAS Y GYMKANAS' width={500}></img>
                 <div>
                     <h2>4. ACTIVIDADES DEPORTIVAS Y GYMKANAS</h2>
                     <p>Estos juegos y actividades deportivas se realizan en pro de una vida sana y la adquisición de unos hábitos saludables. Además favorece el trabajo en equipo, la colaboración y la cooperación. Todas las actividades parten del juego creativo, fomentando la diversión y la participación.</p>
                 </div>
+            </div>
+            <div className='agenda-intro'>
                 <div>
                     <h2>5. PLAYA</h2>
                     <p>Disfrutamos del mar y las ventajas del mismo. Espacio natural que nos ayuda a apreciar y cuidar que es de todos y todas. Disfrutando y compartiendo con el grupo</p>
                 </div>
                 <img src={playa} alt='Playa' width={500}></img>
+            </div>
+            <div className='agenda-plan'>
                 <img src={salidas} alt='SALIDAS CULTURALES Y DE OCIO' width={500}></img>
                 <div>
                     <h2>6. SALIDAS CULTURALES Y DE OCIO</h2>
                     <p>El objetivo es potenciar en los y las participantes la socialización, la interdependencia, así como el sentido de la responsabilidad individual y de grupo.</p>
                 </div>
+            </div>
+            <div className='agenda-intro'>
                 <div>
                     <h2>7. VELADAS GUIADAS</h2>
                     <p>Espacio diario destinado a la fiesta y la celebración realizan diferente donde se bailes y actuaciones por grupos. El objetivo es desarrollar destrezas sociales necesarias para la colaboración exitosa y la confianza en uno mismo.</p>
                 </div>
                 <img src={veladas} alt='VELADAS GUIADAS' width={450}></img>
-
-
             </div>
-
             
         </LayoutHomepage>
     );

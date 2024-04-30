@@ -117,6 +117,38 @@ input[type="datetime-local"] {
     resize: none;
     margin: 0 auto;
 }
+/* Hide the default checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Create a custom checkbox */
+input[type="checkbox"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20%; /* Make it round */
+    background-color: #fff;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* Style the custom checkbox when the hidden checkbox is checked */
+input[type="checkbox"]:checked + label:before {
+    background-color: #b7ecff;
+    content: "✓";
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: black;
+}
+
 
 textarea {
     font-family: "Poppins", Helvetica;
@@ -618,6 +650,14 @@ textarea {
     z-index: -1;
 }
 
+@media (min-width: 1px) and (max-width: 768px) {
+    .intro-container {
+        padding-top: 5%;
+        padding-bottom: 5%;
+        height: auto;
+    }
+}
+
 /* IF YOU NEED TO ADD A NEW BACKGROUND IMAGE FOR THE INTRO COMPONENT
 
 COPY THIS AND CHANGE THE NAME AS LIKED:
@@ -826,19 +866,25 @@ iframe {
 
 /********************* TRANSPARENCY ******************/
 
-.trans {
+.transparency {
     border-collapse: collapse;
-    width: 80%;
+    width: 80%; 
+    table-layout: fixed;
     text-align: center;
     padding: 10%;
     margin: 5% 10% 5% 10%;
 }
 
-.trans a {
+.transparency a {
     text-decoration: none;
+    display: block; 
+    width: 100%; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
 }
 
-.trans th {
+.transparency th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -846,14 +892,14 @@ iframe {
     color: #000;
 }
 
-.trans th {
+.transparency th {
     border: 1.5px solid #ffc76e;
     padding: 8px;
     background-color: #ffc76e;
     text-align: center;
 }
 
-.trans td {
+.transparency td {
     border: 1.5px solid #ffc76e;
     padding: 2%;
 }
@@ -862,34 +908,34 @@ tbody tr:nth-child(odd) {
     background-color: #fff;
 }
 
-.trans tr:nth-child(even) {
+.transparency tr:nth-child(even) {
     background-color: #fff;
 }
-.trans td:hover {
+.transparency td:hover {
     background-color: #cdf0fe;
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
-    .trans {
+    .transparency {
+        width: 90%;
+        margin: 5%;
         font-size: 10px;
+    }
+    
+    .transparency a {
+        white-space: normal; 
     }
 }
 
 /********************* COLABORATORS ENTITIES ******************/
 
 .colab-image {
-    max-width: 150px;
-    max-height: 150px;
-    object-fit: cover;
+    max-width: 60%;
+    max-height: 60%;
     align-self: center;
+    margin-bottom: 2%;
 }
 
-@media (min-width: 1px) and (max-width: 768px) {
-    .colab-image {
-        max-width: 100%;
-        max-height: 100%;
-    }
-}
 
 /********************* ACTIVIDADES TEXT ******************/
 
@@ -903,21 +949,45 @@ tbody tr:nth-child(odd) {
 
 .history-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
 }
 
-.image-container {
-    margin-top: 2.5%;
-    margin-left: 0%;
+.history-container div {
+    margin-top: 2%;
+}
+
+.image-history {
+    margin: auto 5%;
     width: 30%;
-    margin-bottom: 2%;
 }
-.history-image {
-    margin-left: 30%;
-    width: 100%;
+
+.image-chronology {
+    align-self: center;
+    max-width: 80%;
+    margin: 2%;
 }
-.history-container div p {
-    color: #888;
+
+.image-workshop {
+    align-self: center;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+    .history-container {
+        flex-direction: column;
+    }
+        
+    .image-history, .image-workshop {
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-top: 5%;
+        width: 80%;
+    }
+
+    .image-chronology {
+        max-width: 100%;
+    }
+
 }
 
 /********************* AGENDA ******************/
@@ -1021,6 +1091,16 @@ tbody tr:nth-child(odd) {
     font-weight: bold;
 }
 
+.register-container-checkbox {
+    align-self: flex-start;
+    margin-left: 15%;
+}
+.register-container-checkbox label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media (min-width: 1px) and (max-width: 768px) {
     .register-container {
         width: 60%;
@@ -1044,52 +1124,9 @@ tbody tr:nth-child(odd) {
         max-width: 100px;
         max-height: 100px;
     }
-}
-
-/* CHECKBOX */
-
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    margin-left: 20%;
-    margin-bottom: -2%;
-    white-space: nowrap; /* Asegura que el contenido se muestre en una sola línea */
-}
-
-.checkbox-label {
-    font-family: "Poppins", Helvetica;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.375rem;
-    color: #000000;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    white-space: nowrap; /* Asegura que el contenido se muestre en una sola línea */
-}
-
-.checkbox-label:hover {
-    color: #5595b9;
-}
-
-.hidden-checkbox {
-    position: absolute;
-    opacity: 0;
-}
-
-.custom-checkbox {
-    width: 1.5rem;
-    height: 1.5rem;
-    font-family: "Poppins", Helvetica;
-    border-radius: 50%;
-    border: 2px solid #e6dddd;
-    background-color: #fff;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 1.5rem;
+    .register-container-checkbox {
+        margin-left: 0;
+    }
 }
 
 /* REGISTER BUTTON */
@@ -1102,6 +1139,7 @@ tbody tr:nth-child(odd) {
     font-weight: 500;
     text-align: center;
     justify-content: center;
+    align-self: center;
     height: fit-content;
     width: 60%;
     padding: 2% 5% 2% 5%;
