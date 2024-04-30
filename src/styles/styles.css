@@ -117,6 +117,7 @@ input[type="datetime-local"] {
     resize: none;
     margin: 0 auto;
 }
+
 /* Hide the default checkbox */
 input[type="checkbox"] {
     display: none;
@@ -136,7 +137,6 @@ input[type="checkbox"] + label:before {
     cursor: pointer;
 }
 
-/* Style the custom checkbox when the hidden checkbox is checked */
 input[type="checkbox"]:checked + label:before {
     background-color: #b7ecff;
     content: "✓";
@@ -148,7 +148,6 @@ input[type="checkbox"]:checked + label:before {
     line-height: 20px;
     color: black;
 }
-
 
 textarea {
     font-family: "Poppins", Helvetica;
@@ -226,13 +225,6 @@ textarea {
 
 /********************* SELECT ******************/
 
-.select-container {
-    position: relative;
-    display: inline-block;
-    width: 80%;
-    z-index: 1000;
-}
-
 .select-style {
     font-family: "Poppins", Helvetica;
     color: black;
@@ -250,14 +242,6 @@ textarea {
     visibility: visible;
 }
 
-.select-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 80%;
-    margin: 0 auto;
-}
-
 .select-style:focus {
     outline: none;
     border-color: #9ee5ff;
@@ -266,63 +250,12 @@ textarea {
 
 /********************* CHECKBOX ******************/
 
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
 .checkbox-container-partner {
   display: flex;
   flex-direction: column; /* Stack checkboxes vertically */
   cursor: pointer;
 }
 
-
-.hidden-checkbox {
-    border: 0;
-    clip: rect(0 0 0 0);
-    clippath: inset(50%);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-}
-
-.checkbox-label {
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    background: white;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    position: relative;
-    margin-right: 8px;
-    cursor: pointer;
-}
-
-.checkbox-label:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid black;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.hidden-checkbox:checked + .checkbox-label:after {
-    display: block;
-}
-
-.checkbox-label:hover {
-    background: #f0f0f0;
-}
 
 /********************* HEADER ******************/
 
