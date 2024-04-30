@@ -24,6 +24,7 @@ import HomePageSuggestions from './homepage/HomePageSuggestions';
 import Register from './homepage/Register';
 import LogIn from './homepage/LogIn';
 import HomePageLaSalle from './homepage/HomePageLaSalle';
+import HomePageOrganization from './homepage/HomePageOrganization'
 // ADMIN
 import AdminProfile from './admin/AdminProfile';
 import AdminProfileUpdate from './admin/AdminProfileUpdate';
@@ -63,11 +64,12 @@ import VolunteerWait from './volunteers/VolunteerWait';
 import VolunteerFormation from './volunteers/VolunteerFormation';
 
 // PARTNERS
-//import PartnerProfile from './partners/PartnerProfile';
-import PartnersCalendar from './partners/PartnersCalendar';
-import PartnerForm from './partners/PartnerForm';
 import PartnerProfile from './partners/PartnerProfile';
-import PartnerProfileUpdate from './partners/PartnerProfileUpdate';
+import ParterProfileUpdate from './partners/PartnerProfileUpdate';
+import PartnersCalendar from './partners/PartnersCalendar';
+import PartnersRenew from './partners/PartnersRenew';
+import PartnerForm from './partners/PartnerForm';
+
 
 // FAMILIES
 import FamilyForm from './family/FamilyForm';
@@ -133,8 +135,7 @@ function App() {
             <Route path="/asociacion/donde-estamos" exact={true} element={<HomePageWhereWeAre />} />
             <Route path="/asociacion/mision-vision-valores" element={<HomePageMisionOverviewValues />} />
             <Route path="/asociacion/la-salle" element={<HomePageLaSalle />} />
-
-            {/* Falta organizacion */}
+            <Route path="/asociacion/organizacion" element={<HomePageOrganization />} />
             <Route path="/asociacion/transparencia" exact={true} element={<HomePageTransparency />} />
             <Route path="/asociacion/entidades-colaboradoras" exact={true} element={<HomePageColaboratorEntities />} />
 
@@ -199,7 +200,6 @@ function App() {
             <Route path="/educador/perfil/actualizar" exact={true} element={<EducatorProfileUpdate />} />
             
             <Route path="/educador" exact={true} element={<EducatorKidsEvaluationDaily />} />
-            <Route path="/educador/niños" exact={true} element={<EducatorKidsEvaluationDaily />} />
             <Route path="/educador/niños/evaluacion/diaria" exact={true} element={<EducatorKidsEvaluationDaily />} />
             <Route path="/educador/niños/evaluacion/anual" exact={true} element={<EducatorKidsEvaluationYearly />} />
             <Route path="/educador/niños/actividades" exact={true} element={<EducatorKidsActivities />} />
@@ -222,8 +222,9 @@ function App() {
             {role === 'SOCIO' && (
               <>
             <Route path="/socio/perfil" exact={true} element={<PartnerProfile />} />
-            <Route path="/socio/perfil/actualizar" exact={true} element={<PartnerProfileUpdate />} />
+            <Route path="/socio/perfil/actualizar" exact={true} element={<ParterProfileUpdate />} />
             <Route path="/socio/calendario" exact={true} element={<PartnersCalendar />} />
+            <Route path="/socio/renovar" exact={true} element={<PartnersRenew />} />
             <Route path="/socio/formulario" exact={true} element={<PartnerForm />} />
               </>
             )}

@@ -70,22 +70,104 @@ const FamilyCalendar = () => {
         }
     };
 
-    const mapActivities = (activities, isLesson) => {
-        return activities.map(activity => ({
-            id: activity.id,
-            title: activity.name,
-            description: activity.description,
-            place: activity.place,
-            max_volunteers: activity.max_volunteers,
-            start: new Date(activity.start_date),
-            end: new Date(activity.end_date),
-            lesson: isLesson ? activity.lesson : undefined,
-            price: activity.price,
-            educators: activity.educators,
-            attendees: activity.attendees,
-            volunteers: activity.volunteers,
-            url: activity.url
-        }));
+    function setCustomTime(date, time) {
+        const [hours, minutes, seconds] = time.split(':').map(Number)
+    
+        date.setHours(hours - 1)
+        date.setMinutes(minutes)
+        date.setSeconds(seconds)
+
+        // console.log("date:",date," hours:",hours," minutes:",minutes," seconds:",seconds)
+    
+        return date
+    }
+    
+    const weekdays = ['DOMINGO', 'LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']
+    
+    function getNextWeekday(date, weekday) {
+        const targetWeekday = weekdays.indexOf(weekday)
+        if (targetWeekday === -1) {
+            throw new Error("Invalid weekday")
+        }
+    
+        const nextDate = new Date(date)
+        const currentWeekday = nextDate.getDay()
+    
+        let daysToAdd = targetWeekday - currentWeekday
+
+        if (daysToAdd < 0) {
+            daysToAdd += 7
+        }
+
+        if (daysToAdd !== 0) {
+            nextDate.setDate(nextDate.getDate() + daysToAdd)
+        }
+    
+        return nextDate
+    }
+
+    const mapActivities = (activities, type) => {
+        if (type !== 'event' && type !== 'lesson' && type !== 'lesson-event') {
+            throw new Error("Invalid activity type")
+        }
+
+        var res = []
+        const isLesson = type !== 'event'
+        
+        for (var i = 0; i < activities.length; i++) {
+            var activity = activities[i];
+            var startDate = new Date(activity.start_date)
+            var endDate = new Date(activity.end_date)
+
+            if (!isLesson) {
+                res.push({
+                        id: activity.id,
+                        title: activity.name,
+                        description: activity.description,
+                        place: activity.place,
+                        max_volunteers: activity.max_volunteers,
+                        start: startDate,
+                        end: endDate,
+                        type: type,
+                        price: activity.price,
+                        educators: activity.educators,
+                        attendees: activity.attendees,
+                        volunteers: activity.volunteers,
+                        url: activity.url
+                })
+                continue
+            }
+            var schedule = schedules.find(schedule => schedule.lesson === activity.id)
+
+            startDate = getNextWeekday(startDate, schedule.weekday)
+
+            var start = setCustomTime(startDate, schedule.start_time)
+            var end = setCustomTime(startDate, schedule.end_time)
+            while (end < endDate) {
+                res.push({
+                    id: activity.id,
+                    title: activity.name,
+                    description: activity.description,
+                    place: activity.place,
+                    max_volunteers: activity.max_volunteers,
+                    start: new Date(start),
+                    end: new Date(end),
+                    type: type,
+                    price: activity.price,
+                    educators: activity.educators,
+                    attendees: activity.attendees,
+                    volunteers: activity.volunteers,
+                    url: activity.url
+                })
+
+                startDate.setDate(startDate.getDate() + 7)
+                start = setCustomTime(startDate, schedule.start_time)
+                end = setCustomTime(startDate, schedule.end_time) 
+            }
+            console.log(start)
+        }
+
+        return res
     };
 
     useEffect(() => {
@@ -99,6 +181,8 @@ const FamilyCalendar = () => {
     }, []);
 
     useEffect(() => {
+        if (schedules.length === 0) return
+
         const fetchAndSetActivities = async () => {
             const userResponse = await fetchData('auth/users/me/');
     
@@ -113,24 +197,25 @@ const FamilyCalendar = () => {
         
                     let newActivities = [];
     
-                    async function fetchAndMapActivities(url, isLesson) {
+                    async function fetchAndMapActivities(url, type) {
                         const response = await fetchData(url, activity => 
                             moment(activity.start_date).isAfter(moment()) &&
                             activity.attendees.some(attendee => studentFamily.includes(attendee))
                         );
-                        return [...mapActivities(response, isLesson)];
+                        return [...mapActivities(response, type)];
                     }
                     
-                    newActivities = [...newActivities, ...await fetchAndMapActivities('event/', false)];
-                    newActivities = [...newActivities, ...await fetchAndMapActivities('lesson-event/', true)];
+                    newActivities = [...newActivities, ...await fetchAndMapActivities('event/', 'event')];
+                    newActivities = [...newActivities, ...await fetchAndMapActivities('lesson-event/', 'lesson-event')];
         
                     const lessonResponse = await fetchData('lesson/', activity => 
                         moment(activity.end_date).isAfter(moment()) && 
                         activity.students.some(student =>  studentFamily.includes(student))
                     );
-                    newActivities = [...newActivities, ...mapActivities(lessonResponse, true)];
+                    newActivities = [...newActivities, ...mapActivities(lessonResponse, 'lesson')];
     
                     setActivities(newActivities);
+                    console.log(newActivities)
                 }
             }else{
                 toast.error('No se ha podido cargar la información de la familia');
@@ -138,19 +223,26 @@ const FamilyCalendar = () => {
         };
     
         fetchAndSetActivities();
-    }, [userId]);
+    }, [schedules]);
 
     const handleEventClick = (event) => {
         setSelectedEvent(event);
         setOpen(true);
-      };
+    };
 
-      const eventStyleGetter = (event) => {
+    const lessonColor = '#3399ff'
+    const lessonEventColor = '#ff66cc'
+    const EventColor = '#ccff66'
+    const eventStyleGetter = (event) => {
         let backgroundColor = '#C44D0D';
         if (event.max_volunteers){
             backgroundColor = '#0DC487'; 
-        } else if (event.lesson) {
-            backgroundColor = '#0DC48F'; 
+        } else if (event.type === 'lesson') {
+            backgroundColor = lessonColor; 
+        } else if (event.type === 'lesson-event') {
+            backgroundColor = lessonEventColor; 
+        } else if (event.type === 'event') {
+            backgroundColor = EventColor; 
         } 
         const style = {
             backgroundColor: backgroundColor,
@@ -166,23 +258,27 @@ const FamilyCalendar = () => {
     };
 
 
-
     return (
         <LayoutProfiles profile={'familia'} selected={'Calendario'}>
         <ToastContainer />
         <div className={classes.calendarContainer}>
-        <Calendar
-            localizer={localizer}
-            events={activities}
-            startAccessor="start"
-            endAccessor="end"
-            className='calendar'   
-            selectable={true}
-            onSelectEvent={(event) => {
-                handleEventClick(event);
-            }}
-            eventPropGetter={eventStyleGetter}
-        />
+            <Calendar
+                localizer={localizer}
+                events={activities}
+                startAccessor="start"
+                endAccessor="end"
+                className='calendar'   
+                selectable={true}
+                onSelectEvent={(event) => {
+                    handleEventClick(event);
+                }}
+                eventPropGetter={eventStyleGetter}
+            />
+            <div className='legendContainer'>
+                <div className='legend' style={{ backgroundColor: lessonColor}}>Lección</div>
+                <div className='legend' style={{ backgroundColor: lessonEventColor}}>Excursión</div>
+                <div className='legend' style={{ backgroundColor: EventColor}}>Evento</div>
+            </div> 
         </div> 
 
         {open && (

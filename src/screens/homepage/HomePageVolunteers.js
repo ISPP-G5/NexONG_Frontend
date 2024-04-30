@@ -27,7 +27,7 @@ function HomePageVolunteers () {
     
     return (
       <LayoutHomepage 
-        title="Voluntarios"
+        title="VOLUNTARIOS"
         description="Gracias a la colaboración de nuestros voluntarios los proyectos y actividades son posibles de realizar."
         image={'volunteers'}
         info={info}
