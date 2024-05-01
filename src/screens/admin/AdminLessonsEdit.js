@@ -68,19 +68,19 @@ const AdminLessonsEdit = () => {
     }
   
     axios
-      .put(`${API_ENDPOINT}lesson/${lessonId}/`, formData, config)
-      .then((response) => {
-        toast.success('Clase actualizada exitosamente');
-      })
-     .catch((error) => {
-        handleApiError(error, {
-          detail: 'Ha ocurrido un error al actualizar la clase.',
-          capacity: 'Error: el número de alumnos no debe superar a la capacidad.',
-          start_date: 'Error: la fecha de inicio no puede ser en el pasado.',
-          end_date: 'Error: la fecha de fin no puede ser anterior a la de inicio.',
-          students: 'Error: hay estudiantes que no pertenecen a este turno',
-        });
+    .patch(`${API_ENDPOINT}lesson/${lessonId}/`, formData, config) 
+    .then((response) => {
+      toast.success('Clase actualizada exitosamente');
+    })
+    .catch((error) => {
+      handleApiError(error, {
+        detail: 'Ha ocurrido un error al actualizar la clase.',
+        capacity: 'Error: el número de alumnos no debe superar a la capacidad.',
+        start_date: 'Error: la fecha de inicio no puede ser en el pasado.',
+        end_date: 'Error: la fecha de fin no puede ser anterior a la de inicio.',
+        students: 'Error: hay estudiantes que no pertenecen a este turno',
       });
+    });
   };
   
 
