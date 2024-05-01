@@ -74,7 +74,7 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     try {
       const path = personType === 'Voluntarios' ? `volunteer/${person.volunteer}` : `student/${person.id}`;
       const status = action === 'aceptar' ? "ACEPTADO" : "RECHAZADO";
-      if (personType !== 'Voluntarios') {
+      if (personType !== 'Voluntarios' && action === 'aceptar') {
         const today = new Date()
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
