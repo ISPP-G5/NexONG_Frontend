@@ -51,7 +51,6 @@ const CalendarCard = ({ profile, selected }) => {
         volunteerId: ''
       });
     const [showRegisterForm, setShowRegisterForm] = useState(false);
-    const [studentFamily, setStudentFamily] = useState([]);
     const [lessonAttendance, setLessonAttendance] = useState([]);
 
     useEffect(() => {
@@ -148,6 +147,7 @@ const CalendarCard = ({ profile, selected }) => {
                         description: activity.description,
                         place: activity.place,
                         max_volunteers: activity.max_volunteers,
+                        max_attendees: activity.max_attendees,
                         start: startDate,
                         end: endDate,
                         type: type,
@@ -158,8 +158,8 @@ const CalendarCard = ({ profile, selected }) => {
                         url: activity.url
                 })
                 continue
-            }
-            var schedule = schedules.find(schedule => schedule.lesson === activity.id)
+            }else{
+                var schedule = schedules.find(schedule => schedule.lesson === activity.id)
 
             startDate = getNextWeekday(startDate, schedule.weekday)
 
@@ -185,6 +185,7 @@ const CalendarCard = ({ profile, selected }) => {
                 startDate.setDate(startDate.getDate() + 7)
                 start = setCustomTime(startDate, schedule.start_time)
                 end = setCustomTime(startDate, schedule.end_time) 
+            }
             }
         }
 
@@ -217,8 +218,6 @@ const CalendarCard = ({ profile, selected }) => {
                 newActivities = [...newActivities, ...await fetchAndMapActivities('event/', 'event')];
                 newActivities = [...newActivities, ...await fetchAndMapActivities('lesson-event/', 'lesson-event')];
                 
-                console.log(await fetchAndMapActivities('lesson-event/', 'lesson-event'));
-                
                 const lessonResponse = await fetchData('lesson/', activity => 
                 moment(activity.end_date).isAfter(moment()));
                 newActivities = [...newActivities, ...mapActivities(lessonResponse, 'lesson')];
@@ -234,7 +233,6 @@ const CalendarCard = ({ profile, selected }) => {
                     const studentResponse = await fetchData('student/', student => student.family === familyId);
                     if (studentResponse) {
                         const studentFamily = studentResponse.map(student => student.id);
-                        setStudentFamily(studentFamily);
             
                         let newActivities = [];
         
@@ -285,33 +283,59 @@ const CalendarCard = ({ profile, selected }) => {
             return;
           }
           const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
+          console.log(updatedVolunteers);
           if (updatedVolunteers.length > selectedEvent.max_volunteers) {
             toast.error('El número de voluntarios excede el límite máximo permitido.');
             return;
           }
-          console.log('Registering volunteer for:', selectedEvent);
-          try {
-            const response = await axios.put(`${API_ENDPOINT}${selectedEvent.lesson ? 'lesson-event' : 'event'}/${selectedEvent.id}/`, {
-              id: selectedEvent.id,
-              name: selectedEvent.title,
-              description: selectedEvent.description,
-              place: selectedEvent.place,
-              max_volunteers: selectedEvent.max_volunteers,
-              max_attendees: selectedEvent.max_attendees,
-              start_date: selectedEvent.start,
-              end_date: selectedEvent.end,
-              price: selectedEvent.price,
-              attendees: selectedEvent.attendees,
-              volunteers: updatedVolunteers,
-              url: selectedEvent.url
-            }, config);
-            console.log('Registered volunteer for:', selectedEvent);
-            setShowRegisterForm(false);
-            toast.success('Se ha unido correctamente');
-            window.location.reload(true);
-          } catch (error) {
-            console.error('Error when registering the volunteer:', error);
-            toast.error('Hubo un error al unirse a la clase.');
+          console.log(selectedEvent);
+          if (selectedEvent.type === 'event') {
+            try {
+                await axios.put(`${API_ENDPOINT}event/${selectedEvent.id}/`, {
+                    id: selectedEvent.id,
+                    name: selectedEvent.title,
+                    description: selectedEvent.description,
+                    place: selectedEvent.place,
+                    max_volunteers: selectedEvent.max_volunteers,
+                    max_attendees: selectedEvent.max_attendees,
+                    start_date: selectedEvent.start,
+                    end_date: selectedEvent.end,
+                    price: selectedEvent.price,
+                    attendees: selectedEvent.attendees,
+                    volunteers: updatedVolunteers,
+                    url: selectedEvent.url
+                }, config);
+                setShowRegisterForm(false);
+                toast.success('Se ha unido correctamente');
+                window.location.reload(true);
+              } catch (error) {
+                console.error('Error when registering the volunteer:', error);
+                toast.error('Hubo un error al unirse a la clase.');
+              }
+          }else if (selectedEvent.type === 'lesson-event') {
+            try {
+                await axios.put(`${API_ENDPOINT}lesson-event/${selectedEvent.id}/`, {
+                  id: selectedEvent.id,
+                  name: selectedEvent.title,
+                  description: selectedEvent.description,
+                  place: selectedEvent.place,
+                  max_volunteers: selectedEvent.max_volunteers,
+                  start_date: selectedEvent.start,
+                  end_date: selectedEvent.end,
+                  lesson: selectedEvent.lesson,
+                  price: selectedEvent.price,
+                  educators: selectedEvent.educators,
+                  attendees: selectedEvent.attendees,
+                  volunteers: updatedVolunteers,
+                  url: selectedEvent.url
+                }, config);
+                setShowRegisterForm(false);
+                toast.success('Se ha unido correctamente');
+                window.location.reload(true);
+              } catch (error) {
+                console.error('Error when registering the volunteer:', error);
+                toast.error('Hubo un error al unirse a la clase.');
+              }
           }
         } else if(selectedEvent.type === 'lesson'){
           const newAttendance = {
@@ -319,10 +343,8 @@ const CalendarCard = ({ profile, selected }) => {
             volunteer: currentUser.volunteerId,
             date: moment().format('YYYY-MM-DD')
           };
-          console.log(newAttendance);
           try {
-            const response = await axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config);
-            console.log('Registered volunteer for:', selectedEvent);
+            await axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config);
             setShowRegisterForm(false);
             toast.success('Se ha unido correctamente');
             window.location.reload(true);
@@ -346,14 +368,6 @@ const CalendarCard = ({ profile, selected }) => {
             } else if (event.type === 'event') {
                 backgroundColor = EventColor; 
             } 
-            const style = {
-                backgroundColor: backgroundColor,
-                borderRadius: '0px',
-                opacity: 0.8,
-                color: 'black',
-                border: '0px',
-                display: 'block'
-            };
             return {
                 style: {
                     backgroundColor
@@ -363,12 +377,10 @@ const CalendarCard = ({ profile, selected }) => {
         let backgroundColor;
         if (event.type === 'event') { 
             backgroundColor = EventColor;
-            console.log(event.volunteers);
             if(event.volunteers.includes(currentUser.volunteerId)){
                 backgroundColor = 'purple';
             }
         } else if (event.type === 'lesson-event') {
-            console.log('evento de leccion');
             backgroundColor = lessonEventColor; 
             if(event.volunteers.includes(currentUser.volunteerId)){
                 backgroundColor = 'purple';
