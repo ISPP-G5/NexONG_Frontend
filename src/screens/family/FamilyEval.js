@@ -47,6 +47,7 @@ function FamilyEval() {
         request={false}
         lessons={lessons}
         type = {"Evaluación " + tipoTiempo}
+        tiempo = {tiempo}
       />
     </div>
   );
