@@ -34,6 +34,16 @@ const VolunteersAttendance = () => {
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
+    axios.get(`${API_ENDPOINT}lesson-attendance/`, config)
+      .then(response => {
+          setLessonAttendance(response.data);
+      }) 
+      .catch (error => {
+          console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
     axios.get(`${API_ENDPOINT}auth/users/me/`, config)
       .then(response => {
           setCurrentUser({
@@ -43,17 +53,6 @@ const VolunteersAttendance = () => {
       .catch(error => {
         console.error(error);
       });
-
-    const fetchLessonAttendance = async () => {
-      try {
-          const response = await axios.get(`${API_ENDPOINT}lesson-attendance/`, config);
-          setLessonAttendance(response.data);
-      } catch (error) {
-          console.error(error);
-      }
-    };
-    fetchLessonAttendance();
-
     const fetchAndSetSchedule = async () => {
       const response = await axios.get(`${API_ENDPOINT}schedule/`, config);
       if (response) {
@@ -63,79 +62,80 @@ const VolunteersAttendance = () => {
   fetchAndSetSchedule();
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (lessonAttendance.length > 0) {
       axios.get(`${API_ENDPOINT}event/`, config)
         .then(response => {
           const filteredEvents = response.data.filter(activity => moment(activity.start_date).isAfter(moment()) && 
-                                                                activity.volunteers.includes(currentUser.volunteerId));
-          setEventsList(filteredEvents.map(activity => ({
-              name: activity.name,
-              start_date: new Date(activity.start_date),
-              end_date: new Date(activity.end_date),
-              id: activity.id,
-              description: activity.description,
-              place: activity.place,
-              max_volunteers: activity.max_volunteers,
-              max_attendees: activity.max_attendees,
-              price: activity.price,
-              attendees: activity.attendees,
-              volunteers: activity.volunteers,
-              url: activity.url,
-              type: 'event'
-          })));
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-        axios.get(`${API_ENDPOINT}lesson-event/`, config)
-        .then(response => {
-          const filteredEvents = response.data.filter(activity => moment(activity.start_date).isAfter(moment()) &&
                                                                   activity.volunteers.includes(currentUser.volunteerId));
-          setEventsList(prevEvents => [...prevEvents, ...filteredEvents.map(activity => ({
-            id: activity.id,
+          setEventsList(filteredEvents.map(activity => ({
             name: activity.name,
+            start_date: new Date(activity.start_date),
+            end_date: new Date(activity.end_date),
+            id: activity.id,
             description: activity.description,
             place: activity.place,
             max_volunteers: activity.max_volunteers,
-            start_date: new Date(activity.start_date),
-            end_date: new Date(activity.end_date),          
-            lesson: activity.lesson,
+            max_attendees: activity.max_attendees,
             price: activity.price,
-            educators: activity.educators,
             attendees: activity.attendees,
             volunteers: activity.volunteers,
             url: activity.url,
-            type: 'lesson-event'
-          }))]);
-        })
-        .catch(error => {
-          console.error(error);
-        } );
+            type: 'event'
+          })));
+          })
+          .catch(error => {
+            console.error(error);
+          });
 
-        axios.get(`${API_ENDPOINT}lesson/`, config)
-        .then(response => {
-          const filteredEvents = response.data.filter(activity => moment(activity.end_date).isAfter(moment()) &&
-          lessonAttendance.some(attendance => attendance.lesson === activity.id && attendance.volunteer === currentUser.volunteerId));
-          setEventsList(prevEvents => [...prevEvents, ...filteredEvents.map(activity => ({
-            id: activity.id,
-            name: activity.name,
-            description: activity.description,
-            capacity: activity.capacity,
-            is_morning_lesson: activity.is_morning_lesson,
-            start_date: new Date(activity.start_date),
-            end_date: new Date(activity.end_date),          
-            educator: activity.educator,
-            students: activity.students,
-            url: activity.url,
-            type: 'lesson'
-          }))]);
-        })
-        .catch(error => {
-          console.error(error);
-        } );
-        
-    }, [userId,currentUser.volunteerId,lessonAttendance]);
+          axios.get(`${API_ENDPOINT}lesson-event/`, config)
+          .then(response => {
+            const filteredEvents = response.data.filter(activity => moment(activity.start_date).isAfter(moment()) &&
+                                                                    activity.volunteers.includes(currentUser.volunteerId));
+            setEventsList(prevEvents => [...prevEvents, ...filteredEvents.map(activity => ({
+              id: activity.id,
+              name: activity.name,
+              description: activity.description,
+              place: activity.place,
+              max_volunteers: activity.max_volunteers,
+              start_date: new Date(activity.start_date),
+              end_date: new Date(activity.end_date),          
+              lesson: activity.lesson,
+              price: activity.price,
+              educators: activity.educators,
+              attendees: activity.attendees,
+              volunteers: activity.volunteers,
+              url: activity.url,
+              type: 'lesson-event'
+            }))]);
+          })
+          .catch(error => {
+            console.error(error);
+          } );
+
+          axios.get(`${API_ENDPOINT}lesson/`, config)
+          .then(response => {
+            const filteredEvents = response.data.filter(activity => moment(activity.end_date).isAfter(moment()) &&
+            lessonAttendance.some(attendance => attendance.lesson === activity.id && attendance.volunteer === currentUser.volunteerId));
+            setEventsList(prevEvents => [...prevEvents, ...filteredEvents.map(activity => ({
+              id: activity.id,
+              name: activity.name,
+              description: activity.description,
+              capacity: activity.capacity,
+              is_morning_lesson: activity.is_morning_lesson,
+              start_date: new Date(activity.start_date),
+              end_date: new Date(activity.end_date),          
+              educator: activity.educator,
+              students: activity.students,
+              url: activity.url,
+              type: 'lesson'
+            }))]);
+          })
+          .catch(error => {
+            console.error(error);
+          } );
+      }
+    }, [userId,currentUser.volunteerId]);
 
     const handleDeleteConfirmation = (event) => {
       setDeleteConfirmation({
