@@ -116,14 +116,13 @@ const CalendarCard = ({ profile, selected }) => {
         }
 
         var res = []
-        const isLesson = type === 'lesson'
         
         for (var i = 0; i < activities.length; i++) {
             var activity = activities[i];
             var startDate = new Date(activity.start_date)
             var endDate = new Date(activity.end_date)
 
-            if (!isLesson) {
+            if (type === 'event' || type === 'lesson-event') {
                 res.push({
                         id: activity.id,
                         title: activity.name,
@@ -141,34 +140,34 @@ const CalendarCard = ({ profile, selected }) => {
                         url: activity.url
                 })
                 continue
-            }else{
+            }else if(type === 'lesson'){
                 var schedule = schedules.find(schedule => schedule.lesson === activity.id)
 
-            startDate = getNextWeekday(startDate, schedule.weekday)
+                startDate = getNextWeekday(startDate, schedule.weekday)
 
-            var start = setCustomTime(startDate, schedule.start_time)
-            var end = setCustomTime(startDate, schedule.end_time)
-            while (end < endDate) {
-                res.push({
-                    id: activity.id,
-                    title: activity.name,
-                    description: activity.description,
-                    place: activity.place,
-                    max_volunteers: activity.max_volunteers,
-                    start: new Date(start),
-                    end: new Date(end),
-                    type: type,
-                    price: activity.price,
-                    educators: activity.educators,
-                    attendees: activity.attendees,
-                    volunteers: activity.volunteers,
-                    url: activity.url
-                })
+                var start = setCustomTime(startDate, schedule.start_time)
+                var end = setCustomTime(startDate, schedule.end_time)
+                while (end < endDate) {
+                    res.push({
+                        id: activity.id,
+                        title: activity.name,
+                        description: activity.description,
+                        place: activity.place,
+                        max_volunteers: activity.max_volunteers,
+                        start: new Date(start),
+                        end: new Date(end),
+                        type: type,
+                        price: activity.price,
+                        educators: activity.educators,
+                        attendees: activity.attendees,
+                        volunteers: activity.volunteers,
+                        url: activity.url
+                    })
 
-                startDate.setDate(startDate.getDate() + 7)
-                start = setCustomTime(startDate, schedule.start_time)
-                end = setCustomTime(startDate, schedule.end_time) 
-            }
+                    startDate.setDate(startDate.getDate() + 7)
+                    start = setCustomTime(startDate, schedule.start_time)
+                    end = setCustomTime(startDate, schedule.end_time) 
+                }
             }
         }
 
