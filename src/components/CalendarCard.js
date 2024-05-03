@@ -12,26 +12,9 @@ import '../styles/styles.css';
 import LayoutProfiles from './LayoutProfiles';
 import { ToastContainer, toast } from 'react-toastify';
 import useToken from './useToken';
+import useStyles from './StylesCalendar';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: theme.spacing(4),
-    },
-
-    calendarContainer: {
-        flex: 1,
-        position: 'relative',
-        minHeight: '20rem',
-        marginTop: '2rem',
-        overflow: 'hidden',
-        width: '90%',
-    },
-}));
 
 const CalendarCard = ({ profile, selected }) => {
     Globalize.culture('es');
@@ -289,22 +272,39 @@ const CalendarCard = ({ profile, selected }) => {
             return;
           }
           console.log(selectedEvent);
-          if (selectedEvent.type === 'event') {
             try {
-                await axios.put(`${API_ENDPOINT}event/${selectedEvent.id}/`, {
-                    id: selectedEvent.id,
-                    name: selectedEvent.title,
-                    description: selectedEvent.description,
-                    place: selectedEvent.place,
-                    max_volunteers: selectedEvent.max_volunteers,
-                    max_attendees: selectedEvent.max_attendees,
-                    start_date: selectedEvent.start,
-                    end_date: selectedEvent.end,
-                    price: selectedEvent.price,
-                    attendees: selectedEvent.attendees,
-                    volunteers: updatedVolunteers,
-                    url: selectedEvent.url
-                }, config);
+                if (selectedEvent.type === 'event') {
+                    await axios.put(`${API_ENDPOINT}event/${selectedEvent.id}/`, {
+                        id: selectedEvent.id,
+                        name: selectedEvent.title,
+                        description: selectedEvent.description,
+                        place: selectedEvent.place,
+                        max_volunteers: selectedEvent.max_volunteers,
+                        max_attendees: selectedEvent.max_attendees,
+                        start_date: selectedEvent.start,
+                        end_date: selectedEvent.end,
+                        price: selectedEvent.price,
+                        attendees: selectedEvent.attendees,
+                        volunteers: updatedVolunteers,
+                        url: selectedEvent.url
+                    }, config);
+                }else if (selectedEvent.type === 'lesson-event') {
+                    await axios.put(`${API_ENDPOINT}lesson-event/${selectedEvent.id}/`, {
+                        id: selectedEvent.id,
+                        name: selectedEvent.title,
+                        description: selectedEvent.description,
+                        place: selectedEvent.place,
+                        max_volunteers: selectedEvent.max_volunteers,
+                        start_date: selectedEvent.start,
+                        end_date: selectedEvent.end,
+                        lesson: selectedEvent.lesson,
+                        price: selectedEvent.price,
+                        educators: selectedEvent.educators,
+                        attendees: selectedEvent.attendees,
+                        volunteers: updatedVolunteers,
+                        url: selectedEvent.url
+                      }, config);
+                }
                 setShowRegisterForm(false);
                 toast.success('Se ha unido correctamente');
                 window.location.reload(true);
@@ -312,31 +312,7 @@ const CalendarCard = ({ profile, selected }) => {
                 console.error('Error when registering the volunteer:', error);
                 toast.error('Hubo un error al unirse a la clase.');
               }
-          }else if (selectedEvent.type === 'lesson-event') {
-            try {
-                await axios.put(`${API_ENDPOINT}lesson-event/${selectedEvent.id}/`, {
-                  id: selectedEvent.id,
-                  name: selectedEvent.title,
-                  description: selectedEvent.description,
-                  place: selectedEvent.place,
-                  max_volunteers: selectedEvent.max_volunteers,
-                  start_date: selectedEvent.start,
-                  end_date: selectedEvent.end,
-                  lesson: selectedEvent.lesson,
-                  price: selectedEvent.price,
-                  educators: selectedEvent.educators,
-                  attendees: selectedEvent.attendees,
-                  volunteers: updatedVolunteers,
-                  url: selectedEvent.url
-                }, config);
-                setShowRegisterForm(false);
-                toast.success('Se ha unido correctamente');
-                window.location.reload(true);
-              } catch (error) {
-                console.error('Error when registering the volunteer:', error);
-                toast.error('Hubo un error al unirse a la clase.');
-              }
-          }
+
         } else if(selectedEvent.type === 'lesson'){
           const newAttendance = {
             lesson: selectedEvent.id,

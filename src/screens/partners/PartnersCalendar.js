@@ -5,33 +5,17 @@ import axios from 'axios';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import useToken from '../../components/useToken';
-import {makeStyles }from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import useStyles from '../../components/StylesCalendar';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const localizer = momentLocalizer(moment);
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(4),
-  },
 
-  calendarContainer: {
-    flex: 1,
-    position: 'relative',
-    minHeight: '20rem',
-    marginTop: '2rem',
-    overflow: 'hidden',
-    width: '90%',
-  },
-}));
 const PartnersCalendar = () => {
   const [token, updateToken] = useToken();
   const config = {
