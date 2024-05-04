@@ -79,7 +79,21 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     try {
       const path = personType === 'Voluntarios' ? `volunteer/${person.volunteer}` : `student/${person.id}`;
       const status = action === 'aceptar' ? "ACEPTADO" : "RECHAZADO";
-      await axios.patch(`${API_ENDPOINT}${path}/`, {status}, config);
+      if (personType !== 'Voluntarios' && action === 'aceptar') {
+        const today = new Date()
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const date = `${year}-${month}-${day}`;
+        const data = {
+          status:status,
+          acceptance_date: date
+        }
+        console.log(data);
+        await axios.patch(`${API_ENDPOINT}${path}/`, data, config);
+      } else {
+        await axios.patch(`${API_ENDPOINT}${path}/`, {status}, config);
+      }
       toast.success(`Persona ${status.toLowerCase()} correctamente`, { autoClose: 5000 });
       setTimeout(() => window.location.reload(), 2000); 
     } catch (error) {
