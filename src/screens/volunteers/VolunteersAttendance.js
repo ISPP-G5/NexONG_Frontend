@@ -145,37 +145,44 @@ const VolunteersAttendance = () => {
     });
   };
 
-  const handleDeleteVolunteer = async () => {
-    try {
-      let url = `${API_ENDPOINT}${deleteConfirmation.event.lesson ? 'lesson-event' : 'event'}/${deleteConfirmation.event.id}/`;
-      let data = { ...deleteConfirmation.event };
-
-      if (deleteConfirmation.event.type === 'lesson') {
-        const attendanceId = lessonAttendance.find(attendance =>
-          attendance.lesson === deleteConfirmation.event.id && attendance.volunteer === currentUser.volunteerId
-        ).id;
-        url = `${API_ENDPOINT}lesson-attendance/${attendanceId}`;
-      } else {
-        const updatedVolunteers = deleteConfirmation.event.volunteers.filter(volunteer =>
-          volunteer !== currentUser.volunteerId
-        );
-        data.volunteers = updatedVolunteers;
-      }
-
-      const response = await axios.put(url, data, config);
-      toast.success('Se ha eliminado correctamente');
-      setDeleteConfirmation({
-        open: false,
-        event: null
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    } catch (error) {
-      console.error('Error al eliminar el voluntario:', error);
-      toast.error('Error al eliminar el voluntario');
-      setDeleteConfirmation({ open: false, event: null });
-    }
+  const handleDeleteVolunteer = () => {
+    if (deleteConfirmation.event.type === 'lesson-event' || deleteConfirmation.event.type === 'event') {
+      const updatedVolunteers = deleteConfirmation.event.volunteers.filter(volunteer => volunteer !== currentUser.volunteerId);
+      axios.put(`${API_ENDPOINT}${deleteConfirmation.event.lesson ? 'lesson-event' : 'event'}/${deleteConfirmation.event.id}/`, { ...deleteConfirmation.event, volunteers: updatedVolunteers }, config)
+          .then(response => {
+              toast.success('Se ha eliminado correctamente');
+              setDeleteConfirmation({
+                  open: false,
+                  event: null
+              });
+              setTimeout(() => {
+                  window.location.reload();
+              }, 1000);
+          })
+          .catch(error => {
+              console.error('Error al eliminar el voluntario:', error);
+              toast.error('Error al elimninar el voluntario')
+              setDeleteConfirmation({ open: false, event: null })
+          });
+    }else if (deleteConfirmation.event.type === 'lesson') {
+      const attendanceId = lessonAttendance.find(attendance => attendance.lesson === deleteConfirmation.event.id && attendance.volunteer === currentUser.volunteerId).id;
+      axios.delete(`${API_ENDPOINT}lesson-attendance/${attendanceId}`, config)
+          .then(response => {
+              toast.success('Se ha eliminado correctamente');
+              setDeleteConfirmation({
+                  open: false,
+                  event: null
+              });
+              setTimeout(() => {
+                  window.location.reload();
+              }, 1000);
+          })
+          .catch(error => {
+              console.error('Error al eliminar el voluntario:', error);
+              toast.error('Error al elimninar el voluntario')
+              setDeleteConfirmation({ open: false, event: null })
+          });
+        }
   };
 
   return (
