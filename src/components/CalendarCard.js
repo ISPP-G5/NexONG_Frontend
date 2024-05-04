@@ -321,7 +321,7 @@ const CalendarCard = ({ profile, selected }) => {
           try {
             await axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config);
             setShowRegisterForm(false);
-            toast.success('Se ha unido correctamente');
+            toast.success('Se ha unido correctamente, se une a todas las clases de esta lección.');
             window.location.reload(true);
           } catch (error) {
             console.error('Error when registering the volunteer:', error);
