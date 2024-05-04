@@ -14,10 +14,6 @@ function LessonEventCard({ lessonEvent, kids }) {
   const [isAuthorized, setIsAuthorized] = useState(false); 
   const lesson = lessonEvent.lesson;
   
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
   const handleStudentChange = (event) => {
     setSelectedStudentId(event.target.value);
   };
@@ -61,10 +57,10 @@ function LessonEventCard({ lessonEvent, kids }) {
   };
 
   return (
-    <div className='card-info'>
+    <div className='lesson-event-card'>
       <ToastContainer autoClose={5000} />
       
-      <div className='lessonEvent-info'>
+      <div className='lesson-event-info'>
         <p><strong>Nombre del evento:</strong></p>
         <p>{lessonEvent.name}</p>
         <p><strong>Descripción:</strong></p>
@@ -73,22 +69,19 @@ function LessonEventCard({ lessonEvent, kids }) {
         <p>{formattedDateStart}</p>
         <p><strong>Fecha de fin:</strong></p>
         <p>{formattedDateEnd}</p>
+      </div>
+      <div className='lesson-event-info'>
         <p><strong>Para registrar a un alumno:</strong></p>
-        <p>Añada el fichero de autorización (en PDF)</p>
-        <input 
-          type="file" 
-          id="file" 
-          onChange={handleFileChange} 
-          className="file-input" 
-          style={{display: 'none'}}
-        />
-        <label htmlFor="file" className="file-upload-button">
-          Selecciona un archivo
-        </label>
-        {selectedFile && <p className="file-input-label">{selectedFile.name}</p>}
-        {!selectedFile && <p className="file-input-label">{""}</p>}
-        <p>Escoja al alumno elegido</p>
-        <select value={selectedStudentId} onChange={handleStudentChange} className="select-style">
+        <p>Añada el fichero de autorización (en PDF): </p>
+        <div className='lesson-event-file'>
+          <input 
+            type="file" 
+            id="file" 
+            onChange={(e) => setSelectedFile(e.target.files[0])} 
+          />
+        </div>
+        <p>Escoja al alumno elegido: </p>
+        <select value={selectedStudentId} onChange={handleStudentChange} style={{height: 'min-content'}}>
             <option value="">Selecciona un estudiante</option>
             {kids.map((student) => (
               <option key={student.id} value={student.id}>
@@ -97,17 +90,21 @@ function LessonEventCard({ lessonEvent, kids }) {
             ))}
         </select>
       
-        <div className='register-container-checkbox'>
+        <div className='register-container-checkbox' style={{marginTop: '3%'}}>
           <input
             type="checkbox"
             id="authorizedCheckbox"
             checked={isAuthorized}
             onChange={handleCheckboxChange}
           />
-          <label htmlFor="authorizedCheckbox" >Confirmar asistencia</label>
+          <label style={{color: 'black'}} htmlFor="authorizedCheckbox" >Confirmar asistencia</label>
         </div>
-
-        <button className="button-create" onClick={handleFileUpload}>Mandar autorización</button>
+        <button 
+          className="button-contrast" 
+          style={{marginTop: '3%', width: '50%'}}
+          onClick={handleFileUpload}>
+            Mandar autorización
+        </button>
       </div> 
     </div>
   );

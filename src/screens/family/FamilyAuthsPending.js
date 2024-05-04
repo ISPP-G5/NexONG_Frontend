@@ -12,7 +12,7 @@ const pantallas = [
     selected: false,
   },
   {
-    pantalla: 'Eventos disponibles',
+    pantalla: 'Autorizaciones pendientes',
     link: '/familia/autorizaciones/pendientes',
     selected: true,
   },
@@ -23,7 +23,6 @@ function FamilyAuths() {
   const userLesson_Events = useFetchMyLessonEvents(API_ENDPOINT, userId);
   const myKids = useFetchMyKids(API_ENDPOINT, userId);
   return (
-    <>
     <ShowType 
       data={userLesson_Events}
       kids={myKids}
@@ -31,7 +30,6 @@ function FamilyAuths() {
       pantallas={pantallas}
       request={false}
     />
-  </>
   );
 }
 

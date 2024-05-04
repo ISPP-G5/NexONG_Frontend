@@ -130,9 +130,7 @@ const AdminLessons = () => {
           />
         ))
       ):(
-        <div className="centered-message">
-        <p>No hay ninguna clase creada</p>
-      </div>
+        <p className='no-info'>No hay ninguna clase creada</p>
       )}
       </div>
       <Dialog open={lessonToDelete !== null} onClose={() => setLessonToDelete(null)}>

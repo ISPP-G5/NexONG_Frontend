@@ -198,7 +198,7 @@ function ChildForm() {
       selected={''}
     >
       <ToastContainer />
-      <form className='register-container' onSubmit={handleSubmit}>
+      <form className='register-container admin' onSubmit={handleSubmit}>
         <h2>Registro de hijo</h2>
         <p>Necesitamos algunos datos y documentos para completar el registro de su hijo</p>
 
@@ -324,7 +324,7 @@ function ChildForm() {
         </div>
         {formDataErrors.sanitaryCard && <div  style={{color:'red'}}>{formDataErrors.sanitaryCard}</div>}
 
-        <button type='submit' className='register-button' style={{  backgroundColor: "#f8f8f8",   border: "2px solid #a6c1ce"}}>
+        <button type='submit' className='register-button'>
           Enviar
         </button>
       </form>

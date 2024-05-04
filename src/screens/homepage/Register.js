@@ -122,50 +122,37 @@ function Register() {
         toast.error("Introduzca una contraseña")
     } else if (!constantTimeComparison(password, confirmPassword)){
         toast.error("Las contraseñas no coinciden")
-      }
-      else if(!first_name.match(letters) || !first_name.match(letters)) {
-          toast.error('Nombre y apellido no puede contener números');
-          return;
-      } 
-      else if (!isFamilyChecked && !isVolunteerChecked && !isPartnerChecked) {
+    } else if(!first_name.match(letters) || !first_name.match(letters)) {
+        toast.error('Nombre y apellido no puede contener números');
+        return;
+    } else if (!isFamilyChecked && !isVolunteerChecked && !isPartnerChecked) {
         toast.error("Debe elegir una de las opciones: familia, voluntario o socio");
-      }
-      else if (!phoneFormat.test(phone)) {
+    } else if (!phoneFormat.test(phone)) {
         toast.error('Formato de teléfono incorrecto');
         return;
-       }
-     else if (!emailFormat.test(email)) {
-      toast.error('Formato de correo inválido');
-      return;
-     }
-      else if(first_name.length>75){
+    } else if (!emailFormat.test(email)) {
+        toast.error('Formato de correo inválido');
+        return;
+    } else if(first_name.length>75){
         toast.error("Indica un nombre, no debe superar 75 caráteres")
-    }
-    else if (!idNumber.match(spanishIdFormat)) {
-      toast.error('Formato de identificación inválido');
-      return;
-    }
-    else if (password.length < 8) {
-      toast.error('La contraseña debe tener 8 caracteres mínimo');
-      return;
-  }else if (!/\D/.test(password)) {
-    toast.error('La contraseña no puede ser solo números');
-    return;
-  }else if  (commonPasswords.includes(password)) {
-    toast.error('Contraseña demasiado común');
-    return;
-  }  
-  
-    else if(surname.length>75){
+    } else if (!idNumber.match(spanishIdFormat)) {
+        toast.error('Formato de identificación inválido');
+        return;
+    } else if (password.length < 8) {
+        toast.error('La contraseña debe tener 8 caracteres mínimo');
+        return;
+    } else if (!/\D/.test(password)) {
+        toast.error('La contraseña no puede ser solo números');
+        return;
+    } else if  (commonPasswords.includes(password)) {
+        toast.error('Contraseña demasiado común');
+        return;
+    } else if(surname.length>75){
         toast.error("Indica un nombre, no debe superar 75 caráteres")
-    }
-   else if (!isAgreedChecked){
-    toast.error("Acepte los términos y condiciones")
-    }
-
-    
-    else {
-      const username = `${first_name} ${surname}`;
+    } else if (!isAgreedChecked){
+        toast.error("Acepte los términos y condiciones")
+    } else {
+        const username = `${first_name} ${surname}`;
 
         const userData = new FormData();
         userData.append('first_name', first_name);
@@ -178,7 +165,6 @@ function Register() {
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : isPartnerChecked ? 'SOCIO' : 'FAMILIA');
         userData.append('is_agreed', isAgreedChecked);
         userData.append('is_enabled', false);
-        console.log('username',username)
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 

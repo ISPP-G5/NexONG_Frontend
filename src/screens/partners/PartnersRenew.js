@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import HeaderProfiles from '../../components/HeaderProfiles';
-import useAdjustMargin from '../../components/useAdjustMargin';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import useToken from '../../components/useToken';
-import IBAN from 'iban';
 import LayoutProfiles from '../../components/LayoutProfiles';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PartnersRenew() {
   const [token, updateToken] = useToken();
-  const [user, setUser] = useState({});
   const [donationId, setDonationId] = useState(null); // Initialize donationId as null
 
   const config_partner = {

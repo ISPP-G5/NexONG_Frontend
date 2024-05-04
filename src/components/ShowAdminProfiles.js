@@ -35,9 +35,7 @@ function ShowType({ data, type, pantallas, download = false, kids, request = fal
                     />
                 ))
             ) : (
-                <div className= "centered-message">
-                <p>{message}</p>
-                </div>
+                <p className='no-info'>{message}</p>
             )}
         </LayoutProfiles>
     );

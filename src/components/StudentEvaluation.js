@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import StudentCard from './StudentsCard';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+
+
 export default function StudentEvaluation({ students, evaluationTypes, evaluation, grade, handleGradeChange, comment, handleCommentChange, selectedDate, handleDateChange, email, phone, handleSubmit, handleCloseModal,handleCloseEvaluacionModal2, handleCloseEvaluacionModal1,handleCloseInfoModal, selectedStudent, getStudentEvaluation, showEditModal, showInfoModal, showEvaluacionModal2, showEvaluacionModal1, handleEvaluationChange, handleEdit, handleInfo, handleEvaluacion1, handleEvaluacion2,lessons }) {
   const inputStyle = {
     boxSizing: 'none',
@@ -69,9 +71,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
          );
         })
       ) : (
-        <div className= "centered-message">
-          <p>Por favor, selecciona una clase.</p>
-       </div>   
+        <p className='no-info'>Por favor, selecciona una clase.</p>
 )}
  
 {showEditModal && (

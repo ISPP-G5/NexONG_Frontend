@@ -250,7 +250,7 @@ function VolunteerForm() {
 
         {isUnder18 && (
           <>
-            <label>Autorización del padre/madre/tutor/a</label>
+            <label className='long-label'>Autorización del padre/madre/tutor/a</label>
             <div className='register-container-files'>
               <a 
                 className='button-contrast-files' 
@@ -262,7 +262,7 @@ function VolunteerForm() {
                 onChange={(e) => setMinorAuthorization(e.target.files[0])}  
               />
             </div>
-            <label>Fotocopia de DNI del padre/madre/tutor/a</label>
+            <label className='long-label'>Fotocopia de DNI del padre/madre/tutor/a</label>
             <div className='register-container-files'>
               <input 
                 type='file' 
