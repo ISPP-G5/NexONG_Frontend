@@ -164,88 +164,6 @@ textarea {
     margin: 0 auto;
 }
 
-/********************* FILE UPLOAD SECTION ******************/
-
-
-.file-input {
-    font-family: "Poppins", Helvetica;
-    color: #7c838a;
-    padding: 12px 20px;
-    margin-bottom: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 1rem;
-    width: 80%;
-    background-color: #f8f8f8;
-    cursor: pointer;
-}
-
-.file-input:hover,
-.file-input:focus {
-    border-color: #9ee5ff;
-    box-shadow: 0 0 0 2px rgba(158, 229, 255, 0.5);
-}
-
-.file-input-label {
-    font-family: "Poppins", Helvetica;
-    font-size: 1rem;
-    line-height: 1.75rem;
-    color: #000000;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.file-upload-button {
-    background-color: white;
-    color: black;
-    font-family: "Poppins", Helvetica;
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 12px 20px;
-    border: 2px solid #b7ecff;
-    border-radius: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.file-upload-button:hover {
-    background-color: #b7ecff;
-    box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24),
-        0 7px 25px 0 rgba(124, 124, 124, 0.24);
-}
-
-/********************* SELECT ******************/
-
-.select-style {
-    font-family: "Poppins", Helvetica;
-    color: black;
-    width: 100%;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 1rem;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    position: relative;
-    opacity: 1;
-    visibility: visible;
-}
-
-.select-style:focus {
-    outline: none;
-    border-color: #9ee5ff;
-    box-shadow: 0 0 0 2px rgba(158, 229, 255, 0.5);
-}
-
-/********************* CHECKBOX ******************/
-
-.checkbox-container-partner {
-  display: flex;
-  flex-direction: column; /* Stack checkboxes vertically */
-  cursor: pointer;
-}
-
 
 /********************* HEADER ******************/
 
@@ -330,13 +248,6 @@ textarea {
 
 .login {
     background-color: #cdf0fe;
-}
-
-.row {
-    text-align: right;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
 }
 
 /* PROFILES HEADER */
@@ -843,10 +754,6 @@ iframe {
     padding: 2%;
 }
 
-tbody tr:nth-child(odd) {
-    background-color: #fff;
-}
-
 .transparency tr:nth-child(even) {
     background-color: #fff;
 }
@@ -973,29 +880,6 @@ tbody tr:nth-child(odd) {
     }
 }
 
-/********************* DONACIONES ******************/
-
-.donations-table {
-    width: 100%;
-    margin-top: 7%;
-    margin-bottom: 2%;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-
-.donations-table-td {
-    border-right: 3px solid #b7ecff;
-    vertical-align: top;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-
-.donations-table-td ul {
-    color: #000;
-    text-align: justify;
-    margin-left: 10%;
-    margin-right: 10%;
-}
 
 /*********************** FORMS **********************/
 
@@ -1134,31 +1018,6 @@ tbody tr:nth-child(odd) {
     background-color: #b9b9b9;
     box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24),
         0 7px 25px 0 rgba(124, 124, 124, 0.24);
-}
-
-/* LOG OUT BUTTON */
-
-.prof-button {
-    background-color: #fcfdff;
-    font-family: "Poppins", Helvetica;
-    font-size: 20px;
-    font-weight: 500;
-    text-align: center;
-    justify-content: center;
-    height: 10px;
-    width: 20px;
-    padding: 2% 5% 2% 5%;
-    border: 2px solid #fcfdff;
-    border-radius: 1rem;
-    text-decoration: none;
-    margin-top: 2%;
-    margin-bottom: 4%;
-    margin-right: 5%;
-}
-
-.prof-button:hover {
-    cursor: pointer;
-    background-color: #fcfdff;
 }
 
 /********************* CARDS ******************/
@@ -1429,48 +1288,6 @@ tbody tr:nth-child(odd) {
     }
 }
 
-/* PARTNERS STYLES*/
-
-.partners-button-container {
-  position: absolute;
-  right: 15%;
-  top: 20rem;
-}
-
-.partners-button {
-  width: 70%;
-  max-width: 220px;
-  height: 6rem;
-  margin-bottom: 10%;
-  font-family: 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #000000;
-  background: #B7ECFF;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 1200px) {
-  .partners-button-container {
-    position: relative;
-    right: auto;
-    top: auto;
-    text-align: center;
-    left: 80%; /* Move buttons to the center */
-    transform: translateX(-50%); /* Center buttons */
-  }
-}
-
-
-
 
 /* BUTTONS CARD INFO */
 
@@ -1485,12 +1302,9 @@ tbody tr:nth-child(odd) {
     right: 5%;
 }
 
-@media (min-width: 1px) and (max-width: 768px) {
-    .buttons-requests {
-        position: static;
-        height: 15%;
-        width: 100%;
-    }
+.button-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 .button-contrast {
@@ -1561,27 +1375,22 @@ tbody tr:nth-child(odd) {
     box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }
 
-.button-edit {
-    background-color: #a7e6b3;
-    border-radius: 10px;
-    height: 40%;
-    width: 40%;
-    text-align: center;
-    margin-left: 100px;
-    margin-bottom: 10%;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 3% 5% 3% 5%;
-    color: #ffffff;
-    font-family: "Poppins", Helvetica;
-    border: 2px solid #a7e6b3;
+@media (min-width: 1px) and (max-width: 768px) {
+    .buttons-requests {
+        position: static;
+        height: 15%;
+        width: 100%;
+    }
+    .button-container {
+        flex-direction: column;
+    }
 }
 
-.button-decline:hover {
-    cursor: pointer;
-    background-color: #ff3c32;
-    box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
-}
+
+
+
+
+
 
 /********************* ICONS ******************/
 
@@ -1622,25 +1431,35 @@ tbody tr:nth-child(odd) {
     }
 }
 
+
+/* FAMILY SCREENS MESSAGE */
+
 .subtitle-style {
     line-height: 1.5;
     padding: 20px;
     text-align: justify;
-    width: 70%; /* Ancho predeterminado para pantallas grandes */
-    margin: 5% auto 0px; /* Centra el texto manteniendo el margen superior */
-    margin-left: 20%; /* Empuja el bloque de texto un poco más hacia la derecha */
-    overflow-wrap: break-word; /* Permite que las palabras largas se rompan y pasen a la siguiente línea */
+    width: 70%; 
+    margin: 5% auto 0px; 
+    margin-left: 20%; 
+    overflow-wrap: break-word; 
 }
 
-/* Media query para pantallas de menos de 768px (tabletas y móviles) */
 @media (max-width: 768px) {
     .subtitle-style {
-        width: 65%; /* Aumenta el ancho para dispositivos más pequeños */
-        margin: 7% auto; /* Ajusta el margen para mantener el texto centrado */
-        margin-left: 30%; /* Para móviles, empuja aún más el texto hacia la derecha */
-        padding: 10px; /* Reduce el padding para pantallas más pequeñas */
+        width: 65%; 
+        margin: 7% auto; 
+        margin-left: 30%; 
+        padding: 10px; 
     }
 }
+
+
+
+
+
+
+
+
 
 /********************* ADMIN LESSONS ******************/
 
@@ -1659,41 +1478,6 @@ tbody tr:nth-child(odd) {
     }
 }
 
-/* BOX */
-
-.box {
-    background-color: #cdf0fe;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px #9ee5ff;
-    padding: 3%;
-    position: relative;
-    height: 50%;
-    width: 40%;
-    margin: 2%;
-    justify-content: flex-start;
-    font-size: 20px;
-}
-
-@media (min-width: 1px) and (max-width: 768px) {
-    .box {
-        width: 100%;
-        font-size: 12px;
-        margin-bottom: 10%;
-    }
-}
-
-/* BOX BUTTON */
-
-.button-container {
-    display: flex;
-    justify-content: space-between;
-}
-    
-@media (max-width: 600px) {
-    .button-container {
-        flex-direction: column;
-    }
-}
 
 /* CREATE BUTTON */
 
@@ -1733,6 +1517,7 @@ tbody tr:nth-child(odd) {
         font-size: 12px;
     }
 }
+
 /* CREATE BUTTON Download*/
 
 .button-download {
@@ -1766,6 +1551,12 @@ tbody tr:nth-child(odd) {
     }
 }
 
+
+
+
+
+
+
 /********************* CALENDAR ******************/
 
 .calendar {
@@ -1793,6 +1584,13 @@ tbody tr:nth-child(odd) {
     height: 20px;
     margin: 3px;
 }
+
+
+
+
+
+
+
 /********************* PROFILE ******************/
 
 .ToastContainer {
@@ -1802,6 +1600,11 @@ tbody tr:nth-child(odd) {
 .Toastify__toast {
     color: #000000 !important;
 }
+
+
+
+
+
 
 /********************* EDUCATORS EVALUATION ******************/
 
