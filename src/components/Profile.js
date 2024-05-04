@@ -106,6 +106,14 @@ const Profile = ({ usuario }) => {
         </DialogActions>
       </Dialog>
 
+      {usuario === "socio" && (
+        <button className='register-button admin' style={{marginTop: '5%'}} onClick={() => setConfirmDeleteOpen(true)}>
+          <Link to={`/${usuario}/renovar`}>
+            Cambiar cuota
+          </Link>
+        </button>
+      )}
+
       <button className='register-button admin'>
         <Link to={`/${usuario}/perfil/actualizar`}>
           Actualizar perfil

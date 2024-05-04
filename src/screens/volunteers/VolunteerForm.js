@@ -226,7 +226,7 @@ function VolunteerForm() {
                   }}
         />
 
-        <label>Formación académica y experiencia laboral</label>
+        <label className='long-label'>Formación académica y experiencia laboral</label>
         <textarea
           value={academicFormation}
           placeholder='Escriba aquí'
@@ -252,7 +252,11 @@ function VolunteerForm() {
           <>
             <label>Autorización del padre/madre/tutor/a</label>
             <div className='register-container-files'>
-              <button className='button-contrast-files' onClick={() => handleDescargar('minor_authorization')}>Descargar</button>
+              <a 
+                className='button-contrast-files' 
+                onClick={() => handleDescargar('minor_authorization')}>
+                  Descargar
+              </a>
               <input 
                 type='file' 
                 onChange={(e) => setMinorAuthorization(e.target.files[0])}  
@@ -268,9 +272,13 @@ function VolunteerForm() {
           </>
         )}
         
-        <label>Certificado de Antecedentes de Delitos Sexuales</label>
+        <label className='long-label'>Certificado de Antecedentes de Delitos Sexuales</label>
         <div className='register-container-files'>
-          <button className='button-contrast-files' onClick={() => handleDescargar('sexual_offenses_document')}>¿Como solicitar el certificado?</button>
+          <a 
+            className='button-contrast-files' 
+            onClick={() => handleDescargar('sexual_offenses_document')}>
+              ¿Como solicitar el certificado?
+          </a>
           <input 
             type='file' 
             onChange={(e) => setSexualOffensesDocument(e.target.files[0])} 
@@ -279,7 +287,11 @@ function VolunteerForm() {
 
         <label>Ficha de registro</label>
         <div className='register-container-files'>
-          <button className='button-contrast-files' onClick={() => handleDescargar('registry_sheet')}>Descargar</button>
+          <a 
+            className='button-contrast-files' 
+            onClick={() => handleDescargar('registry_sheet')}>
+              Descargar
+          </a>
           <input 
             type='file' 
             onChange={(e) => setRegistrySheet(e.target.files[0])} 
@@ -288,7 +300,11 @@ function VolunteerForm() {
 
         <label>Contrato</label>
         <div className='register-container-files'>
-          <button className='button-contrast-files' onClick={() => handleDescargar('enrollment_document')}>Descargar</button>
+          <a 
+            className='button-contrast-files' 
+            onClick={() => handleDescargar('enrollment_document')}>
+              Descargar
+          </a>
           <input 
             type='file' 
             onChange={(e) => setEnrollmentDocument(e.target.files[0])} 

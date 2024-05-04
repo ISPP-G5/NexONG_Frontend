@@ -85,6 +85,7 @@ p {
 }
 
 label {
+    display: block;
     width: 80%;
     height: 2rem;
     font-family: "Poppins", Helvetica;
@@ -106,6 +107,7 @@ input[type="number"],
 input[type="tel"],
 input[type="date"],
 input[type="datetime-local"] {
+    display: block;
     font-family: "Poppins", Helvetica;
     width: 80%;
     height: 10%;
@@ -284,8 +286,7 @@ textarea {
     margin-top: 10px;
 }
 
-.header ul,
-.header-profiles ul {
+.header ul{
     grid-area: nav;
     display: flex;
     justify-content: flex-end;
@@ -350,6 +351,43 @@ textarea {
     align-items: stretch;
 }
 
+/* PROFILES HEADER */
+
+.header-profiles {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto; 
+    grid-template-rows: auto;
+    grid-template-areas: "logo p nav"; 
+    align-items: center;
+    padding: 0 20px;
+    background-color: #fcfdff;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+    z-index: 1000; 
+}
+
+.header-p {
+    grid-area: p;
+    color: black;
+    font-family: "Poppins", Helvetica;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.header-profiles ul {
+    grid-area: nav;
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 3rem;
+    flex-wrap: wrap;
+}
+
+
 @media (min-width: 1px) and (max-width: 768px) {
     .header {
         grid-template-columns: 1fr;
@@ -364,36 +402,15 @@ textarea {
         height: auto;
         margin: 0 auto;
     }
+    .header-profiles ul {
+        margin: 0 1rem;
+    }
+
+    .header-p {
+        font-size: 1.1rem;
+        right: 0;
+    }
 }
-
-
-/* PROFILES HEADER */
-
-.header-profiles {
-    position: fixed;
-    height: 12%;
-    top: 0;
-    width: 100%;
-    grid-template-columns: auto 1fr 1fr;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    background-color: #fcfdff;
-    border-radius: 5px;
-    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
-    z-index: 1000;
-}
-
-.header-p {
-    align-self: center;
-    color: black;
-    font-family: "Poppins", Helvetica;
-    font-size: 20px;
-    text-align: center;
-    margin-right: 3%;
-}
-
 
 
 /* LOGOUT BUTTOM */
@@ -440,7 +457,7 @@ textarea {
 @media (min-width: 1px) and (max-width: 768px) {
     .profiles-container {
         width: 75%; /* Take up the remaining space after the menu on smaller screens */
-        margin-top: 30%;
+        margin-top: 25%;
         margin-left: 17%;
         font-size: 16px;
         justify-content: flex-end;
@@ -503,6 +520,7 @@ textarea {
 @media (min-width: 1px) and (max-width: 768px) {
     .menu-profiles {
         width: 30%;
+        margin-top: 25%;
     }
 
     .menu-profiles a {
@@ -1025,23 +1043,24 @@ tbody tr:nth-child(odd) {
 }
 
 .register-container-checkbox {
-    align-self: flex-start;
-    margin-left: 15%;
+    display: block;
+    align-self: stretch;
 }
 .register-container-checkbox label {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    position: relative;
+    display: inline-block;
+    margin: 0;
 }
+
 
 @media (min-width: 1px) and (max-width: 768px) {
     .register-container {
-        width: 60%;
+        width: 70%;
     }
 
     .register-container.admin {
-        max-width: 60%;
-        margin-left: 15%;
+        max-width: 70%;
+        margin-left: 10%;
         margin-right: 0;
         padding: 20px 10px;
         justify-content: flex-end;
@@ -1057,8 +1076,8 @@ tbody tr:nth-child(odd) {
         max-width: 100px;
         max-height: 100px;
     }
-    .register-container-checkbox {
-        margin-left: 0;
+    .long-label {
+        margin-bottom: 20px;
     }
 }
 
@@ -1418,56 +1437,6 @@ tbody tr:nth-child(odd) {
 }
 
 
-.checkbox-partner {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.checkbox-partner input[type="checkbox"] {
-  display: none;
-}
-
-.checkbox-partner label {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  color: rgba(34, 30, 30, 0.87); /* Set label color to a softer black */
-  padding-left: 35px; /* Adjust the spacing between checkbox and label */
-}
-
-
-
-.checkbox-partner label:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px; /* Size of the checkbox */
-  height: 20px; /* Size of the checkbox */
-  border: 1px solid #000;
-  border-radius: 4px;
-}
-
-.checkbox-partner input[type="checkbox"]:checked + label:before {
-  background-color: #000; /* Change background color when checked */
-}
-
-.checkbox-partner label:after {
-  content: '';
-  position: absolute;
-  left: 5px; /* Adjust the position of the checkmark */
-  top: 4px; /* Adjust the position of the checkmark */
-  width: 10px; /* Size of the checkmark */
-  height: 5px; /* Size of the checkmark */
-  border: solid #fff; /* Color of the checkmark */
-  border-width: 0 2px 2px 0; /* Style of the checkmark */
-  transform: rotate(45deg); /* Rotate the checkmark */
-  opacity: 0; /* Hide the checkmark initially */
-}
-
-.checkbox-partner input[type="checkbox"]:checked + label:after {
-  opacity: 0; /* Show the checkmark when checked */
-}
 
 
 /* BUTTONS CARD INFO */
@@ -1803,7 +1772,7 @@ tbody tr:nth-child(odd) {
 
 @media (min-width: 1px) and (max-width: 768px) {
     .calendar {
-        margin-left: 15%;
+        margin-left: 10%;
         margin-right: 0;
     }
 }
@@ -1879,7 +1848,6 @@ tbody tr:nth-child(odd) {
     .register-container-files {
         flex-direction: column;
         width: 80%;
-        margin-top: 1rem;
     }
 
     .button-contrast-files {
@@ -1897,7 +1865,5 @@ tbody tr:nth-child(odd) {
     width: 60%;
     height: auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
+    margin-left: 15%;
 }

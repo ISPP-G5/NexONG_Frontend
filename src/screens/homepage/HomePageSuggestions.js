@@ -73,7 +73,6 @@ function HomePageSuggestions() {
       toastcontainer={true}
     >
       <form className='register-container'
-      style={{width: '80%'}}
       onSubmit={sendForm}>
 
         <h2>¿En qué podemos mejorar?</h2>

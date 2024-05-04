@@ -186,8 +186,9 @@ function PartnerForm() {
 
                 <label>Documento de inscripción</label>
                 <div className='register-container-files'>
-                    <a className='button-contrast-files'
-                    onClick={() => handleDownload('partner_enrollment_document')}>
+                    <a 
+                        className='button-contrast-files'
+                        onClick={() => handleDownload('partner_enrollment_document')}>
                         Descargar
                     </a>
                     <input
@@ -203,7 +204,7 @@ function PartnerForm() {
                 onChange={(e) => setBirthdate(e.target.value)}
                 />
 
-                <label>Titular de la cuenta de donación</label>
+                <label>Titular de la cuenta</label>
                 <input
                     value={holder}
                     type='text'
@@ -211,15 +212,15 @@ function PartnerForm() {
                     onChange={(e) => setHolder(e.target.value)}
                 />
 
-                <label>Nº de cuenta con IBAN de donación</label>
+                <label>IBAN de la cuenta</label>
                 <input
                     value={iban}
                     type='text'
-                    placeholder='Escriba su código IBAN de donación'
+                    placeholder='Escriba el IBAN de la cuenta de donación'
                     onChange={(e) => setIban(e.target.value)}
                 />
 
-                <label>¿Con qué cantidad deseas colaborar?</label>
+                <label className='long-label'>¿Con qué cantidad deseas colaborar?</label>
                 <input
                     value={quantity}
                     type='number'
@@ -229,61 +230,57 @@ function PartnerForm() {
                 />
 
                 <label>¿Con qué frecuencia?</label>
-                <div className="checkbox-container-partner">
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="mensual" 
-                checked={frequency === 'MENSUAL'}
-                onChange={() => handleCheckboxChange('MENSUAL')}
-              />
-              <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
-            </div>
 
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="trimestral" 
-                checked={frequency === 'TRIMESTRAL'}
-                onChange={() => handleCheckboxChange('TRIMESTRAL')}
-              />
-              <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada tres meses)</label>
-            </div>
+                <div className="register-container-checkbox">
+                    <input 
+                        type="checkbox" 
+                        id="mensual" 
+                        checked={frequency === 'MENSUAL'}
+                        onChange={() => handleCheckboxChange('MENSUAL')}
+                    />
+                    <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
+                </div>
 
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="semestral" 
-                checked={frequency === 'SEMESTRAL'}
-                onChange={() => handleCheckboxChange('SEMESTRAL')}
-              />
-              <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada seis meses)</label>
-            </div>
+                <div className="register-container-checkbox">
+                    <input 
+                        type="checkbox" 
+                        id="trimestral" 
+                        checked={frequency === 'TRIMESTRAL'}
+                        onChange={() => handleCheckboxChange('TRIMESTRAL')}
+                    />
+                    <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada 3 meses)</label>
+                </div>
 
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="anual" 
-                checked={frequency === 'ANUAL'}
-                onChange={() => handleCheckboxChange('ANUAL')}
-              />
-              <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
-            </div>
-          </div>
+                <div className="register-container-checkbox">
+                    <input 
+                        type="checkbox" 
+                        id="semestral" 
+                        checked={frequency === 'SEMESTRAL'}
+                        onChange={() => handleCheckboxChange('SEMESTRAL')}
+                    />
+                    <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada 6 meses)</label>
+                </div>
 
-                <label>Fecha</label>
+                <div className="register-container-checkbox">
+                    <input 
+                        type="checkbox" 
+                        id="anual" 
+                        checked={frequency === 'ANUAL'}
+                        onChange={() => handleCheckboxChange('ANUAL')}
+                    />
+                    <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
+                </div>
+
+                <label>Fecha de incorporación</label>
                 <input
                     type='date'
                     value={new Date().toISOString().substr(0, 10)}
                     readOnly
                 />
 
-                
-
                 <button type='submit' className='register-button'>
                     Enviar
                 </button>
-
             </form>
         </div>
     );
