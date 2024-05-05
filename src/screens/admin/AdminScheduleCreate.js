@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../components/useToken';
+import { useFetchLessons } from '../../components/useFetchData'; 
 
 import '../../styles/styles.css';
 
@@ -19,7 +20,6 @@ const AdminScheduleCreate = () => {
     start_time: '',
     end_time: '',
   });
-  const [lessons, setLessons] = useState([]);
   const [weekdays, setWeekdays] = useState(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']); // Hardcoded list of weekdays
 
   const navigate = useNavigate();
@@ -60,16 +60,8 @@ const AdminScheduleCreate = () => {
       });
   };
 
-  useEffect(() => {
-    axios
-      .get(`${API_ENDPOINT}lesson/`, config)
-      .then((response) => {
-        setLessons(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching lessons:', error);
-      });
-  }, []);
+  const lessons = useFetchLessons(API_ENDPOINT, token);
+
 
   return (
     <LayoutProfiles profile={'admin'} selected={'Horarios'}>
