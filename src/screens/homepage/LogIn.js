@@ -44,7 +44,6 @@ function LogIn() {
         getUserData().then(response => {
             if (response !== null) {
                 const user = response.data
-                console.log('User data:', user);
                 localStorage.setItem('userId', user.id);
             }
         });
@@ -117,11 +116,6 @@ function LogIn() {
                     localStorage.setItem('volunteerId', user.volunteer);
                     setRole(user.role)
 
-                    console.log('Volunteer:', volunteer.data);
-                    console.log('status:', volunteer.data.status);
-                    console.log('formation:', volunteer.data.watchedFormation);
-
-
                     if (volunteer.data.status === 'ACEPTADO' && volunteer.data.watchedFormation === true) {
                         navigate('/voluntario/agenda');
                     } else if (volunteer.data.status === 'ACEPTADO' && volunteer.data.watchedFormation === false) {
@@ -149,7 +143,6 @@ function LogIn() {
                         headers: {
                             'Authorization': `Bearer ${accessToken}`
                         }});
-                    console.log('Partner:', partner.data.status);
                     localStorage.setItem('partnerId', user.partner);
                     setRole(user.role)
                     navigate('/socio/calendario');

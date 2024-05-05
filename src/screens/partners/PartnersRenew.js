@@ -34,7 +34,6 @@ function PartnersRenew() {
             const matchingDonation = donationsResponse.data.find(donation => donation.partner === partnerId);
   
             if (matchingDonation) {
-              console.log('Matching donation:', matchingDonation);
               // Do something with the matching donation
               setDonationId(matchingDonation.id);
               setHolder(matchingDonation.holder);
@@ -90,7 +89,6 @@ function PartnersRenew() {
           holder: holder,
           date: selectedDate
         }, config_partner);
-        console.log('Donation updated:', response.data);
         toast.success('Cuota actualizada correctamente');
         setTimeout(() => {
           navigate('/socio/perfil');

@@ -31,8 +31,6 @@ function AdminFamilyRequests() {
     if (families.length > 0 && kids.length > 0) {
       const newPersons = kids.map(async (kid) => {
         const family = families.find(family => kid.family === family.id);
-        console.log('Family', family);
-        console.log('Kid', kid);
         return {
           id: kid.id,
           first_name: family.name,

@@ -55,7 +55,6 @@ const UpdateProfile = ({tipo,id}) => {
                 setPassword(response.data.password);
 
                 setAvatar(response.data.avatar);
-                console.log('User',valoresList);
             } catch (error) {
                 console.error(error);
             }

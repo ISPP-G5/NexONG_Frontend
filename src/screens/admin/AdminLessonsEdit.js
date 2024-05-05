@@ -108,7 +108,6 @@ const AdminLessonsEdit = () => {
         // Filter students based on the is_morning_student value
         const filteredStudents = lessonData.is_morning_lesson ? response.data.filter(student => student.is_morning_student) : response.data.filter(student => !student.is_morning_student);
         setStudentsFiltered(filteredStudents);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error('Error fetching students:', error);

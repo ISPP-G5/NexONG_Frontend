@@ -92,7 +92,6 @@ const AdminLessons = () => {
     axios
       .get(`${API_ENDPOINT}lesson/`, config)
       .then((response) => {
-        console.log('response:', response.data);
         setLessons(response.data);
       })
       .catch((error) => {
@@ -101,7 +100,6 @@ const AdminLessons = () => {
     axios
       .get(`${API_ENDPOINT}user/`, config)
       .then((response) => {
-        console.log('response user:', response.data);
         setUsers(response.data);
       })
       .catch((error) => {

@@ -89,7 +89,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           status:status,
           acceptance_date: date
         }
-        console.log(data);
         await axios.patch(`${API_ENDPOINT}${path}/`, data, config);
       } else {
         await axios.patch(`${API_ENDPOINT}${path}/`, {status}, config);

@@ -60,7 +60,6 @@ const FamilyForm = () => {
                 axios.get(`${API_ENDPOINT}family/${firstKey}`, config)
                     .then(response => {
                         const familiaData = response.data;
-                        console.log("fam", familiaData.id);
     
                         const updatedData = {
                             password: user.password,
@@ -75,7 +74,7 @@ const FamilyForm = () => {
                             toast.success("Familia creada correctamente.");
                         })
                         .catch(error => {
-                            console.log(error);
+                            console.error(error);
                             toast.error("Error al actualizar los datos del usuario.");
                         });
                         

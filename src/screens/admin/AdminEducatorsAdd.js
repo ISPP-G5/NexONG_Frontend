@@ -108,7 +108,6 @@ function AdminEducatorsAdd() {
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
           userData, config);
-          console.log(userUpdate);
                 
           toast.success('Educador credo con exito');
     

@@ -119,15 +119,12 @@ function PartnerForm() {
         // Attempt to create the partner
         const partnerResponse = await axios.post(`${API_ENDPOINT}partner/`, partnerData, config_partner);
         localStorage.setItem('partnerId', partnerResponse.data.id);
-        console.log('Partner id:', partnerResponse.data);
-        console.log('Partner created:', partnerResponse.data);
         toast.success('Socio creado con éxito');
 
         // Make a PATCH request to update the user's partner attribute
         await axios.patch(`${API_ENDPOINT}auth/users/me/`, {
             partner: partnerResponse.data.id,
         }, config_user);
-        console.log('User updated with partner:', partnerResponse.data.id);
 
         // Attempt to create the donation
         const donationResponse = await axios.post(`${API_ENDPOINT}donation/`, {
@@ -139,8 +136,6 @@ function PartnerForm() {
             partner: partnerResponse.data.id, // Assign the partner ID to the donation
         }, config_partner);
 
-        console.log('Donation partner:', donationResponse.partner);
-        console.log('Donation created:', donationResponse.data);
         toast.success('Donación creada correctamente');
 
         setTimeout(() => {

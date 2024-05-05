@@ -31,7 +31,6 @@ export function useFetchUsersByRole(API_ENDPOINT, role, token) {
       }
     })
       .then((response) => {
-        console.log('users:', response.data);
         setUsers(response.data.filter(user => user.role === role));
       })
       .catch((error) => {
@@ -52,7 +51,6 @@ export function useFetchFamilies(API_ENDPOINT, token) {
       }
     })
       .then((response) => {
-        console.log('families:', response.data);
         setFamilies(response.data);
       })
       .catch((error) => {
@@ -73,7 +71,6 @@ export function useFetchStudents(API_ENDPOINT, status, token) {
     }
   })
     .then((response) => {
-      console.log('students:', response.data);
       const acceptedStudents = response.data.filter(student => student.status === status);
       setStudents(acceptedStudents);
     })
@@ -95,7 +92,6 @@ export function useFetchLessons(API_ENDPOINT, token) {
       }
     })
       .then((response) => {
-        console.log('lessons:', response.data);
         setLessons(response.data);
       })
       .catch((error) => {
@@ -116,7 +112,6 @@ export function useFetchStudentEvaluation(API_ENDPOINT, token) {
       }
     })
       .then((response) => {
-        console.log('evaluations:', response.data);
         setEvaluations(response.data);
       })
       .catch((error) => {
@@ -138,7 +133,6 @@ export function useFetchSuggestions(API_ENDPOINT, token) {
     }
   })
     .then((response) => {
-      console.log('suggestions:', response.data);
       setSuggestions(response.data);
     })
     .catch((error) => {
@@ -428,7 +422,6 @@ export function UseFetchDocuments(API_ENDPOINT, token) {
     .get(`${API_ENDPOINT}home-document/`
   )
     .then((response) => {
-      console.log('documents:', response.data);
       setDocuments(response.data);
     })
     .catch((error) => {

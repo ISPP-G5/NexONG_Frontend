@@ -38,7 +38,6 @@ useEffect(() => {
       .get(`${API_ENDPOINT}schedule/${scheduleId}/`, config)
       .then((response) => {
         setScheduleData(response.data);
-        console.log('Response of get of schedule:', response.data);
       })
       .catch((error) => {
         console.error('Error fetching lesson details:', error);
@@ -49,7 +48,6 @@ useEffect(() => {
     const fetchData = async () => {
         try {
             const response = await axios.get(`${API_ENDPOINT}lesson/`, config);
-            console.log('response lessons:', response.data);
             setLessons(response.data);
             setFormData(scheduleData);
         } catch (error) {
@@ -90,7 +88,6 @@ const handleSubmit = (formData) => {
     axios
         .put(`${API_ENDPOINT}schedule/${scheduleId}/`, formData)
         .then((response) => {
-            console.log('Response of put of schedule:', response.data);
             toast.success('Horario actualizado con éxito');
         })
         .catch((error) => {

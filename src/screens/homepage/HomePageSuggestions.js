@@ -51,13 +51,11 @@ function HomePageSuggestions() {
         const update = await axios.post(`${API_ENDPOINT}suggestion/`,
         formData
         );
-        console.log(update);
         const { data } = update;
         if(data.message){
           toast.error(data.message);
         }else{
           console.log('Operation was successful');
-
           toast.success('Sugerencia enviada con éxito')
         }
       }catch(error){

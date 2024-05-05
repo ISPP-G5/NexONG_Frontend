@@ -60,7 +60,6 @@ const Asamblea = () => {
     axios.get(`${API_ENDPOINT}user/`, config)
       .then(response => {
         setUsers(partnersData(response.data, socios));
-        console.log(partnersData(response.data, socios));
       })
       .catch(error => {
         console.error(error);
@@ -137,7 +136,6 @@ const Asamblea = () => {
         attendees: listaAsistentes,
       }, config);
   
-      console.log(response);
       toast.success('Asamblea creada con éxito', { autoClose: 5000 });
     } catch (error) {
       toast.error('Error al crear la asamblea');

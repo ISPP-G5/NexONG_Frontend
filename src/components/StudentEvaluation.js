@@ -16,15 +16,11 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
   const handleLessonChange = (event) => {
     setSelectedLesson(event.target.value);
   };
-  console.log('selected student',selectedStudent)
 
   useEffect(() => {
-    console.log('students',students)
-    console.log('lesson',lessons)
     
     if (students && lessons && selectedLesson) {
       const selectedLessonObj = lessons.find(lesson => lesson.id == selectedLesson);
-      console.log('selectedLessonObj',selectedLessonObj)
       if (selectedLessonObj && Array.isArray(selectedLessonObj.students)) {
         const studentsInSelectedLessonFilter = students.filter(student => selectedLessonObj.students.includes(student.id));
         
@@ -36,8 +32,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
   }, [students, lessons, selectedLesson]);
 
 
-  console.log('lessons', lessons[0]);
-  console.log('selectedLesson', selectedLesson);
   return (
     <>
       <label>Selecciona una clase:</label>

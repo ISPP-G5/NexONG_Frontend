@@ -33,7 +33,6 @@ const Profile = ({ usuario }) => {
           }
         });
         setUserData(response.data);
-        console.log('User',userData);
       } catch (error) {
         console.error(error);
         toast.error('Error al cargar datos del usuario', { autoClose: 5000 });

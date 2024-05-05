@@ -156,19 +156,15 @@ function ChildForm() {
     const response = await fetchMyFamilyId(API_ENDPOINT, null);
 
     if (response !== null) {
-      console.log("Family id:",response);
       id = response;
-    }
-    else {
+    } else {
       console.error("Failed to get family id");
     }
 
     volunteerData.append('family', id);
 
     try {
-      console.log(formData);
       const response = await axios.post(`${API_ENDPOINT}student/`, volunteerData, config);
-      console.log(response.data);
       toast.success('Hijo registrado con éxito');
 
       setTimeout(() => {

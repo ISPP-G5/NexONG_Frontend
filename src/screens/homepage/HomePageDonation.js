@@ -127,12 +127,6 @@ function HomePageDonation() {
             oneTimeFormData.append('amount', amount);
         }
     
-        // Aquí puedes agregar el console.log para ver los datos antes de enviar la solicitud
-        console.log(date);
-        console.log(oneTimeName);
-        console.log(oneTimeSurname);
-        console.log(oneTimeEmail);  
-        console.log(paymentDoc)  
         try {
             let endpoint = '';
             let headers = {};
@@ -151,7 +145,6 @@ function HomePageDonation() {
                 }
                 // Convert 'amount' to number if it's a string
                 let amount = oneTimeFormData.get('amount');
-                console.log(amount)
                 // Create a new object for the JSON data
                 data = {
                     name: oneTimeFormData.get('name'),
@@ -162,7 +155,6 @@ function HomePageDonation() {
             }
         
             // Realizar la solicitud POST utilizando axios
-            console.log(data)
             const response = await axios.post(endpoint, data, { headers });
         
             // Manejar la respuesta

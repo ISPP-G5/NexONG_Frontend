@@ -52,7 +52,6 @@ const AdminScheduleCreate = () => {
     axios
       .post(`${API_ENDPOINT}schedule/`, localFormData, config)
       .then((response) => {
-        console.log('Response of post of schedule:', response.data);
         toast.success('Horario creado con éxito');
       })
       .catch((error) => {
@@ -65,7 +64,6 @@ const AdminScheduleCreate = () => {
     axios
       .get(`${API_ENDPOINT}lesson/`, config)
       .then((response) => {
-        console.log('response lessons:', response.data);
         setLessons(response.data);
       })
       .catch((error) => {

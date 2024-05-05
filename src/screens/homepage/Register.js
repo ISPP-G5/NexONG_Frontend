@@ -94,7 +94,6 @@ function Register() {
     try {
       const response = await axios.get(`${API_ENDPOINT}terms/`);
       const terms = response.data;
-      console.log('terms',terms)
       setTermsText(terms[0].text);
     } catch (error) {
       console.error('Error fetching data: ', error);
@@ -104,7 +103,6 @@ function Register() {
   useEffect(() => {
     fetchTerms();
   }, []);
-  console.log('terms',termsText)
 
   const sendRecurringForm = async(e) => {
     e.preventDefault();
@@ -169,7 +167,6 @@ function Register() {
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
           userData, config);
-          console.log(userUpdate);
 
           const { data } = userUpdate;
           if (data.message){
@@ -195,20 +192,13 @@ function Register() {
     }
   }  
   const TermsAndConditions = ({ termsText }) => {
-    console.log('termsText:', termsText); // Log the original termsText
 
     const termsArray = termsText.split(/\.(?=\w)/);
-    console.log('termsArray:', termsArray); // Log the array of terms
 
     const formattedTerms = termsArray.map((term, index) => {
       const colonIndex = term.indexOf(':');
       const title = term.substring(0, colonIndex + 1);
       const content = term.substring(colonIndex + 1);
-      console.log('term:', term); // Log each term
-      console.log('title:', title); // Log the title of each term
-      console.log('content:', content); // Log the content of each term
-  
-  
       return (
         <div key={index} style={{textAlign:'justify'}}>
           <strong>{index === 0 ? <span>Términos y Condiciones de Uso.</span> : title}</strong>

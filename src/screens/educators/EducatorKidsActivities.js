@@ -25,7 +25,6 @@ function EducatorKidsActivities() {
     axios
       .get(`${API_ENDPOINT}student/`,config)
       .then((response) => {
-        console.log('students:', response.data);
         setKids(response.data);
       })
       .catch((error) => {
@@ -34,7 +33,6 @@ function EducatorKidsActivities() {
     axios
       .get(`${API_ENDPOINT}lesson-event/`,config)
       .then((response) => {
-        console.log('activities:', response.data);
         setActivities(response.data);
       })
       .catch((error) => {
@@ -44,7 +42,6 @@ function EducatorKidsActivities() {
     axios
       .get(`${API_ENDPOINT}center-exit/`,config)
       .then((response) => {
-        console.log('response exits:', response.data);
         setExits(response.data);
       })
       .catch((error) => {

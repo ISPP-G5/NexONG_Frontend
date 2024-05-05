@@ -43,12 +43,10 @@ const Document = () => {
         documentFormData.append('document',document);
         documentFormData.append('docType',docType);
         documentFormData.append('date',date);
-        console.log(documentFormData)        
         try{
           const update = await axios.post(`${API_ENDPOINT}home-document/`,
           documentFormData, config
           );
-          console.log(update);
           const { data } = update;
           if (data.message){
               toast.error(data.message);
