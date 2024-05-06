@@ -7,10 +7,6 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 function FamilyChildren() {
   const userId = parseInt(localStorage.getItem('userId'), 10);
   const children = useFetchMyKids(API_ENDPOINT, userId);
-
-  children.forEach(element => {
-    console.log(element)
-  });
   
   return (
     <ShowChildren 

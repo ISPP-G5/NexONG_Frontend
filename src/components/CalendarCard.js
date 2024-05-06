@@ -265,7 +265,6 @@ const CalendarCard = ({ profile, selected }) => {
             return;
           }
           const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
-          console.log(updatedVolunteers);
           if (updatedVolunteers.length > selectedEvent.max_volunteers) {
             toast.error('El número de voluntarios excede el límite máximo permitido.');
             return;

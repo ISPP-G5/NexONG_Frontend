@@ -147,28 +147,25 @@ function ChildForm() {
     volunteerData.append('education_center_tutor', formData.tutor);
     volunteerData.append('nationality', formData.nationality);
     volunteerData.append('birthdate', formData.birthdate);
-    volunteerData.append('is_morning_student', formData.isMorning === 'TARDE' ? false: true);
+    volunteerData.append('is_morning_student', formData.isMorning === 'Tarde' ? false: true);
     volunteerData.append('enrollment_document', formData.enrollmentDoc);
     volunteerData.append('scanned_sanitary_card', formData.sanitaryCard);
+    console.log(formData.isMorning)
 
     var id = null;
     console.log("Fetching family id...");
     const response = await fetchMyFamilyId(API_ENDPOINT, null);
 
     if (response !== null) {
-      console.log("Family id:",response);
       id = response;
-    }
-    else {
+    } else {
       console.error("Failed to get family id");
     }
 
     volunteerData.append('family', id);
 
     try {
-      console.log(formData);
       const response = await axios.post(`${API_ENDPOINT}student/`, volunteerData, config);
-      console.log(response.data);
       toast.success('Hijo registrado con éxito');
 
       setTimeout(() => {
@@ -198,7 +195,7 @@ function ChildForm() {
       selected={''}
     >
       <ToastContainer />
-      <form className='register-container' onSubmit={handleSubmit}>
+      <form className='register-container admin' onSubmit={handleSubmit}>
         <h2>Registro de hijo</h2>
         <p>Necesitamos algunos datos y documentos para completar el registro de su hijo</p>
 
@@ -324,7 +321,7 @@ function ChildForm() {
         </div>
         {formDataErrors.sanitaryCard && <div  style={{color:'red'}}>{formDataErrors.sanitaryCard}</div>}
 
-        <button type='submit' className='register-button' style={{  backgroundColor: "#f8f8f8",   border: "2px solid #a6c1ce"}}>
+        <button type='submit' className='register-button'>
           Enviar
         </button>
       </form>

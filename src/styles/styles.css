@@ -54,12 +54,6 @@ h2 {
     text-align: center;
 }
 
-@media (min-width: 1px) and (max-width: 768px) {
-    h1 {
-        font-size: 1.5rem;
-    }
-}
-
 h3 {
     color: #000;
     font-size: 1.2rem;
@@ -69,6 +63,15 @@ h3 {
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    h2 {
+        font-size: 1.25rem;
+    }
+    .h2-margin {
+        margin-left: 20%;
+    }
     h3 {
         font-size: 1rem;
     }
@@ -82,6 +85,7 @@ p {
 }
 
 label {
+    display: block;
     width: 80%;
     height: 2rem;
     font-family: "Poppins", Helvetica;
@@ -103,6 +107,7 @@ input[type="number"],
 input[type="tel"],
 input[type="date"],
 input[type="datetime-local"] {
+    display: block;
     font-family: "Poppins", Helvetica;
     width: 80%;
     height: 10%;
@@ -113,6 +118,37 @@ input[type="datetime-local"] {
     background-color: #f8f8f8;
     resize: none;
     margin: 0 auto;
+}
+
+/* Hide the default checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Create a custom checkbox */
+input[type="checkbox"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20%; /* Make it round */
+    background-color: #fff;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label:before {
+    background-color: #b7ecff;
+    content: "✓";
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: black;
 }
 
 textarea {
@@ -128,166 +164,6 @@ textarea {
     margin: 0 auto;
 }
 
-/********************* FILE UPLOAD SECTION ******************/
-
-.file-upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    background-color: #fcfdff;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
-    padding: 2rem;
-    margin: 2% auto;
-    width: 80%;
-}
-
-.file-input {
-    font-family: "Poppins", Helvetica;
-    color: #7c838a;
-    padding: 12px 20px;
-    margin-bottom: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 1rem;
-    width: 80%;
-    background-color: #f8f8f8;
-    cursor: pointer;
-}
-
-.file-input:hover,
-.file-input:focus {
-    border-color: #9ee5ff;
-    box-shadow: 0 0 0 2px rgba(158, 229, 255, 0.5);
-}
-
-.file-input-label {
-    font-family: "Poppins", Helvetica;
-    font-size: 1rem;
-    line-height: 1.75rem;
-    color: #000000;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.file-upload-button {
-    background-color: white;
-    color: black;
-    font-family: "Poppins", Helvetica;
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 12px 20px;
-    border: 2px solid #b7ecff;
-    border-radius: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.file-upload-button:hover {
-    background-color: #b7ecff;
-    box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24),
-        0 7px 25px 0 rgba(124, 124, 124, 0.24);
-}
-
-/********************* SELECT ******************/
-
-.select-container {
-    position: relative;
-    display: inline-block;
-    width: 80%;
-    z-index: 1000;
-}
-
-.select-style {
-    font-family: "Poppins", Helvetica;
-    color: black;
-    width: 100%;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 1rem;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    position: relative;
-    opacity: 1;
-    visibility: visible;
-}
-
-.select-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 80%;
-    margin: 0 auto;
-}
-
-.select-style:focus {
-    outline: none;
-    border-color: #9ee5ff;
-    box-shadow: 0 0 0 2px rgba(158, 229, 255, 0.5);
-}
-
-/********************* CHECKBOX ******************/
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-.checkbox-container-partner {
-  display: flex;
-  flex-direction: column; /* Stack checkboxes vertically */
-  cursor: pointer;
-}
-
-
-.hidden-checkbox {
-    border: 0;
-    clip: rect(0 0 0 0);
-    clippath: inset(50%);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-}
-
-.checkbox-label {
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    background: white;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    position: relative;
-    margin-right: 8px;
-    cursor: pointer;
-}
-
-.checkbox-label:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid black;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.hidden-checkbox:checked + .checkbox-label:after {
-    display: block;
-}
-
-.checkbox-label:hover {
-    background: #f0f0f0;
-}
 
 /********************* HEADER ******************/
 
@@ -311,13 +187,12 @@ textarea {
 
 .header-logo {
     grid-area: logo;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: auto;
     margin-top: 10px;
 }
 
-.header ul,
-.header-profiles ul {
+.header ul{
     grid-area: nav;
     display: flex;
     justify-content: flex-end;
@@ -344,7 +219,8 @@ textarea {
 }
 
 .header li a:hover,
-.header-profiles li p:hover {
+.header-profiles li p:hover,
+.header-profiles .dropdown-content a:hover {
     background-color: #b7ecff;
     color: black;
 }
@@ -374,12 +250,42 @@ textarea {
     background-color: #cdf0fe;
 }
 
-.row {
-    text-align: right;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+/* PROFILES HEADER */
+
+.header-profiles {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto; 
+    grid-template-rows: auto;
+    grid-template-areas: "logo p nav"; 
+    align-items: center;
+    padding: 0 20px;
+    background-color: #fcfdff;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
+    z-index: 1000; 
 }
+
+.header-p {
+    grid-area: p;
+    color: black;
+    font-family: "Poppins", Helvetica;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.header-profiles ul {
+    grid-area: nav;
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 3rem;
+    flex-wrap: wrap;
+}
+
 
 @media (min-width: 1px) and (max-width: 768px) {
     .header {
@@ -391,90 +297,20 @@ textarea {
     }
 
     .header-logo {
-        width: 50px;
-        height: 40px;
+        width: 60px;
+        height: auto;
         margin: 0 auto;
     }
-}
-
-/* PROFILES HEADER */
-
-.header-profiles {
-    position: fixed;
-    height: 12%;
-    top: 0;
-    width: 100%;
-    grid-template-columns: 1fr 1fr 1fr;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    background-color: #fcfdff;
-    border-radius: 5px;
-    box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
-    z-index: 1000;
-}
-
-.header-profiles p {
-    align-self: center;
-    color: black;
-    font-family: "Poppins", Helvetica;
-    font-size: 20px;
-    text-align: center;
-    margin-right: 3%;
-}
-
-.header-profiles .dropdown {
-    position: relative;
-    display: inline-block;
-    min-width: 100px;
-    z-index: 1;
-}
-
-.header-profiles .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.header-profiles .dropdown-content a:hover {
-    background-color: #cdf0fe; /* Change this to the color you want */
-}
-
-.header-profiles .dropdown:hover .dropdown-content {
-    display: block;
-}
-.header-logo {
-    width: 60px;
-    height: 65px;
-}
-@media (min-width: 1px) and (max-width: 768px) {
-    .header-profiles {
-        position: fixed;
-        height: 12%;
-        top: 0;
-        width: 100%;
-        grid-template-columns: 1fr 1fr 1fr;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-        background-color: #fcfdff;
-        border-radius: 5px;
-        box-shadow: 0px 4px 4px #00000040, inset 0px 4px 4px #00000040;
-        z-index: 1000;
+    .header-profiles ul {
+        margin: 0 1rem;
     }
 
-    .header-logo {
-        width: 50px;
-        height: 40px;
-        margin: 0 auto;
+    .header-p {
+        font-size: 1.1rem;
+        right: 0;
     }
 }
+
 
 /* LOGOUT BUTTOM */
 .logout-button {
@@ -495,6 +331,14 @@ textarea {
     box-shadow: 0 6px 10px 0 rgba(124, 124, 124, 0.24),
         0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
+
+
+
+
+
+
+
+
 
 /********************** MENU *********************/
 
@@ -575,6 +419,7 @@ textarea {
 @media (min-width: 1px) and (max-width: 768px) {
     .menu-profiles {
         width: 30%;
+        margin-top: 25%;
     }
 
     .menu-profiles a {
@@ -653,6 +498,14 @@ textarea {
     background-position: center;
     filter: blur(4px);
     z-index: -1;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+    .intro-container {
+        padding-top: 5%;
+        padding-bottom: 5%;
+        height: auto;
+    }
 }
 
 /* IF YOU NEED TO ADD A NEW BACKGROUND IMAGE FOR THE INTRO COMPONENT
@@ -863,19 +716,25 @@ iframe {
 
 /********************* TRANSPARENCY ******************/
 
-.trans {
+.transparency {
     border-collapse: collapse;
-    width: 80%;
+    width: 80%; 
+    table-layout: fixed;
     text-align: center;
     padding: 10%;
     margin: 5% 10% 5% 10%;
 }
 
-.trans a {
+.transparency a {
     text-decoration: none;
+    display: block; 
+    width: 100%; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
 }
 
-.trans th {
+.transparency th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -883,50 +742,46 @@ iframe {
     color: #000;
 }
 
-.trans th {
+.transparency th {
     border: 1.5px solid #ffc76e;
     padding: 8px;
     background-color: #ffc76e;
     text-align: center;
 }
 
-.trans td {
+.transparency td {
     border: 1.5px solid #ffc76e;
     padding: 2%;
 }
 
-tbody tr:nth-child(odd) {
+.transparency tr:nth-child(even) {
     background-color: #fff;
 }
-
-.trans tr:nth-child(even) {
-    background-color: #fff;
-}
-.trans td:hover {
+.transparency td:hover {
     background-color: #cdf0fe;
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
-    .trans {
+    .transparency {
+        width: 90%;
+        margin: 5%;
         font-size: 10px;
+    }
+    
+    .transparency a {
+        white-space: normal; 
     }
 }
 
 /********************* COLABORATORS ENTITIES ******************/
 
 .colab-image {
-    max-width: 150px;
-    max-height: 150px;
-    object-fit: cover;
+    max-width: 60%;
+    max-height: 60%;
     align-self: center;
+    margin-bottom: 2%;
 }
 
-@media (min-width: 1px) and (max-width: 768px) {
-    .colab-image {
-        max-width: 100%;
-        max-height: 100%;
-    }
-}
 
 /********************* ACTIVIDADES TEXT ******************/
 
@@ -940,21 +795,45 @@ tbody tr:nth-child(odd) {
 
 .history-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
 }
 
-.image-container {
-    margin-top: 2.5%;
-    margin-left: 0%;
+.history-container div {
+    margin-top: 2%;
+}
+
+.image-history {
+    margin: auto 5%;
     width: 30%;
-    margin-bottom: 2%;
 }
-.history-image {
-    margin-left: 30%;
-    width: 100%;
+
+.image-chronology {
+    align-self: center;
+    max-width: 80%;
+    margin: 2%;
 }
-.history-container div p {
-    color: #888;
+
+.image-workshop {
+    align-self: center;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+    .history-container {
+        flex-direction: column;
+    }
+        
+    .image-history, .image-workshop {
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-top: 5%;
+        width: 80%;
+    }
+
+    .image-chronology {
+        max-width: 100%;
+    }
+
 }
 
 /********************* AGENDA ******************/
@@ -1001,29 +880,6 @@ tbody tr:nth-child(odd) {
     }
 }
 
-/********************* DONACIONES ******************/
-
-.donations-table {
-    width: 100%;
-    margin-top: 7%;
-    margin-bottom: 2%;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-
-.donations-table-td {
-    border-right: 3px solid #b7ecff;
-    vertical-align: top;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-
-.donations-table-td ul {
-    color: #000;
-    text-align: justify;
-    margin-left: 10%;
-    margin-right: 10%;
-}
 
 /*********************** FORMS **********************/
 
@@ -1058,14 +914,25 @@ tbody tr:nth-child(odd) {
     font-weight: bold;
 }
 
+.register-container-checkbox {
+    display: block;
+    align-self: stretch;
+}
+.register-container-checkbox label {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+}
+
+
 @media (min-width: 1px) and (max-width: 768px) {
     .register-container {
-        width: 60%;
+        width: 70%;
     }
 
     .register-container.admin {
-        max-width: 60%;
-        margin-left: 15%;
+        max-width: 70%;
+        margin-left: 10%;
         margin-right: 0;
         padding: 20px 10px;
         justify-content: flex-end;
@@ -1081,52 +948,10 @@ tbody tr:nth-child(odd) {
         max-width: 100px;
         max-height: 100px;
     }
-}
-
-/* CHECKBOX */
-
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    margin-left: 20%;
-    margin-bottom: -2%;
-    white-space: nowrap; /* Asegura que el contenido se muestre en una sola línea */
-}
-
-.checkbox-label {
-    font-family: "Poppins", Helvetica;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.375rem;
-    color: #000000;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    white-space: nowrap; /* Asegura que el contenido se muestre en una sola línea */
-}
-
-.checkbox-label:hover {
-    color: #5595b9;
-}
-
-.hidden-checkbox {
-    position: absolute;
-    opacity: 0;
-}
-
-.custom-checkbox {
-    width: 1.5rem;
-    height: 1.5rem;
-    font-family: "Poppins", Helvetica;
-    border-radius: 50%;
-    border: 2px solid #e6dddd;
-    background-color: #fff;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 1.5rem;
+    .register-container .long-label,
+    .register-container.admin .long-label {
+        margin-bottom: 20px;
+    }
 }
 
 /* REGISTER BUTTON */
@@ -1139,6 +964,7 @@ tbody tr:nth-child(odd) {
     font-weight: 500;
     text-align: center;
     justify-content: center;
+    align-self: center;
     height: fit-content;
     width: 60%;
     padding: 2% 5% 2% 5%;
@@ -1195,31 +1021,6 @@ tbody tr:nth-child(odd) {
         0 7px 25px 0 rgba(124, 124, 124, 0.24);
 }
 
-/* LOG OUT BUTTON */
-
-.prof-button {
-    background-color: #fcfdff;
-    font-family: "Poppins", Helvetica;
-    font-size: 20px;
-    font-weight: 500;
-    text-align: center;
-    justify-content: center;
-    height: 10px;
-    width: 20px;
-    padding: 2% 5% 2% 5%;
-    border: 2px solid #fcfdff;
-    border-radius: 1rem;
-    text-decoration: none;
-    margin-top: 2%;
-    margin-bottom: 4%;
-    margin-right: 5%;
-}
-
-.prof-button:hover {
-    cursor: pointer;
-    background-color: #fcfdff;
-}
-
 /********************* CARDS ******************/
 
 /* CARD INFO */
@@ -1237,98 +1038,11 @@ tbody tr:nth-child(odd) {
     justify-content: flex-start;
 }
 
-/* CARD INFO ADMIN */
-
-.card-info-suggestion {
-    overflow: auto;
-
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    background-color: #cdf0fe;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px #9ee5ff;
-    padding: 3%;
-    width: 80%;
-    margin: 2%;
-    text-align: justify;
-}
-
-.card-info-suggestion table .table-wrapper {
-    overflow-x: auto;
-}
-.card-info-suggestion table {
-    border-spacing: 10px;
-}
-@media screen and (min-width: 1px) and (max-width: 600px) {
-    .card-info-suggestion table {
-        max-width: 70%;
-        border-spacing: 5rem;
-    }
-}
-
-.card-info-suggestion td {
-    background-color: #cdf0fe;
-    text-align: left;
-    vertical-align: top;
-}
-
-/* CARD INFO EDUCATOR ACTIVITIES */
-.card-info-activity {
-    background-color: #cdf0fe;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px #9ee5ff;
-    padding: 3%;
-    position: relative;
-    margin: 2%;
+.no-info {
     display: flex;
     align-items: center;
-    width: 80%;
-    margin: 2%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-}
-.activity-info {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    white-space: nowrap;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.kids-activity {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    margin-left: 5%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.kids-activity-info {
-    flex: 1;
-    display: flex;
-    border-top: 0.1rem solid #ccc;
-    flex-direction: column;
-}
-.attendance-header {
-    display: flex;
-    justify-content: space-between;
-}
-.attendance-options {
-    display: flex;
-    margin-left: auto;
-    margin-right: 15%;
-}
-.activity-checkbox {
-    width: 3rem;
-    height: 1.2rem;
-    border-radius: 25%;
-    margin-top: 10%;
-    cursor: pointer;
+    height: 80vh;
+    width: 40vw;
 }
 
 /* CARD INFO FAMILY */
@@ -1354,6 +1068,10 @@ tbody tr:nth-child(odd) {
     align-items: flex-start;
 }
 
+.kid p {
+    margin-bottom: 0;
+}
+
 .family-request {
     flex: 0.75;
     display: flex;
@@ -1373,6 +1091,137 @@ tbody tr:nth-child(odd) {
     margin-left: 15%;
 }
 
+/* CARD INFO ADMIN SCHEDULES */
+
+.card-info-schedules {
+    background-color: #cdf0fe;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px #9ee5ff;
+    padding: 3%;
+    position: relative;
+    width: 80%;
+    margin: 2%;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.card-info-schedules table, .table-responsive {
+  overflow-x: auto;
+}
+
+.card-info-schedules td, .card-info-schedules th {
+    background-color: #cdf0fe;
+    text-align: center;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+/* CARD INFO EDUCATOR ACTIVITIES */
+.card-info-activity {
+    background-color: #cdf0fe;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px #9ee5ff;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 3%;
+    margin-bottom: 2%;
+    width: 80%;
+}
+
+.activity-info {
+    flex: 0.2;
+    text-align: center;
+}
+
+.activity-info h4 {
+    margin: 0;
+    padding: 10px 0;
+}
+  
+.kids-activity-info {
+    flex: 0.8;
+    width: 100%;
+    border-top: 2px solid #0c8ebe;
+}
+
+.kids-activity-info td {
+    background-color: #cdf0fe;
+}
+  
+.attendance-header th {
+    text-align: center;
+    font-weight: bold;
+}
+
+.attendance-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Hide the default checkbox */
+.activity-checkbox {
+    display: none;
+}
+
+/* Create a custom checkbox */
+.activity-checkbox + p::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20%; /* Make it round */
+    background-color: #fff;
+    vertical-align: middle;
+}
+
+/* Style the custom checkbox when checked */
+.activity-checkbox:checked + p::before {
+    background-color: grey;
+    content: "✓";
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: black;
+}
+
+/* CARD INFO LESSON EVENT */
+
+.lesson-event-card {
+    display: flex;
+    flex-direction: row;
+    background-color: #cdf0fe;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px #9ee5ff;
+    padding: 3%;
+    position: relative;
+    width: 80%;
+    margin: 2%;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.lesson-event-info {
+    flex: 1;
+    padding: 1em;
+}
+
+.lesson-event-file {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 @media (min-width: 1px) and (max-width: 768px) {
     .card-info {
         max-width: 70%;
@@ -1383,7 +1232,6 @@ tbody tr:nth-child(odd) {
     }
 
     .kids-info,
-    .kid,
     .family-request {
         flex-direction: column;
         width: 100%;
@@ -1394,6 +1242,13 @@ tbody tr:nth-child(odd) {
         border-right: none;
         border-bottom: 2px solid #9ee5ff;
         margin-left: 10px;
+        align-items: center;
+    }
+
+    .kid {
+        flex-direction: column;
+        width: 100%;
+        border-top: 2px solid #9ee5ff;
     }
 
     .family-request img {
@@ -1404,137 +1259,56 @@ tbody tr:nth-child(odd) {
     .family-request p {
         margin-left: 0;
     }
+
     .card-info-activity {
-        max-width: 70%;
+        width: 75%;
+        margin-bottom: 5%;
+    }
+
+    .kids-activity-info {
+        font-size: 14px; 
+    }
+
+    .card-info-schedules {
+        width: 70%;
+    }
+    
+    .lesson-event-card {
         flex-direction: column;
-        justify-content: flex-end;
-        align-items: flex-end;
+        padding: 0;
+        width: 75%;
+        margin-left: 35%;
         margin-right: 0;
     }
-    .activity-info,
-    .attendance-header {
-        width: 100%;
-        flex-direction: column;
-        border-right: none;
-        margin-left: 10px;
+    .lesson-event-info {
+        padding: 2%;
     }
+    .lesson-event-file {
+        width: 80%;
+        margin-left: 10%;
+    }
+}
+/* BOX */
 
-    .kids-activity {
-        margin-left: 0;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .attendance-options {
-        margin-right: 5%;
-        width: 60%;
-    }
-
-    .activity-checkbox {
-        width: 2rem;
-        height: 1rem;
-        margin-top: 5%;
-    }
+.box {
+    background-color: #cdf0fe;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px #9ee5ff;
+    padding: 3%;
+    position: relative;
+    height: 50%;
+    width: 40%;
+    margin: 2%;
+    justify-content: flex-start;
+    font-size: 20px;
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
-    .card-info-suggestion {
-        width: 70%;
+    .box {
+        width: 100%;
         font-size: 12px;
-        align-items: right;
-        overflow: hidden;
+        margin-bottom: 10%;
     }
-}
-/* PARTNERS STYLES*/
-
-.partners-button-container {
-  position: absolute;
-  right: 15%;
-  top: 20rem;
-}
-
-.partners-button {
-  width: 70%;
-  max-width: 220px;
-  height: 6rem;
-  margin-bottom: 10%;
-  font-family: 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #000000;
-  background: #B7ECFF;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 1200px) {
-  .partners-button-container {
-    position: relative;
-    right: auto;
-    top: auto;
-    text-align: center;
-    left: 80%; /* Move buttons to the center */
-    transform: translateX(-50%); /* Center buttons */
-  }
-}
-
-
-.checkbox-partner {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.checkbox-partner input[type="checkbox"] {
-  display: none;
-}
-
-.checkbox-partner label {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  color: rgba(34, 30, 30, 0.87); /* Set label color to a softer black */
-  padding-left: 35px; /* Adjust the spacing between checkbox and label */
-}
-
-
-
-.checkbox-partner label:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px; /* Size of the checkbox */
-  height: 20px; /* Size of the checkbox */
-  border: 1px solid #000;
-  border-radius: 4px;
-}
-
-.checkbox-partner input[type="checkbox"]:checked + label:before {
-  background-color: #000; /* Change background color when checked */
-}
-
-.checkbox-partner label:after {
-  content: '';
-  position: absolute;
-  left: 5px; /* Adjust the position of the checkmark */
-  top: 4px; /* Adjust the position of the checkmark */
-  width: 10px; /* Size of the checkmark */
-  height: 5px; /* Size of the checkmark */
-  border: solid #fff; /* Color of the checkmark */
-  border-width: 0 2px 2px 0; /* Style of the checkmark */
-  transform: rotate(45deg); /* Rotate the checkmark */
-  opacity: 0; /* Hide the checkmark initially */
-}
-
-.checkbox-partner input[type="checkbox"]:checked + label:after {
-  opacity: 0; /* Show the checkmark when checked */
 }
 
 
@@ -1544,19 +1318,16 @@ tbody tr:nth-child(odd) {
     flex: 0.25;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 70%;
     width: 15%;
     position: absolute;
     top: 7%;
     right: 5%;
 }
 
-@media (min-width: 1px) and (max-width: 768px) {
-    .buttons-requests {
-        position: static;
-        height: 15%;
-        width: 100%;
-    }
+.button-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 .button-contrast {
@@ -1627,42 +1398,39 @@ tbody tr:nth-child(odd) {
     box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
 }
 
-.button-edit {
-    background-color: #a7e6b3;
-    border-radius: 10px;
-    height: 40%;
-    width: 40%;
-    text-align: center;
-    margin-left: 100px;
-    margin-bottom: 10%;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 3% 5% 3% 5%;
-    color: #ffffff;
-    font-family: "Poppins", Helvetica;
-    border: 2px solid #a7e6b3;
+@media (min-width: 1px) and (max-width: 768px) {
+    .buttons-requests {
+        position: static;
+        height: 15%;
+        width: 100%;
+    }
+    .button-container {
+        flex-direction: column;
+    }
 }
 
-.button-decline:hover {
-    cursor: pointer;
-    background-color: #ff3c32;
-    box-shadow: 0 6px 10px 0 #7c7c7c, 0 7px 25px 0 #7c7c7c;
-}
+
+
+
+
+
 
 /********************* ICONS ******************/
 
-.trash {
+.trash, .trash-lessons {
     font-size: 25px !important;
     position: absolute;
     top: 80%;
     right: 5%;
+    bottom: 5%;
 }
 
-.edit-fill {
+.edit, .edit-lessons {
     font-size: 25px !important;
     position: absolute;
     top: 80%;
     right: 15%;
+    bottom: 5%;
 }
 
 .add-circle {
@@ -1671,63 +1439,52 @@ tbody tr:nth-child(odd) {
 
 @media (min-width: 1px) and (max-width: 768px) {
     .trash,
-    .edit-fill {
-        font-size: 15px !important;
+    .edit {
+        font-size: 20px !important;
         margin: 5%;
+    }
+    .trash-lessons,
+    .edit-lessons {
+        font-size: 20px !important;
+        margin: 7%;
+        position: relative;
     }
     .add-circle {
         font-size: 25px !important;
     }
 }
 
-.lessonEvent-info p {
-    width: 100%;
-    margin: 0 0 10px 0;
-    box-sizing: border-box;
-    text-align: left;
-}
+
+/* FAMILY SCREENS MESSAGE */
 
 .subtitle-style {
     line-height: 1.5;
     padding: 20px;
     text-align: justify;
-    width: 70%; /* Ancho predeterminado para pantallas grandes */
-    margin: 5% auto 0px; /* Centra el texto manteniendo el margen superior */
-    margin-left: 20%; /* Empuja el bloque de texto un poco más hacia la derecha */
-    overflow-wrap: break-word; /* Permite que las palabras largas se rompan y pasen a la siguiente línea */
+    width: 70%; 
+    margin: 5% auto 0px; 
+    margin-left: 20%; 
+    overflow-wrap: break-word; 
 }
 
-/* Media query para pantallas de menos de 768px (tabletas y móviles) */
 @media (max-width: 768px) {
     .subtitle-style {
-        width: 65%; /* Aumenta el ancho para dispositivos más pequeños */
-        margin: 7% auto; /* Ajusta el margen para mantener el texto centrado */
-        margin-left: 30%; /* Para móviles, empuja aún más el texto hacia la derecha */
-        padding: 10px; /* Reduce el padding para pantallas más pequeñas */
+        width: 65%; 
+        margin: 7% auto; 
+        margin-left: 30%; 
+        padding: 10px; 
     }
 }
 
+
+
+
+
+
+
+
+
 /********************* ADMIN LESSONS ******************/
-.centered-message {
-    position: absolute;
-    top: 50%;
-    left: 85%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    font-size: 20px;
-}
-@media (min-width: 1px) and (max-width: 768px) {
-    .centered-message {
-        position: absolute;
-        top: 50%;
-        left: 85%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        text-align: center;
-        font-size: 15px;
-    }
-}
 
 .lessons-container {
     max-width: 85%;
@@ -1744,28 +1501,6 @@ tbody tr:nth-child(odd) {
     }
 }
 
-/* BOX */
-
-.box {
-    background-color: #cdf0fe;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px #9ee5ff;
-    padding: 3%;
-    position: relative;
-    height: 50%;
-    width: 40%;
-    margin: 2%;
-    justify-content: flex-start;
-    font-size: 20px;
-}
-
-@media (min-width: 1px) and (max-width: 768px) {
-    .box {
-        width: 100%;
-        font-size: 12px;
-        margin-bottom: 5%;
-    }
-}
 
 /* CREATE BUTTON */
 
@@ -1805,6 +1540,7 @@ tbody tr:nth-child(odd) {
         font-size: 12px;
     }
 }
+
 /* CREATE BUTTON Download*/
 
 .button-download {
@@ -1838,6 +1574,12 @@ tbody tr:nth-child(odd) {
     }
 }
 
+
+
+
+
+
+
 /********************* CALENDAR ******************/
 
 .calendar {
@@ -1865,6 +1607,13 @@ tbody tr:nth-child(odd) {
     height: 20px;
     margin: 3px;
 }
+
+
+
+
+
+
+
 /********************* PROFILE ******************/
 
 .ToastContainer {
@@ -1875,22 +1624,21 @@ tbody tr:nth-child(odd) {
     color: #000000 !important;
 }
 
-/********************* EDUCATORS EVALUATION ******************/
 
-.evaluation-select option {
-    width: 2em;
-    text-align: left;
-}
+
+
+
+
+/********************* EDUCATORS EVALUATION ******************/
 
 .evaluation-filter {
     border: 3px solid #b7ecff;
 }
 
-.evaluation-select {
-    width: 6rem;
-    height: 2rem;
-    margin-bottom: 20px;
-    margin-right: 30%;
+@media (min-width: 1px) and (max-width: 768px) {
+    .evaluation-filter {
+        margin-left: 20%;
+    }
 }
 
 /********************* VOLUNTEER FORM ******************/
@@ -1926,7 +1674,6 @@ tbody tr:nth-child(odd) {
     .register-container-files {
         flex-direction: column;
         width: 80%;
-        margin-top: 1rem;
     }
 
     .button-contrast-files {
@@ -1944,7 +1691,14 @@ tbody tr:nth-child(odd) {
     width: 60%;
     height: auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
+    margin-left: 15%;
 }
+@media (min-width: 1px) and (max-width: 768px) {
+    .formation-videos {
+        width: 90%;
+        align-self: center;
+        margin-left: 5%;
+    }
+}
+
+

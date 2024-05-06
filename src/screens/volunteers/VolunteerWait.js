@@ -15,7 +15,6 @@ const VolunteerWait = () => {
     useEffect(() => {
         // Function to fetch status
         const token = localStorage.getItem('accessToken');
-        console.log(token)
         const fetchStatus = async () => {
         const volunteerId = localStorage.getItem('volunteerId');
         const response = await axios.get(`${API_ENDPOINT}volunteer/${volunteerId}/`, {

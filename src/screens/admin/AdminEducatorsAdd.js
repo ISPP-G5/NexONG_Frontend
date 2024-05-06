@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/styles.css';
 import LayoutProfiles from '../../components/LayoutProfiles';
 import axios from 'axios';
@@ -25,7 +26,6 @@ const pantallas = [
 
 function AdminEducatorsAdd() {
   const [token, updateToken] = useToken();
-  const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [identificacion, setIdentificacion] = useState("");
@@ -35,8 +35,22 @@ function AdminEducatorsAdd() {
   const [descripcion, setDescripcion] = useState("");
   const [correo, setCorreo] = useState("");
   const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const letters = /^[A-Za-z]+$/;
+  const letters = /^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$/;
   const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
+  const navigate = useNavigate();
+
+  
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  };
+  const config_admin = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  };
 
   const createUser = async (e) => {
     e.preventDefault(); // Prevenir la recarga de la página
@@ -44,13 +58,9 @@ function AdminEducatorsAdd() {
     //se hace un post a educadores para crear una entidad en la tabla. Esta la usaremos luego para asignar al campo
     //educator de la clase user que vamos acrear
     if (!fecha || fecha === '') {
-      toast.error("Se debe de insertar una fecha", {
-        autoClose: 5000
-      })
+      toast.error("Se debe de insertar una fecha")
     } else if (!nombre || nombre === '') {
-      toast.error("Se debe de insertar un nombre", {
-        autoClose: 5000
-      })
+      toast.error("Se debe de insertar un nombre")
     } else if (!apellido || apellido === '') {
       toast.error("Se debe de insertar un apellido")
     } else if (!correo || correo === '') {
@@ -60,98 +70,65 @@ function AdminEducatorsAdd() {
     } else if (!telefono || telefono === '') {
       toast.error("Se debe de insertar un telefono")
     } else if (!phoneFormat.test(telefono)) {
-      toast.error("Formato de teléfono inválido", { autoClose: 5000 });
-    }
-    else if (!identificacion.match(spanishIdFormat)) {
+      toast.error("Formato de teléfono inválido");
+    } else if (!identificacion.match(spanishIdFormat)) {
       toast.error('Formato de identificación inválido');
-      return;
-    }
-    else if (nombre.length > 75) {
+    } else if (nombre.length > 75) {
       toast.error('Ha introducido mayor número de carácteres que el permitido');
-      return;
-    }
-    else if (apellido.length > 75) {
+    } else if (apellido.length > 75) {
       toast.error('Ha introducido mayor número de carácteres que el permitido');
-      return;
-    }
-    else if (!emailFormat.test(correo)) {
+    } else if (!emailFormat.test(correo)) {
       toast.error('Formato de correo inválido');
-      return;
-    }
-    else if (!nombre.match(letters) || !apellido.match(letters)) {
+    } else if (!nombre.match(letters) || !apellido.match(letters)) {
       toast.error('Nombre y apellido no puede contener números');
-      return;
-    }
-     else if (!clave || clave === '') {
+    } else if (!clave || clave === '') {
       toast.error("Se debe de insertar una contraseña")
     } else {
-      await axios.post(`${API_ENDPOINT}educator/`,
-        {birthdate: fecha,
-      },{headers: {
-        'Authorization': `Bearer ${token}`
-      }}).catch(error => {
-        if (error.response && error.response.status === 400) {
-          toast.error("Error en la solicitud: Datos inválidos", {
-            autoClose: 5000
-          });
-        } else {
-          toast.error("Error en la solicitud", {
-            autoClose: 5000
-          });
-        }
-      });
-    }
+      const educatorData = new FormData();
+      educatorData.append('birthdate', fecha);
+      educatorData.append('description', descripcion);
 
-    //como la entidad de arriba es la ultima que se crea en la base de datos accedemos a esta posción y sacamos la id
-    axios.get(`${API_ENDPOINT}educator/`, {headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-      .then(response => {
-        setId(response.data[response.data.length - 1].id);
-      })
-      .catch(error => {
-        toast.error("Error en la solicitud", {
-          autoClose: 5000
-        });
-      });
-
-    if (id) {
       try {
-        const update = await axios.post(`${API_ENDPOINT}auth/users/`
-      ,{
-          first_name: nombre,
-          last_name: apellido,
-          id_number: identificacion,
-          phone: telefono,
-          role: "EDUCADOR",
-          password: clave,
-          email: correo,
-          educator: id,
-          avatar: avatarImage,
-        }, {headers: {
-          'Authorization': `Bearer ${token}`
-        }});
-
-        if (update && update.data && update.data.message) {
-          Object.entries(update.response.data).forEach(([key, value]) => {
-            toast.error(`${value}`);
-          });
-        } else {
-          toast.success("Usuario creado con éxito.", { autoClose: 5000 });
+        const response = await axios.post(`${API_ENDPOINT}educator/`, 
+        educatorData, config_admin);
+        const id = response.data.id;        
+        const username = `${nombre} ${apellido}`;
+  
+        const userData = new FormData();
+        userData.append('first_name', nombre);
+        userData.append('last_name', apellido);
+        userData.append('email', correo);
+        userData.append('username',username)
+        userData.append('id_number', identificacion);
+        userData.append('phone', telefono);
+        userData.append('password', clave);
+        userData.append('role', "EDUCADOR");
+        userData.append('is_agreed', true);
+        userData.append('educator', id);
+        try {
+          const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
+          userData, config);
+                
+          toast.success('Educador credo con exito');
+    
+          navigate('/admin/educadores');
+        } catch (error) {
+          if (error.response && error.response.data) {
+            // If the error response and data exist, show the error message from the backend
+            Object.entries(error.response.data).forEach(([key, value]) => {
+              toast.error(`${value}`);
+            });
+          } else {
+            // If the error response or data doesn't exist, show a generic error message
+            toast.error('Error al crear el voluntario');
+          }
         }
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          Object.entries(error.response.data).forEach(([key, value]) => {
-            if (value == "Enter a valid email address.") toast.error("Correo inválido");
-            if (value == "The id_number does not match the expected pattern.") toast.error("DNI inválido");
-          });
-        } else {
-          toast.error("Error en la solicitud", { autoClose: 5000 });
-        }
+      } catch(error){
+        Object.entries(error.response.data).forEach(([key, value]) => {
+          if (key == "email") toast.error("Ya existe un usuario con ese correo");
+        });
       }
     }
-
   }
 
   return (
@@ -217,6 +194,6 @@ function AdminEducatorsAdd() {
       </div>
     </LayoutProfiles>
   );
-}
+};
 
 export default AdminEducatorsAdd;

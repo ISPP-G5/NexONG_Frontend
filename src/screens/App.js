@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route , Routes,useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
-import { useEffect, useState,useContext } from 'react';
+import { useEffect, useState } from 'react';
 import RoleContext from '../components/RoleContext';
 // HOMEPAGE
 import HomePage from './homepage/HomePage';
@@ -161,8 +161,6 @@ function App() {
             <Route path="/admin/perfil/actualizar" exact={true} element={<AdminProfileUpdate />} />
             <Route path="/admin/perfil/actualizar/:id" exact={true} element={<AdminEditProfiles />} />
 
-
-            
             <Route path="/admin/voluntarios" element={<AdminVolunteers />} />
             <Route path="/admin/voluntarios/solicitudes" exact={true} element={<AdminVolunteersRequests />} />
 

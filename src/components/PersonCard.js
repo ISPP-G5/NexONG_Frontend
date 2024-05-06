@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 
 import avatarEducator from '../logo/family-avatar.jpg'; // Ensure these paths are correct
@@ -31,6 +32,10 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     'FAMILIA': avatarFamily,
     'SOCIO': avatarPartner,
   };
+  
+  const [kidDialogOpen, setKidDialogOpen] = useState(false);
+  const [currentKid, setCurrentKid] = useState(null);
+
 
   const handleDescargar = async(person) => {
     const descargarDocumento = async (url, nombreArchivo) => {
@@ -84,7 +89,6 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           status:status,
           acceptance_date: date
         }
-        console.log(data);
         await axios.patch(`${API_ENDPOINT}${path}/`, data, config);
       } else {
         await axios.patch(`${API_ENDPOINT}${path}/`, {status}, config);
@@ -185,17 +189,57 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           {kids.filter(kid => kid.family === person.id).map((kid, kidIndex) => {
             return (
               <div className='kid' key={kidIndex}>
-                <p>Nombre de niño: {kid.name} {kid.surname}</p>
-                <p>Fecha de nacimiento: {kid.birthdate}</p>
-                <p>Curso: {kid.current_education_year}</p>
-                <p>Clase: {kid.lesson ? kid.lesson[0] : 'No está en ninguna clase'}</p>
-                <p>Evaluación: {kid.evaluation ? kid.evaluation : 'No hay evaluación'}</p>
+                <p><strong>Nombre de niño:</strong></p>
+                <p>{kid.name} {kid.surname}</p>
+                <p><strong>Curso: </strong></p>
+                <p>{kid.current_education_year}</p>
+                <p><strong>Clase: </strong></p>
+                {kid.lesson && kid.lesson.length > 0 ? (
+                  kid.lesson.map((lesson, lessonIndex) => (
+                    <p key={lessonIndex}>{lesson}</p>
+                  ))
+                ) : (
+                  <p>No está en ninguna clase</p>
+                )}
+                <p><strong>Evaluación: </strong></p>
+                <p style={{marginBottom: '5px'}}>{kid.evaluation ? kid.evaluation : 'No hay evaluación'}</p>
                 {kid.status === 'CADUCADO' && <p style={{ color: 'red' }}>CADUCADO</p>}
+                <button className='button-contrast' style={{maxWidth: '80%', maxHeight: '10%', alignSelf: 'center', marginTop: '5px'}} onClick={() => { setCurrentKid(kid); setKidDialogOpen(true); }}>Ver más</button>
               </div>
             );
           })}
         </div>
       }
+      
+      <Dialog open={kidDialogOpen} onClose={() => setKidDialogOpen(false)}>
+        <DialogTitle>Kid Information</DialogTitle>
+        {currentKid && (
+          <DialogContent>
+            <p><strong>Nombre:</strong> {currentKid.name} {currentKid.surname}</p>
+            <p><strong>Fecha de nacimiento:</strong> {currentKid.birthdate}</p>
+            <p><strong>Curso:</strong> {currentKid.current_education_year}</p>
+            <p><strong>Clase: </strong></p>
+            {currentKid.lesson && currentKid.lesson.length > 0 ? (
+              currentKid.lesson.map((lesson, lessonIndex) => (
+                <p key={lessonIndex}>{lesson}</p>
+              ))
+            ) : (
+              <p>No está en ninguna clase</p>
+            )}            
+            <p><strong>Evaluación:</strong> {currentKid.evaluation ? currentKid.evaluation : 'No hay evaluación'}</p>
+            <p><strong>Tutor:</strong> {currentKid.education_center_tutor ? currentKid.education_center_tutor : 'No tiene tutor'}</p>
+            <p><strong>Horario:</strong> {currentKid.is_morning_student ? 'Mañana' : 'Tarde'}</p>
+            <p><strong>Nacionalidad:</strong> {currentKid.nationality}</p>
+            {currentKid.status === 'CADUCADO' && <p style={{ color: 'red' }}>EXPIRED</p>}
+          </DialogContent>
+        )}
+        <DialogActions>
+          <Button onClick={() => setKidDialogOpen(false)} color="primary">
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 };

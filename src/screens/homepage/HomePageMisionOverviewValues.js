@@ -57,19 +57,19 @@ const info = [
         ),
         list: [
         <div>
-            <i>Respeto</i>
+            <strong><i>Respeto</i></strong>
             <span>
                 : de todos/as y para todos/as teniendo una escucha activa y paciente con el usuario.
             </span>
         </div>,
         <div>
-            <i>Responsabilidad</i>
+            <strong><i>Responsabilidad</i></strong>
             <span>
                 : ser consecuentes con nuestra acción y ofrecer la relación de ayuda en todos los casos.
             </span>
         </div>,
         <div>
-            <i>Compromiso y Solidaridad</i>
+            <strong><i>Compromiso y Solidaridad</i></strong>
             <span>
                 : desde la observación social, la detección de necesidades y la proposición de respuestas ajustadas,
                 efectivas y continuas. Para seguir prestando un servicio útil a la sociedad ajustando nuestra acción
@@ -77,7 +77,7 @@ const info = [
             </span>
         </div>,
         <div>
-            <i>Libertad e Igualdad</i>
+            <strong><i>Libertad e Igualdad</i></strong>
             <span>
                 : todo el equipo responsable de la organización, así como los voluntarios y beneficiarios de los
                 programas ejercerán su participación de manera libre y procurando la igualdad a través de un sistema
@@ -85,20 +85,20 @@ const info = [
             </span>
         </div>,
         <div>
-            <i>Democracia y Participación</i>
+            <strong><i>Democracia y Participación</i></strong>
             <span>
                 : las decisiones se tomarán por consenso y se fomentará la participación.
             </span>
         </div>,
         <div>
-            <i>Accesibilidad</i>
+            <strong><i>Accesibilidad</i></strong>
             <span>
                 : la Asociación debe ser fácilmente accesible para cualquier ciudadano, y sus actuaciones, gestión,
                 etc. transparentes.
             </span>
         </div>,
         <div>
-            <i>Cooperación y Colaboración</i>
+            <strong><i>Cooperación y Colaboración</i></strong>
             <span>
                 : la entidad debe mantener relaciones con asociaciones similares, entidades u organizaciones, públicas
                 o privadas, etc. Igualmente, la Asociación debe fomentar la cooperación y colaboración entre sus
@@ -106,7 +106,7 @@ const info = [
             </span>
         </div>,
         <div>
-            <i>Creatividad e Innovación</i>
+            <strong><i>Creatividad e Innovación</i></strong>
             <span>
                 : la entidad debe ser proactiva e innovadora en sus actuaciones.
             </span>

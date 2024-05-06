@@ -17,10 +17,10 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 const AdminSuggestions = () => {
     const [token, updateToken] = useToken();
     const [suggestions, setSuggestions] = useFetchSuggestions(API_ENDPOINT, token);
-    const [doHandleAceptarRechazar, setDohandleAceptarRechazar] = useState(false);
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
     async function handleDelete(id) {
-      setDohandleAceptarRechazar(false)
+      setConfirmDeleteOpen(false)
       try {
         const token = localStorage.getItem('accessToken');  // Replace with your actual token
         const config = {
@@ -34,55 +34,34 @@ const AdminSuggestions = () => {
         // Handle error...
       }
     }
-            
+
     return (
-        <LayoutProfiles profile={'admin'} selected={'Sugerencas'}>
+        <LayoutProfiles profile={'admin'} selected={'Sugerencias'}>
                 <ToastContainer />
 
             {suggestions.map((suggestion, index) => (
-                <div className='card-info-suggestion' key={index}>
-                    {/* <div>
-                        <p>{suggestion.subject}</p>
-                        <p>{suggestion.description}</p>
-                        <p>{suggestion.email || 'Anónimo'}</p>
-                    </div> */}
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td><strong>Asunto:</strong></td>
-                            <td>{suggestion.subject}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Sugerencia:</strong></td>
-                            <td>{suggestion.description}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Correo:</strong></td>
-                            <td>{suggestion.email || 'Anónimo'}</td>
-                        </tr>
-                      
-                        </tbody>
-                    </table>
-
-                    <Dialog open={doHandleAceptarRechazar} onClose={() => setDohandleAceptarRechazar(false)}>
-                      <DialogTitle>¿Estás seguro que quieres rechazar?</DialogTitle>
-                      <DialogActions>
-                        <Button onClick={() => setDohandleAceptarRechazar(false)} color="primary">
-                          Cancelar
-                        </Button>
-                        <Button onClick={() => handleDelete(suggestion.id)} color="secondary">
-                          Confirmar
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                    
-                    <DeleteIcon 
-                    style={{ position: 'relative', top: '80%', left: '90%' }} 
-                    onClick={() => setDohandleAceptarRechazar(true)}
-                    />
-                <ToastContainer />
-
+              <div className='card-info' key={index}>
+                <div>
+                    <p><strong>Asunto:  </strong>{suggestion.subject}</p>
+                    <p><strong>Sugerencia:  </strong>{suggestion.description}</p>
+                    <p><strong>Correo:  </strong>{suggestion.email || 'Anónimo'}</p>
                 </div>
+                          
+                <DeleteIcon className='trash-lessons' onClick={() => setConfirmDeleteOpen(true)} />
+                
+                <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+                  <DialogTitle>¿Estás seguro que quieres borrar la sugerencia?</DialogTitle>
+                  <DialogActions>
+                    <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+                      Cancelar
+                    </Button>
+                    <Button onClick={() => handleDelete(suggestion.id)} color="secondary">
+                      Confirmar
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                <ToastContainer />
+              </div>
             ))}
         </LayoutProfiles>
     );

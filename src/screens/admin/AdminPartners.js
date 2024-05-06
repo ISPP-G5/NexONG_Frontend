@@ -79,15 +79,8 @@ return (
             data={userPartners}
             type="Socios"
             pantallas={pantallas}
+            download={handleDownload}
         />
-        <div style={{ position: 'absolute', top: '20%', right: 0, zIndex: 900 }}>
-            <select className="button-download" onChange={(e) => handleDownload(e.target.value)}>
-                <option value=""> Formato a descargar</option>
-                <option value="pdf">PDF</option>
-                <option value="excel">Excel</option>
-                <option value="csv">CSV</option>
-            </select>
-        </div>
     </div>
 );
 

@@ -47,8 +47,6 @@ function AdminFamily() {
       setKids(newKids);
     }
   }, [students, lessons, evaluations]);
-
-
   
   return (
     <ShowType 

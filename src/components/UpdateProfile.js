@@ -55,7 +55,6 @@ const UpdateProfile = ({tipo,id}) => {
                 setPassword(response.data.password);
 
                 setAvatar(response.data.avatar);
-                console.log('User',valoresList);
             } catch (error) {
                 console.error(error);
             }
@@ -110,6 +109,10 @@ const UpdateProfile = ({tipo,id}) => {
         }
     };
 
+    
+    const handleProfileClick = () => {
+        navigate(`/${tipo}/perfil`);
+    };
 
     return (
         <div className='register-container admin' style={{width: '300px', marginTop:'6%'}}>
@@ -164,6 +167,9 @@ const UpdateProfile = ({tipo,id}) => {
 
             <button onClick={updateAdmin} className='register-button admin' >
                 Actualizar perfil
+            </button>
+            <button type='button' className='register-button admin' onClick={handleProfileClick}>
+                Atrás
             </button>
         </div>        
     )

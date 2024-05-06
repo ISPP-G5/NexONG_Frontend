@@ -38,9 +38,6 @@ export default function EducatorEvaluationCommon() {
       [id]: event.target.value,
     }));
   };
-
-
-  console.log('prueba prueba',evaluation)
  
   useEffect(() => {
     const id = localStorage.getItem('userId');
@@ -66,7 +63,6 @@ export default function EducatorEvaluationCommon() {
   useEffect(() => {
     axios.get(`${API_ENDPOINT}evaluation-type/`,config)
       .then(response => {
-        console.log('evaluation types',response.data)
         setEvaluationTypes(response.data);
       });
  
@@ -77,7 +73,6 @@ export default function EducatorEvaluationCommon() {
       try {
         const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`,config);
         setStudentEvaluations(evaluations);
-        console.log('student evaluations',evaluations)
       } catch (error) {
         console.error('Error fetching student evaluations:', error);
       }
@@ -94,7 +89,6 @@ export default function EducatorEvaluationCommon() {
           const lessons = response.data.filter(lesson => lesson.educator === educatorId);
           if (lessons.length > 0) {
             const allStudents = lessons.reduce((students, lesson) => [...students, ...lesson.students], []);
-            console.log('allStudents',allStudents)
   
             setKids(allStudents);
             setLesson(lessons)
@@ -122,7 +116,6 @@ useEffect(() => {
   };
   useEffect(() => {
     if (selectedStudent) {
-      console.log(selectedStudent);
       axios.get(`${API_ENDPOINT}auth/users/me/`,config)
   .then(response => {
     if (response && response.data) {
@@ -206,7 +199,6 @@ useEffect(() => {
         evaluation.evaluation_type === evaluationTypes &&
         evaluation.date === selectedDate
       );
-  console.log('grade',studentEvaluation)
       if (studentEvaluation) {
         console.log('Updating evaluation with grade:', grade, 'and comment:', comment);
         const updateResponse = await axios.patch(`${API_ENDPOINT}student-evaluation/${studentEvaluation.id}/`, {
@@ -215,7 +207,6 @@ useEffect(() => {
           comment: comment, 
           date: selectedDate, 
         },config);
-        console.log('Update response:', updateResponse);
         if (updateResponse.status === 200) {
           console.log('Evaluation updated successfully');
           toast.success('Evaluación realizada de manera correcta');
@@ -230,10 +221,7 @@ useEffect(() => {
           toast.error('Error al evaluar al estudiante');
         }
       } else {
-        
-        
-       console.log( evaluationTypes[0].id,' evaluationTypes[0].id')
-        const createResponse = await axios.post(`${API_ENDPOINT}student-evaluation/`, {
+          const createResponse = await axios.post(`${API_ENDPOINT}student-evaluation/`, {
           grade: parseInt(grade, 10), 
           date: selectedDate, 
           comment: comment,
@@ -241,7 +229,6 @@ useEffect(() => {
           evaluation_type: evaluationTypes[1].id
 
         },config);
-        console.log('Create response:', createResponse);
 
         if (createResponse.status === 201) {
           console.log('Evaluation created successfully');
@@ -271,24 +258,17 @@ useEffect(() => {
       console.log('Evaluation types not loaded yet');
       return [];
     }
-  
-    console.log('studentId:', studentId);
-    
-    console.log('before filter:', studentEvaluations);
-    console.log('evaluationTypes:', evaluationTypes[0].evaluation_type, evaluationTypes[1]);
+      
     const filteredEvaluations = studentEvaluations.filter(evaluation => 
       evaluation.student === parseInt(studentId)
     );
-    console.log('Filtered evaluations for student:', filteredEvaluations);
     
     if (filteredEvaluations.length === 0) {
       return ['Sin evaluar'];
     }
   
     filteredEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
-    console.log('Sorted evaluations:', filteredEvaluations);
   
-    console.log('All evaluations:', filteredEvaluations);
     return filteredEvaluations;
   };
   

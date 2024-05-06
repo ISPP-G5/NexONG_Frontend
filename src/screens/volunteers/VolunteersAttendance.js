@@ -189,13 +189,11 @@ const VolunteersAttendance = () => {
     <LayoutProfiles profile={'voluntario'} selected={'Asistencia'}>
       <ToastContainer/>
       {eventsList.length === 0 ? (
-        <div className="centered-message">
-          <p>No te has unido a ningún evento aún</p>
-        </div>
+          <p className='no-info'>No te has unido a ningún evento aún</p>
       ) : (
         eventsList.map((event) => (
           <div className='card-info' key={event.id + event.name}>
-            <div>
+            <div style={{width: '100%'}}>
               <p><strong>Evento:</strong> {event.name}</p>
               <p><strong>Tipo:</strong> {event.type === 'event' ? 'Evento' : event.type === 'lesson' ? 'Clase' : 'Excursión'}</p>
               {event.type === 'event' || event.type === 'lesson-event' ?  

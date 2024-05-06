@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import HeaderProfiles from '../../components/HeaderProfiles';
-import useAdjustMargin from '../../components/useAdjustMargin';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import useToken from '../../components/useToken';
-import IBAN from 'iban';
 import LayoutProfiles from '../../components/LayoutProfiles';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 function PartnersRenew() {
   const [token, updateToken] = useToken();
-  const [user, setUser] = useState({});
   const [donationId, setDonationId] = useState(null); // Initialize donationId as null
 
   const config_partner = {
@@ -38,7 +34,6 @@ function PartnersRenew() {
             const matchingDonation = donationsResponse.data.find(donation => donation.partner === partnerId);
   
             if (matchingDonation) {
-              console.log('Matching donation:', matchingDonation);
               // Do something with the matching donation
               setDonationId(matchingDonation.id);
               setHolder(matchingDonation.holder);
@@ -94,7 +89,6 @@ function PartnersRenew() {
           holder: holder,
           date: selectedDate
         }, config_partner);
-        console.log('Donation updated:', response.data);
         toast.success('Cuota actualizada correctamente');
         setTimeout(() => {
           navigate('/socio/perfil');
@@ -104,9 +98,6 @@ function PartnersRenew() {
       }
     } 
 
-
-  const marginTop = useAdjustMargin('.header-profiles');
-
   const handleCheckboxChange = (value) => {
     setFrequency(value);
   };
@@ -115,7 +106,7 @@ function PartnersRenew() {
     <div className='App'>
       <ToastContainer />
       <LayoutProfiles profile={'socio'}>
-        <form className='register-container' style={{marginTop }} onSubmit={handleSubmit}>
+        <form className='register-container admin' onSubmit={handleSubmit}>
           <h2>Renovar o cambiar cuota</h2>
           <p>Para domiciliar sus recibos necesitamos los siguientes datos:</p>
 
@@ -127,14 +118,14 @@ function PartnersRenew() {
             placeholder= "Escriba el titular de la cuenta " // Update to display matching donation's holder
           />
 
-          <label>Nº de cuenta con IBAN</label>
+          <label>IBAN de la cuenta</label>
           <input
             value={iban}
             type='text'
             readOnly = {true}
           />
 
-          <label>¿Con qué cantidad deseas colaborar?</label>
+          <label className='long-label'>¿Con qué cantidad deseas colaborar?</label>
           <input
             value={quantity}
             type='number'
@@ -144,47 +135,44 @@ function PartnersRenew() {
           />
 
           <label>¿Con qué frecuencia?</label>
-  
-          <div className="checkbox-container-partner">
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="mensual" 
-                checked={frequency === 'MENSUAL'}
-                onChange={() => handleCheckboxChange('MENSUAL')}
-              />
-              <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
-            </div>
+          <div className="register-container-checkbox">
+            <input 
+              type="checkbox" 
+              id="mensual" 
+              checked={frequency === 'MENSUAL'}
+              onChange={() => handleCheckboxChange('MENSUAL')}
+            />
+            <label htmlFor="mensual">MENSUAL (la cantidad introducida cada mes)</label>
+          </div>
 
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="trimestral" 
-                checked={frequency === 'TRIMESTRAL'}
-                onChange={() => handleCheckboxChange('TRIMESTRAL')}
-              />
-              <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada tres meses)</label>
-            </div>
+          <div className="register-container-checkbox">
+            <input 
+              type="checkbox" 
+              id="trimestral" 
+              checked={frequency === 'TRIMESTRAL'}
+              onChange={() => handleCheckboxChange('TRIMESTRAL')}
+            />
+            <label htmlFor="trimestral">TRIMESTRAL (la cantidad introducida cada tres meses)</label>
+          </div>
 
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="semestral" 
-                checked={frequency === 'SEMESTRAL'}
-                onChange={() => handleCheckboxChange('SEMESTRAL')}
-              />
-              <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada seis meses)</label>
-            </div>
+          <div className="register-container-checkbox">
+            <input 
+              type="checkbox" 
+              id="semestral" 
+              checked={frequency === 'SEMESTRAL'}
+              onChange={() => handleCheckboxChange('SEMESTRAL')}
+            />
+            <label htmlFor="semestral">SEMESTRAL (la cantidad introducida cada seis meses)</label>
+          </div>
 
-            <div className="checkbox-partner">
-              <input 
-                type="checkbox" 
-                id="anual" 
-                checked={frequency === 'ANUAL'}
-                onChange={() => handleCheckboxChange('ANUAL')}
-              />
-              <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
-            </div>
+          <div className="register-container-checkbox">
+            <input 
+              type="checkbox" 
+              id="anual" 
+              checked={frequency === 'ANUAL'}
+              onChange={() => handleCheckboxChange('ANUAL')}
+            />
+            <label htmlFor="anual">ANUAL (la cantidad introducida una vez al año)</label>
           </div>
 
           <label>Fecha</label>
@@ -194,10 +182,10 @@ function PartnersRenew() {
             readOnly
           />
 
-          <button type='submit' className='register-button'>
+          <button type='submit' className='register-button admin'>
             Finalizar
           </button>
-          <button type='button' className='register-button' onClick={handleProfileClick}>
+          <button type='button' className='register-button admin' onClick={handleProfileClick}>
             Atrás
           </button>
         </form>

@@ -375,7 +375,6 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}event/`, config)
         .then((response) => {
-          console.log('response event:', response.data);
           const formattedEvents = response.data.map((event) => ({
             id: event.id,
             title: event.name,
@@ -398,7 +397,6 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}volunteer/`, config)
         .then((response) => {
-          console.log('response volunteers:', response.data);
           setVolunteers(response.data);
         })
         .catch((error) => {
@@ -407,7 +405,6 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}meeting/`, config)
         .then((response) => {
-          console.log('response asambleas:', response.data);
           const formattedMeetings = response.data.map((meeting) => ({
             id: meeting.id,
             title: meeting.name,
@@ -419,7 +416,6 @@ function AdminEvents() {
             type: 'meeting',
 
           }));
-          console.log('formattedMeetings:', formattedMeetings);
 
           // Add a minimum duration to each meeting event (e.g., 1 hour)
           const formattedMeetingsWithDuration = formattedMeetings.map((meeting) => ({
@@ -440,7 +436,6 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}student/`, config)
         .then((response) => {
-          console.log('response students:', response.data);
           setStudents(response.data);
         })
         .catch((error) => {
@@ -450,7 +445,6 @@ function AdminEvents() {
         .get(`${API_ENDPOINT}lesson/`, config)
         .then((response) => {
           setLessons(response.data);
-          console.log('response lessons:', response.data);
         })
         .catch((error) => {
           console.error('Error fetching lessons:', error);
@@ -458,7 +452,6 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}educator/`, config)
         .then((response) => {
-          console.log('response educators:', response.data);
           setEducators(response.data);
         })
         .catch((error) => {
@@ -467,7 +460,6 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}user/`, config)
         .then((response) => {
-          console.log('response users:', response.data);
           setUsers(response.data);
         })
         .catch((error) => {
@@ -493,7 +485,6 @@ function AdminEvents() {
             end: new Date(event.end_date),
             type: 'lesson-event',
           }));
-          console.log('formattedLessonEvents:', formattedLessonEvents);
 
           setLessonEvents(formattedLessonEvents);
         })
@@ -504,7 +495,6 @@ function AdminEvents() {
       axios
         .get(`${API_ENDPOINT}user/`,)
         .then((response) => {
-          console.log('response user:', response.data);
           setUsers(response.data);
         })
         .catch((error) => {
@@ -629,8 +619,6 @@ function AdminEvents() {
     };
 
     const handleLessonEvent = () => {
-      console.log('Educators:', localFormData.educators);
-      console.log('Lesson:', localFormData.lessonId);
 
       if (!localFormData.name || !localFormData.description || !localFormData.place || !localFormData.start_date || !localFormData.end_date || !localFormData.max_volunteers || !localFormData.price || !localFormData.educators || localFormData.educators.length === 0) {
         toast.error('Por favor, rellene todos los campos y seleccione al menos un educador.');
@@ -658,7 +646,6 @@ function AdminEvents() {
           educators: localFormData.educators.map(educator => educator.id) // Include only the IDs of selected educators
         }, config)
         .then((response) => {
-          console.log('Response of post:', response.data);
           let startDate = new Date(localFormData.start_date);
           startDate.setHours(startDate.getHours() + 1);
           let endDate = new Date(localFormData.end_date);
@@ -842,12 +829,10 @@ function AdminEvents() {
           lesson: localFormData.lessonId,
           educators: localFormData.educatorId,
         };
-        console.log('updatedLessonEventData:', updatedLessonEventData);
         axios
           .put(`${API_ENDPOINT}lesson-event/${editLessonEvent.id}/`, updatedLessonEventData, config)
 
           .then((response) => {
-            console.log('Response of put:', response.data);
             const updatedLessonEvent = response.data;
             setLessonEvents(prevLessonEvents =>
               prevLessonEvents.map(lessonEvent => lessonEvent.id === updatedLessonEvent.id ? updatedLessonEvent : lessonEvent)
@@ -1157,8 +1142,6 @@ function AdminEvents() {
           end_date: endDate,
         });
         setOpenEditLessonEventDialog(true);
-        console.log('activida d editar:', event);
-
       }
 
 
@@ -1195,7 +1178,7 @@ function AdminEvents() {
     return (
       <LayoutProfiles profile='admin' selected='Eventos'>
         <ToastContainer />
-        <ButtonCreate text='Crear evento' handleCreate={handleCreateClick} />
+        <ButtonCreate className='button-contrast' text='Crear evento' handleCreate={handleCreateClick} withIcon={true} />
 
         <div className={classes.calendarContainer}>
           <Calendar

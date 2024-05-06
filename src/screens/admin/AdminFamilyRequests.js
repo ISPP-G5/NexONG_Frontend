@@ -36,7 +36,8 @@ function AdminFamilyRequests() {
           first_name: family.name,
           last_name: `${kid.name} ${kid.surname}`,
           avatar: kid.avatar,
-          enrollment_document: kid.enrollment_document
+          enrollment_document: kid.enrollment_document, 
+          role: 'FAMILIA',
         };
       })
       Promise.all(newPersons)

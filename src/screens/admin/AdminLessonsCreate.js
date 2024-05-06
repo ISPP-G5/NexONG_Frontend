@@ -62,7 +62,6 @@ const AdminLessonsCreate = () => {
     } else {
       setLocalFormData({ ...localFormData, [name]: value });
     }
-    console.log('localFormData:', localFormData);
   };
 
   const handleSubmit = () => {
@@ -77,7 +76,6 @@ const AdminLessonsCreate = () => {
     axios
       .post(`${API_ENDPOINT}lesson/`, localFormData, config)
       .then((response) => {
-        console.log('Response of post:', response.data);
         toast.success('Clase creada con éxito');
       })
       .catch((error) => {
@@ -117,7 +115,6 @@ const AdminLessonsCreate = () => {
     axios
       .get(`${API_ENDPOINT}educator/`, config)
       .then((response) => {
-        console.log('response educators:', response.data);
         setEducators(response.data);
       })
       .catch((error) => {
@@ -126,7 +123,6 @@ const AdminLessonsCreate = () => {
     axios
       .get(`${API_ENDPOINT}student/`, config)
       .then((response) => {
-        console.log('response students:', response.data);
         setStudents(response.data);
         const studentsFiltered = response.data.filter(student => student.is_morning_student === false); // Initialize studentsFiltered state
         setStudentsFiltered(studentsFiltered);
@@ -138,7 +134,6 @@ const AdminLessonsCreate = () => {
     axios
     .get(`${API_ENDPOINT}user/`, config)
     .then((response) => {
-      console.log('response user:', response.data);
       setUsers(response.data);
     })
     .catch((error) => {

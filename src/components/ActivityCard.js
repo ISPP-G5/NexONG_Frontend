@@ -9,21 +9,22 @@ function ActivityCard({ activities, kids, exits }) {
   const attendees = kids.filter(kid => attendeeIds.includes(kid.id));
   const matchingExits = exits.filter(exit => exit.lesson_event === activities.id); 
 
- 
-
   return (
     <div className='card-info-activity'>
       <div className='activity-info'>
-        <p><strong>{activities.name}</strong></p>
+        <h4>{activities.name}</h4>
       </div>
 
       {attendees.length > 0 && (
-        <div className='kids-activity-info'>
-          <div className="attendance-header">
-            <p><strong>Asistentes autorizados</strong></p>
-            <p style={{ marginRight: '13%' }}><strong>Asistencia</strong></p> {/* Add margin-right */}
-          </div>
+        <table className='kids-activity-info'>
+          <thead>
+            <tr className="attendance-header">
+              <th>Asistentes autorizados</th>
+              <th>Asistencia</th>
+            </tr>
+          </thead>
 
+          <tbody>
           {attendees.map((kid, kidIndex) => {
 
             const exit = matchingExits.find(exit => exit.student === kid.id);
@@ -32,28 +33,28 @@ function ActivityCard({ activities, kids, exits }) {
             console.log(`Is Authorized for ${kid.name} ${kid.surname}: ${isAuthorized}`);
 
             return (
-              <div className='kids-activity' key={kidIndex}>
-                <p>{kid.name} {kid.surname}</p>
-                <div className="attendance-options">
+              <tr key={kidIndex}>
+                <td>{kid.name} {kid.surname}</td>
+                <td className="attendance-options">
                   <input
                     type="checkbox"
-                    className={`activity-checkbox ${attendance[kid.id] === 'YES' ? 'checked' : ''}`}
+                    className={`activity-checkbox${attendance[kid.id] === 'YES' ? ' checked' : ''}`}
                     checked={isAuthorized}
                     
                   />
                   <p>Sí</p>
                   <input
                     type="checkbox"
-                    className={`activity-checkbox ${attendance[kid.id] === 'NO' ? 'checked' : ''}`}
+                    className={`activity-checkbox${attendance[kid.id] === 'NO' ? ' checked' : ''}`}
                     checked={!isAuthorized}
-                    
                   />
                   <p>No</p>
-                </div>
-              </div>
+                  </td>
+                </tr>
             );
           })}
-        </div>
+          </tbody>
+        </table>
       )}
     </div>
   );

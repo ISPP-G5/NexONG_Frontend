@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import StudentCard from './StudentsCard';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+
+
 export default function StudentEvaluation({ students, evaluationTypes, evaluation, grade, handleGradeChange, comment, handleCommentChange, selectedDate, handleDateChange, email, phone, handleSubmit, handleCloseModal,handleCloseEvaluacionModal2, handleCloseEvaluacionModal1,handleCloseInfoModal, selectedStudent, getStudentEvaluation, showEditModal, showInfoModal, showEvaluacionModal2, showEvaluacionModal1, handleEvaluationChange, handleEdit, handleInfo, handleEvaluacion1, handleEvaluacion2,lessons }) {
   const inputStyle = {
     boxSizing: 'none',
@@ -14,15 +16,11 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
   const handleLessonChange = (event) => {
     setSelectedLesson(event.target.value);
   };
-  console.log('selected student',selectedStudent)
 
   useEffect(() => {
-    console.log('students',students)
-    console.log('lesson',lessons)
     
     if (students && lessons && selectedLesson) {
       const selectedLessonObj = lessons.find(lesson => lesson.id == selectedLesson);
-      console.log('selectedLessonObj',selectedLessonObj)
       if (selectedLessonObj && Array.isArray(selectedLessonObj.students)) {
         const studentsInSelectedLessonFilter = students.filter(student => selectedLessonObj.students.includes(student.id));
         
@@ -34,8 +32,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
   }, [students, lessons, selectedLesson]);
 
 
-  console.log('lessons', lessons[0]);
-  console.log('selectedLesson', selectedLesson);
   return (
     <>
       <label>Selecciona una clase:</label>
@@ -69,9 +65,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
          );
         })
       ) : (
-        <div className= "centered-message">
-          <p>Por favor, selecciona una clase.</p>
-       </div>   
+        <p className='no-info'>Por favor, selecciona una clase.</p>
 )}
  
 {showEditModal && (
@@ -79,7 +73,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
     <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
     <DialogContent>
       <form onSubmit={handleSubmit}>
-        <label style={{display: 'block', marginBottom: '3%'}}>Notas:
+        <label style={{display: 'block', marginBottom: '3%'}}>Notas: </label>
           {evaluationTypes && evaluationTypes.map((evaluationType, index) => {
             let lessonsIds;
             let evaluationTypeIds
@@ -105,7 +99,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
               
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
 
-                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} style={{width: '100%'}} key={index}>
                     <option value={0}>0</option>
                     {evaluationType.grade_system === 'CERO A UNO' && 
                       ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
@@ -113,8 +107,8 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                     {evaluationType.grade_system === 'UNO A CINCO' && 
                       [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
-                    {evaluationType.grade_system === 'UNO A DIEZ' && 
-                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    {evaluationType.grade_system === 'CERO A DIEZ' && 
+                      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
                   </select>
                 ) : null;
@@ -130,7 +124,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                 const defaultGrade = evaluationType.grade_system === 'CERO A UNO' ? 0 : 1;
 
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
-                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} style={{width: '100%'}} key={index}>
                     <option value={0}>0</option>
                     {evaluationType.grade_system === 'CERO A UNO' && 
                       ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
@@ -138,8 +132,8 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                     {evaluationType.grade_system === 'UNO A CINCO' && 
                       [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
-                    {evaluationType.grade_system === 'UNO A DIEZ' && 
-                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    {evaluationType.grade_system === 'CERO A DIEZ' && 
+                      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
                   </select>
                 ) : null;
@@ -149,7 +143,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
             }
             return null; 
           })}
-        </label>
         <label>Comentario:</label>
         <input type="text" value={comment} onChange={handleCommentChange} style={inputStyle} />
         <label>Fecha:</label>
