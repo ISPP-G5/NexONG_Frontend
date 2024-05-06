@@ -147,9 +147,10 @@ function ChildForm() {
     volunteerData.append('education_center_tutor', formData.tutor);
     volunteerData.append('nationality', formData.nationality);
     volunteerData.append('birthdate', formData.birthdate);
-    volunteerData.append('is_morning_student', formData.isMorning === 'TARDE' ? false: true);
+    volunteerData.append('is_morning_student', formData.isMorning === 'Tarde' ? false: true);
     volunteerData.append('enrollment_document', formData.enrollmentDoc);
     volunteerData.append('scanned_sanitary_card', formData.sanitaryCard);
+    console.log(formData.isMorning)
 
     var id = null;
     console.log("Fetching family id...");

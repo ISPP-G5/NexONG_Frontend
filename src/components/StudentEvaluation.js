@@ -73,7 +73,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
     <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
     <DialogContent>
       <form onSubmit={handleSubmit}>
-        <label style={{display: 'block', marginBottom: '3%'}}>Notas:
+        <label style={{display: 'block', marginBottom: '3%'}}>Notas: </label>
           {evaluationTypes && evaluationTypes.map((evaluationType, index) => {
             let lessonsIds;
             let evaluationTypeIds
@@ -99,7 +99,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
               
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
 
-                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} style={{width: '100%'}} key={index}>
                     <option value={0}>0</option>
                     {evaluationType.grade_system === 'CERO A UNO' && 
                       ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
@@ -107,8 +107,8 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                     {evaluationType.grade_system === 'UNO A CINCO' && 
                       [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
-                    {evaluationType.grade_system === 'UNO A DIEZ' && 
-                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    {evaluationType.grade_system === 'CERO A DIEZ' && 
+                      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
                   </select>
                 ) : null;
@@ -124,7 +124,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                 const defaultGrade = evaluationType.grade_system === 'CERO A UNO' ? 0 : 1;
 
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
-                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} style={{width: '100%'}} key={index}>
                     <option value={0}>0</option>
                     {evaluationType.grade_system === 'CERO A UNO' && 
                       ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
@@ -132,8 +132,8 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                     {evaluationType.grade_system === 'UNO A CINCO' && 
                       [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
-                    {evaluationType.grade_system === 'UNO A DIEZ' && 
-                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    {evaluationType.grade_system === 'CERO A DIEZ' && 
+                      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
                   </select>
                 ) : null;
@@ -143,7 +143,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
             }
             return null; 
           })}
-        </label>
         <label>Comentario:</label>
         <input type="text" value={comment} onChange={handleCommentChange} style={inputStyle} />
         <label>Fecha:</label>
