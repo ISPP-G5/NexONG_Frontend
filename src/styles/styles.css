@@ -948,7 +948,8 @@ iframe {
         max-width: 100px;
         max-height: 100px;
     }
-    .long-label {
+    .register-container .long-label,
+    .register-container.admin .long-label {
         margin-bottom: 20px;
     }
 }
@@ -1285,6 +1286,28 @@ iframe {
     .lesson-event-file {
         width: 80%;
         margin-left: 10%;
+    }
+}
+/* BOX */
+
+.box {
+    background-color: #cdf0fe;
+    border-radius: 25px;
+    box-shadow: 0px 4px 4px #9ee5ff;
+    padding: 3%;
+    position: relative;
+    height: 50%;
+    width: 40%;
+    margin: 2%;
+    justify-content: flex-start;
+    font-size: 20px;
+}
+
+@media (min-width: 1px) and (max-width: 768px) {
+    .box {
+        width: 100%;
+        font-size: 12px;
+        margin-bottom: 10%;
     }
 }
 
