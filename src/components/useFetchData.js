@@ -61,6 +61,67 @@ export function useFetchFamilies(API_ENDPOINT, token) {
   return families;
 }
 
+export function useFetchEducators(API_ENDPOINT, token) {
+  const [educators, setEducators] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}educator/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setEducators(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching educators:', error);
+      });
+  }, [API_ENDPOINT]);
+
+  return educators;
+}
+
+
+export function useFetchPartners(API_ENDPOINT, token) {
+  const [partners, setPartners] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}partner/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setPartners(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching partners:', error);
+      });
+  }, [API_ENDPOINT]);
+
+  return partners;
+}
+
+export function useFetchDonations(API_ENDPOINT, token) {
+  const [donations, setDonations] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}donation/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setDonations(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching donations:', error);
+      });
+  }, [API_ENDPOINT]);
+
+  return donations;
+}
+
 export function useFetchStudents(API_ENDPOINT, status, token) {
   const [students, setStudents] = useState([]);
 

@@ -6,7 +6,7 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import avatarImage from '../logo/avatar.png';
 import useToken from './useToken';
-
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
@@ -119,10 +119,10 @@ const UpdateProfile = ({tipo,id}) => {
             <ToastContainer />
             <img src={valoresList.avatar ? valoresList.avatar : avatarImage} style={{borderRadius: '50%'}} alt="imagen" />
 
-            <div style={{ marginTop: '2%', marginBottom: '2%'}}>
-                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+            <div style={{ marginTop: '2%', marginBottom: '2%', display: 'flex', alignItems: 'center'}}>
+                <ErrorRoundedIcon style={{ color: '#ff6961' }} />
                 <strong>Modificar sólo los datos que requieran cambio</strong>
-                <img src='https://www.pngall.com/wp-content/uploads/8/Red-Warning.png' style={{ width: '3.5%' }} alt='' />
+                <ErrorRoundedIcon style={{ color: '#ff6961' }} />
             </div>
             
             <p>Nombre</p>
