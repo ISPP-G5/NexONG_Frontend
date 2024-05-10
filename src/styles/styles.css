@@ -1048,11 +1048,16 @@ iframe {
 /* CARD INFO FAMILY */
 
 .family-info {
-    flex: 0.3;
+    flex: 0.7;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     border-right: 2px solid #9ee5ff;
+}
+
+
+.family-info p {
+    margin-bottom: 0;
 }
 
 .kids-info {
@@ -1082,6 +1087,7 @@ iframe {
     flex: 0.3;
     width: 100%;
     max-width: 200px;
+    max-height: 200px;
     height: auto;
     background-color: grey;
 }
@@ -1383,6 +1389,7 @@ iframe {
     border-radius: 10px;
     height: 100%;
     width: 50%;
+    max-height: fit-content;
     text-align: center;
     font-size: 15px;
     font-weight: 500;
@@ -1420,17 +1427,15 @@ iframe {
 .trash, .trash-lessons {
     font-size: 25px !important;
     position: absolute;
-    top: 80%;
+    top: 90%;
     right: 5%;
-    bottom: 5%;
 }
 
 .edit, .edit-lessons {
     font-size: 25px !important;
     position: absolute;
-    top: 80%;
-    right: 15%;
-    bottom: 5%;
+    top: 90%;
+    right: 30%;
 }
 
 .add-circle {
@@ -1438,11 +1443,21 @@ iframe {
 }
 
 @media (min-width: 1px) and (max-width: 768px) {
-    .trash,
+    .trash {
+        font-size: 20px !important;
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-left: 10%;
+    }
     .edit {
         font-size: 20px !important;
-        margin: 5%;
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-left: 60%;
     }
+
     .trash-lessons,
     .edit-lessons {
         font-size: 20px !important;

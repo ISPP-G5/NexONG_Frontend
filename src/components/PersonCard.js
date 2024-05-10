@@ -16,9 +16,11 @@ import avatarFamily from '../logo/family-avatar.jpg';
 import avatarPartner from  '../logo/partner-avatar.png';
 import useToken from './useToken';
 
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
-function PersonCard({ person, personType, kids, request = false, trash = true }) {
+
+function PersonCard({ person, personType, kids, request = false }) {
   const [token] = useToken();
   const config = {
     headers: {
@@ -33,9 +35,11 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     'SOCIO': avatarPartner,
   };
   
+  const [contactDialogOpen, setContactDialogOpen] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [doHandleAceptarRechazar, setDohandleAceptarRechazar] = useState(false);
   const [kidDialogOpen, setKidDialogOpen] = useState(false);
   const [currentKid, setCurrentKid] = useState(null);
-
 
   const handleDescargar = async(person) => {
     const descargarDocumento = async (url, nombreArchivo) => {
@@ -126,35 +130,70 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
     }
   };
 
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-  const [doHandleAceptarRechazar, setDohandleAceptarRechazar] = useState(false);
-
-
   return (
     <div className='card-info'>
       <ToastContainer autoClose={5000} />
-      { (request || personType !== 'Familias') &&
+
+      {/* VOLUNTARIOS CARD */}
+      {personType === 'Voluntarios' && !request &&
+      <>
         <div className='family-request'>
           <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='Avatar' />
           <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
-            <p>{person.first_name} {person.last_name}</p>
+            <p><strong>Nombre: </strong>{person.first_name} {person.last_name}</p>
+            <p><strong>DNI: </strong>{person.id_number}</p>
+            <p><strong>Fecha de nacimiento: </strong>{person.birthdate}</p>
+            <p><strong>Formación académica:</strong></p>
+            <p>{person.academic_formation}</p>
+            <p><strong>Motivación:</strong></p>
+            <p>{person.motivation}</p>
           </div>
         </div>
-      }
-      {request &&
         <div className='buttons-requests'>
-          <button className='button-contrast' onClick={() => handleDescargar(person)}>Descargar</button>
+          <button className='button-contrast' onClick={() => setContactDialogOpen(true)}>Contacto</button>
+          <button className='button-contrast' onClick={() => handleDescargar(person)}>Documentación</button>
+          <div className='buttons-acceptance'>
+            <DeleteIcon className='trash' onClick={() => setConfirmDeleteOpen(true)} />
+            <EditIcon className='edit' onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
+          </div>
+        </div>
+      </>
+      }
+      <Dialog open={contactDialogOpen} onClose={() => setContactDialogOpen(false)}>
+        <DialogTitle>Información de {person.first_name}</DialogTitle>
+          <DialogContent>
+            <p><strong>Correo: </strong>{person.email}</p>
+            <p><strong>Teléfono: </strong>{person.phone}</p>
+            {personType !== 'Educadores' && <p><strong>Dirección: </strong>{person.address}, {person.postal_code}</p>}
+          </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setContactDialogOpen(false)} color="primary">
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {personType === 'Voluntarios' && request &&
+      <>
+        <div className='family-request'>
+          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='Avatar' />
+          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+            <p><strong>Nombre: </strong>{person.first_name} {person.last_name}</p>
+            <p><strong>Fecha de nacimiento: </strong>{person.birthdate}</p>
+            <p><strong>Correo: </strong>{person.email}</p>
+            <p><strong>Formación académica:</strong></p>
+            <p>{person.academic_formation}</p>
+            <p><strong>Motivación:</strong></p>
+            <p>{person.motivation}</p>
+          </div>
+        </div>
+        <div className='buttons-requests'>
+          <button className='button-contrast' onClick={() => handleDescargar(person)}>Documentación</button>
           <div className='buttons-acceptance'>
             <button className='button-accept' onClick={() => handleAceptarRechazar('aceptar', person)}>Aceptar</button>
             <button className='button-decline' onClick={() => setDohandleAceptarRechazar(true)}>Rechazar</button>
           </div>
         </div>
-      }
-      {trash &&
-        <div className='buttons-acceptance'>
-          <DeleteIcon className='trash' style={{marginLeft:'87.5%'}} onClick={() => setConfirmDeleteOpen(true)} />
-          <EditIcon className='edit' style={{marginLeft:'87.5%'}} onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
-        </div>
+      </>
       }
       <Dialog open={doHandleAceptarRechazar} onClose={() => setDohandleAceptarRechazar(false)}>
         <DialogTitle>¿Estás seguro que quieres rechazar?</DialogTitle>
@@ -178,8 +217,60 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* EDUCATORS CARD */}
+      {personType === 'Educadores' && !request &&
+      <>
+        <div className='family-request'>
+          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='Avatar' />
+          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+            <p><strong>Nombre: </strong>{person.first_name} {person.last_name}</p>
+            <p><strong>DNI: </strong>{person.id_number}</p>
+            <p><strong>Fecha de nacimiento: </strong>{person.birthdate}</p>
+            <p><strong>Clases: </strong>{person.lessonNames.length > 0 ? person.lessonNames.join(', ') : 'No tiene clases'}</p>            <p><strong>Descripción:</strong></p>
+            <p>{person.description}</p>
+          </div>
+        </div>
+        <div className='buttons-requests'>
+          <button className='button-contrast' onClick={() => setContactDialogOpen(true)}>Contacto</button>
+          <div className='buttons-acceptance'>
+            <DeleteIcon className='trash' onClick={() => setConfirmDeleteOpen(true)} />
+            <EditIcon className='edit' onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
+          </div>
+        </div>
+      </>
+      }
+
+      {/* PARTNERS CARD */}
+      {personType === 'Socios' && !request &&
+      <>
+        <div className='family-request'>
+          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap[person.role]} alt='Avatar' />
+          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+            <p><strong>Nombre: </strong>{person.first_name} {person.last_name}</p>
+            <p><strong>Frecuencia donación: </strong>{person.frequency}</p>
+            <p><strong>Cantidad donación: </strong>{person.quantity}</p>
+            <p><strong>Fecha primer pago: </strong>{person.date}</p>
+            <p><strong>DNI: </strong>{person.id_number}</p>
+            <p><strong>Fecha de nacimiento: </strong>{person.birthdate}</p>
+            <p><strong>Descripción:</strong></p>
+            <p>{person.description}</p>
+          </div>
+        </div>
+        <div className='buttons-requests'>
+          <button className='button-contrast' onClick={() => setContactDialogOpen(true)}>Contacto</button>
+          <button className='button-contrast' onClick={() => handleDescargar(person)}>Documentación</button>
+          <div className='buttons-acceptance'>
+            <DeleteIcon className='trash' onClick={() => setConfirmDeleteOpen(true)} />
+            <EditIcon className='edit' onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
+          </div>
+        </div>
+      </>
+      }
+
+      {/* FAMILIES CARD */}
       {personType === 'Familias' && !request && 
-        <div className='family-info'>
+        <div className='family-info' style={{ flex: '0.2'}}>
           <p><strong>{person.name}</strong></p>
           <p>Número de niños: {kids.filter(kid => kid.family === person.id).length}</p>
         </div> 
@@ -205,14 +296,14 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
                 <p style={{marginBottom: '5px'}}>{kid.evaluation ? kid.evaluation : 'No hay evaluación'}</p>
                 {kid.status === 'CADUCADO' && <p style={{ color: 'red' }}>CADUCADO</p>}
                 <button className='button-contrast' style={{maxWidth: '80%', maxHeight: '10%', alignSelf: 'center', marginTop: '5px'}} onClick={() => { setCurrentKid(kid); setKidDialogOpen(true); }}>Ver más</button>
+                <button className='button-contrast' style={{maxWidth: '80%', maxHeight: '10%', alignSelf: 'center', marginTop: '5px'}} onClick={() => handleDescargar(person)}>Documentación</button>
               </div>
             );
           })}
         </div>
       }
-      
       <Dialog open={kidDialogOpen} onClose={() => setKidDialogOpen(false)}>
-        <DialogTitle>Kid Information</DialogTitle>
+        <DialogTitle>Información del niño</DialogTitle>
         {currentKid && (
           <DialogContent>
             <p><strong>Nombre:</strong> {currentKid.name} {currentKid.surname}</p>
@@ -239,7 +330,28 @@ function PersonCard({ person, personType, kids, request = false, trash = true })
           </Button>
         </DialogActions>
       </Dialog>
-
+      {personType === 'Familias' && request &&
+      <>
+        <div className='family-request'>
+          <img src={person.avatar && person.avatar !== '' ? person.avatar : roleAvatarMap['FAMILIA']} alt='Avatar' />
+          <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
+            <p style={{ alignSelf: 'center', marginTop: '0'}}><strong>{person.family_name}</strong></p>
+            <p><strong>Hijo: </strong>{person.name} {person.surname}</p>
+            <p><strong>Fecha de nacimiento: </strong>{person.nationality}</p>
+            <p><strong>Nacionalidad: </strong>{person.birthdate}</p>
+            <p><strong>Curso: </strong>{person.current_education_year}</p>
+            <p><strong>Alumno de: </strong>{person.is_morning_student? 'MAÑANA': 'TARDE'}</p>
+          </div>
+        </div>
+        <div className='buttons-requests'>
+          <button className='button-contrast' onClick={() => handleDescargar(person)}>Documentación</button>
+          <div className='buttons-acceptance'>
+            <button className='button-accept' onClick={() => handleAceptarRechazar('aceptar', person)}>Aceptar</button>
+            <button className='button-decline' onClick={() => setDohandleAceptarRechazar(true)}>Rechazar</button>
+          </div>
+        </div>
+      </>
+      }
     </div>
   );
 };

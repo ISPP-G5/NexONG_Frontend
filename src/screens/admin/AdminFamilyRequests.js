@@ -31,15 +31,13 @@ function AdminFamilyRequests() {
     if (families.length > 0 && kids.length > 0) {
       const newPersons = kids.map(async (kid) => {
         const family = families.find(family => kid.family === family.id);
-        return {
-          id: kid.id,
-          first_name: family.name,
-          last_name: `${kid.name} ${kid.surname}`,
-          avatar: kid.avatar,
-          enrollment_document: kid.enrollment_document, 
-          role: 'FAMILIA',
-        };
-      })
+        if (family) {
+          const { name, ...familyWithoutName } = family;
+          return { ...familyWithoutName, family_name: name, ...kid };
+        }
+        return null;
+      }).filter(kid => kid !== null);
+
       Promise.all(newPersons)
       .then(result => {
         setPersons(result);
@@ -49,7 +47,6 @@ function AdminFamilyRequests() {
       });
     }
   }, [families, kids]);
-
 
   return (
     <ShowType 

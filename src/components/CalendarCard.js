@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, globalizeLocalizer } from 'react-big-calendar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { DialogContent, DialogActions, makeStyles } from '@material-ui/core';
+import { DialogContent, DialogActions, DialogContentText } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
 import 'moment/locale/es';
@@ -443,6 +443,13 @@ const CalendarCard = ({ profile, selected }) => {
                     <DialogTitle>
                         {selectedEvent && selectedEvent.educator ? '¿Quieres unirte a esta clase?' : '¿Quieres unirte a este evento?'}
                     </DialogTitle>
+                    <DialogContent>
+                        {selectedEvent && <p>Nombre: {selectedEvent.title}</p>}
+                        {selectedEvent && <p>Descripción: {selectedEvent.description}</p>}
+                        {selectedEvent.type == 'event' && <p>Sitio: {selectedEvent.place}</p>}
+                        {selectedEvent && <p>Fecha: {selectedEvent.start.toLocaleString()}</p>}
+                        {selectedEvent.type == 'event' && <p>Precio: {selectedEvent.price}</p>}
+                    </DialogContent>
                     <DialogActions>
                         <Button onClick={handleRegister} color="primary">
                         Sí

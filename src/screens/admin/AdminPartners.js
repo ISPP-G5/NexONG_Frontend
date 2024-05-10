@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/styles.css';
 import ShowType from '../../components/ShowAdminProfiles';
 import axios from 'axios';
-import { useFetchUsersByRole } from '../../components/useFetchData';
+import { useFetchUsersByRole, useFetchPartners, useFetchDonations } from '../../components/useFetchData';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
@@ -69,20 +69,39 @@ const AdminPartners = () => {
       console.error('Error downloading file:', e);
     }
   };
-const token = localStorage.getItem('accessToken');
 
-const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO", token);
+  const token = localStorage.getItem('accessToken');
+  const [partnersData, setPartnersData] = useState([]);
+  const userPartners = useFetchUsersByRole(API_ENDPOINT, "SOCIO", token);
+  const partners = useFetchPartners(API_ENDPOINT, token);
+  const donations = useFetchDonations(API_ENDPOINT, token);
 
-return (
-    <div>
-        <ShowType
-            data={userPartners}
-            type="Socios"
-            pantallas={pantallas}
-            download={handleDownload}
-        />
-    </div>
-);
+  useEffect(() => {
+    if (userPartners.length > 0 && partners.length > 0) {
+      const fetchAllData = async () => {
+        const combinedData = await Promise.all(partners.map(async (partner) => {
+          const userData = userPartners.find(user => user.partner === partner.id);
+          const donationsData = donations.find(donation => donation.partner === partner.id);          
+          return userData ? { ...userData, ...partner, ...donationsData } : null;
+        }));
+  
+        setPartnersData(combinedData.filter(partner => partner !== null));
+      };
+  
+      fetchAllData();
+    }
+  }, [userPartners, partners, token]);
+
+  return (
+      <div>
+          <ShowType
+              data={partnersData}
+              type="Socios"
+              pantallas={pantallas}
+              download={handleDownload}
+          />
+      </div>
+  );
 
 }
 
