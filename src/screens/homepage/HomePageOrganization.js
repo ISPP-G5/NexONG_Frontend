@@ -5,7 +5,7 @@ import LayoutHomepage from '../../components/LayoutHomepage';
 // PHOTOS
 import organigrama from '../../logo/organization/Organigrama.png'
 import juntaDirectiva from '../../logo/organization/junta_directiva.jpg'
-import educadoras from '../../logo/organization/educadoras.jpg'
+import educadoras from '../../logo/organization/educadoras.png'
 
 function HomePageOrganization(){
     useEffect(() => {
@@ -57,6 +57,23 @@ function HomePageOrganization(){
                     <b>Vocal:</b> Ana Belén Arroyo<br></br>
                 </p>
                 <img src={juntaDirectiva} alt='junta-directiva' style={{display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: '85%'}}></img>
+
+                <p><h2 style={{textAlign: 'left'}}>Equipo de Educadoras/es</h2></p>
+                <p>
+                    Como grupo de personas contratadas para el desarrollo  y dinamismo de los
+                    proyectos y programas de la entidad, tenemos a este equipo de educadoras/es:
+                </p>
+                <p>
+                    <b>Coordinadora de la entidad:</b> María Arce<br></br>
+                    <b>Educadora: </b> Cristina Martínez<br></br>
+                    <b>Educadora:</b> Andrea Domínguez<br></br>
+                    <b>Educador:</b> Juan Antonio Lugo<br></br>
+                    <b>Educadora:</b> Rocío Guerra<br></br>
+                </p>
+                <img src={educadoras} alt='educadoras' style={{display: 'block',
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 width: '85%'}}></img>
