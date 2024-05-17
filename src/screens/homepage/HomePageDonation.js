@@ -95,7 +95,7 @@ function HomePageDonation() {
             toast.error("Introduzca un correo electrónico válido");
             return; // Detener la ejecución si el correo electrónico no es válido
         }
-        if(amount<1){
+        if(paymentMethod === 'card' && amount<1){
             toast.error('La cantidad a donar deber ser superior a 1')
             return;
         }
