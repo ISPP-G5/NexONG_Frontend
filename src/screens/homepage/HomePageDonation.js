@@ -1,8 +1,6 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,7 +22,6 @@ function HomePageDonation() {
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
-    // ONE-TIME DONATIONS //////////////////////////////////////////
     // Payment method variables
     const [paymentMethod, setPaymentMethod] = useState("");
     const [transferVisible, setTransferVisible] = useState(false);
@@ -111,7 +108,7 @@ function HomePageDonation() {
        
         const currentTimeStamp = Date.now();
 
-// Convertir el timestamp a una fecha legible en el formato deseado (YYYY-MM-DD)
+        // Convertir el timestamp a una fecha legible en el formato deseado (YYYY-MM-DD)
         const formattedDate = new Date(currentTimeStamp).toISOString().split('T')[0];
     
         // Crear FormData y adjuntar los datos del formulario
