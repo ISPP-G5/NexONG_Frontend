@@ -493,7 +493,43 @@ export function UseFetchDocuments(API_ENDPOINT, token) {
   return documents;
 }
 
+export function useFindStudentsForLessonEvents(API_ENDPOINT, lessonEvents, myKids) {
+  const [studentLists, setStudentLists] = useState([]);
 
+  useEffect(() => {
+    if (!lessonEvents || !myKids || lessonEvents.length === 0 || myKids.length === 0) {
+      setStudentLists([]);
+      return;
+    }
 
+    const token = localStorage.getItem('accessToken');
+    const results = new Array(lessonEvents.length).fill(null);
 
+    lessonEvents.forEach((lessonEvent, index) => {
+      axios.get(`${API_ENDPOINT}lesson/${lessonEvent.lesson}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        const attendeesSet = new Set(response.data.students);
+        const possibleStudents = myKids.filter(kid => attendeesSet.has(kid.id)).map(kid => ({
+          id: kid.id,
+          name: kid.name,
+          surname: kid.surname
+        }));
+        results[index] = possibleStudents;
 
+        if (results.every(item => item !== null)) {
+          setStudentLists(results);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching lesson details:', error);
+        results[index] = []; // En caso de error añade una lista vacía
+      });
+    });
+  }, [API_ENDPOINT, lessonEvents, myKids]);
+
+  return studentLists;
+}

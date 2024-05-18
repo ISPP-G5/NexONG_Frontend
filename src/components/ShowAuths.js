@@ -6,7 +6,6 @@ import Pantallas from './Pantallas';
 
 
 function ShowType({ data, type, pantallas, nomStudent, nomEvent, dateEvent}) {
-
     return (
         <LayoutProfiles 
             profile={'familia'} 
