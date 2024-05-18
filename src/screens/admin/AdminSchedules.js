@@ -67,7 +67,7 @@ const AdminSchedules = () => {
   const handleDeleteConfirmation = async () => {
     if (scheduleToDelete) {
       try {
-        await axios.delete(`${API_ENDPOINT}schedule/${scheduleToDelete}`);
+        await axios.delete(`${API_ENDPOINT}schedule/${scheduleToDelete}`, config);
         setSchedules((prevSchedules) => prevSchedules.filter((schedule) => schedule.id !== scheduleToDelete));
         toast.success('Horario eliminado con éxito');
       } catch (error) {
