@@ -335,8 +335,8 @@ function PersonCard({ person, personType, kids, request = false }) {
           <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
             <p style={{ alignSelf: 'center', marginTop: '0'}}><strong>{person.family_name}</strong></p>
             <p><strong>Hijo: </strong>{person.name} {person.surname}</p>
-            <p><strong>Fecha de nacimiento: </strong>{person.nationality}</p>
-            <p><strong>Nacionalidad: </strong>{person.birthdate}</p>
+            <p><strong>Fecha de nacimiento: </strong>{person.birthdate}</p>
+            <p><strong>Nacionalidad: </strong>{person.nationality}</p>
             <p><strong>Curso: </strong>{person.current_education_year}</p>
             <p><strong>Alumno de: </strong>{person.is_morning_student? 'MAÑANA': 'TARDE'}</p>
           </div>
