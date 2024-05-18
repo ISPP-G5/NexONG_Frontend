@@ -304,8 +304,10 @@ const CalendarCard = ({ profile, selected }) => {
                       }, config);
                 }
                 setShowRegisterForm(false);
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 5000);
                 toast.success('Se ha unido correctamente');
-                window.location.reload(true);
               } catch (error) {
                 console.error('Error when registering the volunteer:', error);
                 toast.error('Hubo un error al unirse a la clase.');
@@ -325,8 +327,10 @@ const CalendarCard = ({ profile, selected }) => {
                   try {
                     await axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config);
                     setShowRegisterForm(false);
+                    setTimeout(() => {
+                        window.location.reload(true);
+                    }, 5000);
                     toast.success('Se ha unido correctamente, se une a todas las clases de esta lección.');
-                    window.location.reload(true);
                   } catch (error) {
                     console.error('Error when registering the volunteer:', error);
                     toast.error('Hubo un error al unirse a la clase.');
