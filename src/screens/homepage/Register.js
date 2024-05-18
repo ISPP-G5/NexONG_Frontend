@@ -182,6 +182,7 @@ function Register() {
             setIsFamilyChecked(false);
             setIsVolunteerChecked(false);
             setIsPartnerChecked(false);
+            setIsAgreedChecked(false);
             toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
         } catch(error){
