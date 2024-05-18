@@ -35,7 +35,7 @@ function AdminEducatorsAdd() {
   const [descripcion, setDescripcion] = useState("");
   const [correo, setCorreo] = useState("");
   const phoneFormat = /^[6-9]\d{8}$/;  const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const letters = /^[A-Za-zñÑáéíóúÁÉÍÓÚ]+$/;
+  const letters = /^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$/;
   const spanishIdFormat = /^[XYZ]?\d{5,8}[A-Z]$/;
   const navigate = useNavigate();
 
