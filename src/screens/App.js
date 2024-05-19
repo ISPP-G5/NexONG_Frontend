@@ -58,7 +58,6 @@ import EducatorKidsActivities from './educators/EducatorKidsActivities';
 import VolunteerProfile from './volunteers/VolunteerProfile';
 import VolunteerProfileUpdate from './volunteers/VolunteerProfileUpdate';
 import VolunteerAgenda from './volunteers/VolunteerAgenda';
-import VolunteersAttendance from './volunteers/VolunteersAttendance';
 import VolunteerForm from './volunteers/VolunteerForm';
 import VolunteerWait from './volunteers/VolunteerWait';
 import VolunteerFormation from './volunteers/VolunteerFormation';
@@ -213,7 +212,6 @@ function App() {
             <Route path="/voluntario/formacion" element={<VolunteerFormation />} />
             <Route path="/voluntario/espera" element={<VolunteerWait />} />
             <Route path="/voluntario/agenda" exact={true} element={<VolunteerAgenda />} />
-            <Route path="/voluntario/asistencia" exact={true} element={<VolunteersAttendance />} />
               </>
             )}
             {/* PARTNERS ROUTES */}

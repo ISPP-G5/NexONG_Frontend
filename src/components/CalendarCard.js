@@ -35,6 +35,11 @@ const CalendarCard = ({ profile, selected }) => {
       });
     const [showRegisterForm, setShowRegisterForm] = useState(false);
     const [lessonAttendance, setLessonAttendance] = useState([]);
+    const [deleteConfirmation, setDeleteConfirmation] = useState({
+        open: false,
+        event: null
+    });
+    
 
     useEffect(() => {
         axios.get(`${API_ENDPOINT}auth/users/me/`, config)
@@ -383,6 +388,49 @@ const CalendarCard = ({ profile, selected }) => {
     }
     };
 
+    const handleDeleteVolunteer = async () => {
+        try {
+          let updatedVolunteers;
+      
+          if (deleteConfirmation.event.type === 'lesson-event' || deleteConfirmation.event.type === 'event') {
+
+            console.log(deleteConfirmation.event);
+            
+            updatedVolunteers = deleteConfirmation.event.volunteers.filter(volunteer => volunteer !== currentUser.volunteerId);
+      
+            await axios.put(`${API_ENDPOINT}${deleteConfirmation.event.lesson ? 'lesson-event' : 'event'}/${deleteConfirmation.event.id}/`, {
+                ...deleteConfirmation.event,
+                volunteers: updatedVolunteers,
+                name: deleteConfirmation.event.title,
+                start_date: deleteConfirmation.event.start,
+                end_date: deleteConfirmation.event.end,
+            }, config);
+      
+          } else if (deleteConfirmation.event.type === 'lesson') {
+            const attendanceId = lessonAttendance.find(attendance => attendance.lesson === deleteConfirmation.event.id && attendance.volunteer === currentUser.volunteerId).id;
+            
+            await axios.delete(`${API_ENDPOINT}lesson-attendance/${attendanceId}`, config);
+          }
+      
+          toast.success('Se ha eliminado correctamente');
+          setDeleteConfirmation({
+            open: false,
+            event: null
+          });
+      
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+      
+        } catch (error) {
+          console.error('Error al eliminar el voluntario:', error);
+          toast.error('Error al eliminar el voluntario');
+          setDeleteConfirmation({ open: false, event: null });
+        }
+    };
+      
+    
+
     return (
         <LayoutProfiles profile={profile} selected={selected}>
             <ToastContainer />
@@ -449,27 +497,53 @@ const CalendarCard = ({ profile, selected }) => {
             )}
 
             {profile === 'voluntario' && showRegisterForm && (
-                    <Dialog open={showRegisterForm} onClose={() => setShowRegisterForm(false)}>
+                <Dialog open={showRegisterForm} onClose={() => setShowRegisterForm(false)}>
                     <DialogTitle>
                         {selectedEvent && selectedEvent.educator ? '¿Quieres unirte a esta clase?' : '¿Quieres unirte a este evento?'}
                     </DialogTitle>
                     <DialogContent>
                         {selectedEvent && <p>Nombre: {selectedEvent.title}</p>}
                         {selectedEvent && <p>Descripción: {selectedEvent.description}</p>}
-                        {selectedEvent.type == 'event' && <p>Sitio: {selectedEvent.place}</p>}
+                        {selectedEvent.type === 'event' && <p>Sitio: {selectedEvent.place}</p>}
                         {selectedEvent && <p>Fecha: {selectedEvent.start.toLocaleString()}</p>}
-                        {selectedEvent.type == 'event' && <p>Precio: {selectedEvent.price}</p>}
+                        {selectedEvent.type === 'event' && <p>Precio: {selectedEvent.price}</p>}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleRegister} color="primary">
-                        Sí
+                            Sí
                         </Button>
                         <Button onClick={() => setShowRegisterForm(false)} color="secondary">
-                        No
+                            No
                         </Button>
+                        {(selectedEvent.type == 'event' || selectedEvent.type === 'lesson-event' && selectedEvent.volunteers.includes(currentUser.volunteerId) || 
+                            (selectedEvent.type === 'lesson' && lessonAttendance.some(attendance => attendance.lesson === selectedEvent.id && attendance.volunteer === currentUser.volunteerId))) && (
+                            <Button onClick={() => setDeleteConfirmation({ open: true, event: selectedEvent })} color="secondary">
+                                Dejar de formar parte
+                            </Button>
+                        )}
                     </DialogActions>
-                    </Dialog>
-                )}
+                </Dialog>
+            )}
+
+            {profile === 'voluntario' && deleteConfirmation.open && (
+                <Dialog open={deleteConfirmation.open} onClose={() => setDeleteConfirmation({ open: false, event: null })}>
+                <DialogTitle>Confirmar</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        ¿Estás seguro de que deseas dejar de participar en esta actividad?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleteVolunteer} color="primary">
+                        Sí
+                    </Button>
+                    <Button onClick={() => setDeleteConfirmation({ open: false, event: null })} color="secondary">
+                        No
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            )}
+
         </LayoutProfiles>
     );
 };

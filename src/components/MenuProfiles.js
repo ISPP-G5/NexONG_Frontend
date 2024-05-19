@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 const profileItems = {
     admin: ['Voluntarios', 'Educadores', 'Socios', 'Familias', 'Clases', 'Eventos', 'Sugerencias', 'Documentos'],
     educador: ['Evaluación Diaria','Evaluación Anual', 'Actividades'],
-    voluntario: ['Agenda', 'Asistencia'],
+    voluntario: ['Agenda'],
     familia: ['Niños', 'Evaluación diaria','Evaluación anual','Autorizaciones','Calendario'],
     socio: ['Calendario'],
   };
@@ -29,7 +29,6 @@ const profileLinks = {
     },
     voluntario: {
         'Agenda': '/voluntario/agenda',
-        'Asistencia': '/voluntario/asistencia',
     },
     familia: {
         'Niños': '/familia/niños',
