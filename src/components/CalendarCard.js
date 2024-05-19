@@ -263,8 +263,8 @@ const CalendarCard = ({ profile, selected }) => {
             toast.error('Usted ya pertenece a este evento.');
             setShowRegisterForm(false);
             return;
-          }
-          const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
+          }else{
+            const updatedVolunteers = [...selectedEvent.volunteers, currentUser.volunteerId];
           if (updatedVolunteers.length > selectedEvent.max_volunteers) {
             toast.error('El número de voluntarios excede el límite máximo permitido.');
             return;
@@ -304,28 +304,38 @@ const CalendarCard = ({ profile, selected }) => {
                       }, config);
                 }
                 setShowRegisterForm(false);
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 5000);
                 toast.success('Se ha unido correctamente');
-                window.location.reload(true);
               } catch (error) {
                 console.error('Error when registering the volunteer:', error);
                 toast.error('Hubo un error al unirse a la clase.');
               }
-
-        } else if(selectedEvent.type === 'lesson'){
-          const newAttendance = {
-            lesson: selectedEvent.id,
-            volunteer: currentUser.volunteerId,
-            date: moment().format('YYYY-MM-DD')
-          };
-          try {
-            await axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config);
-            setShowRegisterForm(false);
-            toast.success('Se ha unido correctamente, se une a todas las clases de esta lección.');
-            window.location.reload(true);
-          } catch (error) {
-            console.error('Error when registering the volunteer:', error);
-            toast.error('Hubo un error al unirse a la clase.');
           }
+        } else if(selectedEvent.type === 'lesson'){
+            if (lessonAttendance.some(attendance => attendance.lesson === selectedEvent.id && attendance.volunteer === currentUser.volunteerId)) {
+                toast.error('Usted ya pertenece a esta lección.');
+                setShowRegisterForm(false);
+                return;
+            } else {
+                const newAttendance = {
+                    lesson: selectedEvent.id,
+                    volunteer: currentUser.volunteerId,
+                    date: moment().format('YYYY-MM-DD')
+                  };
+                  try {
+                    await axios.post(`${API_ENDPOINT}lesson-attendance/`, newAttendance, config);
+                    setShowRegisterForm(false);
+                    setTimeout(() => {
+                        window.location.reload(true);
+                    }, 5000);
+                    toast.success('Se ha unido correctamente, se une a todas las clases de esta lección.');
+                  } catch (error) {
+                    console.error('Error when registering the volunteer:', error);
+                    toast.error('Hubo un error al unirse a la clase.');
+                  }
+            }
         }
       };
 

@@ -259,7 +259,6 @@ function PersonCard({ person, personType, kids, request = false }) {
         </div>
         <div className='buttons-requests'>
           <button className='button-contrast' onClick={() => setContactDialogOpen(true)}>Contacto</button>
-          <button className='button-contrast' onClick={() => handleDescargar(person)}>Documentación</button>
           <div className='buttons-acceptance'>
             <DeleteIcon className='trash' onClick={() => setConfirmDeleteOpen(true)} />
             <EditIcon className='edit' onClick={() => window.location.replace(`/admin/perfil/actualizar/${person.id}`) } />
@@ -296,7 +295,6 @@ function PersonCard({ person, personType, kids, request = false }) {
                 <p style={{marginBottom: '5px'}}>{kid.evaluation ? kid.evaluation : 'No hay evaluación'}</p>
                 {kid.status === 'CADUCADO' && <p style={{ color: 'red' }}>CADUCADO</p>}
                 <button className='button-contrast' style={{maxWidth: '80%', maxHeight: '10%', alignSelf: 'center', marginTop: '5px'}} onClick={() => { setCurrentKid(kid); setKidDialogOpen(true); }}>Ver más</button>
-                <button className='button-contrast' style={{maxWidth: '80%', maxHeight: '10%', alignSelf: 'center', marginTop: '5px'}} onClick={() => handleDescargar(person)}>Documentación</button>
               </div>
             );
           })}
@@ -337,14 +335,13 @@ function PersonCard({ person, personType, kids, request = false }) {
           <div className='family-info' style={{ borderRight: 'none', borderBottom: 'none'}}>
             <p style={{ alignSelf: 'center', marginTop: '0'}}><strong>{person.family_name}</strong></p>
             <p><strong>Hijo: </strong>{person.name} {person.surname}</p>
-            <p><strong>Fecha de nacimiento: </strong>{person.nationality}</p>
-            <p><strong>Nacionalidad: </strong>{person.birthdate}</p>
+            <p><strong>Fecha de nacimiento: </strong>{person.birthdate}</p>
+            <p><strong>Nacionalidad: </strong>{person.nationality}</p>
             <p><strong>Curso: </strong>{person.current_education_year}</p>
             <p><strong>Alumno de: </strong>{person.is_morning_student? 'MAÑANA': 'TARDE'}</p>
           </div>
         </div>
         <div className='buttons-requests'>
-          <button className='button-contrast' onClick={() => handleDescargar(person)}>Documentación</button>
           <div className='buttons-acceptance'>
             <button className='button-accept' onClick={() => handleAceptarRechazar('aceptar', person)}>Aceptar</button>
             <button className='button-decline' onClick={() => setDohandleAceptarRechazar(true)}>Rechazar</button>

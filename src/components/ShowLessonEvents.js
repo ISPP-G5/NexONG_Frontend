@@ -17,7 +17,7 @@ function ShowType({ data, type, pantallas, kids}) {
                 <LessonEventCard 
                     key={index} 
                     lessonEvent={lessonEvent}
-                    kids ={kids}
+                    kids ={kids[index]}
                     />
             ))}
         </LayoutProfiles>
