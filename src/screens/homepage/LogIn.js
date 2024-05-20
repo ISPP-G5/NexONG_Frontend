@@ -44,7 +44,6 @@ function LogIn() {
         getUserData().then(response => {
             if (response !== null) {
                 const user = response.data
-                console.log('User data:', user);
                 localStorage.setItem('userId', user.id);
             }
         });
@@ -117,9 +116,10 @@ function LogIn() {
                     localStorage.setItem('volunteerId', user.volunteer);
                     setRole(user.role)
 
-
-                    if (volunteer.data.status === 'ACEPTADO') {
+                    if (volunteer.data.status === 'ACEPTADO' && volunteer.data.watchedFormation === true) {
                         navigate('/voluntario/agenda');
+                    } else if (volunteer.data.status === 'ACEPTADO' && volunteer.data.watchedFormation === false) {
+                        navigate('/voluntario/formacion');
                     } else {
                         navigate('/voluntario/espera');
                     }
@@ -143,7 +143,6 @@ function LogIn() {
                         headers: {
                             'Authorization': `Bearer ${accessToken}`
                         }});
-                    console.log('Partner:', partner.data.status);
                     localStorage.setItem('partnerId', user.partner);
                     setRole(user.role)
                     navigate('/socio/calendario');
@@ -156,7 +155,7 @@ function LogIn() {
                 //TODO Aqui formulario para educador, una cosa así:
                 //if (user.educador === null) {
                 //    navigate('/educador/formulario');}
-                navigate('/educador/perfil');
+                navigate('/educador/niños/evaluacion/diaria');
             } else if (user.role === 'ADMIN'){
                 localStorage.setItem('role', 'ADMIN')
                 setRole(user.role)

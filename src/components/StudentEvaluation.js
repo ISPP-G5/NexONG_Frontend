@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import StudentCard from './StudentsCard';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+
+
 export default function StudentEvaluation({ students, evaluationTypes, evaluation, grade, handleGradeChange, comment, handleCommentChange, selectedDate, handleDateChange, email, phone, handleSubmit, handleCloseModal,handleCloseEvaluacionModal2, handleCloseEvaluacionModal1,handleCloseInfoModal, selectedStudent, getStudentEvaluation, showEditModal, showInfoModal, showEvaluacionModal2, showEvaluacionModal1, handleEvaluationChange, handleEdit, handleInfo, handleEvaluacion1, handleEvaluacion2,lessons }) {
   const inputStyle = {
     boxSizing: 'none',
@@ -9,57 +11,76 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
     width: '100%',
     marginBottom: '3%',
   };
+  const [selectedLesson,setSelectedLesson] = useState ([]);
+  const [studentsInSelectedLesson,setStudentInSelectedLesson] = useState([])
+  const handleLessonChange = (event) => {
+    setSelectedLesson(event.target.value);
+  };
 
   useEffect(() => {
-    if (students && lessons && selectedStudent) {
-      const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-      console.log('selectedStudentLesson id', selectedStudentLesson)
-      if (selectedStudentLesson && selectedStudentLesson.id) {
-        handleEvaluationChange(selectedStudentLesson.id)({ target: { value: selectedStudentLesson.id } });
+    
+    if (students && lessons && selectedLesson) {
+      const selectedLessonObj = lessons.find(lesson => lesson.id == selectedLesson);
+      if (selectedLessonObj && Array.isArray(selectedLessonObj.students)) {
+        const studentsInSelectedLessonFilter = students.filter(student => selectedLessonObj.students.includes(student.id));
+        
+        setStudentInSelectedLesson(studentsInSelectedLessonFilter)
+        handleEvaluationChange(setStudentInSelectedLesson.id)({target:{value:setStudentInSelectedLesson.id}});
+
       }
     }
-  }, [students, lessons, selectedStudent]);
+  }, [students, lessons, selectedLesson]);
+
 
   return (
     <>
-      {students && lessons && students.map((student, studentIndex) => {
-        const lesson = lessons.find(lesson => lesson.students.includes(student.id));
-        if (!lesson) {
-          return null; 
-        }
+      <label>Selecciona una clase:</label>
+      <select  className='evaluation-filter' onChange={handleLessonChange}>
+         <option value="">Selecciona una clase</option>
+        {lessons && lessons.map((lesson, index) => (
+          <option key={index} value={lesson.id}>{lesson.name}</option>
+        ))}
+      </select>
   
+      {selectedLesson ? (
+        studentsInSelectedLesson.map((student) => {
+          const lesson = lessons.find(lesson => lesson.students.includes(student.id));
+          if (!lesson) {
+            return <p>No existe ninguna información para mostrar</p>; 
+           }
         return (
-        <StudentCard
-          key={studentIndex}
+          <StudentCard
+          key={student.id}
           familyName={student.name}
           kidName={student.surname}
           lesson={lesson.name}
           currentEducationYear={student.current_education_year}
           evaluation={getStudentEvaluation(student.id)}
-          onEvaluationChange={(event) => handleEvaluationChange(student.id)(event)}
+          onEvaluationChange={(event) => handleEvaluationChange(setStudentInSelectedLesson.id)(event)}
           onSubmit={handleSubmit}
           onEdit={() => handleEdit(student.id)}
           onInfo={() => handleInfo(student.id)}
-          onEvaluacion2={() => handleEvaluacion2(student.id)} 
-        />
-
-        );
-      })}
-
+          onEval={() => handleLessonChange(student.id)}
+         />
+         );
+        })
+      ) : (
+        <p className='no-info'>Por favor, selecciona una clase.</p>
+)}
+ 
 {showEditModal && (
   <Dialog open={showEditModal} onClose={handleCloseModal}>
     <DialogTitle>Evaluar {selectedStudent && selectedStudent.name}</DialogTitle>
     <DialogContent>
       <form onSubmit={handleSubmit}>
-        <label style={{display: 'block', marginBottom: '3%'}}>Notas:
+        <label style={{display: 'block', marginBottom: '3%'}}>Notas: </label>
           {evaluationTypes && evaluationTypes.map((evaluationType, index) => {
             let lessonsIds;
             let evaluationTypeIds
-            console.log('lessons',lessons)
             if (lessons) {
               lessonsIds = lessons.map(lesson => lesson.id);
               evaluationTypeIds = evaluationType.lesson
-              console.log('evaluationTypeIds',evaluationTypeIds)
+
             }
             let dailyEvaluations;
             if (evaluationType) {
@@ -67,7 +88,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
 
               if (dailyEvaluations) {
                 const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-                console.log('selected student lesson', selectedStudentLesson.id)
               
                 if (!selectedStudentLesson) {
                   return null;
@@ -79,7 +99,7 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
               
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
 
-                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} style={{width: '100%'}} key={index}>
                     <option value={0}>0</option>
                     {evaluationType.grade_system === 'CERO A UNO' && 
                       ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
@@ -87,26 +107,24 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                     {evaluationType.grade_system === 'UNO A CINCO' && 
                       [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
-                    {evaluationType.grade_system === 'UNO A DIEZ' && 
-                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    {evaluationType.grade_system === 'CERO A DIEZ' && 
+                      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
                   </select>
                 ) : null;
               }
               else if ( evaluationTypes.filter(evaluationType => evaluationType.evaluation_type === 'ANUAL')){
                 const selectedStudentLesson = lessons.find(lesson => lesson.students.includes(selectedStudent.id));
-                console.log('selected student lesson', selectedStudentLesson.id)
               
                 if (!selectedStudentLesson) {
                   return null;
                 }
               
-                console.log('lesons ids',lessonsIds)
                 
                 const defaultGrade = evaluationType.grade_system === 'CERO A UNO' ? 0 : 1;
 
                 return selectedStudentLesson && selectedStudentLesson.id === evaluationTypeIds ? (
-                  <select value={grade || defaultGrade} onChange={handleGradeChange} className='evaluation-select' key={index}>
+                  <select value={grade || defaultGrade} onChange={handleGradeChange} style={{width: '100%'}} key={index}>
                     <option value={0}>0</option>
                     {evaluationType.grade_system === 'CERO A UNO' && 
                       ['1'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
@@ -114,8 +132,8 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
                     {evaluationType.grade_system === 'UNO A CINCO' && 
                       [ '2', '3', '4', '5'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
-                    {evaluationType.grade_system === 'UNO A DIEZ' && 
-                      ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
+                    {evaluationType.grade_system === 'CERO A DIEZ' && 
+                      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((grade, index) => <option key={index} value={grade}>{grade}</option>)
                     }
                   </select>
                 ) : null;
@@ -125,7 +143,6 @@ export default function StudentEvaluation({ students, evaluationTypes, evaluatio
             }
             return null; 
           })}
-        </label>
         <label>Comentario:</label>
         <input type="text" value={comment} onChange={handleCommentChange} style={inputStyle} />
         <label>Fecha:</label>

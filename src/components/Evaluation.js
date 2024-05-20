@@ -63,7 +63,6 @@ export default function EducatorEvaluationCommon() {
   useEffect(() => {
     axios.get(`${API_ENDPOINT}evaluation-type/`,config)
       .then(response => {
-        console.log('evaluation types',response.data)
         setEvaluationTypes(response.data);
       });
  
@@ -74,7 +73,6 @@ export default function EducatorEvaluationCommon() {
       try {
         const { data: evaluations } = await axios.get(`${API_ENDPOINT}student-evaluation/`,config);
         setStudentEvaluations(evaluations);
-        console.log('student evaluations',evaluations)
       } catch (error) {
         console.error('Error fetching student evaluations:', error);
       }
@@ -91,7 +89,6 @@ export default function EducatorEvaluationCommon() {
           const lessons = response.data.filter(lesson => lesson.educator === educatorId);
           if (lessons.length > 0) {
             const allStudents = lessons.reduce((students, lesson) => [...students, ...lesson.students], []);
-            console.log('allStudents',allStudents)
   
             setKids(allStudents);
             setLesson(lessons)
@@ -119,15 +116,24 @@ useEffect(() => {
   };
   useEffect(() => {
     if (selectedStudent) {
-      console.log(selectedStudent);
       axios.get(`${API_ENDPOINT}auth/users/me/`,config)
-        .then(response => {
-          const user = response.data.find(user => user.family == selectedStudent.family);
-          if (user) {
-            setEmail(user.email);
-            setPhone(user.phone);
-          }
-        });
+  .then(response => {
+    if (response && response.data) {
+      console.log(response.data,'responsedata')
+      if (response.data.id == userId) {
+        const user = response.data;
+        // user now contains the object if the id matched userId
+        if (user) {
+          setEducatorId(user.educator);
+        }
+      }
+    } else {
+      console.error('No response or response data');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
     }
   }, [selectedStudent]);
 
@@ -193,7 +199,6 @@ useEffect(() => {
         evaluation.evaluation_type === evaluationTypes &&
         evaluation.date === selectedDate
       );
-  console.log('grade',grade)
       if (studentEvaluation) {
         console.log('Updating evaluation with grade:', grade, 'and comment:', comment);
         const updateResponse = await axios.patch(`${API_ENDPOINT}student-evaluation/${studentEvaluation.id}/`, {
@@ -202,7 +207,6 @@ useEffect(() => {
           comment: comment, 
           date: selectedDate, 
         },config);
-        console.log('Update response:', updateResponse);
         if (updateResponse.status === 200) {
           console.log('Evaluation updated successfully');
           toast.success('Evaluación realizada de manera correcta');
@@ -217,23 +221,14 @@ useEffect(() => {
           toast.error('Error al evaluar al estudiante');
         }
       } else {
-        
-          
-        console.log('evaluation type evaluation.js',evaluationTypes)
-        console.log(' comment',comment)
-        console.log(' grade',evaluationTypes)
-        console.log('date',selectedDate)
-        console.log()
-        console.log('Creating new evaluation with grade:', grade, 'and comment:', comment);
-        const createResponse = await axios.post(`${API_ENDPOINT}student-evaluation/`, {
+          const createResponse = await axios.post(`${API_ENDPOINT}student-evaluation/`, {
           grade: parseInt(grade, 10), 
           date: selectedDate, 
           comment: comment,
           student: parseInt(studentId),
-          evaluation_type: Object.keys(evaluation)[0],
-          
+          evaluation_type: evaluationTypes[1].id
+
         },config);
-        console.log('Create response:', createResponse);
 
         if (createResponse.status === 201) {
           console.log('Evaluation created successfully');
@@ -247,8 +242,11 @@ useEffect(() => {
         }
       }
     } catch (error) {
-      console.error('An error occurred:', error);
-      toast.error('Todos los campos son obligatorios');
+      if (error.response && error.response.data && error.response.data.student && error.response.data.student.includes("This student is not enrolled in the lesson of this evaluation type.")) {
+        toast.error('Este estudiante no está inscrito en la clase de este tipo de evaluación');
+      } else {
+        toast.error('Todos los campos son obligatorios');
+      }
     }
   };
   const handleDateChange = (event) => {
@@ -260,24 +258,17 @@ useEffect(() => {
       console.log('Evaluation types not loaded yet');
       return [];
     }
-  
-    console.log('studentId:', studentId);
-    
-    console.log('before filter:', studentEvaluations);
-    console.log('evaluationTypes:', evaluationTypes[0].evaluation_type, evaluationTypes[1]);
+      
     const filteredEvaluations = studentEvaluations.filter(evaluation => 
       evaluation.student === parseInt(studentId)
     );
-    console.log('Filtered evaluations for student:', filteredEvaluations);
     
     if (filteredEvaluations.length === 0) {
       return ['Sin evaluar'];
     }
   
     filteredEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
-    console.log('Sorted evaluations:', filteredEvaluations);
   
-    console.log('All evaluations:', filteredEvaluations);
     return filteredEvaluations;
   };
   

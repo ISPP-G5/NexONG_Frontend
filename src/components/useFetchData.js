@@ -31,7 +31,6 @@ export function useFetchUsersByRole(API_ENDPOINT, role, token) {
       }
     })
       .then((response) => {
-        console.log('users:', response.data);
         setUsers(response.data.filter(user => user.role === role));
       })
       .catch((error) => {
@@ -52,7 +51,6 @@ export function useFetchFamilies(API_ENDPOINT, token) {
       }
     })
       .then((response) => {
-        console.log('families:', response.data);
         setFamilies(response.data);
       })
       .catch((error) => {
@@ -61,6 +59,67 @@ export function useFetchFamilies(API_ENDPOINT, token) {
   }, [API_ENDPOINT]);
 
   return families;
+}
+
+export function useFetchEducators(API_ENDPOINT, token) {
+  const [educators, setEducators] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}educator/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setEducators(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching educators:', error);
+      });
+  }, [API_ENDPOINT]);
+
+  return educators;
+}
+
+
+export function useFetchPartners(API_ENDPOINT, token) {
+  const [partners, setPartners] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}partner/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setPartners(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching partners:', error);
+      });
+  }, [API_ENDPOINT]);
+
+  return partners;
+}
+
+export function useFetchDonations(API_ENDPOINT, token) {
+  const [donations, setDonations] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}donation/`, {headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setDonations(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching donations:', error);
+      });
+  }, [API_ENDPOINT]);
+
+  return donations;
 }
 
 export function useFetchStudents(API_ENDPOINT, status, token) {
@@ -73,7 +132,6 @@ export function useFetchStudents(API_ENDPOINT, status, token) {
     }
   })
     .then((response) => {
-      console.log('students:', response.data);
       const acceptedStudents = response.data.filter(student => student.status === status);
       setStudents(acceptedStudents);
     })
@@ -95,7 +153,6 @@ export function useFetchLessons(API_ENDPOINT, token) {
       }
     })
       .then((response) => {
-        console.log('lessons:', response.data);
         setLessons(response.data);
       })
       .catch((error) => {
@@ -116,7 +173,6 @@ export function useFetchStudentEvaluation(API_ENDPOINT, token) {
       }
     })
       .then((response) => {
-        console.log('evaluations:', response.data);
         setEvaluations(response.data);
       })
       .catch((error) => {
@@ -138,7 +194,6 @@ export function useFetchSuggestions(API_ENDPOINT, token) {
     }
   })
     .then((response) => {
-      console.log('suggestions:', response.data);
       setSuggestions(response.data);
     })
     .catch((error) => {
@@ -428,7 +483,6 @@ export function UseFetchDocuments(API_ENDPOINT, token) {
     .get(`${API_ENDPOINT}home-document/`
   )
     .then((response) => {
-      console.log('documents:', response.data);
       setDocuments(response.data);
     })
     .catch((error) => {
@@ -439,7 +493,43 @@ export function UseFetchDocuments(API_ENDPOINT, token) {
   return documents;
 }
 
+export function useFindStudentsForLessonEvents(API_ENDPOINT, lessonEvents, myKids) {
+  const [studentLists, setStudentLists] = useState([]);
 
+  useEffect(() => {
+    if (!lessonEvents || !myKids || lessonEvents.length === 0 || myKids.length === 0) {
+      setStudentLists([]);
+      return;
+    }
 
+    const token = localStorage.getItem('accessToken');
+    const results = new Array(lessonEvents.length).fill(null);
 
+    lessonEvents.forEach((lessonEvent, index) => {
+      axios.get(`${API_ENDPOINT}lesson/${lessonEvent.lesson}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        const attendeesSet = new Set(response.data.students);
+        const possibleStudents = myKids.filter(kid => attendeesSet.has(kid.id)).map(kid => ({
+          id: kid.id,
+          name: kid.name,
+          surname: kid.surname
+        }));
+        results[index] = possibleStudents;
 
+        if (results.every(item => item !== null)) {
+          setStudentLists(results);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching lesson details:', error);
+        results[index] = []; // En caso de error añade una lista vacía
+      });
+    });
+  }, [API_ENDPOINT, lessonEvents, myKids]);
+
+  return studentLists;
+}

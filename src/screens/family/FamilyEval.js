@@ -16,9 +16,6 @@ function FamilyEval() {
   const userStudents = useFetchMyKids(API_ENDPOINT, userId);
   const { userDailyEval, gradeTypes, lessons } = useFetchStudentDailyEval(API_ENDPOINT, token, selectedStudent, tiempo);
   const [pantallas, setPantallas] = useState([]);
-  console.log("evals",userDailyEval)
-  console.log("evalsTipo",gradeTypes)
-  console.log("lessons",lessons)
   useEffect(() => {
     if (userStudents && userStudents.length > 0) {
       const screens = userStudents.map((student, index) => ({
@@ -47,6 +44,7 @@ function FamilyEval() {
         request={false}
         lessons={lessons}
         type = {"Evaluación " + tipoTiempo}
+        tiempo = {tiempo}
       />
     </div>
   );

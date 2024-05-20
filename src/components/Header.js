@@ -19,6 +19,7 @@ function Header(){
                     <Link to="/asociacion/donde-estamos">Dónde estamos</Link>
                     <Link to="/asociacion/mision-vision-valores">Misión, Visión y Valores</Link>
                     <Link to="/asociacion/la-salle">La salle</Link>
+                    <Link to="/asociacion/organizacion">Organización</Link>
                     <Link to="/asociacion/transparencia">Transparencia</Link>
                     <Link to="/asociacion/entidades-colaboradoras">Entidades Colaboradoras</Link>
 

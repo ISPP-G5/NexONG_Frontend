@@ -43,12 +43,10 @@ const Document = () => {
         documentFormData.append('document',document);
         documentFormData.append('docType',docType);
         documentFormData.append('date',date);
-        console.log(documentFormData)        
         try{
           const update = await axios.post(`${API_ENDPOINT}home-document/`,
           documentFormData, config
           );
-          console.log(update);
           const { data } = update;
           if (data.message){
               toast.error(data.message);
@@ -65,50 +63,52 @@ const Document = () => {
     
   
     return (
-      <form onSubmit={sendForm} className='register-container admin'>
-        <ToastContainer autoClose={5000} />
-  
-        <label>Título</label>
-        <input
-          type='text'
-          value={title}
-          placeholder='Escriba aquí'
-          onChange={(e) => setTitle(e.target.value)}
-        ></input>
-  
-        <label>Tipo de Documento</label>
-        <select value={docType} onChange={(e) => setDocType(e.target.value)}>
-          <option value="DOCS_INSTITUCIONALES">Documentos Institucionales</option>
-          <option value="MEMORIAS_ANUALES">Memorias Anuales</option>
-          <option value="MEMORIAS_ECONOMICAS">Memorias Económicas</option>
-          <option value="BALANCE_CUENTAS">Balance de Cuentas</option>
-          <option value="OTROS_DOCS">Otros documentos</option>
-        </select>
+        <form onSubmit={sendForm} className='register-container admin'>
+          <ToastContainer autoClose={5000} />
+    
+          <label>Título</label>
+          <input
+            type='text'
+            value={title}
+            placeholder='Escriba aquí'
+            onChange={(e) => setTitle(e.target.value)}
+          ></input>
+    
+          <label>Tipo de Documento</label>
+          <select value={docType} onChange={(e) => setDocType(e.target.value)}>
+            <option value="DOCS_INSTITUCIONALES">Documentos Institucionales</option>
+            <option value="MEMORIAS_ANUALES">Memorias Anuales</option>
+            <option value="MEMORIAS_ECONOMICAS">Memorias Económicas</option>
+            <option value="BALANCE_CUENTAS">Balance de Cuentas</option>
+            <option value="OTROS_DOCS">Otros documentos</option>
+          </select>
 
-        <label>Adjuntar Documento</label>
-        <input
-            type='file'
-            onChange={(e) => setDocument(e.target.files[0])}
-        ></input>
-  
-        <label>Fecha</label>
-        <input
-          value={date}
-          id="date"
-          type="date"
-          placeholder='dd/mm/yyyy'
-          onChange={(e) => setDate(e.target.value)}
-        ></input>
-  
-        <button type='submit' className='register-button admin'>Subir Documento</button>
-      </form>
-  
+          <label>Adjuntar Documento</label>
+          <div className='register-container-files'>
+            <input
+                type='file'
+                onChange={(e) => setDocument(e.target.files[0])}
+            ></input>
+          </div>
+    
+          <label>Fecha</label>
+          <input
+            value={date}
+            id="date"
+            type="date"
+            placeholder='dd/mm/yyyy'
+            onChange={(e) => setDate(e.target.value)}
+          ></input>
+    
+          <button type='submit' className='register-button admin'>Subir Documento</button>
+        </form>
     )
 };
 
 const AdminTransparency = () => {
     return (
     <LayoutProfiles profile='admin' selected='Documentos'>
+        <h2 className='h2-margin' style={{alignSelf: 'center'}}>Subir Documento de Transparencia</h2>
         <Document/>
     </LayoutProfiles>
     );

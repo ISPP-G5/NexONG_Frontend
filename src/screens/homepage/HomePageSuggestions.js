@@ -30,7 +30,7 @@ function HomePageSuggestions() {
 
   const sendForm = async(e) => {
     e.preventDefault();
-    if (!emailFormat.test(email)) {
+    if (email && !emailFormat.test(email)) {
       toast.error('Formato de correo inválido');
       return;
      }
@@ -51,13 +51,11 @@ function HomePageSuggestions() {
         const update = await axios.post(`${API_ENDPOINT}suggestion/`,
         formData
         );
-        console.log(update);
         const { data } = update;
         if(data.message){
           toast.error(data.message);
         }else{
           console.log('Operation was successful');
-
           toast.success('Sugerencia enviada con éxito')
         }
       }catch(error){
@@ -68,12 +66,11 @@ function HomePageSuggestions() {
 
   return (
     <LayoutHomepage 
-      title="Sugerencias"
+      title="SUGERENCIAS"
       image={'suggestions'}
       toastcontainer={true}
     >
       <form className='register-container'
-      style={{width: '80%'}}
       onSubmit={sendForm}>
 
         <h2>¿En qué podemos mejorar?</h2>

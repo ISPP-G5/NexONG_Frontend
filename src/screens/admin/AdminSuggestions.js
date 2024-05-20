@@ -7,14 +7,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 const AdminSuggestions = () => {
     const [token, updateToken] = useToken();
     const [suggestions, setSuggestions] = useFetchSuggestions(API_ENDPOINT, token);
-    
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
     async function handleDelete(id) {
+      setConfirmDeleteOpen(false)
       try {
         const token = localStorage.getItem('accessToken');  // Replace with your actual token
         const config = {
@@ -28,60 +34,34 @@ const AdminSuggestions = () => {
         // Handle error...
       }
     }
-         
-    const ConfirmToast = ({ closeToast, handleDelete, id }) => (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          ¿Esta seguro que quiere eliminar la sugerencia?
-          <div>
-            <button style={{marginRight:'10px'}} onClick={() => { handleDelete(id); closeToast(); }}>Yes</button>
-            <button onClick={closeToast}>No</button>
-          </div>
-        </div>
-      );
-    
+
     return (
-        <LayoutProfiles profile={'admin'} selected={'Sugerencas'}>
+        <LayoutProfiles profile={'admin'} selected={'Sugerencias'}>
                 <ToastContainer />
 
             {suggestions.map((suggestion, index) => (
-                <div className='card-info-suggestion' key={index}>
-                    {/* <div>
-                        <p>{suggestion.subject}</p>
-                        <p>{suggestion.description}</p>
-                        <p>{suggestion.email || 'Anónimo'}</p>
-                    </div> */}
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td><strong>Asunto:</strong></td>
-                            <td>{suggestion.subject}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Sugerencia:</strong></td>
-                            <td>{suggestion.description}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Correo:</strong></td>
-                            <td>{suggestion.email || 'Anónimo'}</td>
-                        </tr>
-                      
-                        </tbody>
-                    </table>
-                    
-                    <DeleteIcon 
-                    style={{ position: 'relative', top: '80%', left: '90%' }} 
-                    onClick={() => {
-                        toast(<ConfirmToast handleDelete={handleDelete} id={suggestion.id} />, {
-                            autoClose: false,
-                            closeOnClick: false,
-                            draggable: false,
-                            toastId: 'confirmDelete',
-                        });
-                    }}
-                    />
-                <ToastContainer />
-
+              <div className='card-info' key={index}>
+                <div>
+                    <p><strong>Asunto:  </strong>{suggestion.subject}</p>
+                    <p><strong>Sugerencia:  </strong>{suggestion.description}</p>
+                    <p><strong>Correo:  </strong>{suggestion.email || 'Anónimo'}</p>
                 </div>
+                          
+                <DeleteIcon className='trash-lessons' onClick={() => setConfirmDeleteOpen(true)} />
+                
+                <Dialog open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
+                  <DialogTitle>¿Estás seguro que quieres borrar la sugerencia?</DialogTitle>
+                  <DialogActions>
+                    <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+                      Cancelar
+                    </Button>
+                    <Button onClick={() => handleDelete(suggestion.id)} color="secondary">
+                      Confirmar
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                <ToastContainer />
+              </div>
             ))}
         </LayoutProfiles>
     );

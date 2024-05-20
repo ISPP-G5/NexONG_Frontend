@@ -1,13 +1,15 @@
+import React from 'react';
 import '../../styles/styles.css';
-import Profile from '../../components/Profile';
 import LayoutProfiles from '../../components/LayoutProfiles';
+import Profile from '../../components/Profile';
+
 
 const PartnerProfile = () => {
 
   return (
-    <LayoutProfiles profile={'socio'} >
-      <Profile usuario={'socio'}/>
-    </LayoutProfiles>
+      <LayoutProfiles profile={'socio'}>
+        <Profile usuario={'socio'} />
+      </LayoutProfiles>
   );
 };
 

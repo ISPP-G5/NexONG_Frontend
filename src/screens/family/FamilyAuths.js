@@ -12,7 +12,7 @@ const pantallas = [
     selected: true,
   },
   {
-    pantalla: 'Eventos disponibles',
+    pantalla: 'Autorizaciones pendientes',
     link: '/familia/autorizaciones/pendientes',
     selected: false,
   },

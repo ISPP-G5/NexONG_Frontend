@@ -35,11 +35,11 @@ function HomePageTransparency() {
 
     return (
         <LayoutHomepage 
-            title="Transparencia"
+            title="TRANSPARENCIA"
             description="La Asociación Manos Abiertas con Norte apuesta por la transparencia como uno de los objetivos prioritarios de intervención. Por ello, si quieres saber más sobre nosotros, podrás encontrar documentación institucional en las que aparece todo aquello que hemos realizado durante estos últimos años. Esperemos sirvan para acercarte más aún a nuestra asociación y a la realidad en la que estamos inmersos."
             image={'ong'}
         >   
-        <table className='trans' id='newRow'>
+        <table className='transparency' id='newRow'>
         <thead>
           <tr>
             <th>Documentos Institucionales</th>

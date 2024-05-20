@@ -94,7 +94,6 @@ function Register() {
     try {
       const response = await axios.get(`${API_ENDPOINT}terms/`);
       const terms = response.data;
-      console.log('terms',terms)
       setTermsText(terms[0].text);
     } catch (error) {
       console.error('Error fetching data: ', error);
@@ -104,7 +103,6 @@ function Register() {
   useEffect(() => {
     fetchTerms();
   }, []);
-  console.log('terms',termsText)
 
   const sendRecurringForm = async(e) => {
     e.preventDefault();
@@ -122,50 +120,37 @@ function Register() {
         toast.error("Introduzca una contraseña")
     } else if (!constantTimeComparison(password, confirmPassword)){
         toast.error("Las contraseñas no coinciden")
-      }
-      else if(!first_name.match(letters) || !first_name.match(letters)) {
-          toast.error('Nombre y apellido no puede contener números');
-          return;
-      } 
-      else if (!isFamilyChecked && !isVolunteerChecked && !isPartnerChecked) {
+    } else if(!first_name.match(letters) || !first_name.match(letters)) {
+        toast.error('Nombre y apellido no puede contener números');
+        return;
+    } else if (!isFamilyChecked && !isVolunteerChecked && !isPartnerChecked) {
         toast.error("Debe elegir una de las opciones: familia, voluntario o socio");
-      }
-      else if (!phoneFormat.test(phone)) {
+    } else if (!phoneFormat.test(phone)) {
         toast.error('Formato de teléfono incorrecto');
         return;
-       }
-     else if (!emailFormat.test(email)) {
-      toast.error('Formato de correo inválido');
-      return;
-     }
-      else if(first_name.length>75){
+    } else if (!emailFormat.test(email)) {
+        toast.error('Formato de correo inválido');
+        return;
+    } else if(first_name.length>75){
         toast.error("Indica un nombre, no debe superar 75 caráteres")
-    }
-    else if (!idNumber.match(spanishIdFormat)) {
-      toast.error('Formato de identificación inválido');
-      return;
-    }
-    else if (password.length < 8) {
-      toast.error('La contraseña debe tener 8 caracteres mínimo');
-      return;
-  }else if (!/\D/.test(password)) {
-    toast.error('La contraseña no puede ser solo números');
-    return;
-  }else if  (commonPasswords.includes(password)) {
-    toast.error('Contraseña demasiado común');
-    return;
-  }  
-  
-    else if(surname.length>75){
+    } else if (!idNumber.match(spanishIdFormat)) {
+        toast.error('Formato de identificación inválido');
+        return;
+    } else if (password.length < 8) {
+        toast.error('La contraseña debe tener 8 caracteres mínimo');
+        return;
+    } else if (!/\D/.test(password)) {
+        toast.error('La contraseña no puede ser solo números');
+        return;
+    } else if  (commonPasswords.includes(password)) {
+        toast.error('Contraseña demasiado común');
+        return;
+    } else if(surname.length>75){
         toast.error("Indica un nombre, no debe superar 75 caráteres")
-    }
-   else if (!isAgreedChecked){
-    toast.error("Acepte los términos y condiciones")
-    }
-
-    
-    else {
-      const username = `${first_name} ${surname}`;
+    } else if (!isAgreedChecked){
+        toast.error("Acepte los términos y condiciones")
+    } else {
+        const username = `${first_name} ${surname}`;
 
         const userData = new FormData();
         userData.append('first_name', first_name);
@@ -178,12 +163,10 @@ function Register() {
         userData.append('role', isVolunteerChecked ? 'VOLUNTARIO' : isPartnerChecked ? 'SOCIO' : 'FAMILIA');
         userData.append('is_agreed', isAgreedChecked);
         userData.append('is_enabled', false);
-        console.log('username',username)
         
         try {
           const userUpdate = await axios.post(`${API_ENDPOINT}auth/users/`, 
           userData, config);
-          console.log(userUpdate);
 
           const { data } = userUpdate;
           if (data.message){
@@ -199,6 +182,7 @@ function Register() {
             setIsFamilyChecked(false);
             setIsVolunteerChecked(false);
             setIsPartnerChecked(false);
+            setIsAgreedChecked(false);
             toast.success('Registro correcto. Revise su correo para activar cuenta')
           }
         } catch(error){
@@ -209,20 +193,13 @@ function Register() {
     }
   }  
   const TermsAndConditions = ({ termsText }) => {
-    console.log('termsText:', termsText); // Log the original termsText
 
     const termsArray = termsText.split(/\.(?=\w)/);
-    console.log('termsArray:', termsArray); // Log the array of terms
 
     const formattedTerms = termsArray.map((term, index) => {
       const colonIndex = term.indexOf(':');
       const title = term.substring(0, colonIndex + 1);
       const content = term.substring(colonIndex + 1);
-      console.log('term:', term); // Log each term
-      console.log('title:', title); // Log the title of each term
-      console.log('content:', content); // Log the content of each term
-  
-  
       return (
         <div key={index} style={{textAlign:'justify'}}>
           <strong>{index === 0 ? <span>Términos y Condiciones de Uso.</span> : title}</strong>
@@ -292,74 +269,61 @@ function Register() {
           placeholder='Confirme su contraseña'
           onChange={(e) => setConfirmPassword(e.target.value)}
           />
-           <div className="checkbox-group">
+          
+          <div className='register-container-checkbox' style={{marginTop: '4%'}}>
             <input
               type="checkbox"
               id="selectCheckboxFamily"
-              className="hidden-checkbox"
               checked={isFamilyChecked}
               onChange={handleFamilyChange}
             />
-            <label htmlFor="selectCheckboxFamily" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Registrarse como familiar
-            </label>
+            <label htmlFor="selectCheckboxFamily" >Registrarse como familiar</label>
           </div>
 
-          <div className="checkbox-group">
+          <div className='register-container-checkbox'>
             <input
               type="checkbox"
               id="selectCheckboxVolunteer"
-              className="hidden-checkbox"
               checked={isVolunteerChecked}
               onChange={handleVolunteerChange}
             />
-            <label htmlFor="selectCheckboxVolunteer" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Registrarse como voluntario
-            </label>
+            <label htmlFor="selectCheckboxVolunteer" >Registrarse como voluntario</label>
           </div>
 
-          <div className="checkbox-group">
+          <div className='register-container-checkbox'>
             <input
               type="checkbox"
               id="selectCheckboxPartner"
-              className="hidden-checkbox"
               checked={isPartnerChecked}
               onChange={handlePartnerChange}
             />
-            <label htmlFor="selectCheckboxPartner" className="checkbox-label">
-              <span className="custom-checkbox"></span>      Registrarse como socio
+            <label htmlFor="selectCheckboxPartner" >Registrarse como socio</label>
+          </div>
+          
+          <div className='register-container-checkbox'>
+            <input
+              type="checkbox"
+              id="selectCheckboxAgreed"
+              checked={isAgreedChecked}
+              onChange={handleAgreedChange}
+            />
+            <label htmlFor="selectCheckboxAgreed">
+              Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              
             </label>
           </div>
-
-          <div className="checkbox-group">
-            <div >
-              <input
-                type="checkbox"
-                id="selectCheckboxAgreed"
-                className="hidden-checkbox"
-                checked={isAgreedChecked}
-                onChange={handleAgreedChange}
-              />
-              <label htmlFor="selectCheckboxAgreed" className="checkbox-label">
-                <span className="custom-checkbox"></span>
-                Acepto los&nbsp;<span onClick={handleDialogOpen} style={{color: 'blue', cursor: 'pointer'}}>términos y condiciones</span>              </label>
-            </div>
-            <Dialog open={isDialogOpen} onClose={handleDialogClose}>
-              <DialogTitle>Términos y Condiciones</DialogTitle>
-              <DialogContent>
-                <TermsAndConditions termsText={termsText} />
-              </DialogContent>
-            </Dialog>
-        </div>
+          <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+            <DialogTitle>Términos y Condiciones</DialogTitle>
+            <DialogContent>
+              <TermsAndConditions termsText={termsText} />
+            </DialogContent>
+          </Dialog>
 
           <button className='register-button'>
             Crear cuenta
           </button>
 
-
-
           <p style={{ textAlign: 'center', marginBottom: '5%'}}>
-            ¿Ya tiene una cuenta?
+            ¿Ya tiene una cuenta? &nbsp;
             <Link to="/iniciar-sesion" style={{ color: '#6FC0DB' }}>
               Inicie sesión aquí
             </Link>

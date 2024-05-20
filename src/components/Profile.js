@@ -33,7 +33,6 @@ const Profile = ({ usuario }) => {
           }
         });
         setUserData(response.data);
-        console.log('User',userData);
       } catch (error) {
         console.error(error);
         toast.error('Error al cargar datos del usuario', { autoClose: 5000 });
@@ -105,6 +104,14 @@ const Profile = ({ usuario }) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {usuario === "socio" && (
+        <button className='register-button admin' style={{marginTop: '5%'}} onClick={() => setConfirmDeleteOpen(true)}>
+          <Link to={`/${usuario}/renovar`}>
+            Cambiar cuota
+          </Link>
+        </button>
+      )}
 
       <button className='register-button admin'>
         <Link to={`/${usuario}/perfil/actualizar`}>

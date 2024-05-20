@@ -13,14 +13,11 @@ function HomePageHistory() {
     return (
         <LayoutHomepage 
             title="HISTORIA" 
-
             description="En 1992, jóvenes voluntarios en Sevilla fundaron Manos Abiertas para ofrecer clases de apoyo a niños del Polígono Norte. En 2015, evolucionaron a Asociación Manos Abiertas con Norte, profesionalizando su intervención y colaborando con diversas entidades. Hoy, cuentan con un equipo técnico, voluntarios y colaboradores, manteniendo su compromiso con la comunidad."
             image={'history'}
         > 
             <div className="history-container">
-                <div className="image-container">
-                    <img src={story} alt="Imagen de la historia de Manos Abiertas" className="history-image" />
-                </div>
+                <img className="image-history" src={story} alt="Imagen de la historia de Manos Abiertas"/>
                 <div>
                     <p>Manos Abiertas surge como iniciativa en 1992. Un grupo de jóvenes voluntarios/as, detecta necesidades socioeducativas en la zona de Polígono Norte, Sevilla, y comienza a impartir clases de apoyo de matemáticas y lengua a los niños y niñas de los centros educativos de la zona: Blas Infante y Josefa Amor y Rico (Actualmente IES Inmaculada Vieira), en locales situados en bloques de la barriada. Ante la dificultad de espacio, trasladan la actividad al centro educativo.</p>
                     <p>La entidad va creciendo en número de actividades, personas atendidas y personas voluntarias implicadas. De este modo, formalizan la acción con la creación de una agrupación juvenil, en 1994, con una estructura lineal formada por un presidente/a, un secretario/a y tesorero/a y vocales (responsables en áreas específicas). En 1995, se concluyen los trámites pasando a denominarse Asociación Juvenil Manos Abiertas y manteniendo esa misma estructura hasta el año 2015.</p>
@@ -29,9 +26,8 @@ function HomePageHistory() {
                     <p>Las <strong>actividades</strong> han variado a lo largo de estos años según se muestra en el siguiente cuadro:</p>
                 </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img src={chronology} alt="Cronología de la Asociación Manos Abiertas con Norte" style={{ maxWidth: 'auto', height: 'auto' }} />
-            </div>
+
+            <img className='image-chronology' src={chronology} alt="Cronología de la Asociación Manos Abiertas con Norte" />
         </LayoutHomepage>
     );
 }

@@ -2,28 +2,25 @@ import React from 'react';
 import '../styles/styles.css';
 import ChildrenCard from './ChildrenCard';
 import LayoutProfiles from './LayoutProfiles';
+import ButtonCreate from './ButtonCreate';
+import { useNavigate } from 'react-router-dom';
 
+function ShowType({ data, type }) {   
+    
+    const navigate = useNavigate();
 
-function ShowType({ data, type }) {    
+    const handleButton = () => {
+        navigate('/familia/niños/registro');
+    };
+
     return (
         <LayoutProfiles 
             profile={'familia'} 
             selected={type}
         >
-            <a 
-                href={'/familia/niños/registro'} 
-                className='button' 
-                style={{
-                    padding:'10px 25px', 
-                    width:'100px', 
-                    margin:'0px', 
-                    textDecoration: 'none', 
-                    marginRight: '20%',
-                    color: "black",
-                }}
-            >
-            Registrar un hijo
-            </a>
+            <div className='button-container'>
+                <ButtonCreate className='button-contrast' text='Añadir niño' handleCreate={handleButton} withIcon={true} />
+            </div>
 
             {data && data.map((child, index)=> (
                 <ChildrenCard key={index} child={child} />

@@ -27,29 +27,14 @@ function AdminVolunteersRequests() {
 
   useEffect(() => {
     if (userVolunteers.length > 0 && volunteers.length > 0) {
-      const combinedData = userVolunteers.map(userVolunteer => {
+      const pendingVolunteers = userVolunteers.map(userVolunteer => {
         const volunteerData = volunteers.find(volunteer => volunteer.id === userVolunteer.volunteer);
+        return volunteerData ? { ...userVolunteer, ...volunteerData } : null;
+      }).filter(volunteer => volunteer !== null);
   
-        if (volunteerData) {
-          return {
-            id: userVolunteer.id,
-            enrollment_document: volunteerData.enrollment_document,
-            first_name: userVolunteer.first_name,
-            last_name: userVolunteer.last_name,
-            volunteer: userVolunteer.volunteer
-          };
-        }
-  
-        return null;
-      }).filter(item => item !== null);
-  
-      setVolunteersData(combinedData);
+      setVolunteersData(pendingVolunteers);
     }
   }, [userVolunteers, volunteers]);
-
-  console.log(userVolunteers);
-  console.log(volunteersData);
-
 
   return (
     <ShowType 

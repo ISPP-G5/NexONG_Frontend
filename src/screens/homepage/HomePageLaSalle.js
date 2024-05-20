@@ -15,7 +15,7 @@ function HomePageLaSalle() {
     return (
         <LayoutHomepage
             title={'LA SALLE'}
-            description='En 2016 Asociación Manos Abiertas con Norte se suma a la Red de Obras Socioeducativas de La Salle.'
+            description='En 2016, la Asociación Manos Abiertas con Norte se suma a la Red de Obras Socioeducativas de La Salle.'
             image={'ong'}
         >
             <div className='agenda-intro'>

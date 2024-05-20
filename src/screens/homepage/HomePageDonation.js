@@ -1,8 +1,6 @@
 import '../../styles/styles.css'
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,7 +22,6 @@ function HomePageDonation() {
     const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 
-    // ONE-TIME DONATIONS //////////////////////////////////////////
     // Payment method variables
     const [paymentMethod, setPaymentMethod] = useState("");
     const [transferVisible, setTransferVisible] = useState(false);
@@ -95,7 +92,7 @@ function HomePageDonation() {
             toast.error("Introduzca un correo electrónico válido");
             return; // Detener la ejecución si el correo electrónico no es válido
         }
-        if(amount<1){
+        if(paymentMethod === 'card' && amount<1){
             toast.error('La cantidad a donar deber ser superior a 1')
             return;
         }
@@ -111,7 +108,7 @@ function HomePageDonation() {
        
         const currentTimeStamp = Date.now();
 
-// Convertir el timestamp a una fecha legible en el formato deseado (YYYY-MM-DD)
+        // Convertir el timestamp a una fecha legible en el formato deseado (YYYY-MM-DD)
         const formattedDate = new Date(currentTimeStamp).toISOString().split('T')[0];
     
         // Crear FormData y adjuntar los datos del formulario
@@ -127,12 +124,6 @@ function HomePageDonation() {
             oneTimeFormData.append('amount', amount);
         }
     
-        // Aquí puedes agregar el console.log para ver los datos antes de enviar la solicitud
-        console.log(date);
-        console.log(oneTimeName);
-        console.log(oneTimeSurname);
-        console.log(oneTimeEmail);  
-        console.log(paymentDoc)  
         try {
             let endpoint = '';
             let headers = {};
@@ -151,7 +142,6 @@ function HomePageDonation() {
                 }
                 // Convert 'amount' to number if it's a string
                 let amount = oneTimeFormData.get('amount');
-                console.log(amount)
                 // Create a new object for the JSON data
                 data = {
                     name: oneTimeFormData.get('name'),
@@ -162,7 +152,6 @@ function HomePageDonation() {
             }
         
             // Realizar la solicitud POST utilizando axios
-            console.log(data)
             const response = await axios.post(endpoint, data, { headers });
         
             // Manejar la respuesta
@@ -188,110 +177,102 @@ function HomePageDonation() {
             intro={false}
         >
             <div className='homepage-container' style={{ marginTop }}>
-                <div className='flex-container' style={{'--columnwidth': `300px`, display: 'flex', flexDirection: 'column', position: 'relative'}}>
+                <form className='flex-container' style={{'--columnwidth': `300px`}} onSubmit={sendOneTimeForm}>
                     <h2>Donaciones puntuales</h2>
                     <div>
-                        <p>Si quiere ayudarnos con algún donativo puntual,
-                        puede hacerlo a través de una transferencia
-                        bancaria a nuestra cuenta o a través de nuestro
-                        código de Bizum.</p>
+                        <p>
+                            Si quiere ayudarnos con algún donativo puntual, 
+                            puede hacerlo a través de una transferencia 
+                            bancaria a nuestra cuenta o a través de nuestro 
+                            código de Bizum.
+                        </p>
                         <p>¡Ambas opciones son bienvenidas!</p>
                         <ul>
                             <li>IBAN: ES63 2100 2409 5002 0019 2504</li>
                             <li>Bizum: ONG: 03857</li>
                         </ul>
-                        <p>Para recibir un justificante, por favor rellene
-                        los siguientes campos:</p>
+                        <p>
+                            Puedes pagar directamente aquí con tarjeta o rellenar 
+                            los siguientes campos para enviarle un recibo:
+                        </p>
                     </div>
-            
-                    <form className='register-container' style={{width: '95%', backgroundColor: 'transparent', border: 'none', boxShadow: 'none'}} onSubmit={sendOneTimeForm}>
+        
+                    <label style={{marginLeft: '12%'}}>Nombre</label>
+                    <input
+                    value={oneTimeName}
+                    type='text'
+                    placeholder='Escriba su nombre'
+                    onChange={(e) => setOneTimeName(e.target.value)}
+                    />
 
-                        <label>Nombre</label>
-                        <input
-                        value={oneTimeName}
-                        type='text'
-                        placeholder='Escriba su nombre'
-                        onChange={(e) => setOneTimeName(e.target.value)}
-                        />
+                    <label style={{marginLeft: '12%'}}>Apellidos</label>
+                    <input
+                    value={oneTimeSurname}
+                    type='text'
+                    placeholder='Escriba sus apellidos'
+                    onChange={(e) => setOneTimeSurname(e.target.value)}
+                    />
 
-                        <label>Apellidos</label>
-                        <input
-                        value={oneTimeSurname}
-                        type='text'
-                        placeholder='Escriba sus apellidos'
-                        onChange={(e) => setOneTimeSurname(e.target.value)}
-                        />
+                    <label style={{marginLeft: '12%'}}>Correo electrónico</label>
+                    <input
+                    value={oneTimeEmail}
+                    type='text'
+                    placeholder='Escriba su correo electrónico'
+                    onChange={(e) => setOneTimeEmail(e.target.value)}
+                    />
 
-                        <label>Correo electrónico</label>
-                        <input
-                        value={oneTimeEmail}
-                        type='text'
-                        placeholder='Escriba su correo electrónico'
-                        onChange={(e) => setOneTimeEmail(e.target.value)}
-                        />
-
-                    <label>
+                    <label style={{marginLeft: '12%'}}>
                         Seleccione el método de pago:
-                        
-                        <select value={paymentMethod} onChange={handlePaymentMethodChange} style={{ width: '100%' ,height:'150%'}}>
-                            <option value="">--Selecciona una opción--</option>
-                            <option value="transfer/bizum">Transferencia/Bizum</option>
-                            <option value="card">Pago con Tarjeta</option>
-                        </select>
                     </label>
+                    <select value={paymentMethod} onChange={handlePaymentMethodChange}>
+                        <option value="">--Selecciona una opción--</option>
+                        <option value="transfer/bizum">Transferencia/Bizum</option>
+                        <option value="card">Pago con Tarjeta</option>
+                    </select>
 
-                                {transferVisible && (
-                                    <div className='register-container' style={{ width: '95%', backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}>
-                                        {/* Transfer Form */}
-                                        <label>Documento de pago</label>
-                                        <input
-                                            type='file'
-                                            onChange={handlePaymentDocChange}
-                                        />
-                                        <button type='submit' className='register-button'>
-                                            Enviar
-                                        </button>
-                                    </div>
-                                )}
+                    {transferVisible && (
+                        <>
+                            {/* Transfer Form */}
+                            <label style={{marginLeft: '12%'}}>Documento de pago</label>
+                            <div className='register-container-files' style={{justifyContent: 'center'}}>
+                                <input
+                                    type='file'
+                                    onChange={handlePaymentDocChange}
+                                />
+                            </div>
+                            <button type='submit' className='register-button'>
+                                Enviar
+                            </button>
+                        </>
+                    )}
 
-                                {cardVisible && (
-                                    <div className='register-container' style={{ width: '95%', backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}>
-                                        {/* Stripe Form */}
-                                        <label>Cantidad</label>
-                                        <input
-                                            value={amount}
-                                            type='text'
-                                            placeholder='Escriba la cantidad a donar'
-                                            onChange={(e) => setAmount(e.target.value)}
-                                        />
-                                        <button type='submit' className='register-button'>
-                                            Pagar con Tarjeta
-                                        </button>
-                                    </div>
-                                )}
+                    {cardVisible && (
+                        <>
+                            {/* Stripe Form */}
+                            <label style={{marginLeft: '12%'}}>Cantidad</label>
+                            <input
+                                value={amount}
+                                type='text'
+                                placeholder='Escriba la cantidad a donar'
+                                onChange={(e) => setAmount(e.target.value)}
+                            />
+                            <button type='submit' className='register-button'>
+                                Pagar con Tarjeta
+                            </button>
+                        </>
+                    )}
+                </form>
 
-
-
-                    </form>
-                </div>
-
-                <div className='flex-container' style={{'--columnwidth': `300px`, display: 'flex', flexDirection: 'column', position: 'relative', maxHeight: '300px'}}>
-
+                <div className='flex-container' style={{'--columnwidth': `300px`, maxHeight: '300px'}}>
                     <h2>Donaciones recurrentes</h2>
-
                     <p>
                         ¿Quiere contribuir a nuestra organización de forma periódica?
                         Regístrese como socio y le proporcionaremos todo lo necesario.
                     </p>
-
-                    <div className='flex-container' style={{alignItems: 'center', backgroundColor: 'transparent', border: 'none', boxShadow: 'none'}}>
-                        <button className='register-button' onClick={handleClick}>
-                            Registrarse
-                        </button>
-                    </div>
-
+                    <button className='register-button' onClick={handleClick}>
+                        Registrarse
+                    </button>
                 </div>
-
             </div>
         </LayoutHomepage>
     );

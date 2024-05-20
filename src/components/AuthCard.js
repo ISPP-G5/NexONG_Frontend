@@ -2,8 +2,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function AuthCard({ auth, nomStudent, nomEvent, dateEvent}) {
+
   const dateObj = new Date(dateEvent);
-  const formattedDate = dateObj.toLocaleDateString('es-ES') + ' ' + dateObj.toLocaleTimeString('es-ES');
+  dateObj.setTime(dateObj.getTime() - 3600000);
+  const options = { timeZone: 'Europe/Madrid', hour12: false }; 
+
+  const formattedDate = dateObj.toLocaleDateString('es-ES', options) + ' ' + dateObj.toLocaleTimeString('es-ES', options);
 
   const handleDescargar = (auth) => {
     const urlDocumento = auth.authorization;

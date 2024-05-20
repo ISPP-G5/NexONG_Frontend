@@ -60,7 +60,6 @@ const Asamblea = () => {
     axios.get(`${API_ENDPOINT}user/`, config)
       .then(response => {
         setUsers(partnersData(response.data, socios));
-        console.log(partnersData(response.data, socios));
       })
       .catch(error => {
         console.error(error);
@@ -82,56 +81,67 @@ const Asamblea = () => {
 
 
   const sendForm = async (e) => {
-    e.preventDefault(); // Prevenir la recarga de la página
+    e.preventDefault();
+  
     if (!titulo || titulo === '') {
-      toast.error("Se debe de insertar un titulo", {
-        autoClose: 5000
-        })
-    } else if (!descripcion || descripcion === '') {
-      toast.error("Se debe de insertar una descripción")
-    } else if (!fecha || fecha === '') {
-      toast.error("Se debe de insertar una fecha")
-    } else if (!hora || hora === '') {
-      toast.error("Se debe de insertar una hora")
-    }
-    else if (meetingDate < new Date()) {
-      toast.error('No se puede crear una reunión en el pasado.');
+      toast.error("Se debe insertar un título", { autoClose: 5000 });
       return;
     }
-    else if (titulo.length > 75) {
-      toast.error('Ha introducido mayor número de carácteres que el permitido');
+  
+    if (!descripcion || descripcion === '') {
+      toast.error("Se debe insertar una descripción");
       return;
     }
-    else if (descripcion.length > 1000) {
-      toast.error('Ha introducido mayor número de carácteres que el permitido');
+  
+    if (!fecha || fecha === '') {
+      toast.error("Se debe insertar una fecha");
       return;
     }
-     else {
-      // listaAsistentes uses join to transform de array in a string an then separe the keys
+  
+    if (!hora || hora === '') {
+      toast.error("Se debe insertar una hora");
+      return;
+    }
+  
+    // Combinar fecha y hora en un objeto Date
+    const meetingDateTimeString = `${fecha}T${hora}`;
+    const meetingDate = new Date(meetingDateTimeString);
+  
+    // Obtener la fecha y hora actual en la misma zona horaria
+    const currentDate = new Date();
+  
+    // Comparar las fechas
+    if (meetingDate <= currentDate) {
+      toast.error('No se puede crear una reunión en el pasado o en el mismo momento.');
+      return;
+    }
+  
+    if (titulo.length > 75) {
+      toast.error('Ha introducido un número mayor de caracteres permitidos para el título');
+      return;
+    }
+  
+    if (descripcion.length > 1000) {
+      toast.error('Ha introducido un número mayor de caracteres permitidos para la descripción');
+      return;
+    }
+  
+    try {
       const listaAsistentes = users.join(",").split(",");
-      const update = await axios.post(`${API_ENDPOINT}meeting/`,
-       {
+      const response = await axios.post(`${API_ENDPOINT}meeting/`, {
         name: titulo,
         description: descripcion,
         date: fecha,
         time: hora,
         attendees: listaAsistentes,
-
       }, config);
-      console.log(update);
-      const { data } = update;
-      if (data.message) {
-        toast.error("Datos no válidos." , {
-          autoClose: 5000
-          });
-      } else {
-        toast.success('Asamblea creada con exito', {
-          autoClose: 5000
-          });
-      }
+  
+      toast.success('Asamblea creada con éxito', { autoClose: 5000 });
+    } catch (error) {
+      toast.error('Error al crear la asamblea');
+      console.error(error);
     }
-
-  }
+  };
 
   return (
     <form onSubmit={sendForm} className='register-container admin'>
